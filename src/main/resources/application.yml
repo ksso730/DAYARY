@@ -1,0 +1,14 @@
+spring:
+  
+  datasource:
+        url: "jdbc:mariadb://localhost:3306/jpatest"
+        username: root
+        password: 1234
+  jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
