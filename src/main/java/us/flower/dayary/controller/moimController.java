@@ -11,4 +11,12 @@ public class moimController {
 	public String moimListView() {
 		return "moim/moimList";
 	}
+	@GetMapping("/moimdetailView")
+	public String moimDetailView() {
+		return "moim/moimDetail";
+	}
+	@GetMapping("/moimMakeView")
+	public String moimMakeView() {
+		return "moim/moimMake";
+	}
 }
