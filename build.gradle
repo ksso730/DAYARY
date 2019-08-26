@@ -32,6 +32,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     //devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    
+   
+
     //mariadb
     implementation 'org.mariadb.jdbc:mariadb-java-client'
     //lombok
