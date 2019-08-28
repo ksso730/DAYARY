@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<meta charset="UTF-8" content="text/html" http-equiv="Content-Type">
-<title>Insert title here</title>
-
+<head>
+    <meta charset="UTF-8" content="text/html" http-equiv="Content-Type">
+    <title>Insert title here</title>
+    <css th:replace="layout/header::headerCss"/>
 </head>
 <body>
-	<div th:replace="layout/header::header" />
-	<div th:replace="layout/center::center" />
+<div th:replace="layout/header::header"/>
+<div th:replace="layout/center::center"/>
 </body>
 </html>
