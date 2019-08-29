@@ -1,27 +1,29 @@
 package us.flower.dayary.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import lombok.Data;
 
+import javax.persistence.*;
+
+/**
+ * 모임
+ */
 @Entity
 @Table(name="MOIM")
 @Data
 public class Moim {
 
-	
 	@Id
 	@GeneratedValue
-	@Column(name="MOIM_NO")
-	private String moim_No;
-	@Column(name="MOIM_TITLE")
-	private String moim_title;
-	@Column(name="MOIM_STORY")
-	private String moim_Story;
+	@Column(name="NO")
+	private String no;
+	@Column(name="CATEGORY_NO")
+	private String categoryNo;
+	@Column(name="TITLE")
+	private String title;
+	@Column(name="INTRO")
+	private String intro;
+	@Column(name="PEOPLE_LIMIT")
+	private String peopleLimit;
 	
 	
 }
