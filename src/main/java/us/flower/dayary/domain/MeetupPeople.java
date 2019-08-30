@@ -12,6 +12,11 @@ import javax.persistence.*;
 @Data
 public class MeetupPeople {
 
+    @Id
+    @GeneratedValue
+    @Column(name="NO")
+    private long no;
+
     @Column(name="MOIM_NO")
     private long moimNo;
 

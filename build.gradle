@@ -36,7 +36,7 @@ dependencies {
     implementation 'org.mindrot:jbcrypt:0.4'
 
     //WEBSOCKET
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    //implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
     //imgscalr-lib
     implementation 'org.imgscalr:imgscalr-lib:4.2'

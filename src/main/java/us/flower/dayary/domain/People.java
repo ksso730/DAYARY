@@ -16,12 +16,16 @@ public class People {
 	@GeneratedValue
 	@Column(name="NO")
 	private long no;
+
 	@Column(name="ID")
 	private String id;
+
 	@Column(name="PASSWORD")
 	private String password;
+
 	@Column(name="NAME")
 	private String name;
+
 	@Column(name="PHOTO")
 	private String photo;
 	
