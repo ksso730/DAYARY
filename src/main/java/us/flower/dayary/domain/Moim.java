@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
- * 모임
+ * 온라인모임
  */
 @Entity
 @Table(name="MOIM")

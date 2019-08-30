@@ -15,7 +15,7 @@ public class People {
 	@Id
 	@GeneratedValue
 	@Column(name="NO")
-	private String no;
+	private long no;
 	@Column(name="ID")
 	private String id;
 	@Column(name="PASSWORD")

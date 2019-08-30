@@ -5,18 +5,19 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
- * 온라인모임참가자
+ * 오프라인모임참가자
  */
 @Entity
-@Table(name="ONLINE_MOIM_PEOPLE")
+@Table(name="MEETUP_PEOPLE")
 @Data
-public class OnlineMoimPeople {
+public class MeetupPeople {
 
     @Column(name="MOIM_NO")
     private long moimNo;
 
+    @Column(name="MEETUP_PEOPLE_NO")
+    private long meetupPeopleNo;
+
     @Column(name="PEOPLE_NO")
     private long peopleNo;
-
-
 }
