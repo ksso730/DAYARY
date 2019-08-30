@@ -3,7 +3,8 @@ package us.flower.dayary.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.MoimPeople;
 
-public interface MoimPersonRepository extends JpaRepository<Moim, Long>{
+public interface MoimPeopleRepository extends JpaRepository<MoimPeople, Long>{
 
 }

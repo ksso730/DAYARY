@@ -1,6 +1,9 @@
 package us.flower.dayary.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,6 +13,9 @@ import javax.persistence.*;
 @Entity
 @Table(name="PEOPLE")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class People {
 
 	@Id

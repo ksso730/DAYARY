@@ -1,6 +1,9 @@
 package us.flower.dayary.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,6 +13,9 @@ import javax.persistence.*;
 @Entity
 @Table(name="MOIM_PEOPLE")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MoimPeople {
 
     @Id
@@ -17,9 +23,16 @@ public class MoimPeople {
     @Column(name="NO")
     private long no;
 
-    @Column(name="MOIM_NO")
-    private long moimNo;
+//    @Column(name="MOIM_NO")
+//    private long moimNo;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="MOIM_NO")
+    private Moim moim;
 
     @Column(name="PEOPLE_NO")
     private long peopleNo;
+
+
+
 }

@@ -1,8 +1,9 @@
 package us.flower.dayary.domain;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,6 +12,9 @@ import java.util.List;
 @Entity
 @Table(name="MOIM")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Moim {
 
 	@Id
@@ -28,9 +32,9 @@ public class Moim {
 	private String intro;
 
 	@Column(name="PEOPLE_LIMIT")
-	private String peopleLimit;
+	private int peopleLimit;
 
-	@OneToMany
+    @OneToMany
 	private List<MoimPeople> moimPeopleList;
 	
 	
