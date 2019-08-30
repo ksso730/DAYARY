@@ -46,22 +46,21 @@ public class DayaryApplicationTests {
 //		Moim m = Moim.builder().categoryNo(1).title("JPA스터디").intro("모여라~").peopleLimit(10).build();
 //		moimRepository.save(m);
 //
-//		MoimPeople m1 =MoimPeople.builder().peopleNo(1).build();
-//		MoimPeople m2 =MoimPeople.builder().peopleNo(2).build();
-//		MoimPeople m3 =MoimPeople.builder().peopleNo(3).build();
+//		MoimPeople m1 =MoimPeople.builder().moim(Moim.builder().no(4).build()).peopleNo(1).build();
+//		MoimPeople m2 =MoimPeople.builder().moim(Moim.builder().no(4).build()).peopleNo(2).build();
+//		MoimPeople m3 =MoimPeople.builder().moim(Moim.builder().no(4).build()).peopleNo(3).build();
 //		moimPeopleRepository.save(m1);
 //		moimPeopleRepository.save(m2);
 //		moimPeopleRepository.save(m3);
-
 	}
     
     @Test
 	@Transactional
     public void selectMoim() {
-
 		Optional<Moim> moim = moimRepository.findById((long) 4);
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		System.out.println(moim.get().toString());
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
     }
 }
