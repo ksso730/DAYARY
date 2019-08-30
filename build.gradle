@@ -22,24 +22,45 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    //spring-boot-starter-web,spring-boot-starter-websocket에서TOMCAT미포함
+    compile.exclude module:'spring-boot-starter-tomcat'
+}
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //UNDERTOW
+    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+
+    //BCRYPT
+    implementation 'org.mindrot:jbcrypt:0.4'
+
+    //WEBSOCKET
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    //imgscalr-lib
+    implementation 'org.imgscalr:imgscalr-lib:4.2'
+
     //jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
     //thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
     //devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    
-   
 
     //mariadb
     implementation 'org.mariadb.jdbc:mariadb-java-client'
+
     //lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
     //spring-security
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+    //implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
