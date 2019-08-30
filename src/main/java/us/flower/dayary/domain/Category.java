@@ -5,17 +5,18 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
- * 모임카테고리
+ * 카테고리[오라인모임/오프라인모임]
  */
 @Entity
-@Table(name="MOIM_CATEGORY")
+@Table(name="CATEGORY")
 @Data
-public class MoimCategory {
+public class Category {
 
     @Id
     @GeneratedValue
     @Column(name="NO")
     private String no;
+
     @Column(name="NAME")
     private String name;
 }
