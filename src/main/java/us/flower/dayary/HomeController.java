@@ -16,10 +16,9 @@ public class HomeController {
 	MoimRepository moimRepository;
 
 	@RequestMapping("/")
-	@ResponseBody
-	public Moim Home() {
-		Optional<Moim> moim = moimRepository.findById((long) 4);
-		return moim.get();
-		
+	public String Home() {
+//		Optional<Moim> moim = moimRepository.findById((long) 48);
+//		return moim.get();
+		return "main";
 	}
 }
