@@ -12,9 +12,11 @@ import javax.persistence.*;
 @Data
 public class OnlineMoimPeople {
 
-    @Column(name="PEOPLE_NO")
-    private String peopleNo;
-
     @Column(name="MOIM_NO")
-    private String moimNo;
+    private long moimNo;
+
+    @Column(name="PEOPLE_NO")
+    private long peopleNo;
+
+
 }

@@ -12,9 +12,12 @@ import javax.persistence.*;
 @Data
 public class OfflineMoimPeople {
 
-    @Column(name="PEOPLE_NO")
-    private String peopleNo;
-
     @Column(name="MOIM_NO")
-    private String moimNo;
+    private long moimNo;
+
+    @Column(name="OFFLINE_MOIM_NO")
+    private long offlineMoimNo;
+
+    @Column(name="PEOPLE_NO")
+    private long peopleNo;
 }

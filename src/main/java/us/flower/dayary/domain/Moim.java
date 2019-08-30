@@ -15,10 +15,10 @@ public class Moim {
 	@Id
 	@GeneratedValue
 	@Column(name="NO")
-	private String no;
+	private long no;
 
 	@Column(name="CATEGORY_NO")
-	private String categoryNo;
+	private long categoryNo;
 
 	@Column(name="TITLE")
 	private String title;
