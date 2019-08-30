@@ -3,6 +3,7 @@ package us.flower.dayary.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * 온라인모임
@@ -28,6 +29,9 @@ public class Moim {
 
 	@Column(name="PEOPLE_LIMIT")
 	private String peopleLimit;
+
+	@OneToMany
+	private List<MoimPeople> moimPeopleList;
 	
 	
 }

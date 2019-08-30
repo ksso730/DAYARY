@@ -28,5 +28,8 @@ public class People {
 
 	@Column(name="PHOTO")
 	private String photo;
-	
+
+	@Column(name="CLOSE")
+	private boolean close;
+
 }
