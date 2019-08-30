@@ -1,5 +1,7 @@
 package us.flower.dayary;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +58,16 @@ public class DayaryApplicationTests {
     
     @Test
 	@Transactional
-    public void selectMoim() {
+    public void selectMoim() throws JsonProcessingException {
 		Optional<Moim> moim = moimRepository.findById((long) 4);
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		System.out.println(moim.get().toString());
+		ObjectMapper mapper = new ObjectMapper();
+		String json4PrettyString = mapper.writeValueAsString(moim.get());//출력이쁘게
+		System.out.println(json4PrettyString);
+
+
+
+		System.out.println();
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
     }

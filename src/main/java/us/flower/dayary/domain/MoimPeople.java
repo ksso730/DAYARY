@@ -1,9 +1,7 @@
 package us.flower.dayary.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="MOIM_PEOPLE")
 @Data
+@ToString(exclude = "moim")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,8 +24,10 @@ public class MoimPeople {
 
     @ManyToOne
     @JoinColumn(name ="MOIM", referencedColumnName = "NO")
+    @JsonBackReference
     private Moim moim;
 
     @Column(name="PEOPLE_NO")
     private long peopleNo;
+
 }

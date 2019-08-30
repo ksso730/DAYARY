@@ -1,5 +1,6 @@
 package us.flower.dayary.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,5 +36,6 @@ public class Moim {
 	private int peopleLimit;
 
 	@OneToMany(mappedBy = "moim", fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private List<MoimPeople> moimPeopleList;
 }
