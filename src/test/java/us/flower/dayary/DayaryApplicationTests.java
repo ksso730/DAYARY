@@ -65,8 +65,6 @@ public class DayaryApplicationTests {
 		String json4PrettyString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(moim.get());//출력이쁘게
 		System.out.println(json4PrettyString);
 
-
-
 		System.out.println();
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
