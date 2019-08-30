@@ -21,16 +21,17 @@ configurations {
 repositories {
     mavenCentral()
 }
-
+/*
 configurations {
     //spring-boot-starter-web,spring-boot-starter-websocket에서TOMCAT미포함
     compile.exclude module:'spring-boot-starter-tomcat'
 }
+*/
 
 dependencies {
 
     //UNDERTOW
-    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    //implementation 'org.springframework.boot:spring-boot-starter-undertow'
 
     //BCRYPT
     implementation 'org.mindrot:jbcrypt:0.4'

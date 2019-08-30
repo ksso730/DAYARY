@@ -10,14 +10,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import us.flower.dayary.common.BCRYPT;
 import us.flower.dayary.domain.Moim;
-import us.flower.dayary.domain.MoimPeople;
-import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.MoimPeopleRepository;
 import us.flower.dayary.repository.MoimRepository;
 import us.flower.dayary.repository.PeopleRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
