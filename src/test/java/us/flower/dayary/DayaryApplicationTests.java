@@ -62,7 +62,7 @@ public class DayaryApplicationTests {
 		Optional<Moim> moim = moimRepository.findById((long) 4);
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		ObjectMapper mapper = new ObjectMapper();
-		String json4PrettyString = mapper.writeValueAsString(moim.get());//출력이쁘게
+		String json4PrettyString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(moim.get());//출력이쁘게
 		System.out.println(json4PrettyString);
 
 
