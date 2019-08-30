@@ -61,7 +61,11 @@ public class DayaryApplicationTests {
 
 		Optional<Moim> moim = moimRepository.findById((long) 4);
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		System.out.println("^^^^^^"+moim.get().getMoimPeopleList().size());
+
+		for (MoimPeople moimPeople:moim.get().getMoimPeopleList()) {
+			System.out.println(moimPeople.getNo());
+
+		}
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     }
 }
