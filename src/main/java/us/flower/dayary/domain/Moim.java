@@ -10,7 +10,7 @@ import java.util.List;
  * 온라인모임
  */
 @Entity
-@Table(name="moim")
+@Table(name="MOIM")
 @Data
 @Builder
 @NoArgsConstructor
@@ -19,21 +19,21 @@ public class Moim {
 
 	@Id
 	@GeneratedValue
-	@Column(name="no")
+	@Column(name="NO")
 	private long no;
 
-	@Column(name="category_no")
+	@Column(name="CATEGORY_NO")
 	private long categoryNo;
 
-	@Column(name="title")
+	@Column(name="TITLE")
 	private String title;
 
-	@Column(name="intro")
+	@Column(name="INTRO")
 	private String intro;
 
-	@Column(name="people_limit")
+	@Column(name="PEOPLE_LIMIT")
 	private int peopleLimit;
 
-	@OneToMany(mappedBy = "moim", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "moim", fetch = FetchType.EAGER)
 	private List<MoimPeople> moimPeopleList;
 }

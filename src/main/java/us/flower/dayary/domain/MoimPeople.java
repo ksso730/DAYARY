@@ -11,7 +11,7 @@ import javax.persistence.*;
  * 온라인모임참가자
  */
 @Entity
-@Table(name="moim_people")
+@Table(name="MOIM_PEOPLE")
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,14 +20,13 @@ public class MoimPeople {
 
     @Id
     @GeneratedValue
-    @Column(name="no")
+    @Column(name="NO")
     private long no;
 
     @ManyToOne
-    @JoinColumn(name ="moim", referencedColumnName = "no")
+    @JoinColumn(name ="MOIM", referencedColumnName = "NO")
     private Moim moim;
 
-    @Column(name="people_no")
+    @Column(name="PEOPLE_NO")
     private long peopleNo;
-
 }
