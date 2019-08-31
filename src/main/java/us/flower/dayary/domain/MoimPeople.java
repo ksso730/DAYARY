@@ -22,10 +22,13 @@ public class MoimPeople {
     @Column(name="NO")
     private long no;
 
-    @ManyToOne
-    @JoinColumn(name ="MOIM", referencedColumnName = "NO")
-    @JsonBackReference
-    private Moim moim;
+	/* moim에서 주석처리해놔서 우선 같이 주석
+	 * @ManyToOne
+	 * 
+	 * @JoinColumn(name ="MOIM", referencedColumnName = "NO")
+	 * 
+	 * @JsonBackReference private Moim moim;
+	 */
 
     @Column(name="PEOPLE_NO")
     private long peopleNo;

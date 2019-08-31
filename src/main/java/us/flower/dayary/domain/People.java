@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -37,5 +40,9 @@ public class People {
 
 	@Column(name="CLOSE")
 	private boolean close;
+	
+	@OneToMany(mappedBy = "people")
+	private List<Moim> moims  = new ArrayList<Moim>();
+	
 
 }
