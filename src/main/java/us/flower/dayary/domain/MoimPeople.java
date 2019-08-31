@@ -33,4 +33,7 @@ public class MoimPeople {
     @Column(name="PEOPLE_NO")
     private long peopleNo;
 
+    @Column(name="ROLE")
+    private String role;
+
 }
