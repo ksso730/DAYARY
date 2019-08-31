@@ -19,19 +19,7 @@ public class MoimService {
 	  private final PeopleRepository peopleRepository;
 	  private final MoimRepository moimRepository;
 
-	
-	public boolean existsByNo(long moinNo) {
-		
-		boolean isExist = moimRepository.existsById(moinNo);
-		if(isExist) {
-			return true;
-		}else {
-			return false;
-		}
-	}
-	
-	   
-	   public void saveMoim(String id, Moim moim) {
+	  public void saveMoim(String id, Moim moim) {
 	      People people = peopleRepository.findById(id);
 	      System.out.println("people.getName" + people.getName());
 	      System.out.println("people.getNo()" + people.getNo());
@@ -43,7 +31,7 @@ public class MoimService {
 	                                                         moim.getPeopleLimit(), moim.getCreateDate(),  moim.getUpdateDate(), people);
 	      moimRepository.save(moimData);
 	      System.out.println("moim.getNo()" + moim.getNo());
-	   }
+    }
 
 
 	public List<Moim> findMoim(Moim moim) {

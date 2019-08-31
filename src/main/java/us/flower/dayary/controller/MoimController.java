@@ -20,9 +20,6 @@ public class MoimController {
 	
 	private final MoimService moimService;
 	
-	
-	
-	
 	 /**
 	    * 모임 만들기 
 	    * @param locale
