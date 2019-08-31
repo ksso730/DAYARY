@@ -41,8 +41,5 @@ public class People {
 	@Column(name="ACTIVATION")
 	private String activation;
 	
-	@OneToMany(mappedBy = "people")
-	private List<Moim> moims  = new ArrayList<Moim>();
-	
 
 }

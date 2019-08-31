@@ -18,43 +18,48 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Moim {
+	 @Id
+	   @GeneratedValue(strategy = GenerationType.IDENTITY)
+	   @Column(name="NO")
+	   private long no;
 
-	@Id
-	@GeneratedValue
-	@Column(name="NO")
-	private long no;
+	   //category manytoone, 외래키로 사용 예정
+	   @Column(name="CATEGORY_NO")
+	   private long categoryNo;
 
-	//category manytoone, 외래키로 사용 예정
-	@Column(name="CATEGORY_NO")
-	private long categoryNo;
+	   //모임제목
+	   @Column(name="TITLE") 
+	   private String title;
 
-	//모임제목
-	@Lob //길이 제한 없음
-	@Column(name="TITLE")
-	private String title;
+	   //모임소개
+	   @Lob //길이 제한 없음
+	   @Column(name="INTRO")
+	   private String intro;
 
-	//모임소개
-	@Column(name="INTRO")
-	private String intro;
+	   //모임 인원수 제한
+	   @Column(name="PEOPLE_LIMIT", length = 3)
+	   private int peopleLimit;
+	   
+	   //모임 생성일자
+	   @Column(name = "CREATE_DATE", updatable = false)
+	   @Temporal(TemporalType.TIMESTAMP)
+	   private Date createDate;
 
-	//모임 인원수 제한
-	@Column(name="PEOPLE_LIMIT", length = 3)
-	private int peopleLimit;
-	
-	//모임 생성일
-	@Column(name = "CREATE_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createDate;
+	   //모임 수정일자
+	   @Column(name = "UPDATE_DATE", updatable = true)
+	   @Temporal(TemporalType.TIMESTAMP)
+	   private Date updateDate;
 
-	//사용자번호 
-	@ManyToOne
-	@JoinColumn(name ="PEOPLE")
-	private People people;
-	
-	/* 
-	 * 모임 참여자 예정
-	 * @OneToMany(mappedBy = "moim", fetch = FetchType.EAGER)
-	 * 
-	 * @JsonManagedReference private List<MoimPeople> moimPeopleList;
-	 */
+	   //사용자번호 
+	   @ManyToOne(fetch = FetchType.LAZY)
+	   @JoinColumn(name ="PEOPLE_NO", referencedColumnName = "NO")
+	   private People peopleNo;
+	   
+	   /* 
+	    * 모임 참여자 예정
+	    * @OneToMany(mappedBy = "moim", fetch = FetchType.EAGER)
+	    * 
+	    * @JsonManagedReference private List<MoimPeople> moimPeopleList;
+	    */
+	   
 }
