@@ -13,7 +13,7 @@ public class PeopleService {
 	
 	private final PeopleRepository peopleRepository;
 	
-	public void test() {
+	public void test() { 
 		
 	}
 

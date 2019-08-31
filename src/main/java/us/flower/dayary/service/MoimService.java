@@ -14,7 +14,6 @@ public class MoimService {
 	
 	private final MoimRepository moimRepository;
 	
-	
 	public boolean existsByNo(long moinNo) {
 		
 		boolean isExist = moimRepository.existsById(moinNo);
