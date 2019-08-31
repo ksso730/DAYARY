@@ -21,13 +21,12 @@ public class MoimService {
 
 	  public void saveMoim(String id, Moim moim) {
 	      People people = peopleRepository.findById(id);
-	      System.out.println("people.getName" + people.getName());
-	      System.out.println("people.getNo()" + people.getNo());
+	      
 	      moim.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
 	      moim.setUpdateDate(new java.sql.Date(System.currentTimeMillis()));
 
-	      System.out.println("moim.getNo()" + moim.getNo());
-	      Moim moimData = new Moim(moim.getNo(), moim.getCategoryNo(), moim.getTitle(), moim.getIntro(), 
+	      Moim moimData = 
+	    		  new Moim(moim.getNo(), moim.getCategoryNo(), moim.getTitle(), moim.getIntro(), 
 	                                                         moim.getPeopleLimit(), moim.getCreateDate(),  moim.getUpdateDate(), people);
 	      moimRepository.save(moimData);
 	      System.out.println("moim.getNo()" + moim.getNo());

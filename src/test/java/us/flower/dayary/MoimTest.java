@@ -14,7 +14,7 @@ import us.flower.dayary.repository.MoimRepository;
 public class MoimTest {
 
 	
-	@Autowired
+	@Autowired 
 	MoimRepository moimRepository;
 	
 	@Test

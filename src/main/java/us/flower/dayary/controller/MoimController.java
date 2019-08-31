@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 public class MoimController {
@@ -30,17 +32,27 @@ public class MoimController {
 	    */
 	   @ResponseBody
 	   @PostMapping("/moimMake")
-	   public Map<String,Object> moimMake(@RequestBody Moim moim) {
+	   public Map<String,Object> moimMake(@RequestBody Moim moim, HttpSession session) {
 	      
-	      System.out.println(moim.toString());
 	      Map<String,Object> returnData = new HashMap<String,Object>();
+	      Long se_id = (Long) session.getAttribute("peopleNo");
+	      String id = se_id.toString();
+
+	      if(moim.getTitle().equals(null) || moim.getTitle().equals("")) {
+	    	  returnData.put("code","0");
+		      returnData.put("message","모임 이름을 입력해주세요");
+	    	  return returnData;
+	      }else if(moim.getPeopleLimit() == 0) {
+	    	  returnData.put("code","0");
+		      returnData.put("message","인원수를 입력해주세요");
+	    	  return returnData;
+	      }else if(moim.getCategoryNo() == 0) {
+	    	  returnData.put("code","0");
+		      returnData.put("message","모임 주제를 선택해주세요");
+	    	  return returnData;
+	      }
 	      
-	      String id = "yn";
 	      try {
-	         //저장 전 validation 필요
-	         //카테고리 선택, 인원수 제한 등
-	         
-	         //저장완료
 	         moimService.saveMoim(id, moim);
 	         returnData.put("code","1");
 	         returnData.put("message","저장되었습니다");
@@ -49,7 +61,7 @@ public class MoimController {
 	         returnData.put("code","E3290");
 	         returnData.put("message","데이터 확인 후 다시 시도해주세요.");
 	      }
-	      return null;
+	      return returnData;
 	   }
 
 	

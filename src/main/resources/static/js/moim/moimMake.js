@@ -1,11 +1,13 @@
+  var category;
+
 $('#moimMake_btn').off().on('click',function(){
 
    let moim = {};
-   moim.moimTitle=$('#title').val();
+   moim.title=$('#title').val();
    moim.peopleLimit=$('#peopleLimit').val();
    moim.categoryNo=$('#categoryNo').val();
-   moim.moimIntro=$('#intro').val();
-
+   moim.intro=$('#intro').val();
+   
    $.ajax({
       url:'/moimMake',
       type:'POST',
@@ -13,16 +15,18 @@ $('#moimMake_btn').off().on('click',function(){
       dataType:'json',
       data: JSON.stringify(moim),
       success:function(data){
-//         if(data.code==1){
-//            alert(data.message);
-//            location.href='/signinView';
-//         }else{
-//            alert(data.message);
-//         }
+    	  if(data.code==1){
+				alert(data.message);
+				location.href='/';
+			}else{
+				alert(data.message);
+			}
       },
       error:function(){
-
+    	  alert('저장 실패');
       }
 
    });
 });
+
+

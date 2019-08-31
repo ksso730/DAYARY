@@ -1,12 +1,10 @@
 package us.flower.dayary.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Collection;
+
 import java.util.Date;
-import java.util.List;
 
 /**
  * 온라인모임
@@ -18,7 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Moim {
-	 @Id
+	
+	   @Id
 	   @GeneratedValue(strategy = GenerationType.IDENTITY)
 	   @Column(name="NO")
 	   private long no;
@@ -53,7 +52,7 @@ public class Moim {
 	   //사용자번호 
 	   @ManyToOne(fetch = FetchType.LAZY)
 	   @JoinColumn(name ="PEOPLE_NO", referencedColumnName = "NO")
-	   private People peopleNo;
+	   private People people;
 	   
 	   /* 
 	    * 모임 참여자 예정
