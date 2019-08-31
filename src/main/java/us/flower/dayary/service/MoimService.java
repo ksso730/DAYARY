@@ -25,7 +25,7 @@ public class MoimService {
 	      System.out.println("people.getNo()" + people.getNo());
 	      moim.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
 	      moim.setUpdateDate(new java.sql.Date(System.currentTimeMillis()));
-	      moim.setNo(1L);
+
 	      System.out.println("moim.getNo()" + moim.getNo());
 	      Moim moimData = new Moim(moim.getNo(), moim.getCategoryNo(), moim.getTitle(), moim.getIntro(), 
 	                                                         moim.getPeopleLimit(), moim.getCreateDate(),  moim.getUpdateDate(), people);
