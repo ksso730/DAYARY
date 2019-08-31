@@ -21,8 +21,8 @@ public class Moim {
 
 	@Id
 	@GeneratedValue
-	@Column(name="MOIM_NO")
-	private long moimNo;
+	@Column(name="NO")
+	private long no;
 
 	//category manytoone, 외래키로 사용 예정
 	@Column(name="CATEGORY_NO")
@@ -30,12 +30,12 @@ public class Moim {
 
 	//모임제목
 	@Lob //길이 제한 없음
-	@Column(name="MOIM_TITLE") 
-	private String moimTitle;
+	@Column(name="TITLE")
+	private String title;
 
 	//모임소개
-	@Column(name="MOIM_INTRO")
-	private String moimIntro;
+	@Column(name="INTRO")
+	private String intro;
 
 	//모임 인원수 제한
 	@Column(name="PEOPLE_LIMIT", length = 3)

@@ -38,8 +38,8 @@ public class People {
 	@Column(name="PHOTO")
 	private String photo;
 
-	@Column(name="CLOSE")
-	private boolean close;
+	@Column(name="ACTIVATION")
+	private String activation;
 	
 	@OneToMany(mappedBy = "people")
 	private List<Moim> moims  = new ArrayList<Moim>();

@@ -1,17 +1,16 @@
 package us.flower.dayary.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import lombok.RequiredArgsConstructor;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.service.MoimService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -38,7 +37,7 @@ public class MoimController {
 			//저장 전 validation 필요
 			//카테고리 선택, 인원수 제한 등
 			
-			if(moimService.existsByNo(moim.getMoimNo())) {
+			if(moimService.existsByNo(moim.getNo())) {
 				//저장완료
 				moimService.saveMoim(moim);
 				returnData.put("code","1");
