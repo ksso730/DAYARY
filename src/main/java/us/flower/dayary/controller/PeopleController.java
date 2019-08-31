@@ -81,4 +81,10 @@ public class PeopleController {
         return returnData;
     }
 
+	@GetMapping("/logout")
+	public String logout(HttpSession session){
+		session.setAttribute("peopleNo",null);
+		return "main";
+	}
+
 }
