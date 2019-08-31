@@ -51,7 +51,6 @@ public class Moim {
 	@JoinColumn(name ="PEOPLE")
 	private People people;
 	
-	
 	/*
 	 * 모임 참여자 예정
 	 * @OneToMany(mappedBy = "moim", fetch = FetchType.EAGER)
