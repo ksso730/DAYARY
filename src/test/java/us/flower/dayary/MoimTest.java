@@ -20,11 +20,11 @@ public class MoimTest {
 	@Test
 	public void moimMake() {
 		Moim moim=new Moim();
-		moim.builder().moimNo(1L).moimTitle("Spring  study").moimIntro("우리 모임은 234#$@$@#$");
+		moim.builder().no(1L).title("Spring  study").intro("우리 모임은 234#$@$@#$");
 		for(long i=2;i<50;i++) {
-			moim.setMoimNo(i);
-			moim.setMoimTitle("Spring  study");
-			moim.setMoimIntro("우리 모임은 234#$@$@#$");
+			moim.setNo(i);
+			moim.setTitle("Spring  study");
+			moim.setIntro("우리 모임은 234#$@$@#$");
 			moimRepository.save(moim);	
 		}
 	
