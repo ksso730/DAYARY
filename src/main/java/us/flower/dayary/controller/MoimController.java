@@ -1,9 +1,11 @@
 package us.flower.dayary.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,9 @@ import us.flower.dayary.service.MoimService;
 public class MoimController {
 	
 	private final MoimService moimService;
+	
+	
+	
 	
 	 /**
 	 * 모임 만들기 
@@ -55,10 +60,22 @@ public class MoimController {
 		}
 		return null;
 	}
+
 	
-	
+	 /**
+		 * 모임 리스트 출력  
+		 * @param locale
+		 * @param Moim
+		 * @return
+		 * @throws Exception
+		 * @author choiseongjun
+		 */
 	@GetMapping("/moimlistView")
-	public String moimListView() {
+	public String moimListView(Model model) {
+		Moim moim=new Moim();
+		List<Moim> moimList=moimService.findMoim(moim);
+		System.out.println(moimList.toString());
+		model.addAttribute("moimList",moimList);
 		return "moim/moimList";
 	}
 	@GetMapping("/moimdetailView")

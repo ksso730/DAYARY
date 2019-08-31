@@ -1,5 +1,7 @@
 package us.flower.dayary.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,11 @@ public class MoimService {
 		
 		moimRepository.save(moim);
 		 
+	}
+
+	public List<Moim> findMoim(Moim moim) {
+
+		return moimRepository.findAll();
 	}
 	
 	
