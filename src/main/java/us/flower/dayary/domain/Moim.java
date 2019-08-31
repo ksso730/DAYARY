@@ -30,7 +30,7 @@ public class Moim {
 
 	//모임제목
 	@Lob //길이 제한 없음
-	@Column(name="MOIM_TITLE")
+	@Column(name="MOIM_TITLE") 
 	private String moimTitle;
 
 	//모임소개
