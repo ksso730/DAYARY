@@ -23,7 +23,7 @@ public class People {
 
 	@Id
 	@GeneratedValue
-	@Column(name="NO")
+	@Column(name="NO") 
 	private long no;
 
 	@Column(name="ID")

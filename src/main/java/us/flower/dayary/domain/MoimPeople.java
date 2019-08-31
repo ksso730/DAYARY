@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 /**
- * 온라인모임참가자
+ * 온라인모임참가자 
  */
 @Entity
 @Table(name="MOIM_PEOPLE")
