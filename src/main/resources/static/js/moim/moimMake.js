@@ -2,10 +2,10 @@
 $('#moimMake_btn').off().on('click',function(){
 
 	let moim = {};
-	moim.moimTitle=$('#moimTitle').val();
+	moim.title=$('#moimTitle').val();
 	moim.peopleLimit=$('#peopleLimit').val();
 	moim.categoryNo=$('#categoryNo').val();
-	moim.moimIntro=$('#moimIntro').val();
+	moim.intro=$('#moimIntro').val();
 
 	$.ajax({
 		url:'/moimMake',

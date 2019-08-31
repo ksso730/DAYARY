@@ -42,7 +42,7 @@ public class MoimController {
 			//저장 전 validation 필요
 			//카테고리 선택, 인원수 제한 등
 			
-			if(moimService.existsByNo(moim.getNo())) {
+			if(!moimService.existsByNo(moim.getNo())) {
 				//저장완료
 				moimService.saveMoim(moim);
 				returnData.put("code","1");
