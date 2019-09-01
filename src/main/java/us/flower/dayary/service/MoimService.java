@@ -77,6 +77,7 @@ public class MoimService {
 	}
 
 	public Optional<Moim> findMoimone(long no) {
+		System.out.println(moimRepository.findById(no));
 		return moimRepository.findById(no);
 	}
 

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class MoimController {
@@ -75,26 +76,27 @@ public class MoimController {
      *
      * @param locale
      * @param no
-     * @return
+     * @return moimDetail,people_no
      * @throws Exception
      * @author choiseongjun
      */
     @GetMapping("/moimlistView/moimdetailView/{no}")
-    public String moimDetailView(@PathVariable("no") long no, Model model) {
-        System.out.println(no);
+    public String moimDetailView(@PathVariable("no") long no, Model model,HttpSession session) {
+      
         moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));
-
+        Long people_no = (Long) session.getAttribute("peopleNo");//일반회원 번호를 던져준다.참가를 위해 
+        session.setAttribute("people_no", people_no);
         //model.addAttribute("moimDetail",moimDetail);
 
         return "moim/moimDetail";
     }
-
+    
 	/**
 	 * 모임 리스트 출력
 	 *
 	 * @param locale
 	 * @param Moim
-	 * @return
+	 * @return moimList
 	 * @throws Exception
 	 * @author choiseongjun
 	 */
@@ -106,7 +108,13 @@ public class MoimController {
 		model.addAttribute("moimList", moimList);
 		return "moim/moimList";
 	}
-
+	@PostMapping("/moimParticipant/{peopleNo}")
+	public String moimParticipant(@PathVariable("peopleNo") long peopleNo) {
+		System.out.println("회원번호 들고오기!!!");
+		System.out.println(peopleNo);
+		return null;
+	}
+	
 	@ResponseBody
     @GetMapping("/getMoimImage/{imageName:.+}")
     public byte[] getMoimImage(@PathVariable("imageName") String imageName) throws Exception {
