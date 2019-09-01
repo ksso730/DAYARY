@@ -8,7 +8,7 @@ import java.io.*;
 
 
 @Component
-public class FIleManager {
+public class FileManager {
 
     public byte[] getByteArray(String filePathAndName) throws Exception {
         InputStream in = new FileInputStream(filePathAndName);

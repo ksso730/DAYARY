@@ -42,23 +42,24 @@
 
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <label class="text-black" for="fname">모임 이름 </label> <input
+                                <label class="text-black">모임 이름 </label> <input
                                     type="text" name="title" id="title" placeholder="모임이름을 입력하세요" class="form-control">
                             </div>
 
                         </div>
                         <div class="row form-group">
                             <div class="col-md-6">
-                                <label class="text-black" for="lname">모임 인원수</label> <input
-                                    type="text" name="peopleLimit" id="peopleLimit" class="form-control" placeholder="2~999 입력">
+                                <label class="text-black">모임 인원수</label> <input
+                                    type="text" name="peopleLimit" id="peopleLimit" class="form-control"
+                                    placeholder="2~999 입력">
                             </div>
                         </div>
 
                         <div class="row form-group">
 
                             <div class="col-md-12">
-                                <label class="text-black" for="subject">모임 주제 </label>
-                                <select name="categorybox" name="category" id="categorybox" class="form-control">
+                                <label class="text-black">모임 주제 </label>
+                                <select name="category" id="categorybox" class="form-control">
                                     <option value="1">운동</option>
                                     <option value="2">게임</option>
                                     <option value="3">외국어</option>
@@ -70,14 +71,14 @@
 
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <label class="text-black" for="message">모임 소개 </label>
-                                <textarea name="message" name="intro" id="intro" cols="30" rows="7"
+                                <label class="text-black">모임 소개 </label>
+                                <textarea name="message" id="intro" cols="30" rows="7"
                                           class="form-control"
                                           placeholder="당신의 모임을 소개하세요!"></textarea>
                             </div>
                         </div>
 
-                        <label class="text-black">모임대표사진 </label> <input type="file" name="file"/>
+                        <label class="text-black">모임대표사진 </label> <input type="file" id="moim_image_file" name="file"/>
                         <div id="moimMake_btn" class="row form-group">
                             <div class="col-md-12">
                                 <div class="btn btn-primary py-2 px-4 text-white">모임만들기</div>

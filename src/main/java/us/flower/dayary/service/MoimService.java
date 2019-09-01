@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import us.flower.dayary.common.FIleManager;
+import us.flower.dayary.common.FileManager;
 import us.flower.dayary.common.TokenGenerator;
 import us.flower.dayary.domain.Category;
 import us.flower.dayary.domain.Moim;
@@ -34,7 +34,7 @@ public class MoimService {
 	@Autowired
     private TokenGenerator tokenGenerator;
 	@Autowired
-	private FIleManager fIleManager;
+	private FileManager fileManager;
 
     public void saveMoim(String id, String subject, Moim moim, MultipartFile file) {
 
@@ -59,7 +59,7 @@ public class MoimService {
 
         //파일업로드
         try {
-            fIleManager.fileUpload(file, moimImagePath+"/"+imageName+"."+fileExtension);
+            fileManager.fileUpload(file, moimImagePath+"/"+imageName+"."+fileExtension);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,4 +80,7 @@ public class MoimService {
 		return moimRepository.findById(no);
 	}
 
+    public byte[] getMoimImage(String imageName) throws Exception {
+        return fileManager.getByteArray(moimImagePath+"/"+imageName);
+    }
 }

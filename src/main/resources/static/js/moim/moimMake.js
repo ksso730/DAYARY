@@ -11,6 +11,12 @@ $('#moimMake_btn').off().on('click', function () {
     category.subject = obj.options[obj.selectedIndex].text;
     moim.category = category;
 
+    let formData = new FormData();
+    formData.append("file", $('#moim_image_file')[0].files[0]);
+    formData.append('moim', new Blob([JSON.stringify(moim)], {
+        type: "application/json"
+    }));
+
     $.ajax({
         url:'/moimMake',
         type:'post',
@@ -20,12 +26,13 @@ $('#moimMake_btn').off().on('click', function () {
         dataType:'json',
         cache: false,
         mimeType:"multipart/form-data",
-        data: new FormData($("#moim_make_from")[0]),//파일업로드를 위해, FormDataAPI사용
+        data: formData,
         success:function(data){
-            if(data.code=="1"){
-
+            if(data.code==1){
+                alert(data.message);
+                location.href='/';
             }else{
-
+                alert(data.message);
             }
         },
         error:function(e){
@@ -33,31 +40,10 @@ $('#moimMake_btn').off().on('click', function () {
         }
     });
 
-    $.ajax({
-        url: '/moimMake',
-        type: 'POST',
-        contentType: 'application/json; charset=UTF-8',
-        dataType: 'json',
-        data: JSON.stringify(moim),
-
-        success: function (data) {
-            if (data.code == 1) {
-                alert(data.message);
-                location.href = '/';
-            } else {
-                alert(data.message);
-            }
-        },
-        error: function () {
-            alert('저장 실패');
-        }
-
-    });
 });
 
 $('#peopleLimit').keyup(function () {
     numberKey();
-
 });
 
 function numberKey() {

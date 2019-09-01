@@ -5,10 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.service.MoimService;
@@ -37,7 +34,7 @@ public class MoimController {
      */
     @ResponseBody
     @PostMapping("/moimMake")
-    public Map<String, Object> moimMake(Moim moim, MultipartFile file, HttpSession session) {
+    public Map<String, Object> moimMake(@RequestPart("moim") Moim moim, @RequestPart("file") MultipartFile file, HttpSession session) {
 
         Map<String, Object> returnData = new HashMap<String, Object>();
         String id = (String) session.getAttribute("peopleId");
@@ -109,6 +106,13 @@ public class MoimController {
 		model.addAttribute("moimList", moimList);
 		return "moim/moimList";
 	}
+
+	@ResponseBody
+    @GetMapping("/getMoimImage/{imageName:.+}")
+    public byte[] getMoimImage(@PathVariable("imageName") String imageName) throws Exception {
+        System.out.println(imageName);
+        return moimService.getMoimImage(imageName);
+    }
 
     @GetMapping("/moimMakeView")
     public String moimMakeView() {

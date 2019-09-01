@@ -25,20 +25,22 @@
 
                 <div class="col-lg-4 mb-4">
                     <div class="entry2">
-                        <a href="/moimdetailView"><img src="images/img_1.jpg" alt="Image" class="img-fluid rounded"></a>
+                        <a href="/moimdetailView"><img th:src="${'/getMoimImage/'+moimList.imageName+'.'+moimList.imageExtension}" alt="Image" class="img-fluid rounded"></a>
                         <div class="excerpt">
                             <span class="post-category text-white bg-secondary mb-3">나중에 카테고리 넣는곳 </span>
 
                             <h2>
-                            	<a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
-                                <td th:text="${moimList.title}">
-                            </a></h2>
+                                <a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
+                                    <td th:text="${moimList.title}">
+                                </a>
+                            </h2>
                             <div class="post-meta align-items-center text-left clearfix">
-                            
+
                                 <figure class="author-figure mb-0 mr-3 float-left"><img src="images/person_1.jpg"
                                                                                         alt="Image" class="img-fluid">
                                 </figure>
-                                <span class="d-inline-block mt-1">By <a href="#"><td th:text="${moimList.people.id}"></td></a></span>
+                                <span class="d-inline-block mt-1">By <a href="#"><td
+                                        th:text="${moimList.people.id}"></td></a></span>
                                 <span>&nbsp;-&nbsp; July 19, 2019</span>
                             </div>
 
@@ -46,8 +48,8 @@
                             <td th:text="${moimList.intro}"/>
                             </p>
                             <p>
-                            <a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
-                            Read More</a></p>
+                                <a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
+                                    Read More</a></p>
                         </div>
                     </div>
                 </div>
