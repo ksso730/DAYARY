@@ -41,9 +41,8 @@
 
                     <form action="#" class="p-5 bg-white">
 
-
                         <div class="row form-group">
-                            <div class="col-md-6 mb-3 mb-md-0">
+                            <div class="col-md-12">
                                 <label class="text-black" for="fname">모임 이름 </label> <input
                                     type="text" id="title" class="form-control">
                             </div>
@@ -52,15 +51,21 @@
                         <div class="row form-group">   
                             <div class="col-md-6">
                                 <label class="text-black" for="lname">모임 인원수</label> <input
-                                    type="text" id="peopleLimit" class="form-control" placeholder="2~999 입력">
+                                    type="text" id="peopleLimit" class="form-control" placeholder="2~999 입력" >
                             </div>
                         </div>
 
                         <div class="row form-group">
 
                             <div class="col-md-12">
-                                <label class="text-black" for="subject">모임 주제 </label> <input
-                                    type="subject" id=categoryNo class="form-control">
+                                <label class="text-black" for="subject" >모임 주제 </label> 
+                                	<select name="categorybox" id="categorybox"  class="form-control">
+	                                	<option value="1">운동</option>
+	                                	<option value="2">게임</option>
+	                                	<option value="3">외국어</option>
+	                                	<option value="4">음악</option>
+	                                	<option value="5">동물</option>
+	                                </select>
                             </div>
                         </div>
 

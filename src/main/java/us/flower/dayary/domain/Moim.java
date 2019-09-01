@@ -22,10 +22,6 @@ public class Moim {
 	   @Column(name="NO")
 	   private long no;
 
-	   //category manytoone, 외래키로 사용 예정
-	   @Column(name="CATEGORY_NO")
-	   private long categoryNo;
-
 	   //모임제목
 	   @Column(name="TITLE") 
 	   private String title;
@@ -53,6 +49,11 @@ public class Moim {
 	   @ManyToOne(fetch = FetchType.LAZY)
 	   @JoinColumn(name ="PEOPLE_NO", referencedColumnName = "NO")
 	   private People people;
+	   
+ 	  //모임 카테고리
+	   @ManyToOne(fetch = FetchType.LAZY)
+	   @JoinColumn(name="CATEGORY_NO") 
+	   private Category category;
 	   
 	   /* 
 	    * 모임 참여자 예정

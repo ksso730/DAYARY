@@ -1,6 +1,9 @@
 package us.flower.dayary.controller;
 
 import lombok.RequiredArgsConstructor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,8 @@ import javax.servlet.http.HttpSession;
 public class MoimController {
 	
 	private final MoimService moimService;
+
+	private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
 	
 	 /**
 	    * 모임 만들기 
@@ -35,10 +40,14 @@ public class MoimController {
 	   public Map<String,Object> moimMake(@RequestBody Moim moim, HttpSession session) {
 	      
 	      Map<String,Object> returnData = new HashMap<String,Object>();
-	      Long se_id = (Long) session.getAttribute("peopleNo");
-	      String id = se_id.toString();
-
-	      if(moim.getTitle().equals(null) || moim.getTitle().equals("")) {
+	      String id = (String) session.getAttribute("peopleId");
+	      String subject = moim.getCategory().getSubject();
+	      
+	      if(id.equals(null) || id.equals("")) {
+	    	  returnData.put("code","0");
+		      returnData.put("message","로그인 후 이용해주세요");
+	    	  return returnData;
+	      }else if(moim.getTitle().equals(null) || moim.getTitle().equals("")) {
 	    	  returnData.put("code","0");
 		      returnData.put("message","모임 이름을 입력해주세요");
 	    	  return returnData;
@@ -46,14 +55,14 @@ public class MoimController {
 	    	  returnData.put("code","0");
 		      returnData.put("message","인원수를 입력해주세요");
 	    	  return returnData;
-	      }else if(moim.getCategoryNo() == 0) {
+	      }else if(subject == null || subject.equals("")) {
 	    	  returnData.put("code","0");
 		      returnData.put("message","모임 주제를 선택해주세요");
 	    	  return returnData;
 	      }
 	      
 	      try {
-	         moimService.saveMoim(id, moim);
+	         moimService.saveMoim(id, subject, moim);
 	         returnData.put("code","1");
 	         returnData.put("message","저장되었습니다");
 	         

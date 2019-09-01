@@ -64,6 +64,7 @@ public class PeopleController {
 				People dbPeople = peopleRepository.findById(people.getId());
 				if(bcrypt.checkpw(people.getPassword(),dbPeople.getPassword())){//비밀번호가맞다면
 					session.setAttribute("peopleNo",dbPeople.getNo());//NO세션저장
+					session.setAttribute("peopleId",dbPeople.getId());//ID세션저장
 					returnData.put("code","1");
 				}else{//비밀번호가다르면
 					returnData.put("code","0");
