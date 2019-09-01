@@ -30,6 +30,9 @@ configurations {
 
 dependencies {
 
+    //file upload related io 파일 바이트코드로 바꾸기[IOUtils]
+    implementation 'commons-io:commons-io:2.6'
+
     //UNDERTOW
     //implementation 'org.springframework.boot:spring-boot-starter-undertow'
 

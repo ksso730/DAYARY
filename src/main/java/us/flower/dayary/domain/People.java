@@ -5,9 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.*;
 
 /**
@@ -23,7 +20,7 @@ public class People {
 
 	@Id
 	@GeneratedValue
-	@Column(name="NO")  
+	@Column(name="NO")
 	private long no;
 
 	@Column(name="ID")
@@ -40,6 +37,4 @@ public class People {
 
 	@Column(name="ACTIVATION")
 	private String activation;
-	
-
 }
