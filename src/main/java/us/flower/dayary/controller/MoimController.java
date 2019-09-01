@@ -115,14 +115,4 @@ public class MoimController {
         return "moim/moimMake";
     }
 
-
-    @GetMapping("/moimlistView/moimdetailView/{no}")
-    public String moimDetailView(@PathVariable int no, Model model) {
-        System.out.println(no);
-        Moim moim = new Moim();
-        List<Moim> moimDetail = moimService.findMoim(moim);
-        model.addAttribute("moimDetail", moimDetail);
-        return "moim/moimDetail";
-    }
-
 }
