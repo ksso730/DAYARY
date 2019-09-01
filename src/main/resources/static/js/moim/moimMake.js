@@ -14,7 +14,7 @@ $('#moimMake_btn').off().on('click', function () {
     let formData = new FormData();
     formData.append("file", $('#moim_image_file')[0].files[0]);
     formData.append('moim', new Blob([JSON.stringify(moim)], {
-        type: "application/json"
+        type: "application/json; charset=UTF-8"
     }));
 
     $.ajax({
