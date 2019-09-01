@@ -17,6 +17,7 @@ import us.flower.dayary.service.MoimService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -91,12 +92,22 @@ public class MoimController {
 		model.addAttribute("moimList",moimList);
 		return "moim/moimList";
 	}
+	 /**
+	 * 모임 디테일 출력  
+	 * @param locale
+	 * @param no
+	 * @return
+	 * @throws Exception
+	 * @author choiseongjun
+	 */
 	@GetMapping("/moimlistView/moimdetailView/{no}")
-	public String moimDetailView(@PathVariable int no,Model model) {
+	public String moimDetailView(@PathVariable("no") long no,Model model) {
 		System.out.println(no);
-		Moim moim=new Moim();
-		List<Moim> moimDetail=moimService.findMoim(moim);
-		model.addAttribute("moimDetail",moimDetail);
+		moimService.findMoimone(no)
+			.ifPresent(moimDetail->model.addAttribute("moimDetail",moimDetail));
+		
+		//model.addAttribute("moimDetail",moimDetail);
+		
 		return "moim/moimDetail";
 	}
 	@GetMapping("/moimMakeView")

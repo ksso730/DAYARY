@@ -1,7 +1,9 @@
 package us.flower.dayary.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,12 +36,18 @@ public class MoimService {
 	    		                                               moim.getPeopleLimit(), moim.getCreateDate(),  
 	    		                                               moim.getUpdateDate(), people, category);
 	      moimRepository.save(moimData);
-    }
+    } 
 
 	public List<Moim> findMoim(Moim moim) {
 
 		return moimRepository.findAll();
 	}
+
+	public Optional<Moim> findMoimone(long no) {
+		return moimRepository.findById(no);
+	}
+
+	
 	
 	
 
