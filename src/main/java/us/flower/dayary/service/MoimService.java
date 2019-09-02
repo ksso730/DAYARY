@@ -15,7 +15,9 @@ import us.flower.dayary.repository.MoimRepository;
 import us.flower.dayary.repository.PeopleRepository;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -36,6 +38,15 @@ public class MoimService {
 	@Autowired
 	private FileManager fileManager;
 
+	public Map<String, Object> getMoimCategory(){
+		List<Category> cateList= (List<Category>) categoryRepository.findAll();
+	
+		Map<String, Object> categoryList = new HashMap<String, Object>();
+		categoryList.put("_category", cateList);
+		
+		return categoryList;
+	}
+	
     public void saveMoim(String id, String subject, Moim moim, MultipartFile file) {
 
         People people = peopleRepository.findById(id);
@@ -84,4 +95,5 @@ public class MoimService {
     public byte[] getMoimImage(String imageName) throws Exception {
         return fileManager.getByteArray(moimImagePath+"/"+imageName);
     }
+
 }

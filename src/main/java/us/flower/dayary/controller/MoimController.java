@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import us.flower.dayary.domain.Category;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.service.MoimService;
 
@@ -14,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 public class MoimController {
@@ -23,6 +24,28 @@ public class MoimController {
     private MoimService moimService;
 
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
+    
+    /**
+     * 모임 카테고리 목록 조회
+     *
+     * @param locale
+     * @param Moim
+     * @return
+     * @throws 
+     * @author yuna
+     */
+    @ResponseBody
+    @PostMapping("/getMoimCategory")
+    public Map<String, Object> getMoimCategory(){
+    	
+    	Map<String, Object> categoryList = new HashMap<String, Object>();
+    	try {
+    		categoryList =  moimService.getMoimCategory();
+    		
+    	}catch (Exception e) {
+		}
+    	return categoryList;
+    }
 
     /**
      * 모임 만들기
@@ -30,7 +53,7 @@ public class MoimController {
      * @param locale
      * @param Moim
      * @return
-     * @throws Exception
+     * @throws 
      * @author yuna
      */
     @ResponseBody
