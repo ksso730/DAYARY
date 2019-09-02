@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import us.flower.dayary.domain.Category;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
+import us.flower.dayary.repository.MoimPeopleRepository;
 import us.flower.dayary.service.MoimService;
 
 import javax.servlet.http.HttpSession;
@@ -24,6 +25,9 @@ public class MoimController {
     @Autowired
     private MoimService moimService;
 
+    @Autowired
+    MoimPeopleRepository moimpeopleRepository;
+    
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
     
     /**
@@ -111,8 +115,9 @@ public class MoimController {
         Long people_no = (Long) session.getAttribute("peopleNo");//일반회원 번호를 던져준다.참가를 위해 
         session.setAttribute("people_no", people_no);
         //model.addAttribute("moimDetail",moimDetail);
-
-        return "moim/moimDetail";
+        List<MoimPeople> moimpeopleList=moimpeopleRepository.findByjoinmoimId(no);
+        model.addAttribute("moimpeopleList",moimpeopleList);
+        return "moim/moimDetail"; 
     }
     
 	/**
