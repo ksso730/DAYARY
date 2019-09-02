@@ -1,10 +1,30 @@
 package us.flower.dayary.domain;
 
-import lombok.*;
-
-import javax.persistence.*;
-
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 온라인모임
@@ -67,11 +87,11 @@ public class Moim {
 	@Column(name = "IMAGE_EXTENSION")
     private String imageExtension;
 
-    /*
-     * 모임 참여자 예정
-     * @OneToMany(mappedBy = "moim", fetch = FetchType.EAGER)
-     *
-     * @JsonManagedReference private List<MoimPeople> moimPeopleList;
-     */
+    
+    // 모임 참여자 예정
+	@OneToMany(mappedBy = "moim")
+	@JsonIgnore
+	private List<MoimPeople> moimPeopleList=new ArrayList<>();
+
 
 }

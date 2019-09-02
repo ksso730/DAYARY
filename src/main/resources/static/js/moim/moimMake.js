@@ -1,9 +1,8 @@
-
 function initMoimMake(opt){
-	
-	$.ajax({
-		
-		url:'/getMoimCategory',
+   
+   $.ajax({
+      
+      url:'/getMoimCategory',
         type:'post',
         enctype: 'multipart/form-data',
         processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
@@ -13,21 +12,21 @@ function initMoimMake(opt){
         mimeType:"multipart/form-data",
         //data: formData,
         success:function(data){
-			
-    		$('#categorybox').empty(); // 초기화
-			
-			var item = data._category;
-			
-			for (var n=0; n<item.length; n++){
-				var no         = item[n].no;
-				var subject = item[n].subject;
-				
-				$('#categorybox').append('<option value="' + no + '">' + subject + '</option>');
-			}
-			$('#categorybox').selectmenu('refresh');
+         
+          $('#categorybox').empty(); // 초기화
+         
+         var item = data._category;
+         
+         for (var n=0; n<item.length; n++){
+            var no         = item[n].no;
+            var subject = item[n].subject;
+            
+            $('#categorybox').append('<option value="' + no + '">' + subject + '</option>');
+         }
+         $('#categorybox').selectmenu('refresh');
       }
-	});
-	
+   });
+   
 }
 
 
@@ -109,5 +108,3 @@ function check_key() {
     else
         return 0;
 }
-
-

@@ -1,11 +1,21 @@
 package us.flower.dayary.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 /**
  * 회원
@@ -37,4 +47,8 @@ public class People {
 
 	@Column(name="ACTIVATION")
 	private String activation;
+	// 회원  참여자 예정
+    @OneToMany(mappedBy = "people")
+    @JsonIgnore 
+    private List<MoimPeople> moimPeopleList=new ArrayList<>();
 }

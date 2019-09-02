@@ -11,29 +11,20 @@ import javax.persistence.*;
 @Entity
 @Table(name="MOIM_PEOPLE")
 @Data
-@ToString(exclude = "moim")
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class MoimPeople {
 
-    @Id
-    @GeneratedValue
-    @Column(name="NO")
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "no")
     private long no;
-
-	/* moim에서 주석처리해놔서 우선 같이 주석
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name ="MOIM", referencedColumnName = "NO")
-	 * 
-	 * @JsonBackReference private Moim moim;
-	 */
-
-    @Column(name="PEOPLE_NO")
-    private long peopleNo;
-
-    @Column(name="ROLE")
-    private String role;
-
+    @ManyToOne
+    @JoinColumn(name = "MOIM_NO")
+    private Moim moim;
+    @ManyToOne
+    @JoinColumn(name = "PEOPLE_NO")
+    private People people;
+    
 }
+
+

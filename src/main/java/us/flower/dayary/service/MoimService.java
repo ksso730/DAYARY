@@ -9,8 +9,10 @@ import us.flower.dayary.common.FileManager;
 import us.flower.dayary.common.TokenGenerator;
 import us.flower.dayary.domain.Category;
 import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.CategoryRepository;
+import us.flower.dayary.repository.MoimPeopleRepository;
 import us.flower.dayary.repository.MoimRepository;
 import us.flower.dayary.repository.PeopleRepository;
 
@@ -33,6 +35,9 @@ public class MoimService {
     private MoimRepository moimRepository;
 	@Autowired
     private CategoryRepository categoryRepository;
+	@Autowired
+	private MoimPeopleRepository moimpeopleRepository;
+	
 	@Autowired
     private TokenGenerator tokenGenerator;
 	@Autowired
@@ -88,12 +93,30 @@ public class MoimService {
 	}
 
 	public Optional<Moim> findMoimone(long no) {
-		System.out.println(moimRepository.findById(no));
 		return moimRepository.findById(no);
 	}
 
     public byte[] getMoimImage(String imageName) throws Exception {
         return fileManager.getByteArray(moimImagePath+"/"+imageName);
     }
+
+	public MoimPeople moimParticipant(Long peopleNo, long moimNo) {
+		System.out.println(peopleNo);
+		System.out.println("회원번호 들고오기!!!");
+		System.out.println(moimNo);
+		
+		Moim moim=new Moim();
+		moim.setNo(moimNo);
+		
+		People people=new People();
+		people.setNo(peopleNo);
+		
+		MoimPeople moimPeople=new MoimPeople();
+		moimPeople.setMoim(moim);
+		moimPeople.setPeople(people);
+		
+		return moimpeopleRepository.save(moimPeople);
+		
+	}
 
 }

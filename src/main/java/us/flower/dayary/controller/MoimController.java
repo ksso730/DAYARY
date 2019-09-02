@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import us.flower.dayary.domain.Category;
 import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.service.MoimService;
 
 import javax.servlet.http.HttpSession;
@@ -127,21 +128,21 @@ public class MoimController {
 	public String moimListView(Model model) {
 		Moim moim = new Moim();
 		List<Moim> moimList = moimService.findMoim(moim);
-		System.out.println(moimList.toString());
 		model.addAttribute("moimList", moimList);
 		return "moim/moimList";
 	}
-	@PostMapping("/moimParticipant/{peopleNo}")
-	public String moimParticipant(@PathVariable("peopleNo") long peopleNo) {
-		System.out.println("회원번호 들고오기!!!");
-		System.out.println(peopleNo);
-		return null;
+	
+	@PostMapping("/moimParticipant/{moimNo}")
+	public MoimPeople moimParticipant(@PathVariable("moimNo") long moimNo,HttpSession session) {
+		Long peopleNo = (Long) session.getAttribute("peopleNo");
+		
+		
+		return moimService.moimParticipant(peopleNo,moimNo);
 	}
 	
 	@ResponseBody
     @GetMapping("/getMoimImage/{imageName:.+}")
     public byte[] getMoimImage(@PathVariable("imageName") String imageName) throws Exception {
-        System.out.println(imageName);
         return moimService.getMoimImage(imageName);
     }
 
