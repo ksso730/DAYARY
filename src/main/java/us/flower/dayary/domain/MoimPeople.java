@@ -1,9 +1,19 @@
 package us.flower.dayary.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
+import java.time.LocalDateTime;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.data.annotation.CreatedDate;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 온라인모임참가자 
@@ -20,12 +30,11 @@ public class MoimPeople {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "no")
     private long no;
-//    @ManyToOne
-//    @JoinColumn(name = "MOIM_NO")
-//    private Moim moim;
-//    @ManyToOne
-//    @JoinColumn(name = "PEOPLE_NO")
-//    private People people;
+
+	@CreatedDate
+	private LocalDateTime createdDate;
+
+
     
 }
 
