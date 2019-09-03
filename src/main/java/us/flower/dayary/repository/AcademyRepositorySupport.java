@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import us.flower.dayary.domain.Academy;
+import static us.flower.dayary.domain.QAcademy.academy;
 
 @Repository
 public class AcademyRepositorySupport extends QuerydslRepositorySupport {

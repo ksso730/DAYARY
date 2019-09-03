@@ -3,6 +3,7 @@ package us.flower.dayary.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
+import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.MoimPeopleRepository;
+import us.flower.dayary.repository.MoimRepository;
 import us.flower.dayary.service.MoimService;
 
 @Controller
@@ -102,7 +105,8 @@ public class MoimController {
         }
         return returnData;
     }
-
+	@Autowired
+	MoimRepository moimRepository;
     /**
      * 모임 디테일 출력
      *
@@ -120,6 +124,10 @@ public class MoimController {
         session.setAttribute("people_no", people_no);
         //model.addAttribute("moimDetail",moimDetail);
         //model.addAttribute("moimpeopleList",moimpeopleList);
+        Optional<Moim> moim=moimRepository.findById(no);
+        List<People> moimpeopleList=moim.get().getPeopleList();
+        System.out.println(moimpeopleList.toString());
+        model.addAttribute("moimpeopleList",moimpeopleList);
         return "moim/moimDetail"; 
     }
     

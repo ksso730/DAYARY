@@ -20,12 +20,12 @@ public class MoimPeople {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "no")
     private long no;
-    @ManyToOne
-    @JoinColumn(name = "MOIM_NO")
-    private Moim moim;
-    @ManyToOne
-    @JoinColumn(name = "PEOPLE_NO")
-    private People people;
+//    @ManyToOne
+//    @JoinColumn(name = "MOIM_NO")
+//    private Moim moim;
+//    @ManyToOne
+//    @JoinColumn(name = "PEOPLE_NO")
+//    private People people;
     
 }
 

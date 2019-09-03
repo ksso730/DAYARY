@@ -46,8 +46,8 @@ public class People {
 
 	@Column(name="ACTIVATION")
 	private String activation;
-	// 회원  참여자 예정
-    @OneToMany(mappedBy = "people")
-    @JsonIgnore 
-    private List<MoimPeople> moimPeopleList=new ArrayList<>();
+//	// 회원  참여자 예정
+//    @OneToMany(mappedBy = "people")
+//    @JsonIgnore 
+//    private List<MoimPeople> moimPeopleList=new ArrayList<>();
 }

@@ -1,136 +1,131 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <css th:replace="layout/header::headerCss"/>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<css th:replace="layout/header::headerCss" />
 </head>
 <body>
-<div th:replace="layout/header::header"/>
-<link rel="stylesheet" href="/css/friendList.css">
-<div id="moimNo" th:data-moimNo="${moimDetail.no}"></div>
-<div class="site-cover site-cover-sm same-height overlay single-page"
-     style="background-image: url('/images/img_2.jpg');">
-    <div class="container">
-        <div class="row same-height justify-content-center">
-            <div class="col-md-12 col-lg-10">
-                <div class="post-entry text-center">
-                    <span class="post-category text-white bg-success mb-3">Nature</span>
-                    <h1 class="mb-4">
-                        <td th:text="${moimDetail.title}"/>
-                    </h1>
-                    <div class="post-meta align-items-center text-center">
-                        <figure class="author-figure mb-0 mr-3 d-inline-block">
-                            <img src="/images/person_1.jpg" alt="Image" class="img-fluid">
-                        </figure>
-                        <span class="d-inline-block mt-1">By Carrol Atkinson</span> <span>&nbsp;-&nbsp;
+	<div th:replace="layout/header::header" />
+	<link rel="stylesheet" href="/css/friendList.css">
+	<div id="moimNo" th:data-moimNo="${moimDetail.no}"></div>
+	<div class="site-cover site-cover-sm same-height overlay single-page"
+		style="background-image: url('/images/img_2.jpg');">
+		<div class="container">
+			<div class="row same-height justify-content-center">
+				<div class="col-md-12 col-lg-10">
+					<div class="post-entry text-center">
+						<span class="post-category text-white bg-success mb-3">Nature</span>
+						<h1 class="mb-4">
+							<td th:text="${moimDetail.title}" />
+						</h1>
+						<div class="post-meta align-items-center text-center">
+							<figure class="author-figure mb-0 mr-3 d-inline-block">
+								<img src="/images/person_1.jpg" alt="Image" class="img-fluid">
+							</figure>
+							<span class="d-inline-block mt-1">By Carrol Atkinson</span> <span>&nbsp;-&nbsp;
 								February 10, 2019</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-<section class="site-section py-lg">
-    <div class="container">
+	<section class="site-section py-lg">
+		<div class="container">
 
-        <div class="row blog-entries element-animate">
-            <div class="col-md-12 col-lg-8 main-content">
+			<div class="row blog-entries element-animate">
+				<div class="col-md-12 col-lg-8 main-content">
 
-                <div class="post-content-body">
-
-
-                    <div class="row mb-5 mt-5">
-
-                        <div class="col-md-12 mb-4">
-                            <img src="/images/img_1.jpg" alt="Image placeholder"
-                                 class="img-fluid rounded">
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <img src="/images/img_2.jpg" alt="Image placeholder"
-                                 class="img-fluid rounded">
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <img src="/images/img_3.jpg" alt="Image placeholder"
-                                 class="img-fluid rounded">
-                        </div>
-                    </div>
-                    <td th:text="${moimDetail.intro}"/>
-                </div>
+					<div class="post-content-body">
 
 
-                <div class="pt-5">
-                    <p>
-                        Categories: <a href="#">Food</a>, <a href="#">Travel</a> Tags: <a
-                            href="#">#manila</a>, <a href="#">#asia</a>
-                    </p>
-                </div>
-                <div id="signup_btn" class="row form-group">
-                    <div class="col-md-12">
-                        <div class="btn btn-primary py-2 px-4 text-white">모임 참가</div>
-                    </div>
-                </div>
-                <!-- 여기서부터 회원리스트출력  -->
-                <hr>
-                <div class="container bootstrap snippet">
-                    <div class="row">
-                     <tr th:each="moimpeopleList,x : ${moimpeopleList}">
-                     	<td th:text="${moimpeopleList.id}">
-                     </tr>
-                        <div class="col-lg-12">
-                            <div class="main-box no-header clearfix">
-                                <div class="main-box-body clearfix">
-                                    <div class="table-responsive">
-                                        <table class="table user-list">
-                                            <thead>
-                                            <tr>
-                                                <th><span>User</span></th>
-                                                <th><span>Created</span></th>
-                                                <th class="text-center"><span>Status</span></th>
-                                                <th><span>Email</span></th>
-                                                <th>&nbsp;</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img src="https://bootdey.com/img/Content/user_1.jpg" alt="">
-                                                    <a href="#" class="user-link">
-                                                    <td th:text="${moimDetail.people.id}" /></a>
-                                                    <span class="user-subhead">Member</span>
-                                                </td>
-                                               <span th:if="${moimDetail.people.id}!=null">
-                                                <td>모임장</td>
-                                                </span>
-                                                <td class="text-center">
-                                                    <span class="label label-default">pending</span>
-                                                </td>
-                                                <td>
-                                                 
-                                                    <a href="#">marlon@brando.com</a>
-                                                </td>
-                                                <td style="width: 20%;">
-                                                    <a href="#" class="table-link">
-				                                            <span class="fa-stack">
-				                                                <i class="fa fa-square fa-stack-2x"></i>
-				                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-				                                            </span>
-                                                    </a>
-                                                    <a href="#" class="table-link">
-				                                            <span class="fa-stack">
-				                                                <i class="fa fa-square fa-stack-2x"></i>
-				                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-				                                            </span>
-                                                    </a>
-                                                    <a href="#" class="table-link danger">
-				                                            <span class="fa-stack">
-				                                                <i class="fa fa-square fa-stack-2x"></i>
-				                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-				                                            </span>
-                                                    </a>
-                                                </td>
-                                            </tr>
+						<div class="row mb-5 mt-5">
+
+							<div class="col-md-12 mb-4">
+								<img src="/images/img_1.jpg" alt="Image placeholder"
+									class="img-fluid rounded">
+							</div>
+							<div class="col-md-6 mb-4">
+								<img src="/images/img_2.jpg" alt="Image placeholder"
+									class="img-fluid rounded">
+							</div>
+							<div class="col-md-6 mb-4">
+								<img src="/images/img_3.jpg" alt="Image placeholder"
+									class="img-fluid rounded">
+							</div>
+						</div>
+						<td th:text="${moimDetail.intro}" />
+					</div>
+
+
+					<div class="pt-5">
+						<p>
+							Categories: <a href="#">Food</a>, <a href="#">Travel</a> Tags: <a
+								href="#">#manila</a>, <a href="#">#asia</a>
+						</p>
+					</div>
+					<div id="signup_btn" class="row form-group">
+						<div class="col-md-12">
+							<div class="btn btn-primary py-2 px-4 text-white">모임 참가</div>
+						</div>
+					</div>
+					<!-- 여기서부터 회원리스트출력  -->
+					<hr>
+					<div class="container bootstrap snippet">
+						<div class="row">
+
+							<div class="col-lg-12">
+								<div class="main-box no-header clearfix">
+									<div class="main-box-body clearfix">
+										<div class="table-responsive">
+											<table class="table user-list">
+												<thead>
+													<tr>
+														<th><span>User</span></th>
+														<th><span>Created</span></th>
+														<th class="text-center"><span>Status</span></th>
+														<th><span>Email</span></th>
+														<th>&nbsp;</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><img
+															src="https://bootdey.com/img/Content/user_1.jpg" alt="">
+															<a href="#" class="user-link">
+																<td th:text="${moimDetail.people.id}" />
+														</a> <span class="user-subhead">Member</span></td>
+														<span th:if="${moimDetail.people.id}!=null">
+															<td>모임장</td>
+														</span>
+														<td class="text-center"><span
+															class="label label-default">pending</span></td>
+
+														<tr th:each="moimpeopleList : ${moimpeopleList}">
+														<td th:text="${moimpeopleList.id}">
+														<td th:text="${moimpeopleList.name}">
+                   										</tr>
+                   										
+													<td style="width: 20%;"><a href="#"
+															class="table-link"> <span class="fa-stack"> <i
+																	class="fa fa-square fa-stack-2x"></i> <i
+																	class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+															</span>
+														</a> <a href="#" class="table-link"> <span
+																class="fa-stack"> <i
+																	class="fa fa-square fa-stack-2x"></i> <i
+																	class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+															</span>
+														</a> <a href="#" class="table-link danger"> <span
+																class="fa-stack"> <i
+																	class="fa fa-square fa-stack-2x"></i> <i
+																	class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+															</span>
+														</a></td>
+													</tr>
+													
                                             
                                             </tbody>
                                         </table>
@@ -146,7 +141,8 @@
                     <ul class="comment-list">
                         <li class="comment">
                             <div class="vcard">
-                                <img src="/images/person_1.jpg" alt="Image placeholder">
+                                <img src="/images/person_1.jpg"
+										alt="Image placeholder">
                             </div>
                             <div class="comment-body">
                                 <h3>Jean Doe</h3>
@@ -163,7 +159,8 @@
 
                         <li class="comment">
                             <div class="vcard">
-                                <img src="/images/person_1.jpg" alt="Image placeholder">
+                                <img src="/images/person_1.jpg"
+										alt="Image placeholder">
                             </div>
                             <div class="comment-body">
                                 <h3>Jean Doe</h3>
@@ -180,7 +177,8 @@
                             <ul class="children">
                                 <li class="comment">
                                     <div class="vcard">
-                                        <img src="/images/person_1.jpg" alt="Image placeholder">
+                                        <img src="/images/person_1.jpg"
+												alt="Image placeholder">
                                     </div>
                                     <div class="comment-body">
                                         <h3>Jean Doe</h3>
@@ -190,7 +188,8 @@
                                             vitae autem, eum officia, fugiat saepe enim sapiente iste
                                             iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
                                         <p>
-                                            <a href="#" class="reply rounded">Reply</a>
+                                            <a href="#"
+													class="reply rounded">Reply</a>
                                         </p>
                                     </div>
 
@@ -198,7 +197,8 @@
                                     <ul class="children">
                                         <li class="comment">
                                             <div class="vcard">
-                                                <img src="/images/person_1.jpg" alt="Image placeholder">
+                                                <img
+														src="/images/person_1.jpg" alt="Image placeholder">
                                             </div>
                                             <div class="comment-body">
                                                 <h3>Jean Doe</h3>
@@ -209,25 +209,30 @@
                                                     sapiente iste iure! Quam voluptas earum impedit
                                                     necessitatibus, nihil?</p>
                                                 <p>
-                                                    <a href="#" class="reply rounded">Reply</a>
+                                                    <a href="#"
+															class="reply rounded">Reply</a>
                                                 </p>
                                             </div>
 
                                             <ul class="children">
                                                 <li class="comment">
                                                     <div class="vcard">
-                                                        <img src="/images/person_1.jpg" alt="Image placeholder">
+                                                        <img
+																src="/images/person_1.jpg" alt="Image placeholder">
                                                     </div>
-                                                    <div class="comment-body">
+                                                    <div
+															class="comment-body">
                                                         <h3>Jean Doe</h3>
-                                                        <div class="meta">January 9, 2018 at 2:21pm</div>
+                                                        <div
+																class="meta">January 9, 2018 at 2:21pm</div>
                                                         <p>Lorem ipsum dolor sit amet, consectetur
                                                             adipisicing elit. Pariatur quidem laborum
                                                             necessitatibus, ipsam impedit vitae autem, eum officia,
                                                             fugiat saepe enim sapiente iste iure! Quam voluptas
                                                             earum impedit necessitatibus, nihil?</p>
                                                         <p>
-                                                            <a href="#" class="reply rounded">Reply</a>
+                                                            <a href="#"
+																	class="reply rounded">Reply</a>
                                                         </p>
                                                     </div>
                                                 </li>
@@ -240,7 +245,8 @@
 
                         <li class="comment">
                             <div class="vcard">
-                                <img src="/images/person_1.jpg" alt="Image placeholder">
+                                <img src="/images/person_1.jpg"
+										alt="Image placeholder">
                             </div>
                             <div class="comment-body">
                                 <h3>Jean Doe</h3>
@@ -261,26 +267,26 @@
                         <h3 class="mb-5">Leave a comment</h3>
                         <form action="#" class="p-5 bg-light">
                             <div class="form-group">
-                                <label for="name">Name *</label> <input type="text"
-                                                                        class="form-control" id="name">
+                                <label for="name">Name *</label> <input
+										type="text" class="form-control" id="name">
                             </div>
                             <div class="form-group">
-                                <label for="email">Email *</label> <input type="email"
-                                                                          class="form-control" id="email">
+                                <label for="email">Email *</label> <input
+										type="email" class="form-control" id="email">
                             </div>
                             <div class="form-group">
-                                <label for="website">Website</label> <input type="url"
-                                                                            class="form-control" id="website">
+                                <label for="website">Website</label> <input
+										type="url" class="form-control" id="website">
                             </div>
 
                             <div class="form-group">
                                 <label for="message">Message</label>
-                                <textarea name="" id="message" cols="30" rows="10"
-                                          class="form-control"></textarea>
+                                <textarea name="" id="message" cols="30"
+										rows="10" class="form-control"></textarea>
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Post Comment"
-                                       class="btn btn-primary">
+                                <input type="submit"
+										value="Post Comment" class="btn btn-primary">
                             </div>
 
                         </form>
@@ -296,17 +302,17 @@
                 <div class="sidebar-box search-form-wrap">
                     <form action="#" class="search-form">
                         <div class="form-group">
-                            <span class="icon fa fa-search"></span> <input type="text"
-                                                                           class="form-control" id="s"
-                                                                           placeholder="Type a keyword and hit enter">
+                            <span class="icon fa fa-search"></span> <input
+									type="text" class="form-control" id="s"
+									placeholder="Type a keyword and hit enter">
                         </div>
                     </form>
                 </div>
                 <!-- END sidebar-box -->
                 <div class="sidebar-box">
                     <div class="bio text-center">
-                        <img src="/images/person_2.jpg" alt="Image Placeholder"
-                             class="img-fluid mb-5">
+                        <img src="/images/person_2.jpg"
+								alt="Image Placeholder" class="img-fluid mb-5">
                         <div class="bio-body">
                             <h2>Craig David</h2>
                             <p class="mb-4">Lorem ipsum dolor sit amet, consectetur
@@ -314,13 +320,18 @@
                                 excepturi beatae porro debitis voluptate nulla quo veniam fuga
                                 sit molestias minus.</p>
                             <p>
-                                <a href="#" class="btn btn-primary btn-sm rounded px-4 py-2">Read my bio</a>
+                                <a href="#"
+										class="btn btn-primary btn-sm rounded px-4 py-2">Read my bio</a>
                             </p>
                             <p class="social">
-                                <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                                <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                                <a href="#" class="p-2"><span class="fa fa-instagram"></span></a>
-                                <a href="#" class="p-2"><span class="fa fa-youtube-play"></span></a>
+                                <a href="#" class="p-2"><span
+										class="fa fa-facebook"></span></a>
+                                <a href="#" class="p-2"><span
+										class="fa fa-twitter"></span></a>
+                                <a href="#" class="p-2"><span
+										class="fa fa-instagram"></span></a>
+                                <a href="#" class="p-2"><span
+										class="fa fa-youtube-play"></span></a>
                             </p>
                         </div>
                     </div>
@@ -330,8 +341,8 @@
                     <h3 class="heading">Popular Posts</h3>
                     <div class="post-entry-sidebar">
                         <ul>
-                            <li><a href=""> <img src="/images/img_1.jpg"
-                                                 alt="Image placeholder" class="mr-4">
+                            <li><a href=""> <img
+										src="/images/img_1.jpg" alt="Image placeholder" class="mr-4">
                                 <div class="text">
                                     <h4>There’s a Cool New Way for Men to Wear Socks and
                                         Sandals</h4>
@@ -340,8 +351,8 @@
                                     </div>
                                 </div>
                             </a></li>
-                            <li><a href=""> <img src="/images/img_2.jpg"
-                                                 alt="Image placeholder" class="mr-4">
+                            <li><a href=""> <img
+										src="/images/img_2.jpg" alt="Image placeholder" class="mr-4">
                                 <div class="text">
                                     <h4>There’s a Cool New Way for Men to Wear Socks and
                                         Sandals</h4>
@@ -350,8 +361,8 @@
                                     </div>
                                 </div>
                             </a></li>
-                            <li><a href=""> <img src="/images/img_3.jpg"
-                                                 alt="Image placeholder" class="mr-4">
+                            <li><a href=""> <img
+										src="/images/img_3.jpg" alt="Image placeholder" class="mr-4">
                                 <div class="text">
                                     <h4>There’s a Cool New Way for Men to Wear Socks and
                                         Sandals</h4>
@@ -413,9 +424,10 @@
         <div class="row align-items-stretch retro-layout">
 
             <div class="col-md-5 order-md-2">
-                <a href="single.html" class="hentry img-1 h-100 gradient"
-                   style="background-image: url('/images/img_4.jpg');"> <span
-                        class="post-category text-white bg-danger">Travel</span>
+                <a href="single.html"
+						class="hentry img-1 h-100 gradient"
+						style="background-image: url('/images/img_4.jpg');"> <span
+						class="post-category text-white bg-danger">Travel</span>
                     <div class="text">
                         <h2>The 20 Biggest Fintech Companies In America 2019</h2>
                         <span>February 12, 2019</span>
@@ -425,9 +437,10 @@
 
             <div class="col-md-7">
 
-                <a href="single.html" class="hentry img-2 v-height mb30 gradient"
-                   style="background-image: url('/images/img_1.jpg');"> <span
-                        class="post-category text-white bg-success">Nature</span>
+                <a href="single.html"
+						class="hentry img-2 v-height mb30 gradient"
+						style="background-image: url('/images/img_1.jpg');"> <span
+						class="post-category text-white bg-success">Nature</span>
                     <div class="text text-sm">
                         <h2>The 20 Biggest Fintech Companies In America 2019</h2>
                         <span>February 12, 2019</span>
@@ -435,17 +448,18 @@
                 </a>
 
                 <div class="two-col d-block d-md-flex">
-                    <a href="single.html" class="hentry v-height img-2 gradient"
-                       style="background-image: url('/images/img_2.jpg');"> <span
-                            class="post-category text-white bg-primary">Sports</span>
+                    <a href="single.html"
+							class="hentry v-height img-2 gradient"
+							style="background-image: url('/images/img_2.jpg');"> <span
+							class="post-category text-white bg-primary">Sports</span>
                         <div class="text text-sm">
                             <h2>The 20 Biggest Fintech Companies In America 2019</h2>
                             <span>February 12, 2019</span>
                         </div>
                     </a> <a href="single.html"
-                            class="hentry v-height img-2 ml-auto gradient"
-                            style="background-image: url('/images/img_3.jpg');"> <span
-                        class="post-category text-white bg-warning">Lifestyle</span>
+							class="hentry v-height img-2 ml-auto gradient"
+							style="background-image: url('/images/img_3.jpg');"> <span
+							class="post-category text-white bg-warning">Lifestyle</span>
                     <div class="text text-sm">
                         <h2>The 20 Biggest Fintech Companies In America 2019</h2>
                         <span>February 12, 2019</span>
@@ -471,8 +485,8 @@
                         nostrum.</p>
                     <form action="#" class="d-flex">
                         <input type="text" class="form-control"
-                               placeholder="Enter your email address"> <input
-                            type="submit" class="btn btn-primary" value="Subscribe">
+								placeholder="Enter your email address"> <input
+								type="submit" class="btn btn-primary" value="Subscribe">
                     </form>
                 </div>
             </div>
@@ -512,11 +526,12 @@
                 <div>
                     <h3 class="footer-heading mb-4">Connect With Us</h3>
                     <p>
-                        <a href="#"><span class="icon-facebook pt-2 pr-2 pb-2 pl-0"></span></a>
+                        <a href="#"><span
+								class="icon-facebook pt-2 pr-2 pb-2 pl-0"></span></a>
                         <a href="#"><span class="icon-twitter p-2"></span></a> <a
-                            href="#"><span class="icon-instagram p-2"></span></a> <a
-                            href="#"><span class="icon-rss p-2"></span></a> <a href="#"><span
-                            class="icon-envelope p-2"></span></a>
+								href="#"><span class="icon-instagram p-2"></span></a> <a
+								href="#"><span class="icon-rss p-2"></span></a> <a href="#"><span
+								class="icon-envelope p-2"></span></a>
                     </p>
                 </div>
             </div>
@@ -527,11 +542,13 @@
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     Copyright &copy;
                     <script>
-                        document.write(new Date().getFullYear());
-                    </script>
+																					document
+																							.write(new Date()
+																									.getFullYear());
+																				</script>
                     All rights reserved | This template is made with <i
-                        class="icon-heart text-danger" aria-hidden="true"></i> by <a
-                        href="https://colorlib.com" target="_blank">Colorlib</a>
+							class="icon-heart text-danger" aria-hidden="true"></i> by <a
+							href="https://colorlib.com" target="_blank">Colorlib</a>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </p>
             </div>

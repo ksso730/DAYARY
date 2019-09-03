@@ -112,8 +112,6 @@ public class MoimService {
 		people.setNo(peopleNo);
 		
 		MoimPeople moimPeople=new MoimPeople();
-		moimPeople.setMoim(moim);
-		moimPeople.setPeople(people);
 		
 		return moimpeopleRepository.save(moimPeople);
 		

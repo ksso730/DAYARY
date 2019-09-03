@@ -1,9 +1,9 @@
 package us.flower.dayary.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,18 +11,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -87,10 +84,14 @@ public class Moim {
     private String imageExtension;
 
     
-    // 모임 참여자 예정
-	@OneToMany(mappedBy = "moim")
-	@JsonIgnore
-	private List<MoimPeople> moimPeopleList=new ArrayList<>();
-
+//    // 모임 참여자 예정
+//	@OneToMany(mappedBy = "moim")
+//	@JsonIgnore
+//	private List<MoimPeople> moimPeopleList=new ArrayList<>();
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "MOIM_PEOPLE",
+               joinColumns = @JoinColumn(name = "MOIM_NO"),
+               inverseJoinColumns = @JoinColumn(name = "PEOPLE_NO"))
+    private List<People> peopleList;
 
 }
