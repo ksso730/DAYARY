@@ -149,11 +149,14 @@ public class MoimController {
 	}
 	
 	@PostMapping("/moimParticipant/{moimNo}")
-	public MoimPeople moimParticipant(@PathVariable("moimNo") long moimNo,HttpSession session) {
+	public String moimParticipant(@PathVariable("moimNo") long moimNo,HttpSession session) {
 		Long peopleNo = (Long) session.getAttribute("peopleNo");
 		
-		
-		return moimService.moimParticipant(peopleNo,moimNo);
+		Map<String,Object> returnData = new HashMap<String,Object>();
+		returnData.put("code","1");
+		returnData.put("message","모임가입완료:)");
+		moimService.moimParticipant(peopleNo,moimNo);
+		return "moim/moimDetail";
 	}
 	
 	@ResponseBody

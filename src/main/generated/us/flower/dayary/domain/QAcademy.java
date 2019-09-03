@@ -18,7 +18,6 @@ public class QAcademy extends EntityPathBase<Academy> {
 
 	private static final long serialVersionUID = 1639978625L;
 
-    public static int ide=1;
     
     public static final QAcademy academy = new QAcademy("academy"); 
 

@@ -84,14 +84,13 @@ public class Moim {
     private String imageExtension;
 
     
-//    // 모임 참여자 예정
-//	@OneToMany(mappedBy = "moim")
-//	@JsonIgnore
-//	private List<MoimPeople> moimPeopleList=new ArrayList<>();
+    // 모임 참여자 예정
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "MOIM_PEOPLE",
                joinColumns = @JoinColumn(name = "MOIM_NO"),
                inverseJoinColumns = @JoinColumn(name = "PEOPLE_NO"))
     private List<People> peopleList;
+
+
 
 }

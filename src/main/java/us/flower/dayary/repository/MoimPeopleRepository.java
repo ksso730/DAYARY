@@ -10,6 +10,8 @@ import us.flower.dayary.domain.MoimPeople;
 
 public interface MoimPeopleRepository extends JpaRepository<MoimPeople, Long>{
 
+	MoimPeople save(List<Long> param);
+
 
 //	@Query("select NEW us.flower.dayary.domain.People(p.id,p.name)"
 //			+ " from MoimPeople mp "

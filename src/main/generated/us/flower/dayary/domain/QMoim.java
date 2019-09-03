@@ -34,13 +34,13 @@ public class QMoim extends EntityPathBase<Moim> {
 
     public final StringPath intro = createString("intro");
 
-    public final ListPath<MoimPeople, QMoimPeople> moimPeopleList = this.<MoimPeople, QMoimPeople>createList("moimPeopleList", MoimPeople.class, QMoimPeople.class, PathInits.DIRECT2);
-
     public final NumberPath<Long> no = createNumber("no", Long.class);
 
     public final QPeople people;
 
     public final NumberPath<Integer> peopleLimit = createNumber("peopleLimit", Integer.class);
+
+    public final ListPath<People, QPeople> peopleList = this.<People, QPeople>createList("peopleList", People.class, QPeople.class, PathInits.DIRECT2);
 
     public final StringPath title = createString("title");
 

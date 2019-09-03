@@ -17,10 +17,13 @@ import us.flower.dayary.repository.MoimRepository;
 import us.flower.dayary.repository.PeopleRepository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -100,7 +103,7 @@ public class MoimService {
         return fileManager.getByteArray(moimImagePath+"/"+imageName);
     }
 
-	public MoimPeople moimParticipant(Long peopleNo, long moimNo) {
+	public MoimPeople moimParticipant(long peopleNo, long moimNo) {
 		System.out.println(peopleNo);
 		System.out.println("회원번호 들고오기!!!");
 		System.out.println(moimNo);
@@ -112,9 +115,10 @@ public class MoimService {
 		people.setNo(peopleNo);
 		
 		MoimPeople moimPeople=new MoimPeople();
+		moimPeople.setMoim(moim);
+		moimPeople.setPeople(people);
 		
 		return moimpeopleRepository.save(moimPeople);
-		
 	}
 
 }
