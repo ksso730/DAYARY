@@ -11,6 +11,10 @@ import us.flower.dayary.domain.MoimPeople;
 public interface MoimPeopleRepository extends JpaRepository<MoimPeople, Long>{
 
 
-	@Query("select p.id,p.name from MoimPeople mp inner join Moim m on mp.moim=m.no inner join People p on mp.people=p.no where m.no = ?1")
-	public List<MoimPeople> findByjoinmoimId(Long no);
+//	@Query("select NEW us.flower.dayary.domain.People(p.id,p.name)"
+//			+ " from MoimPeople mp "
+//			+ "inner join Moim m on mp.moim=m.no "
+//			+ "inner join People p on mp.people=p.no "
+//			+ "where m.no = ?1")
+//	public List<MoimPeople> findByjoinmoimId(Long no);
 }

@@ -11,6 +11,8 @@ import javax.persistence.*;
 @Entity
 @Table(name="MOIM_PEOPLE")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MoimPeople {
 
 

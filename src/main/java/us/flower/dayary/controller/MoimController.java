@@ -1,23 +1,27 @@
 package us.flower.dayary.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import us.flower.dayary.domain.Category;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.repository.MoimPeopleRepository;
 import us.flower.dayary.service.MoimService;
-
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class MoimController {
@@ -115,8 +119,7 @@ public class MoimController {
         Long people_no = (Long) session.getAttribute("peopleNo");//일반회원 번호를 던져준다.참가를 위해 
         session.setAttribute("people_no", people_no);
         //model.addAttribute("moimDetail",moimDetail);
-        List<MoimPeople> moimpeopleList=moimpeopleRepository.findByjoinmoimId(no);
-        model.addAttribute("moimpeopleList",moimpeopleList);
+        //model.addAttribute("moimpeopleList",moimpeopleList);
         return "moim/moimDetail"; 
     }
     

@@ -56,14 +56,14 @@ public class DayaryApplicationTests {
     @Test
 	@Transactional
     public void selectMoim() throws JsonProcessingException {
-		Optional<Moim> moim = moimRepository.findById((long) 4);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		ObjectMapper mapper = new ObjectMapper();
-		String json4PrettyString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(moim.get());//출력이쁘게
-		System.out.println(json4PrettyString);
-
-		System.out.println();
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//		Optional<Moim> moim = moimRepository.findById((long) 4);
+//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//		ObjectMapper mapper = new ObjectMapper();
+//		String json4PrettyString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(moim.get());//출력이쁘게
+//		System.out.println(json4PrettyString);
+//
+//		System.out.println();
+//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
     }
 }

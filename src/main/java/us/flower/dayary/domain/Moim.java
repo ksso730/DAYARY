@@ -32,7 +32,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "MOIM")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Moim {
