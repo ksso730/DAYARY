@@ -27,7 +27,7 @@ import java.util.Set;
 
 @Service
 @Transactional
-public class MoimService {
+public class MoimServiceImpl implements moimService{
 
 	@Value("${moimImagePath}")
 	private String moimImagePath;
@@ -104,10 +104,6 @@ public class MoimService {
     }
 
 	public MoimPeople moimParticipant(long peopleNo, long moimNo) {
-		System.out.println(peopleNo);
-		System.out.println("회원번호 들고오기!!!");
-		System.out.println(moimNo);
-		
 		Moim moim=new Moim();
 		moim.setNo(moimNo);
 		
@@ -120,5 +116,8 @@ public class MoimService {
 		
 		return moimpeopleRepository.save(moimPeople);
 	}
+
+	
+
 
 }

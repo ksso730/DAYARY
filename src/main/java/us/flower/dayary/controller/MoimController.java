@@ -20,20 +20,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import us.flower.dayary.domain.Moim;
-import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.MoimPeopleRepository;
 import us.flower.dayary.repository.MoimRepository;
-import us.flower.dayary.service.MoimService;
+import us.flower.dayary.service.moimService;
+
+
 
 @Controller
 public class MoimController {
 
     @Autowired
-    private MoimService moimService;
+    private moimService moimService;
 
     @Autowired
     MoimPeopleRepository moimpeopleRepository;
+	@Autowired
+	MoimRepository moimRepository;
     
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
     
@@ -105,8 +108,7 @@ public class MoimController {
         }
         return returnData;
     }
-	@Autowired
-	MoimRepository moimRepository;
+
     /**
      * 모임 디테일 출력
      *
@@ -122,11 +124,10 @@ public class MoimController {
         moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));
         Long people_no = (Long) session.getAttribute("peopleNo");//일반회원 번호를 던져준다.참가를 위해 
         session.setAttribute("people_no", people_no);
-        //model.addAttribute("moimDetail",moimDetail);
-        //model.addAttribute("moimpeopleList",moimpeopleList);
+
         Optional<Moim> moim=moimRepository.findById(no);
         List<People> moimpeopleList=moim.get().getPeopleList();
-        System.out.println(moimpeopleList.toString());
+        
         model.addAttribute("moimpeopleList",moimpeopleList);
         return "moim/moimDetail"; 
     }
@@ -147,16 +148,25 @@ public class MoimController {
 		model.addAttribute("moimList", moimList);
 		return "moim/moimList";
 	}
-	
+	/**
+	 * 일반회원 모임 참가 
+	 *
+	 * @param locale
+	 * @param Moim
+	 * @return returnData
+	 * @throws Exception
+	 * @author choiseongjun
+	 */
+	@ResponseBody
 	@PostMapping("/moimParticipant/{moimNo}")
-	public String moimParticipant(@PathVariable("moimNo") long moimNo,HttpSession session) {
+	public Map<String, Object> moimParticipant(@PathVariable("moimNo") long moimNo,HttpSession session) {
 		Long peopleNo = (Long) session.getAttribute("peopleNo");
 		
 		Map<String,Object> returnData = new HashMap<String,Object>();
 		returnData.put("code","1");
 		returnData.put("message","모임가입완료:)");
 		moimService.moimParticipant(peopleNo,moimNo);
-		return "moim/moimDetail";
+		return returnData;
 	}
 	
 	@ResponseBody
