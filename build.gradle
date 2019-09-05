@@ -63,7 +63,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 // querydsl 적용
-def querydslSrcDir = 'src/main/generated'
+def querydslSrcDir = 'us.flower.dayary.domain.querydsl'
 
 querydsl {
     library = "com.querydsl:querydsl-apt"

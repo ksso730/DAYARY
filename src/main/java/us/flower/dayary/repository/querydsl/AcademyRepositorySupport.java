@@ -1,6 +1,6 @@
 package us.flower.dayary.repository.querydsl;
 
-import static us.flower.dayary.domain.queryDsl.QAcademy.academy;
+import static us.flower.dayary.domain.querydsl.QAcademy.academy;
 
 import java.util.List;
 

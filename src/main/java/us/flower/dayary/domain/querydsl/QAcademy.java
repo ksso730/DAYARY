@@ -1,4 +1,4 @@
-package us.flower.dayary.domain.queryDsl;
+package us.flower.dayary.domain.querydsl;
 
 import static com.querydsl.core.types.PathMetadataFactory.forVariable;
 
