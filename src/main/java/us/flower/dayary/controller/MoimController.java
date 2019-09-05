@@ -121,14 +121,22 @@ public class MoimController {
     @GetMapping("/moimlistView/moimdetailView/{no}")
     public String moimDetailView(@PathVariable("no") long no, Model model,HttpSession session) {
       
+    	
+    	
         moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));
         Long people_no = (Long) session.getAttribute("peopleNo");//일반회원 번호를 던져준다.참가를 위해 
         session.setAttribute("people_no", people_no);
 
+       
+        
         Optional<Moim> moim=moimRepository.findById(no);
         List<People> moimpeopleList=moim.get().getPeopleList();
         
+        long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
         model.addAttribute("moimpeopleList",moimpeopleList);
+        model.addAttribute("checkPeople",checkPeople);
+        
+        System.out.println(checkPeople);
         return "moim/moimDetail"; 
     }
     

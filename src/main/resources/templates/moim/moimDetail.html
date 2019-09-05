@@ -69,17 +69,24 @@
 					</div>
 					<span th:text="${session.peopleNo}"></span>
 					<span th:text="${moimDetail.people.no}"></span>
-					<span th:text="${moimpepletb.MoimPeople.no}"></span>
-					<tr th:each="moimpepletb : ${moimpepletb}">
-						<td th:text="${moimpepletb.no}">
-					</tr>
-					<li th:if="${session.peopleNo}==${moimDetail.people.id}">
+					
+					<span th:text="${session.peopleNo!=null}">
+					<span th:text="${checkPeople}"></span>
+					</span>
+					<span th:if="${checkPeople}>=1">
+						<div id="signout_btn" class="row form-group">
+							<div class="col-md-12">
+								<div class="btn btn-primary py-2 px-4 text-white">모임 탈퇴</div>
+							</div>
+						</div>
+					</span>
+					<span th:if="${checkPeople}<1">
 						<div id="signup_btn" class="row form-group">
 							<div class="col-md-12">
 								<div class="btn btn-primary py-2 px-4 text-white">모임 참가</div>
 							</div>
 						</div>
-					</li>
+					</span>	
 					<!-- 여기서부터 회원리스트출력  -->
 					<hr>
 					<div class="container bootstrap snippet">

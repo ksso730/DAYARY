@@ -1,5 +1,7 @@
 package us.flower.dayary;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.repository.MoimPeopleRepository;
 import us.flower.dayary.repository.MoimRepository;
 
@@ -33,6 +36,5 @@ public class MoimTest {
 //	}
 	@Test
 	public void moimpeopleselect() {
-		moimRepository.findById(1L);
 	}
 }

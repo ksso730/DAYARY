@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import us.flower.dayary.domain.Academy;
 import us.flower.dayary.repository.AcademyRepository;
-import us.flower.dayary.repository.AcademyRepositorySupport;
+import us.flower.dayary.repository.querydsl.AcademyRepositorySupport;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,7 +24,7 @@ public class BasicTest {
     private AcademyRepository academyRepository;
 
     @Autowired
-    private AcademyRepositorySupport academyRepositorySupport;
+    AcademyRepositorySupport academyRepositorySupport;
 
     @After
     public void tearDown() throws Exception {
@@ -32,7 +32,7 @@ public class BasicTest {
     }
 
     @Test
-    public void querydsl_기본_기능_확인() {
+    public void querydsl_Test() {
         //given
         String name = "jojoldu";
         String address = "jojoldu@gmail.com";

@@ -1,12 +1,16 @@
-package us.flower.dayary.domain;
+package us.flower.dayary.domain.queryDsl;
 
-import static com.querydsl.core.types.PathMetadataFactory.*;
+import static com.querydsl.core.types.PathMetadataFactory.forVariable;
 
-import com.querydsl.core.types.dsl.*;
-
-import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
+
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.PathMetadata;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.StringPath;
+
+import us.flower.dayary.domain.Academy;
 
 
 /**
@@ -15,11 +19,9 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.EntitySerializer")
 public class QAcademy extends EntityPathBase<Academy> {
 
+    private static final long serialVersionUID = 1639978625L;
 
-	private static final long serialVersionUID = 1639978625L;
-
-    
-    public static final QAcademy academy = new QAcademy("academy"); 
+    public static final QAcademy academy = new QAcademy("academy");
 
     public final StringPath address = createString("address");
 
