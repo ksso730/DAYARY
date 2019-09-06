@@ -19,6 +19,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    querydsl.extendsFrom compileClasspath
 }
 
 repositories {
@@ -27,7 +28,6 @@ repositories {
 
 
 dependencies {
- def querydslVersion = "4.1.4"
     //file upload related io 파일 바이트코드로 바꾸기[IOUtils]
     implementation 'commons-io:commons-io:2.6'
     //UNDERTOW
@@ -49,11 +49,11 @@ dependencies {
     //lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-	
-	
-	compile ("com.querydsl:querydsl-core:$querydslVersion")
-    compile ("com.querydsl:querydsl-apt:$querydslVersion")
-    compile ("com.querydsl:querydsl-jpa:$querydslVersion")
+
+    def querydslVersion = "4.1.4"
+    implementation ("com.querydsl:querydsl-core:$querydslVersion")
+    implementation ("com.querydsl:querydsl-apt:$querydslVersion")
+    implementation ("com.querydsl:querydsl-jpa:$querydslVersion")
 
     //spring-security
     //implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -73,10 +73,6 @@ querydsl {
 
 compileQuerydsl{
     options.annotationProcessorPath = configurations.querydsl
-}
-
-configurations {
-    querydsl.extendsFrom compileClasspath
 }
 
 sourceSets {
