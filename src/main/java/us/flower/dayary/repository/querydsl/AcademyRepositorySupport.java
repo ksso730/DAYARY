@@ -5,15 +5,14 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 import us.flower.dayary.domain.Academy;
-import us.flower.dayary.domain.QAcademy;
 
 import java.util.List;
+
+import static us.flower.dayary.domain.QAcademy.academy;
 
 @Repository
 public class AcademyRepositorySupport extends QuerydslRepositorySupport {
     private final JPAQueryFactory queryFactory;
-
-    QAcademy academy = QAcademy.academy;
 
     public AcademyRepositorySupport(JPAQueryFactory queryFactory) {
         super(Academy.class);
