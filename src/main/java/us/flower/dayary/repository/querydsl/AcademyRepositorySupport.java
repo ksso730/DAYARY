@@ -1,6 +1,5 @@
 package us.flower.dayary.repository.querydsl;
 
-import static us.flower.dayary.domain.querydsl.QAcademy.academy;
 
 import java.util.List;
 
@@ -20,11 +19,11 @@ public class AcademyRepositorySupport extends QuerydslRepositorySupport {
         super(Academy.class);
         this.queryFactory = queryFactory;
     }
-    public List<Academy> findByName(String name) {
-        return queryFactory
-                .selectFrom(academy)
-                .where(academy.name.eq(name))
-                .fetch();
-    }
+//    public List<Academy> findByName(String name) {
+//        return queryFactory
+//                .selectFrom(academy)
+//                .where(academy.name.eq(name))
+//                .fetch();
+//    }
 
 } 
