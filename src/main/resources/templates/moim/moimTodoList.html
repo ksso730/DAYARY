@@ -14,6 +14,8 @@
     height:40px;
 }
     </style>
+    <css th:replace="layout/header::moimDetailsubmenu" />
+<div th:replace="moim/moimDetailsubmenu::moimDetailsubmenu" />
 </head>
 <body>
 <div th:replace="layout/header::header"/>
@@ -538,6 +540,6 @@
         </div>
     </div>
 </div>
-
+<script src="/js/moim/moimDetailsubmenu.js"></script>
 </body>
 </html>
