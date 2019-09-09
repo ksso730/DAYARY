@@ -1,159 +1,179 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<css th:fragment="headerCss">
-<link rel="stylesheet" href="/fonts/icomoon/style.css">
-<link rel="stylesheet" href="/css/bootstrap.min.css">
-<link rel="stylesheet" href="/css/magnific-popup.css">
-<link rel="stylesheet" href="/css/jquery-ui.css">
-<link rel="stylesheet" href="/css/owl.carousel.min.css">
-<link rel="stylesheet" href="/css/owl.theme.default.min.css">
-<link rel="stylesheet" href="/css/bootstrap-datepicker.css">
-<link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css">
-<link rel="stylesheet" href="/css/aos.css">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/headernav.css">
-<style>
+    <head>
+        <meta charset="UTF-8">
+        <title>Insert title here</title>
+        <css th:fragment="headerCss">
+            <link rel="stylesheet" href="/fonts/icomoon/style.css">
+            <link rel="stylesheet" href="/css/bootstrap.min.css">
+            <link rel="stylesheet" href="/css/magnific-popup.css">
+            <link rel="stylesheet" href="/css/jquery-ui.css">
+            <link rel="stylesheet" href="/css/owl.carousel.min.css">
+            <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+            <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
+            <link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css">
+            <link rel="stylesheet" href="/css/aos.css">
+            <link rel="stylesheet" href="/css/style.css">
+            <link rel="stylesheet" href="/css/headernav.css">
+            <style>
 
-</style>
-</head>
-<body>
-	<div th:fragment="header">
-		<div class="site-mobile-menu">
-			<div class="site-mobile-menu-header">
-				<div class="site-mobile-menu-close mt-3">
-					<span class="icon-close2 js-menu-toggle"></span>
-				</div>
-			</div>
-			<div class="site-mobile-menu-body"></div>
-		</div>
+            </style>
+            </head>
+    <body>
+        <div th:fragment="header">
+            <div class="site-mobile-menu">
+                <div class="site-mobile-menu-header">
+                    <div class="site-mobile-menu-close mt-3">
+                        <span class="icon-close2 js-menu-toggle"></span>
+                    </div>
+                </div>
+                <div class="site-mobile-menu-body"></div>
+            </div>
 
-		<header class="site-navbar" role="banner">
-			<div class="container-fluid">
-				<div class="row align-items-center">
-					<div class="col-12 search-form-wrap js-search-form">
-						<form method="get" action="#">
-							<input type="text" id="s" class="form-control"
-								placeholder="Search...">
-							<button class="search-btn" type="submit">
-								<span class="icon-search"></span>
-							</button>
-						</form>
-					</div>
+            <header class="site-navbar" role="banner">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-12 search-form-wrap js-search-form">
+                            <form method="get" action="#">
+                                <input type="text" id="s" class="form-control"
+                                       placeholder="Search...">
+                                <button class="search-btn" type="submit">
+                                    <span class="icon-search"></span>
+                                </button>
+                            </form>
+                        </div>
 
-					<div class="col-4 site-logo">
-						<a href="/" class="text-black h2 mb-0">Study 찾기</a>
-					</div>
+                        <div class="col-4 site-logo">
+                            <a href="/" class="text-black h2 mb-0">Study 찾기</a>
+                        </div>
 
-					<div class="col-8 text-right">
-						<nav class="site-navigation" role="navigation">
-							<ul class="site-menu js-clone-nav mr-auto d-none d-lg-block mb-0">
-								<li><a href="/">Home</a></li>
-								<li><a href="/moimlistView">모임 보러가기</a></li>
-								<li><a href="/community/communityList">커뮤니티</a></li>
-								<li th:if="${session.peopleNo!=null}"><a
-									href="/moimMakeView">모임 만들기</a></li>
-								<li th:if="${session.peopleNo==null}"><a href="/signupView">회원가입</a>
-								</li>
-								<li th:if="${session.peopleNo==null}"><a href="/signinView">로그인
-								</a></li>
-								<li th:if="${session.peopleNo!=null}"><a href="/logout">로그아웃</a>
-								</li>
-								<li th:if="${session.peopleNo!=null}">
-									<a class="notification" id="notishow"> <span>Inbox</span> <span
-										class="badge">3</span>
-									</a>	
-								</li>
+                        <div class="col-8 text-right">
+                            <nav class="site-navigation" role="navigation">
+                                <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block mb-0">
+                                    <li>
+                                        <a href="/">Home</a>
+                                    </li>
+                                    <li>
+                                        <a href="/moimlistView">모임 보러가기</a>
+                                    </li>
+                                    <li>
+                                        <a href="/community/communityList">커뮤니티</a>
+                                    </li>
+                                    <li th:if="${session.peopleNo!=null}">
+                                        <a href="/moimMakeView">모임 만들기</a>
+                                    </li>
+                                    <li th:if="${session.peopleNo==null}">
+                                        <a href="/signupView">회원가입</a>
+                                    </li>
+                                    <li th:if="${session.peopleNo==null}">
+                                        <a href="/signinView">로그인</a>
+                                    </li>
+                                    <li th:if="${session.peopleNo!=null}">
+                                        <a href="/logout">로그아웃</a>
+                                    </li>
+                                    <li th:if="${session.peopleNo!=null}">
+                                        <div class="notification notishow">
+                                            <span>Inbox</span>
+                                            <span class="badge">3</span>
+                                        </div>
+                                    </li>
 
-								<li class="d-none d-lg-inline-block"><a href="#"
-									class="js-search-toggle"> <span class="icon-search"></span>
-								</a></li>
-							</ul>
-							
-						</nav>
-						<a href="#"
-							class="site-menu-toggle js-menu-toggle text-black d-inline-block d-lg-none">
-							<span class="icon-menu h3"></span>
-						</a>
-					</div>
-				</div>
-			</div>
-		</header>
-		
-		<!-- 알림창  by choiseongjun-->
-	<div id="notilist">
-		<main role="main" class="container bootdey.com">
-		  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-blue rounded box-shadow">
-		    <img class="mr-3" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" width="48" height="48">
-		    <div class="lh-100">
-		      <h6 class="mb-0 text-white lh-100">John Doe</h6>
-		      <small>Messages</small>
-		    </div>
-		  </div>
-		
-		  <div class="my-3 p-3 bg-white rounded box-shadow">
-		    <h6 class="border-bottom border-gray pb-2 mb-0">알림 목록(인박스 누르면 show hide하고 okky처럼 알림창보이게하기)</h6>
-		    <div class="media text-muted pt-3">
-		      <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="mr-2 rounded" width="32" height="32">
-		      <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-		        <strong class="d-block text-gray-dark">@username</strong>
-		        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-		      </p>
-		    </div>
-		    <div class="media text-muted pt-3">
-		      <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="" class="mr-2 rounded" width="32" height="32">
-		      <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-		        <strong class="d-block text-gray-dark">@username</strong>
-		        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-		      </p>
-		    </div>
-		    <div class="media text-muted pt-3">
-		      <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="mr-2 rounded" width="32" height="32">
-		      <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-		        <strong class="d-block text-gray-dark">@username</strong>
-		        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-		      </p>
-		    </div>
-		    <div class="media text-muted pt-3">
-		      <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="" class="mr-2 rounded" width="32" height="32">
-		      <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-		        <strong class="d-block text-gray-dark">@username</strong>
-		        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-		      </p>
-		    </div>
-		    <small class="d-block text-right mt-3">
-		      <a href="#">All messages</a>
-		    </small>
-		  </div>
-		</main>
-	</div>
-<!-- 알림창끝 -->
-		
-		
-		
-		
-		<script src="/js/jquery-3.3.1.min.js"></script>
-		<script src="/js/jquery-migrate-3.0.1.min.js"></script>
-		<script src="/js/jquery-ui.js"></script>
-		<script src="/js/popper.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
-		<script src="/js/owl.carousel.min.js"></script>
-		<script src="/js/jquery.stellar.min.js"></script>
-		<script src="/js/jquery.countdown.min.js"></script>
-		<script src="/js/jquery.magnific-popup.min.js"></script>
-		<script src="/js/bootstrap-datepicker.min.js"></script>
-		<script src="/js/aos.js"></script>
-		<script src="/js/main.js"></script>
-		<!-- 알림창스크립트임시로 박아놓음 나중에 js폴더로 관리할것 by choiseongjun -->
-		<script>
-		$(document).ready(function(){
-			  $("#notishow").click(function(){
-			    $("#notilist").toggle();
-			  });
-			});
-		</script>
-	</div>
-</body>
+                                    <li class="d-none d-lg-inline-block">
+                                        <a href="#" class="js-search-toggle">
+                                            <span class="icon-search"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </nav>
+                            <a href="#" class="site-menu-toggle js-menu-toggle text-black d-inline-block d-lg-none">
+                                <span class="icon-menu h3"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 알림창  by choiseongjun-->
+            <div id="notilist">
+                <main role="main" class="container bootdey.com">
+                    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-blue rounded box-shadow">
+                        <img class="mr-3" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" width="48" height="48">
+                        <div class="lh-100">
+                            <h6 class="mb-0 text-white lh-100">John Doe</h6>
+                            <small>Messages</small>
+                        </div>
+                    </div>
+
+                    <div class="my-3 p-3 bg-white rounded box-shadow">
+                        <h6 class="border-bottom border-gray pb-2 mb-0">알림 목록(인박스 누르면 show hide하고 okky처럼 알림창보이게하기)</h6>
+                        <div class="media text-muted pt-3">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="mr-2 rounded"
+                                 width="32" height="32">
+                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                <strong class="d-block text-gray-dark">@username</strong>
+                                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus
+                                commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+                            </p>
+                        </div>
+                        <div class="media text-muted pt-3">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="" class="mr-2 rounded"
+                                 width="32" height="32">
+                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                <strong class="d-block text-gray-dark">@username</strong>
+                                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus
+                                commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+                            </p>
+                        </div>
+                        <div class="media text-muted pt-3">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="mr-2 rounded"
+                                 width="32" height="32">
+                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                <strong class="d-block text-gray-dark">@username</strong>
+                                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus
+                                commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+                            </p>
+                        </div>
+                        <div class="media text-muted pt-3">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="" class="mr-2 rounded"
+                                 width="32" height="32">
+                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                <strong class="d-block text-gray-dark">@username</strong>
+                                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus
+                                commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+                            </p>
+                        </div>
+                        <small class="d-block text-right mt-3">
+                            <a href="#">All messages</a>
+                        </small>
+                    </div>
+                </main>
+            </div>
+            <!-- 알림창끝 -->
+
+
+            <script src="/js/jquery-3.3.1.min.js"></script>
+            <script src="/js/jquery-migrate-3.0.1.min.js"></script>
+            <script src="/js/jquery-ui.js"></script>
+            <script src="/js/popper.min.js"></script>
+            <script src="/js/bootstrap.min.js"></script>
+            <script src="/js/owl.carousel.min.js"></script>
+            <script src="/js/jquery.stellar.min.js"></script>
+            <script src="/js/jquery.countdown.min.js"></script>
+            <script src="/js/jquery.magnific-popup.min.js"></script>
+            <script src="/js/bootstrap-datepicker.min.js"></script>
+            <script src="/js/aos.js"></script>
+            <script src="/js/main.js"></script>
+            <!-- 알림창스크립트임시로 박아놓음 나중에 js폴더로 관리할것 by choiseongjun -->
+            <script>
+                $(document).ready(function () {
+                    $(".notishow").click(function (e) {
+						e.stopPropagation();
+						e.preventDefault();
+                        $("#notilist").toggle();
+                    });
+                });
+            </script>
+        </div>
+    </body>
 </html>
