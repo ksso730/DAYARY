@@ -1,78 +1,82 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <css th:replace="layout/header::headerCss"/>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<css th:replace="layout/header::headerCss" />
 </head>
 <body>
-<div th:replace="layout/header::header"/>
-<div class="py-5 bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <span>Category</span>
-                <h3>Sports</h3>
-                <p>여기서 나중에 카테고리별 분류할 예정 (지역별,주제별 ,밑에는 모임리스트)</p>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="site-section bg-white">
-    <div class="container">
-        <div class="row">
-            <tr th:each="moimList,x : ${moimList}">
+	<div th:replace="layout/header::header" />
+	<div class="py-5 bg-light">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<span>Category</span>
+					<h3>Sports</h3>
+					<p>여기서 나중에 카테고리별 분류할 예정 (지역별,주제별 ,밑에는 모임리스트)</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="site-section bg-white">
+		<div class="container">
+			<div class="row">
+				<tr th:each="moimList,x : ${moimList}">
 
-                <div class="col-lg-4 mb-4">
-                    <div class="entry2">
-                        <a href="/moimdetailView"><img th:src="${'/getMoimImage/'+moimList.imageName+'.'+moimList.imageExtension}" alt="Image" class="img-fluid rounded"></a>
-                        <div class="excerpt">
-                            <span class="post-category text-white bg-secondary mb-3">나중에 카테고리 넣는곳 </span>
+					<div class="col-lg-4 mb-4">
+						<div class="entry2">
+							<a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
+								<img
+								th:src="${'/getMoimImage/'+moimList.imageName+'.'+moimList.imageExtension}"
+								alt="Image" class="img-fluid rounded">
+							</a>
+							<div class="excerpt">
+								<span class="post-category text-white bg-secondary mb-3">나중에
+									카테고리 넣는곳 </span>
 
-                            <h2>
-                                <a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
-                                    <td th:text="${moimList.title}">
-                                </a>
-                            </h2>
-                            <div class="post-meta align-items-center text-left clearfix">
+								<h2>
+									<a
+										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
+										<td th:text="${moimList.title}">
+									</a>
+								</h2>
+								<div class="post-meta align-items-center text-left clearfix">
 
-                                <figure class="author-figure mb-0 mr-3 float-left"><img src="images/person_1.jpg"
-                                                                                        alt="Image" class="img-fluid">
-                                </figure>
-                                <span class="d-inline-block mt-1">By <a href="#"><td
-                                        th:text="${moimList.people.id}"></td></a></span>
-                                <span>&nbsp;-&nbsp; July 19, 2019</span>
-                            </div>
+									<figure class="author-figure mb-0 mr-3 float-left">
+										<img src="images/person_1.jpg" alt="Image" class="img-fluid">
+									</figure>
+									<span class="d-inline-block mt-1">By <a href="#"><td
+											th:text="${moimList.people.id}"></td></a></span> <span>&nbsp;-&nbsp;
+										July 19, 2019</span>
+								</div>
 
-                            <p>
-                            <td th:text="${moimList.intro}"/>
-                            </p>
-                            <p>
-                                <a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
-                                    Read More</a></p>
-                        </div>
-                    </div>
-                </div>
-            </tr>
-        </div>
-    </div>
-</div>
+								<p>
+									<td th:text="${moimList.intro}" />
+								</p>
+								<p>
+									<a
+										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
+										Read More</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</tr>
+			</div>
+		</div>
+	</div>
 
-</div>
-<div class="row text-center pt-5 border-top">
-    <div class="col-md-12">
-        <div class="custom-pagination">
-            <span>1</span>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <span>...</span>
-            <a href="#">15</a>
-        </div>
-    </div>
-</div>
-</div>
-</div>
+	</div>
+	<div class="row text-center pt-5 border-top">
+		<div class="col-md-12">
+			<div class="custom-pagination">
+				<span>1</span> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a>
+				<span>...</span> <a href="#">15</a>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
 
 
 </body>
