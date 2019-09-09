@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import us.flower.dayary.domain.Academy;
 
 import java.util.List;
-
+ 
 import static us.flower.dayary.domain.QAcademy.academy;
 
 @Repository

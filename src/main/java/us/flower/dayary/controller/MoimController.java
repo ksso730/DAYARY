@@ -40,6 +40,12 @@ public class MoimController {
     
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
     
+    @GetMapping("/moimDetail/moimPicture")
+    public String moimPicture() {
+    	
+    	return "moim/moimpictureList";
+    }
+    
     /**
      * 모임 카테고리 목록 조회
      *

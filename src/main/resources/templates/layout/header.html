@@ -51,8 +51,11 @@
                                     </li>
                                     <li>
                                         <a href="/moimlistView">모임 보러가기</a>
-                                    </li>
+                                    </li> 
                                     <li>
+                                        <a href="/community/communityList">커뮤니티</a>
+                                    </li>
+                                    <li th:if="${session.peopleNo!=null}">
                                         <a href="/moimMakeView">모임 만들기</a>
                                     </li>
                                     <li th:if="${session.peopleNo==null}">
@@ -64,9 +67,7 @@
                                     <li th:if="${session.peopleNo!=null}">
                                         <a href="/logout">로그아웃</a>
                                     </li>
-                                    <li>
-                                        <a href="category.html">Sports</a>
-                                    </li>
+                                 
                                     <li class="d-none d-lg-inline-block">
                                         <a href="#" class="js-search-toggle">
                                             <span class="icon-search"></span>
