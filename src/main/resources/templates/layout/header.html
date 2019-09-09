@@ -73,6 +73,9 @@
                                         <a href="/logout">로그아웃</a>
                                     </li>
                                     <li th:if="${session.peopleNo!=null}">
+                                        <a href="/myprofileView">내정보보기 </a>
+                                    </li>
+                                    <li th:if="${session.peopleNo!=null}">
                                         <div class="notification notishow">
                                             <span>Inbox</span>
                                             <span class="badge">3</span>

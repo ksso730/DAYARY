@@ -23,16 +23,42 @@ public class PeopleController {
 		this.peopleRepository=peopleRepository;
 		this.bcrypt=bcrypt;
 	}
-
+	/**
+     * 회원가입 뷰
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
 	@GetMapping("/signupView")
 	public String signupView() {
 		return "people/signup";
 	}
+	/**
+     * 로그인 뷰
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
 	@GetMapping("/signinView")
 	public String signinView() {
 		return "people/signin";
 	}
-
+	/**
+     * 내 정보 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
+	@GetMapping("/myprofileView")
+	public String myprofileView() {
+		return "people/myprofile";
+	}
 	@ResponseBody
 	@PostMapping("/signup")
 	public Map<String,Object> signup(@RequestBody People people){
