@@ -39,13 +39,46 @@ public class MoimController {
 	MoimRepository moimRepository;
     
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
-    
+    /**
+     * 모임 사진첩 목록 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
     @GetMapping("/moimDetail/moimPicture")
     public String moimPicture() {
     	
     	return "moim/moimpictureList";
     }
+    /**
+     * 모임 단체채팅방 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun 
+     */
+    @GetMapping("/moimDetail/moimChatroom")
+    public String moimChatroom() {
+    	
+    	return "moim/moimChatroom";
+    }
     
+    /**
+     * 모임 해야할일(ToDoList) 목록 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
+    @GetMapping("/moimDetail/moimTodoList")
+    public String moimTodoList() {
+    	
+    	return "moim/moimTodoList";
+    }
     /**
      * 모임 카테고리 목록 조회
      *
