@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class People {
-
+ 
 	@Id
 	@GeneratedValue
 	@Column(name="NO")

@@ -12,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Data
-@Builder
+@Builder 
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="CATEGORY")

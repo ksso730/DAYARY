@@ -80,6 +80,19 @@ public class MoimController {
     	return "moim/moimTodowrite";
     }
     /**
+     * 모임 해야할일(ToDoList)에서 달력  조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
+    @GetMapping("/moimDetail/moimTodoList/moimcalender")
+    public String moimcalender() {
+    	
+    	return "moim/moimCalender";
+    }
+    /**
      * 모임 해야할일(ToDoList) 현재목록  조회
      *
      * @param 
@@ -169,7 +182,7 @@ public class MoimController {
         Map<String, Object> returnData = new HashMap<String, Object>();
         String id = (String) session.getAttribute("peopleId");
         String subject = moim.getCategory().getSubject();
-
+ 
         if (id.equals(null) || id.equals("")) {
             returnData.put("code", "0");
             returnData.put("message", "로그인 후 이용해주세요");

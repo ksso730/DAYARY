@@ -67,7 +67,7 @@ public class MoimServiceImpl implements moimService{
 			//DB에 파일이름이 존재하지 않으면 moim domain에 set
         	if(!moimRepository.existsByImageName(imageName)){
 				moim.setImageName(imageName);
-				break;
+				break; 
 			}
 		}
 
