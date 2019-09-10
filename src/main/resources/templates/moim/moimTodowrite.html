@@ -1,140 +1,75 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <css th:replace="layout/header::headerCss"/>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<css th:replace="layout/header::headerCss" />
+<link th:href="@{/css/moim/moimTodowrite.css}" rel="stylesheet" />
 </head>
-<body onload="initMoimMake();">
-<div th:replace="layout/header::header"/>
-<div class="site-wrap">
-    <div class="site-mobile-menu">
-        <div class="site-mobile-menu-header">
-            <div class="site-mobile-menu-close mt-3">
-                <span class="icon-close2 js-menu-toggle"></span>
-            </div>
-        </div>
-        <div class="site-mobile-menu-body"></div>
-    </div>
+<div th:replace="layout/header::header" />
 
+<div class="container">
+	<div class="row">
 
-
-
-    <div class="site-section bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-7 mb-5">
-
-                    <form id="moim_make_from" class="p-5 bg-white">
-
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <label class="text-black">계획 제목 </label> <input
-                                    type="text" name="title" id="title" placeholder="모임이름을 입력하세요" class="form-control">
-                            </div>
-
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-md-6">
-                                <label class="text-black">계획 목표량(테이블그리드 갯수대로최고로 잡기??일단 보류)</label> <input
-                                    type="text" name="peopleLimit" id="peopleLimit" class="form-control"
-                                    placeholder="2~999 입력">
-                            </div>
-                        </div>
-						시작일=<input type="text" name="date" id="from_date" size="12" />달력넣기
-						종료일=<input type="text" name="date" id="to_date" size="12" />
-                       
-
-                    <h1>일정계획 세우기</h1>
-
-					<div class="container">
-					    <div class="row">
-					      <div class="table-responsive">
-					        <table class="table table-hover">
-					          <thead>
-					            <tr>
-					              <th>순번</th>
-					              <th>해야할일</th>
-					            </tr>
-					          </thead>
-					          <tbody id="myTable">
-					            <tr>
-					              <td>1</td>
-					              <td>Table cell</td>
-					              <td>(x) 생기게하기(한 행 빼는것)</td>
-					            </tr>
-					            <tr>
-					              <td>2</td>
-					              <td>Table cell</td>
-					            </tr>
-					            <tr>
-					              <td>3</td>
-					              <td>Table cell</td>
-					            </tr>
-					            <tr>
-					              <td>4</td>
-					              <td>Table cell</td>
-					            </tr>
-					          
-					          </tbody>
-					        </table>   
-					        <button>게획 추가(누르면 그리드 갯수 늘림)</button>
-					      </div>
-					      <div class="col-md-12 text-center">
-					      <ul class="pagination pagination-lg pager" id="myPager"></ul>
-					      </div>
+		<p></p>
+		<h1>일정 계획 세우기</h1>
+		<input type="text" name="title" id="title"
+			placeholder="일정이름을 입력하세요 ex)공부계획" class="form-control">
+		<div class="col-md-10 col-md-offset-1">
+			시작일=<input type="text" name="date" id="from_date" size="12" />달력넣기
+			종료일=<input type="text" name="date" id="to_date" size="12" />
+			<div class="panel panel-default panel-table">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col col-xs-6">
+							<h3 class="panel-title">해야할 일 적기</h3>
 						</div>
-					</div>					      
-					      
-					      
-					      
 
-                        <div id="moimMake_btn" class="row form-group">
-                            <div class="col-md-12">
-                                <div class="btn btn-primary py-2 px-4 text-white">일정계획 작성</div>
-                            </div>
-                        </div>
+						<div class="col col-xs-6 text-right">
+							<button type="button" class="btn btn-sm btn-primary btn-create">Create
+								New</button>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<table class="table table-striped table-bordered table-list">
+						<thead>
+							<tr>
+								<th><em class="fa fa-cog"></em></th>
+								<th class="hidden-xs">순번</th>
+								<th>해야할일</th>
+								<th>요일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td align="center"><a class="btn btn-default"><em
+										class="fa fa-pencil"></em></a> <a class="btn btn-danger"><em
+										class="fa fa-trash"></em></a></td>
+								<td class="hidden-xs">1</td>
+								<td>영어단어 100개 외우기</td>
+								<td>월요일</td>
+							</tr>
+							<tr>
+								<td align="center"><a class="btn btn-default"><em
+										class="fa fa-pencil"></em></a> <a class="btn btn-danger"><em
+										class="fa fa-trash"></em></a></td>
+								<td class="hidden-xs">2</td>
+								<td>데이터베이스 공부하기</td>
+								<td>화요일 12시 30분</td>
+							</tr>
+						</tbody>
+					</table>
 
-                    </form>
-                </div>
+				</div>
 
-
-            </div>
-        </div>
-    </div>
-
-
-    <div class="site-footer">
-        <div class="container">
-            <div class="row mb-5">
-                <div class="col-md-4">
-                    <h3 class="footer-heading mb-4">About Us</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                        Placeat reprehenderit magnam deleniti quasi saepe, consequatur
-                        atque sequi delectus dolore veritatis obcaecati quae, repellat
-                        eveniet omnis, voluptatem in. Soluta, eligendi, architecto.</p>
-                </div>
-                <div class="col-md-3 ml-auto">
-                    <!-- <h3 class="footer-heading mb-4">Navigation</h3> -->
-                    <ul class="list-unstyled float-left mr-5">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Advertise</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Subscribes</a></li>
-                    </ul>
-                    <ul class="list-unstyled float-left">
-                        <li><a href="#">Travel</a></li>
-                        <li><a href="#">Lifestyle</a></li>
-                        <li><a href="#">Sports</a></li>
-                        <li><a href="#">Nature</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <script src="/js/moim/moimMake.js"></script>
-                </div>
-            </div>
-        </div>
-    </div>
+			</div>
+	<center><button type="button" class="btn btn-sm btn-primary btn-create">일정 계획 완료
+									</button></center>
+		</div>
+	</div>
 </div>
 </body>
 </html>
