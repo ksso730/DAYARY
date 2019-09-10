@@ -79,7 +79,19 @@ public class MoimController {
     	
     	return "moim/moimChatroom";
     }
-    
+    /**
+     * 모임 사진첩 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun 
+     */
+    @GetMapping("/moimDetail/moimPicture")
+    public String moimPicture() {
+    	
+    	return "moim/moimpictureList"; 
+    }
     /**
      * 모임 해야할일(ToDoList) 목록 조회
      *
