@@ -10,9 +10,38 @@
 </head>
 <body>
 <div th:replace="layout/header::header"/>
-<div th:replace="community/sidemenu::sidemenu"/>
+
 <div class="container">
+<div th:replace="community/sidemenu::sidemenu"/>
    <ul class="timeline">
+   <!-- 글쓰기 -->
+    <li>
+         <!-- begin timeline-time -->
+         <div class="timeline-time">
+            <span class="date">today</span>
+            <span class="time">04:20</span>
+         </div>
+         <!-- end timeline-time -->
+         <!-- begin timeline-icon -->
+         <div class="timeline-icon">
+            <a href="javascript:;">&nbsp;</a>
+         </div>
+         <!-- end timeline-icon -->
+         <!-- begin timeline-body -->
+         <div class="timeline-body">
+            <div class="timeline-header">
+               <span class="userimage"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""></span>
+               <span class="username"><a href="javascript:;">Choiseongjun</a> <small></small></span>
+            </div>
+            <div class="timeline-content">
+                	   <input type="text" class="form-control rounded-corner" placeholder="내용을 쓰세요">
+            </div>
+            
+              <button class="btn btn-primary f-s-12 rounded-corner" type="button">글쓰기</button>
+         </div>
+         <!-- end timeline-body -->
+      </li>
+   <!-- 글쓰기완료시점 -->
       <li>
          <!-- begin timeline-time -->
          <div class="timeline-time">
