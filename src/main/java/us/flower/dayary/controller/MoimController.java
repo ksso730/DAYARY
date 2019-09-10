@@ -53,19 +53,7 @@ public class MoimController {
     	
     	return "moim/moimtodostatusDetail";
     }
-	 /**
-     * 모임 일정관리 (ToDoList) 변경하기
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
-    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/moimupdatestatus")
-    public String moimupdatestatus() {
-    	 
-    	return "moim/moimupdatestatus";
-    }
+	
     /**
      * 모임 일정관리(ToDoList) 작성하기
      *
