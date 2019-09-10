@@ -18,7 +18,9 @@
         </css> 
         <css th:fragment="moimDetailsubmenu">  
           <link rel="stylesheet" href="/css/moim/moimDetailsubmenu.css">
+          
         </css>
+        
             </head>
     <body>
         <div th:fragment="header">
@@ -51,6 +53,7 @@
                         <div class="col-8 text-right">
                             <nav class="site-navigation" role="navigation">
                                 <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block mb-0">
+                              
                                     <li>
                                         <a href="/">Home</a>
                                     </li>
@@ -67,7 +70,8 @@
                                         <a href="/signupView">회원가입</a>
                                     </li>
                                     <li th:if="${session.peopleNo==null}">
-                                        <a href="/signinView">로그인</a>
+                                        <a href="/signinView">로그인
+                                        </a>
                                     </li>
                                     <li th:if="${session.peopleNo!=null}">
                                         <a href="/logout">로그아웃</a>
@@ -155,7 +159,7 @@
             </div>
             <!-- 알림창끝 -->
 
-
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
             <script src="/js/jquery-3.3.1.min.js"></script>
             <script src="/js/jquery-migrate-3.0.1.min.js"></script>
             <script src="/js/jquery-ui.js"></script>
