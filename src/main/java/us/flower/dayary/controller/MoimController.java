@@ -53,7 +53,19 @@ public class MoimController {
     	
     	return "moim/moimtodostatusDetail";
     }
-	
+    /**
+     * 모임 일정관리(ToDoList) 완료된것만 보기
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
+    @GetMapping("/moimDetail/moimTodoList/moimTodoListcompleted")
+    public String moimTodoListcompleted() {
+    	 
+    	return "moim/moimTodoListcompleted";
+    }
     /**
      * 모임 일정관리(ToDoList) 작성하기
      *

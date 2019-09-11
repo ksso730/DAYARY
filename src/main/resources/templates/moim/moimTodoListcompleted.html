@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <css th:replace="layout/header::headerCss"/>
+    <style>
+    </style>
+    <css th:replace="layout/header::moimDetailsubmenu" />
+<div th:replace="moim/moimDetailsubmenu::moimDetailsubmenu" />
+<style>
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: #555;
+  background: #ececec;
+  margin-top:20px;
+}
+
+.project-list > tbody > tr > td {
+  padding: 12px 8px;
+}
+
+.project-list > tbody > tr > td .avatar {
+  width: 22px;
+  border: 1px solid #CCC;
+}
+</style>
+
+
+</head>
+<body>
+<div th:replace="layout/header::header"/>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="container bootstrap snippet">
+    <div class="table-responsive">
+    	<!-- PROJECT TABLE -->
+    	<table class="table colored-header datatable project-list">
+    		<thead>
+    			<tr>
+    				<th>Title</th>
+    				<th>Date Start</th>
+    				<th>Days to Deadline</th>
+    				<th>Progress</th>
+    				<th>Priority</th>
+    				<th>Leader</th>
+    				<th>Status</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			
+    			<tr>
+    				<td><a href="#">Wordpress Theme</a></td>
+    				<td>05-10-2019</td>
+    				<td>09-10-2019</td>
+    				<td>
+    					<div class="progress">
+    						<div class="progress-bar progress-bar-default" data-transitiongoal="100" aria-valuenow="100" style="width: 100%;">100%</div>
+    					</div>
+    				</td>
+    				<td><span class="label label-default">MEDIUM</span></td>
+    				<td><img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Avatar" class="avatar"> <a href="#">Michael</a></td>
+    				<td><span class="label label-default">CLOSED</span></td>
+    			</tr>
+    			<tr>
+    				<td><a href="#">Wordpress Theme</a></td>
+    				<td>05-10-2014</td>
+    				<td>N/A</td>
+    				<td>
+    					<div class="progress">
+    						<div class="progress-bar progress-bar-default" data-transitiongoal="100" aria-valuenow="100" style="width: 100%;">100%</div>
+    					</div>
+    				</td>
+    				<td><span class="label label-default">MEDIUM</span></td>
+    				<td><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Avatar" class="avatar"> <a href="#">JASON</a></td>
+    				<td><span class="label label-default">CLOSED</span></td>
+    			</tr>
+    			<tr>
+    				<td><a href="#">Wordpress Theme</a></td>
+    				<td>05-10-2014</td>
+    				<td>N/A</td>
+    				<td>
+    					<div class="progress">
+    						<div class="progress-bar progress-bar-default" data-transitiongoal="100" aria-valuenow="100" style="width: 100%;">100%</div>
+    					</div>
+    				</td>
+    				<td><span class="label label-default">MEDIUM</span></td>
+    				<td><img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="Avatar" class="avatar"> <a href="#">JASON</a></td>
+    				<td><span class="label label-default">CLOSED</span></td>
+    			</tr>
+    		</tbody>
+    	</table>
+    	<!-- END PROJECT TABLE -->
+    		<a href="/moimDetail/moimTodoList">
+					<button type="button" class="btn btn-light waves-effect">목록으로
+						가기</button>
+				</a>
+    </div>
+</div>
+<script src="/js/moim/moimDetailsubmenu.js"></script>
+</body>
+</html>
