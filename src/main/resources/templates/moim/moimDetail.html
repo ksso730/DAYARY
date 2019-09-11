@@ -8,6 +8,18 @@
 <div th:replace="layout/header::header" />
 <div th:replace="moim/moimDetailsubmenu::moimDetailsubmenu" />
   <link th:href="@{/css/moim/moimDetail.css}" rel="stylesheet" />
+  <style>
+  .add-new-plus {
+    height: 32px;
+    text-align: center;
+    width: 32px;
+    line-height: 32px;
+    color: #98a6ad;
+    font-weight: 700;
+    background-color: #e3eaef;
+    border-radius: 50%
+}
+  </style>
 </head>
 <body>
 
@@ -234,7 +246,7 @@
 								<p>
 									<b>2019-09-10-19:20</b>
 								</p>
-								<p class="text-muted font-13 mb-0">참여자:</p>
+								<p class="text-muted font-13 mb-0">참여자 보기<span class="add-new-plus"><i class="fa fa-plus"></i></span></p>
 							</div>
 							<hr>
 							<div class="">

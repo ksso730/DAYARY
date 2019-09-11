@@ -139,69 +139,13 @@ p {
     margin: 3px 1px;
     border-radius: 3px;
 }
-/* 여기서부터 리스트 */
-/* Include the padding and border in an element's total width and height */
-* {
-  box-sizing: border-box;
-}
 
-/* Remove margins and padding from the list */
-ul {
-  margin: 0;
-  padding: 0;
-}
 
-/* Style the list items */
-ul li {
-  cursor: pointer;
-  position: relative;
-  padding: 12px 8px 12px 40px;
-  list-style-type: none;
-  background: #eee;
-  font-size: 18px;
-  transition: 0.2s;
-  
-  /* make the list items unselectable */
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Set all odd list items to a different color (zebra-stripes) */
-ul li:nth-child(odd) {
-  background: #f9f9f9;
-}
-
-/* Darker background-color on hover */
-ul li:hover {
-  background: #ddd;
-}
-
-/* When clicked on, add a background color and strike out text */
-ul li.checked {
-  background: #888;
-  color: #fff;
-  text-decoration: line-through;
-}
-
-/* Add a "checked" mark when clicked on */
-ul li.checked::before {
-  content: '';
-  position: absolute;
-  border-color: #fff;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  top: 10px;
-  left: 16px;
-  transform: rotate(45deg);
-  height: 15px;
-  width: 7px;
-}
 
 
     </style>
     <css th:replace="layout/header::moimDetailsubmenu" />
+    <link th:href="@{/css/moim/moimtodostatusDetail.css}" rel="stylesheet" /><!--할일목록체크박스리스트  -->
 <div th:replace="moim/moimDetailsubmenu::moimDetailsubmenu" />
 </head>
 <body>
@@ -219,6 +163,8 @@ ul li.checked::before {
                     </div>
                     <h2 class="m-b-20">게획 제목</h4>
                     <h4 class="m-b-20">계획내용.</h4>
+                  
+                  
                   	<ul id="myUL">
 					  <li>Hit the gym</li>
 					  <li class="checked">Pay bills</li>
@@ -227,6 +173,7 @@ ul li.checked::before {
 					  <li>Read a book</li>
 					  <li>Organize office</li>
 					</ul>
+                  
                     <ul class="list-inline task-dates m-b-0 mt-5">
                         <li>
                             <h5 class="m-b-5">시작 일자</h5>
@@ -273,8 +220,10 @@ ul li.checked::before {
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="text-right mt-4">
-                                    <button type="submit" class="btn btn-success waves-effect waves-light">Save</button>
-                                    <button type="button" class="btn btn-light waves-effect">Cancel</button>
+                                    <button type="submit" class="btn btn-success waves-effect waves-light">완료하기</button>
+                                    <a href="/moimDetail/moimTodoList/moimtodostatus">
+                                    	<button type="button" class="btn btn-light waves-effect">목록으로 가기</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -349,61 +298,16 @@ ul li.checked::before {
 </div>
 
 <script>
-// Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
-}
-
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
+// 할일목록에서 체크된거 ---표시하는것
+var list = document.querySelector('#myUL');
 list.addEventListener('click', function(ev) {
   if (ev.target.tagName === 'LI') {
     ev.target.classList.toggle('checked');
   }
 }, false);
 
-// Create a new list item when clicking on the "Add" button
-function newElement() {
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("myInput").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
-  if (inputValue === '') {
-    alert("You must write something!");
-  } else {
-    document.getElementById("myUL").appendChild(li);
-  }
-  document.getElementById("myInput").value = "";
 
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
-
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
-  }
-}
 </script>
 
 </body>
