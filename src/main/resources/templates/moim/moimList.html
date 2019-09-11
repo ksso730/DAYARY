@@ -4,6 +4,25 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <css th:replace="layout/header::headerCss" />
+<style>
+/* Style the buttons 카테고리리스트 styling*/
+.btn {
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ddd;
+}
+
+.btn.active {
+  background-color: #666;
+  color: white;
+}
+</style>
 </head>
 <body>
 	<div th:replace="layout/header::header" />
@@ -14,6 +33,12 @@
 					<span>Category</span>
 					<h3>Sports</h3>
 					<p>여기서 나중에 카테고리별 분류할 예정 (지역별,주제별 ,밑에는 모임리스트)</p>
+					<div id="myBtnContainer">
+					  <button class="btn active" onclick="filterSelection('all')"> 모든 주제 보기</button>
+					  <button class="btn" onclick="filterSelection('nature')"> 자율주제</button>
+					  <button class="btn" onclick="filterSelection('cars')"> 어학</button>
+					  <button class="btn" onclick="filterSelection('people')"> 프로그래밍</button>
+					</div>
 				</div>
 			</div>
 		</div>

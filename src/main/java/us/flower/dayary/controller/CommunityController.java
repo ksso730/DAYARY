@@ -6,10 +6,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class CommunityController {
 
-	
+	 /**
+     * 커뮤니티리스트 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
 	@GetMapping("/community/communityList")
 	public String CommunityView() {
 		
 		return "community/communityList";
+	}
+	 /**
+     * 커뮤니티리스트 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
+	@GetMapping("/community/studycafeList")
+	public String studcafeList() {
+		
+		return "community/studycafeList";
 	}
 }
