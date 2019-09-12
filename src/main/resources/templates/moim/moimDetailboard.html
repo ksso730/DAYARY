@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<css th:replace="layout/header::headerCss" />
+<style>
+/* Tab list start */
+body {
+	font-family: Arial;
+}
+
+/* Style the tab */
+.tab {
+	overflow: hidden;
+	border: 1px solid #ccc;
+	background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 16px;
+	transition: 0.3s;
+	font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+	background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+	background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+	display: none;
+	padding: 6px 12px;
+	border: 1px solid #ccc;
+	border-top: none;
+}
+</style>
+</head>
+<body>
+	<div th:replace="layout/header::header" />
+	<div class="content">
+		<div class="container">
+			<!-- Tab list start-->
+			<div class="tab">
+				<button class="tablinks" onclick="openCity(event, 'notice')">공지사항게시판</button>
+				<button class="tablinks" onclick="openCity(event, 'Paris')">가입인사및
+					자기소개 게시판</button>
+				<button class="tablinks" onclick="openCity(event, 'Tokyo')">자유게시판</button>
+			</div>
+
+			<div id="notice" class="tabcontent">
+				<div class="card-box">
+					<h4 class="header-title mb-3">
+						<center>
+							<button type="button"
+									class="btn btn-icon btn-sm waves-effect waves-light btn-success">
+									<a th:href="@{'/moimdetailView/moimboard/' + ${no}}"> 글쓰기</a>
+							</button>
+						</center>
+					</h4>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>순번</th>
+									<th>제목</th>
+									<th>글쓴이</th>
+									<th>유형</th>
+									<th>글쓴 날짜</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td><span class="label label-info">우리모임 규칙</span></td>
+									<td><span class="label label-info">모임장</span></td>
+									<td><span class="label label-info">공지사항</span></td>
+									<td>07/05/2015</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td><span class="label label-info">일정관리 규칙</span></td>
+									<td><span class="label label-info">모임장</span></td>
+									<td><span class="label label-info">공지사항</span></td>
+									<td>07/05/2015</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td><span class="label label-info">가입소개 양식</span></td>
+									<td><span class="label label-info">모임장</span></td>
+									<td><span class="label label-info">공지사항</span></td>
+									<td>07/05/2015</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- Paging start -->
+				<div class="row text-center pt-5 border-top">
+					<div class="col-md-12">
+						<div class="custom-pagination">
+							<span>1</span> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a>
+							<span>...</span> <a href="#">15</a>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+
+			<div id="Paris" class="tabcontent">
+				<h3>가입인사및 자기소개 게시판</h3>
+				<p>Paris is the capital of France.</p>
+			</div>
+
+			<div id="Tokyo" class="tabcontent">
+				<h3>Tokyo</h3>
+				<p>Tokyo is the capital of Japan.</p>
+			</div>
+			<!-- Tab List end -->
+		</div>
+	</div>
+	<script>
+		function openCity(evt, category) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(
+						" active", "");
+			}
+			document.getElementById(category).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+	</script>
+</body>
+</html>

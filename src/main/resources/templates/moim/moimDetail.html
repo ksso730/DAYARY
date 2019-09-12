@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <css th:replace="layout/header::headerCss" />
-<css th:replace="layout/header::moimDetailsubmenu" />
 <div th:replace="layout/header::header" />
-<div th:replace="moim/moimDetailsubmenu::moimDetailsubmenu" />
   <link th:href="@{/css/moim/moimDetail.css}" rel="stylesheet" />
   <style>
   .add-new-plus {
@@ -19,6 +17,90 @@
     background-color: #e3eaef;
     border-radius: 50%
 }
+/* Tab list start */
+
+body {font-family: Arial;}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+/*참여자보기 모달 시작 */
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+/*참여자 보기 모달 끝*/
+
   </style>
 </head>
 <body>
@@ -105,9 +187,10 @@
 					</div>
 					<!-- Personal-Information -->
 					<div class="card-box ribbon-box">
-						<div class="ribbon ribbon-primary">모임원리스트</div>
-						<div class="clearfix"></div>
+					
+						<div class="clearfix"><button type="button" class="btn btn-info">모임원</button>	</div>
 						<div class="inbox-widget">
+						
 							<a href="#">
 								<div class="inbox-item">
 									<div class="inbox-item-img">
@@ -209,9 +292,8 @@
 							<div class="card-box tilebox-one">
 								<i class="icon-layers float-right text-muted"></i>
 								<a href="/moimDetail/moimTodoList"><h6 class="text-muted text-uppercase mt-0">모임 일정관리보기</h6></a>
-								<h2 class="" data-plugin="counterup">1,587개의 일정</h2>
-								<span class="badge badge-custom">+11% </span><span
-									class="text-muted">From previous period</span>
+								<h3 class="" data-plugin="counterup">1,587개의 일정</h2>
+								
 							</div>
 						</div>
 						<!-- end col -->
@@ -219,11 +301,10 @@
 							<div class="card-box tilebox-one">
 								<i class="icon-paypal float-right text-muted"></i>
 								 <a href="/moimDetail/moimPicture"><h6 class="text-muted text-uppercase mt-0">사진첩보기</h6></a>
-								<h2 class="">
+								<h3 class="">
 									<span data-plugin="counterup">46,782장</span>
-								</h2>
-								<span class="badge badge-danger"> 7day</span><span
-									class="text-muted">From previous period</span>
+								</h3>
+								
 							</div>
 						</div>
 						<!-- end col -->
@@ -231,14 +312,14 @@
 							<div class="card-box tilebox-one">
 								<i class="icon-rocket float-right text-muted"></i>
 								<a href="/moimDetail/moimChatroom"><h6 class="text-muted text-uppercase mt-0">단체채팅방 들어가기</h6></a>
-								<h2 class="" data-plugin="counterup">30(명)  <span class="badge badge-info">4</span>
+								<h3 class="" data-plugin="counterup">30(명)  <span class="badge badge-info">4</span>
 							</div>
 						</div>
 						<!-- end col -->
 					</div>
 					<!-- end row -->
 					<div class="card-box">
-						<h4 class="header-title mt-0 mb-3">최근 오프라인모임활동</h4>
+						<h4 class="header-title mt-0 mb-3">오프라인모임활동</h4>
 						<div class="">
 							<div class="">
 								<h5 class="text-custom">자바 및 스프링 스터디</h5>
@@ -246,7 +327,9 @@
 								<p>
 									<b>2019-09-10-19:20</b>
 								</p>
-								<p class="text-muted font-13 mb-0">참여자 보기<span class="add-new-plus"><i class="fa fa-plus"></i></span></p>
+								<button type="button"
+											class="btn btn-primary btn-xs">참여 하기</button><br />
+								<button id="myBtn"  class="btn btn-info btn-xs">참여자 보기</button>
 							</div>
 							<hr>
 							<div class="">
@@ -263,67 +346,81 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-box">
-						<h4 class="header-title mb-3">가입인사 및 자기소개게시판</h4>
-						<div class="table-responsive">
-							<table class="table">
-								<thead>
-									<tr>
-										<th>#</th>
-										<th>Project Name</th>
-										<th>Start Date</th>
-										<th>Due Date</th>
-										<th>Status</th>
-										<th>Assign</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td>Adminox Admin</td>
-										<td>01/01/2015</td>
-										<td>07/05/2015</td>
-										<td><span class="label label-info">Work in
-												Progress</span></td>
-										<td>Coderthemes</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>Adminox Frontend</td>
-										<td>01/01/2015</td>
-										<td>07/05/2015</td>
-										<td><span class="label label-success">Pending</span></td>
-										<td>Coderthemes</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>Adminox Admin</td>
-										<td>01/01/2015</td>
-										<td>07/05/2015</td>
-										<td><span class="label label-pink">Done</span></td>
-										<td>Coderthemes</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>Adminox Frontend</td>
-										<td>01/01/2015</td>
-										<td>07/05/2015</td>
-										<td><span class="label label-purple">Work in
-												Progress</span></td>
-										<td>Coderthemes</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>Adminox Admin</td>
-										<td>01/01/2015</td>
-										<td>07/05/2015</td>
-										<td><span class="label label-warning">Coming soon</span></td>
-										<td>Coderthemes</td>
-									</tr>
-								</tbody>
-							</table>
+					
+					
+	<!-- Tab list start-->
+					<div class="tab">
+					  <button class="tablinks" onclick="openCity(event, 'London')">공지사항게시판</button>
+					  <button class="tablinks" onclick="openCity(event, 'Paris')">가입인사및 자기소개 게시판</button>
+					  <button class="tablinks" onclick="openCity(event, 'Tokyo')">자유게시판</button>
+					</div>
+					
+					<div id="London" class="tabcontent">
+						 <div class="card-box">
+								<h4 class="header-title mb-3">공지사항!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<button type="button"
+													class="btn btn-icon btn-sm waves-effect waves-light btn-success">
+													<a
+														th:href="@{'/moimdetailView/moimboard/' + ${no}}">
+													더 보기</a>
+									</button>
+								</h4>
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>순번</th>
+											<th>제목</th>
+											<th>글쓴이</th>
+											<th>유형</th>
+											<th>글쓴 날짜</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td><span class="label label-info">우리모임 규칙</span></td>
+											<td><span class="label label-info">모임장</span></td>
+											<td><span class="label label-info">공지사항</span></td>
+											<td>07/05/2015</td>
+										</tr>
+										<tr>
+											<td>2</td>
+											<td><span class="label label-info">일정관리 규칙</span></td>
+											<td><span class="label label-info">모임장</span></td>
+											<td><span class="label label-info">공지사항</span></td>
+											<td>07/05/2015</td>
+										</tr>
+										<tr>
+											<td>3</td>
+											<td><span class="label label-info">가입소개 양식</span></td>
+											<td><span class="label label-info">모임장</span></td>
+											<td><span class="label label-info">공지사항</span></td>
+											<td>07/05/2015</td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
+					
+					<div id="Paris" class="tabcontent">
+					  <h3>가입인사및 자기소개 게시판</h3>
+					  <p>Paris is the capital of France.</p> 
+					</div>
+					
+					<div id="Tokyo" class="tabcontent">
+					  <h3>Tokyo</h3>
+					  <p>Tokyo is the capital of Japan.</p>
+					</div>
+					<!-- Tab List end -->
+					
+					
+					
+					
 				</div>
 				<!-- end col -->
 			</div>
@@ -332,8 +429,155 @@
 		<!-- container -->
 	</div>
 
-	</div>
+<!-- 참여자보기 모달 시작 -->
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="inbox-widget">
+						
+							<a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Tomaslau</p>
+									<p class="inbox-item-text">I've finished it! See you so...</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">View</button>
+									</p>
+								</div>
+							</a> <a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar3.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Stillnotdavid</p>
+									<p class="inbox-item-text">This theme is awesome!</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+									</p>
+								</div>
+							</a> <a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar4.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Kurafire</p>
+									<p class="inbox-item-text">Nice to meet you</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+									</p>
+								</div>
+							</a> <a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar5.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Shahedk</p>
+									<p class="inbox-item-text">Hey! there I'm available...</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+									</p>
+								</div>
+							</a> <a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar6.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Adhamdannaway</p>
+									<p class="inbox-item-text">This theme is awesome!</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+									</p>
+								</div>
+							</a> <a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Tomaslau</p>
+									<p class="inbox-item-text">I've finished it! See you so...</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+									</p>
+								</div>
+							</a> <a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar3.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Stillnotdavid</p>
+									<p class="inbox-item-text">This theme is awesome!</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+									</p>
+								</div>
+							</a>
+						</div>
+  </div>
+
+</div>
+
+<!-- 참여자보기 모달 끝 -->
+	<script>
+	function openCity(evt, cityName) {
+	  var i, tabcontent, tablinks;
+	  tabcontent = document.getElementsByClassName("tabcontent");
+	  for (i = 0; i < tabcontent.length; i++) {
+	    tabcontent[i].style.display = "none";
+	  }
+	  tablinks = document.getElementsByClassName("tablinks");
+	  for (i = 0; i < tablinks.length; i++) {
+	    tablinks[i].className = tablinks[i].className.replace(" active", "");
+	  }
+	  document.getElementById(cityName).style.display = "block";
+	  evt.currentTarget.className += " active";
+	}
+	//참여자보기 모달 스크립트 시작 
+	// Get the modal
+	var modal = document.getElementById("myModal");
+
+	// Get the button that opens the modal
+	var btn = document.getElementById("myBtn");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks the button, open the modal 
+	btn.onclick = function() {
+	  modal.style.display = "block";
+	}
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	  modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+	    modal.style.display = "none";
+	  }
+	}
+	//참여자 보기 모달 스크립트 끝
+	</script>
 	<script src="/js/moim/moimDetail.js"></script>
-	<script src="/js/moim/moimDetailsubmenu.js"></script>
 </body>
 </html>

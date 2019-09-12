@@ -23,7 +23,6 @@ jQuery(document).ready(function($) {
 				  }
 				  $(this).data("clicks", !clicks);
 				});
-
 			}
 
 			// Back Button

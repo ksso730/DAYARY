@@ -41,6 +41,23 @@ public class MoimController {
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
  
     /**
+     * 모임  디테일 게시판(공지사항,가입인사 및 자기소개,자유게시판 등등)  조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
+    @GetMapping("/moimdetailView/moimboard/{no}")
+    public String moimboard(@PathVariable("no") long no) {
+    	
+    	System.out.println("#$@$@#$@#$#@$#@$@#$#@$");
+    	System.out.println(no);
+    	
+    	return "moim/moimDetailboard";
+    }
+    
+    /**
      * 모임  해야할일(ToDoList) 현재목록  DetailView  조회
      *
      * @param 
@@ -233,10 +250,12 @@ public class MoimController {
 
        
         
-        Optional<Moim> moim=moimRepository.findById(no);
-        List<People> moimpeopleList=moim.get().getPeopleList();
+        Optional<Moim> moimOne=moimRepository.findById(no);
+        List<People> moimpeopleList=moimOne.get().getPeopleList();
         
         long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
+        
+        model.addAttribute("moimOne",moimOne);
         model.addAttribute("moimpeopleList",moimpeopleList);
         model.addAttribute("checkPeople",checkPeople);
         
