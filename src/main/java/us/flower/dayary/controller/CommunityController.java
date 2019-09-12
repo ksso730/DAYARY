@@ -20,7 +20,7 @@ public class CommunityController {
 		return "community/communityList";
 	}
 	 /**
-     * 커뮤니티리스트 조회
+     * 커뮤니티 StudyCafeList 조회
      *
      * @param 
      * @return
@@ -31,5 +31,18 @@ public class CommunityController {
 	public String studcafeList() {
 		
 		return "community/studycafeList";
+	}
+	 /**
+     * 커뮤니티 StudyCafeDetail 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
+	@GetMapping("/community/studycafeDetail")
+	public String studycafeDetail() {
+		
+		return "community/studycafeDetail";
 	}
 }
