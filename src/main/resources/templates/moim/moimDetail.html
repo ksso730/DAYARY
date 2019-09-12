@@ -100,7 +100,61 @@ body {font-family: Arial, Helvetica, sans-serif;}
   cursor: pointer;
 }
 /*참여자 보기 모달 끝*/
+/*모임가입자 시작 */
+body {
+  font-family: 'Lato', sans-serif;
+}
 
+.overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(255, 255, 255);
+background-color: rgb(255, 255, 255);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.overlay-content {
+  position: relative;
+  top: 5%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+  color: #f1f1f1;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay a {font-size: 20px}
+  .overlay .closebtn {
+  font-size: 40px;
+  top: 15px;
+  right: 35px;
+  }
+}
+/*모임가입자 스타일 끝 */
   </style>
 </head>
 <body>
@@ -144,6 +198,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
 						<h4 class="header-title mt-0">우리 모임 소개</h4>
 						<div class="panel-body">
 							<p class="text-muted font-13">우리 모임은 spring jpa스터디를 하며  스터디 모임/일정관리  시스템을 만듭니다</p>
+							<button type="button"
+											class="btn btn-primary btn-xs">스터디 가입하기</button>
 							<hr>
 							<div class="text-left">
 								<p class="text-muted font-13">
@@ -201,7 +257,9 @@ body {font-family: Arial, Helvetica, sans-serif;}
 									<p class="inbox-item-text">I've finished it! See you so...</p>
 									<p class="inbox-item-date">
 										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">View</button>
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진권한주기</button>
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
 									</p>
 								</div>
 							</a> <a href="#">
@@ -269,20 +327,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
 											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
 									</p>
 								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar3.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Stillnotdavid</p>
-									<p class="inbox-item-text">This theme is awesome!</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a>
+							</a> 
+							<center>
+								
+								<span style="font-size:30px;cursor:pointer" onclick="openNav()"> ☰ 더 보기</span>
+							</center>
+							
 						</div>
 					</div>
 				</div>
@@ -447,8 +497,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 									<p class="inbox-item-author">Tomaslau</p>
 									<p class="inbox-item-text">I've finished it! See you so...</p>
 									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">View</button>
+									
 									</p>
 								</div>
 							</a> <a href="#">
@@ -536,6 +585,98 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </div>
 
 <!-- 참여자보기 모달 끝 -->
+
+<!-- 스터디가입자 모달 시작 -->
+	<div id="myNav" class="overlay">
+	  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	  <div class="overlay-content">
+	  	<h1>모임가입자 현황</h1>
+	    <div class="inbox-widget">
+							<a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Tomaslau</p>
+									<p class="inbox-item-text">I've finished it! See you so...</p>
+									<p class="inbox-item-date">
+									<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진권한주기</button>
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
+									</p>
+								</div>
+							</a> <a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar3.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Stillnotdavid</p>
+									<p class="inbox-item-text">This theme is awesome!</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+									</p>
+								</div>
+							</a> <a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar4.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Kurafire</p>
+									<p class="inbox-item-text">Nice to meet you</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+									</p>
+								</div>
+							</a> <a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar5.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Shahedk</p>
+									<p class="inbox-item-text">Hey! there I'm available...</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+									</p>
+								</div>
+							</a> <a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar6.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Adhamdannaway</p>
+									<p class="inbox-item-text">This theme is awesome!</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+									</p>
+								</div>
+							</a> <a href="#">
+								<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author">Tomaslau</p>
+									<p class="inbox-item-text">I've finished it! See you so...</p>
+									<p class="inbox-item-date">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+									</p>
+								</div>
+							</a> 
+						</div>
+	  </div>
+	</div>
+<!-- 스터디가입자 모달 끝 -->
 	<script>
 	function openCity(evt, cityName) {
 	  var i, tabcontent, tablinks;
@@ -577,6 +718,15 @@ body {font-family: Arial, Helvetica, sans-serif;}
 	  }
 	}
 	//참여자 보기 모달 스크립트 끝
+	//모임가입자 보기
+	function openNav() {
+	  document.getElementById("myNav").style.width = "100%";
+	}
+	
+	function closeNav() {
+	  document.getElementById("myNav").style.width = "0%";
+	}
+	//모임가입자 보기 끝
 	</script>
 	<script src="/js/moim/moimDetail.js"></script>
 </body>
