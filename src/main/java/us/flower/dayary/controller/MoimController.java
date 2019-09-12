@@ -240,7 +240,6 @@ public class MoimController {
         model.addAttribute("moimpeopleList",moimpeopleList);
         model.addAttribute("checkPeople",checkPeople);
         
-        System.out.println(checkPeople);
         return "moim/moimDetail"; 
     }
     
@@ -254,9 +253,11 @@ public class MoimController {
 	 * @author choiseongjun
 	 */
 	@GetMapping("/moimlistView")
-	public String moimListView(Model model) {
+	public String moimListView(Model model,HttpSession session) {
 		Moim moim = new Moim();
 		List<Moim> moimList = moimService.findMoim(moim);
+		
+		
 		model.addAttribute("moimList", moimList);
 		return "moim/moimList";
 	}

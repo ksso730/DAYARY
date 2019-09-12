@@ -15,7 +15,9 @@
 }
     </style>
     <css th:replace="layout/header::moimDetailsubmenu" />
+     <link th:href="@{/css/moim/moimtodostatusModal.css}" rel="stylesheet" />
 <div th:replace="moim/moimDetailsubmenu::moimDetailsubmenu" />
+
 </head>
 <body>
 <div th:replace="layout/header::header"/>
@@ -28,7 +30,7 @@
                 <div class="input-group">
                     <input placeholder="Search for..." type="text" class="form-control">
                     <div class="input-group-append">
-                        <button class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                        <button type="button"  aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-link"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
             </div>
@@ -49,7 +51,7 @@
                 </ul>
             </div>
             <div class="mb-4">
-                <div class="small mb-3">People</div>
+                <div class="small mb-3">참여자</div>
                 <ul class="nav flex-column nav-pills">
                     <li class="nav-item">
                         <a href="#" class="d-flex nav-link">
@@ -148,7 +150,7 @@
                                 </td>
                                 <td class="align-middle text-right">
                                     <div class="btn-group">
-                                        <button type="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-link"><i class="fa fa-search"></i></button>
+                                        <button type="button" id="myBtn"  aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-link"><i class="fa fa-search"></i></button>
                                         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
                                             <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-folder-open mr-2"></i>View</button>
                                             <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-ticket mr-2"></i>Add Task</button>
@@ -540,6 +542,9 @@
         </div>
     </div>
 </div>
+<div th:replace="moim/moimtodostatusModal::moimtodostatusModal"></div>
 <script src="/js/moim/moimDetailsubmenu.js"></script>
+<script src="/js/moim/moimtodostatusModal.js"></script>
+
 </body>
 </html>
