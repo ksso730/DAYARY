@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class CommunityController {
 
 	 /**
-     * 커뮤니티리스트 조회
+     * 커뮤니티리스트(Timeline) 조회
      *
      * @param 
      * @return
@@ -19,6 +19,19 @@ public class CommunityController {
 	public String CommunityView(@PathVariable("board_group_no") long board_group_no) {
 		
 		return "community/communityList";
+	}
+	/**
+     * 커뮤니티리스트 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
+	@GetMapping("/community/communityList/studyList/{board_group_no}")
+	public String studyList(@PathVariable("board_group_no") long board_group_no) {
+		
+		return "community/comunitystudyList";
 	}
 	 /**
      * 커뮤니티 StudyCafeList 조회
