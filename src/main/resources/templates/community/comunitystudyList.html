@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <css th:replace="layout/header::headerCss"/>
-     <link th:href="@{/css/community/communityList.css}" rel="stylesheet" /><!-- 커뮤니티리스트css -->
       <link th:href="@{/css/community/sidemenu.css}" rel="stylesheet" /><!-- 사이드메뉴css -->
 	<link rel="stylesheet" href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css"/> 
 <style>
@@ -81,7 +80,8 @@
     </div>
      
     <div id="write">
-      <a href="/bbs/writeForm.bbs?pageNum=${pageNum}">글쓰기</a>
+      <a href="/community/communityList/studyWrite"><button type="button"
+											class="btn btn-primary btn-xs">글쓰기</button></a>
     </div>
      
     <div>

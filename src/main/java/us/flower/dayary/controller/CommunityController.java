@@ -33,6 +33,19 @@ public class CommunityController {
 		
 		return "community/comunitystudyList";
 	}
+	/**
+     * 커뮤니티리스트 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
+	@GetMapping("/community/communityList/studyWrite")
+	public String studyWrite() {
+		
+		return "community/comunitystudyWrite";
+	}
 	 /**
      * 커뮤니티 StudyCafeList 조회
      *
@@ -41,8 +54,8 @@ public class CommunityController {
      * @throws 
      * @author choiseongjun
      */
-	@GetMapping("/community/studycafeList")
-	public String studcafeList() {
+	@GetMapping("/community/studycafeList/{board_group_no}")
+	public String studcafeList(@PathVariable("board_group_no") long board_group_no) {
 		
 		return "community/studycafeList";
 	}

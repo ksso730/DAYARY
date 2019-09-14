@@ -38,18 +38,12 @@ public class BoardGroupTest {
     
     ComunityBoard comnibrd=new ComunityBoard();
     
-    brdgrp.setNo(3L);
-    brdgrp.setName("취업게시판");
+    brdgrp.setNo(6L);
+    brdgrp.setName("스터디룸");
     brdgrouprepo.save(brdgrp);
-    brdgrp.setNo(4L);
-    brdgrp.setName("자격증게시판");
+    brdgrp.setNo(7L);
+    brdgrp.setName("독서실");
     brdgrouprepo.save(brdgrp);
-    comnibrd.setNo(1L);
-    comnibrd.setTitle("1번 타이틀 ");
-    comnibrd.setMemo("1번 메모");
-    comnibrd.setBoardGroup(brdgrp);
-    comnibrd.setDeleteFlag('N');
-    
   
     //communityboardrepo.save(comnibrd);
     
