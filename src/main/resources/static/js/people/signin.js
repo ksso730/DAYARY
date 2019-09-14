@@ -24,3 +24,13 @@ $('#signin_btn').off().on('click',function(){
 
 	});
 });
+
+//Login Enter key 적용 by choiseongjun
+var input = document.getElementById("password");
+input.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+   event.preventDefault();
+   document.getElementById("signin_btn").click();
+  }
+});
+//Login Enter key 적용
