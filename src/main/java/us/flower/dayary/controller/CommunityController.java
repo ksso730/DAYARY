@@ -1,6 +1,7 @@
 package us.flower.dayary.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -29,7 +30,9 @@ public class CommunityController {
      * @author choiseongjun
      */
 	@GetMapping("/community/communityList/studyList/{board_group_no}")
-	public String studyList(@PathVariable("board_group_no") long board_group_no) {
+	public String studyList(@PathVariable("board_group_no") long board_group_no,Model model) {
+		
+		model.addAttribute("board_group_no",board_group_no);
 		
 		return "community/comunitystudyList";
 	}
@@ -41,8 +44,8 @@ public class CommunityController {
      * @throws 
      * @author choiseongjun
      */
-	@GetMapping("/community/communityList/studyWrite")
-	public String studyWrite() {
+	@GetMapping("/community/communityList/studyWrite/{board_group_no}")
+	public String studyWrite(@PathVariable("board_group_no") long board_group_no) {
 		
 		return "community/comunitystudyWrite";
 	}

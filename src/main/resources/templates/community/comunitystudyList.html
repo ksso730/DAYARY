@@ -80,10 +80,10 @@
     </div>
      
     <div id="write">
-      <a href="/community/communityList/studyWrite"><button type="button"
-											class="btn btn-primary btn-xs">글쓰기</button></a>
+    
+      <a th:href="@{'/community/communityList/studyWrite/' + ${board_group_no}}">
+      <button type="button" class="btn btn-primary btn-xs">글쓰기</button></a>
     </div>
-     
     <div>
       <table class="table table-striped table-bordered table-hover">
         <thead>
