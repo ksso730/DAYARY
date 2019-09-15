@@ -341,7 +341,9 @@ background-color: rgb(255, 255, 255);
 						<div class="col-sm-4">
 							<div class="card-box tilebox-one">
 								<i class="icon-layers float-right text-muted"></i>
-								<a href="/moimDetail/moimTodoList"><h6 class="text-muted text-uppercase mt-0">모임 일정관리보기</h6></a>
+								<a
+										th:href="@{'/moimDetail/moimTodoList/' + ${no}}">
+								<h6 class="text-muted text-uppercase mt-0">모임 일정관리보기</h6></a>
 								<h3 class="" data-plugin="counterup">1,587개의 일정</h2>
 								
 							</div>
@@ -369,7 +371,7 @@ background-color: rgb(255, 255, 255);
 					</div>
 					<!-- end row -->
 					<div class="card-box">
-						<h4 class="header-title mt-0 mb-3">오프라인모임활동</h4>
+						<h4 class="header-title mt-0 mb-3">오프라인모임활동 <td th:text="${no}"></td></h4>
 						<div class="">
 							<div class="">
 								<h5 class="text-custom">자바 및 스프링 스터디</h5>

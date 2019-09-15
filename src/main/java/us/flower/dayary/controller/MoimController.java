@@ -51,8 +51,6 @@ public class MoimController {
     @GetMapping("/moimdetailView/moimboard/{no}")
     public String moimboard(@PathVariable("no") long no) {
     	
-    	System.out.println("#$@$@#$@#$#@$#@$@#$#@$");
-    	System.out.println(no);
     	
     	return "moim/moimDetailboard";
     }
@@ -65,8 +63,8 @@ public class MoimController {
      * @throws 
      * @author choiseongjun
      */
-    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail")
-    public String todostatusdetail() {
+    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/{no}/moimtodostatusDetail")
+    public String todostatusdetail(@PathVariable("no") long no) {
     	
     	return "moim/moimtodostatusDetail";
     }
@@ -78,8 +76,8 @@ public class MoimController {
      * @throws 
      * @author choiseongjun
      */
-    @GetMapping("/moimDetail/moimTodoList/moimTodoListcompleted")
-    public String moimTodoListcompleted() {
+    @GetMapping("/moimDetail/moimTodoList/moimTodoListcompleted/{no}")
+    public String moimTodoListcompleted(@PathVariable("no") long no) {
     	 
     	return "moim/moimTodoListcompleted";
     }
@@ -117,8 +115,10 @@ public class MoimController {
      * @throws 
      * @author choiseongjun
      */
-    @GetMapping("/moimDetail/moimTodoList/moimtodostatus")
-    public String moimtodostatus() {
+    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/{no}")
+    public String moimtodostatus(@PathVariable("no") long no,Model model) {
+    	
+    	model.addAttribute("no",no);
     	
     	return "moim/moimTodostatus";
     }
@@ -156,9 +156,11 @@ public class MoimController {
      * @throws 
      * @author choiseongjun
      */
-    @GetMapping("/moimDetail/moimTodoList")
-    public String moimTodoList() {
+    @GetMapping("/moimDetail/moimTodoList/{no}")
+    public String moimTodoList(@PathVariable("no") long no,Model model) {
     	
+    	
+    	model.addAttribute("no",no);
     	return "moim/moimTodoList";
     }
     /**
@@ -255,6 +257,7 @@ public class MoimController {
         
         long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
         
+        model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
         model.addAttribute("moimpeopleList",moimpeopleList);
         model.addAttribute("checkPeople",checkPeople);

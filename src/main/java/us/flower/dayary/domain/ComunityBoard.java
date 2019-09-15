@@ -1,5 +1,6 @@
 package us.flower.dayary.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,7 +31,7 @@ public class ComunityBoard {
 	@Column(name="HEART")
 	private long heart;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "BOARD_GROUP_NO")
     private BoardGroup boardGroup;
 }
