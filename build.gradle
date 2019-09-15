@@ -28,6 +28,8 @@ repositories {
 
 
 dependencies {
+    //imgscalr-lib
+    implementation 'org.imgscalr:imgscalr-lib:4.2'
     //file upload related io 파일 바이트코드로 바꾸기[IOUtils]
     implementation 'commons-io:commons-io:2.6'
     //UNDERTOW
