@@ -5,21 +5,23 @@ import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
 @Component
 public class ImageManager {
 
-	public void makeThumbnail(BufferedImage originalImage, String fileExtension, String thumbnailFilePath, String fileName, int resizePixel) throws Throwable {
-		BufferedImage finalImg;//최종 이미지
+	public void makeThumbnail(byte[] byteArray4OriginImage, String fileExtension, String thumbnailFilePath, String fileName, int resizePixel) throws Throwable {
+		BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(byteArray4OriginImage));
+		BufferedImage finalImage;//최종 이미지
 		BufferedImage squeareImage = square(originalImage);//정사각형
 		if(squeareImage.getWidth()>resizePixel){//썸네일
-			finalImg=resize(squeareImage, resizePixel, resizePixel);
+			finalImage=resize(squeareImage, resizePixel, resizePixel);
 		}else {
-			finalImg=squeareImage;
+			finalImage=squeareImage;
 		}
-		save(finalImg, fileExtension, thumbnailFilePath, fileName);
+		save(finalImage, fileExtension, thumbnailFilePath, fileName);
 	}
 
 	public BufferedImage square(BufferedImage image){
