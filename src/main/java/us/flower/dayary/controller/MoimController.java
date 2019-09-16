@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import us.flower.dayary.domain.Category;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.MoimPeopleRepository;
@@ -295,9 +296,8 @@ public class MoimController {
 	public String moimListView(Model model,HttpSession session) {
 		Moim moim = new Moim();
 		List<Moim> moimList = moimService.findMoim(moim);
-		
-		
 		model.addAttribute("moimList", moimList);
+		System.out.println(moimList.toString());
 		return "moim/moimList";
 	}
 	/**
