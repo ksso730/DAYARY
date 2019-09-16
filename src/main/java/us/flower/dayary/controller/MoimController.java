@@ -136,6 +136,21 @@ public class MoimController {
     	return "moim/moimChatroom";
     }
     /**
+     * 모임 사진첩 글쓰기
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun 
+     */
+    @GetMapping("/moimDetail/{no}/moimPicture/moimPictureWrite")
+    public String moimPictureWrite(@PathVariable("no") long no,Model model) {
+    	
+    	model.addAttribute("no",no);
+    	
+    	return "moim/moimpictureWrite"; 
+    }
+    /**
      * 모임 사진첩 조회
      *
      * @param 
@@ -143,8 +158,10 @@ public class MoimController {
      * @throws 
      * @author choiseongjun 
      */
-    @GetMapping("/moimDetail/moimPicture")
-    public String moimPicture() {
+    @GetMapping("/moimDetail/{no}/moimPicture")
+    public String moimPicture(@PathVariable("no") long no,Model model) {
+    	
+    	model.addAttribute("no",no);
     	
     	return "moim/moimpictureList"; 
     }

@@ -352,7 +352,9 @@ background-color: rgb(255, 255, 255);
 						<div class="col-sm-4">
 							<div class="card-box tilebox-one">
 								<i class="icon-paypal float-right text-muted"></i>
-								 <a href="/moimDetail/moimPicture"><h6 class="text-muted text-uppercase mt-0">사진첩보기</h6></a>
+								 		<a
+										th:href="@{'/moimDetail/' + ${no}+'/moimPicture'}">
+								 <h6 class="text-muted text-uppercase mt-0">사진첩보기</h6></a>
 								<h3 class="">
 									<span data-plugin="counterup">46,782장</span>
 								</h3>
