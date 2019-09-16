@@ -33,10 +33,14 @@
 				<div class="col-md-6">
 					<span>Category</span>
 					<h3>Sports</h3>
-					<p>여기서 나중에 카테고리별 분류할 예정 (지역별,주제별 ,밑에는 모임리스트)</p>
+					<p>여기서 나중에 카테고리별 분류할 예정 (지역별,주제별 ,밑에는 모임리스트)
+												
+					</p>
 					<div id="myBtnContainer">
 						<button class="btn active" id="categorybox"
-							onclick="filterSelection('all')">모든 주제 보기</button>
+							onclick="filterSelection('all')">모든 주제 보기
+							
+							</button>
 						
 					</div>
 				</div>
@@ -46,18 +50,20 @@
 	<div class="site-section bg-white">
 		<div class="container">
 			<div class="row">
-				<tr th:each="moimList,x : ${moimList}">
+				<tr th:each="moimList : ${moimList}">
 
 					<div class="col-lg-4 mb-4">
-						<div class="entry2">
+						<div class="entry2" style="width: 300px;">
 							<a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
 								<img
 								th:src="${'/getMoimImage/'+moimList.imageName+'.'+moimList.imageExtension}"
 								alt="Image" class="img-fluid rounded">
 							</a>
 							<div class="excerpt">
-								<span class="post-category text-white bg-secondary mb-3">나중에
-									카테고리 넣는곳 </span>
+								
+								<span class="post-category text-white bg-secondary mb-3">
+									<td th:text="${moimList.category.subject}"></td>
+								</span>
 
 								<h2>
 									<a
@@ -70,7 +76,7 @@
 									<figure class="author-figure mb-0 mr-3 float-left">
 										<img src="images/person_1.jpg" alt="Image" class="img-fluid">
 									</figure>
-									<span class="d-inline-block mt-1">By <a href="#"><td
+									<span class="d-inline-block mt-1">By <a href="#"><td 
 											th:text="${moimList.people.id}"></td></a></span> <span>&nbsp;-&nbsp;
 										July 19, 2019</span>
 								</div>
