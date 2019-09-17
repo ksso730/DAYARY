@@ -16,7 +16,10 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
-
+/**
+ * 게시판그룹
+ *   by choiseongjun
+ */
 @Entity
 @Table(name="BOARD_GROUP")
 @SequenceGenerator(

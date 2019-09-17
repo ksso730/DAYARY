@@ -12,7 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
-
+/**
+ * 커뮤니티게시판
+ *   by choiseongjun
+ */
 @Entity
 @Table(name="COMUNITY_BOARD")
 @Data

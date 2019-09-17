@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 온라인모임
+ * by choiseongjun
  */
 @Entity
 @Table(name = "MOIM")
