@@ -67,4 +67,13 @@ public class People {
 //    @OneToMany(mappedBy = "people")
 //    @JsonIgnore 
 //    private List<MoimPeople> moimPeopleList=new ArrayList<>();
+
+	  public People(String id,String password,String name,String photo,String activation) {
+	        this.id=id;
+	        this.password = password;
+		  	this.name = name;
+		  	this.photo=photo;
+		  	this.activation=activation;
+	    }
+	
 }

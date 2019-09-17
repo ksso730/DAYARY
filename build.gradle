@@ -58,7 +58,7 @@ dependencies {
     implementation ("com.querydsl:querydsl-jpa:$querydslVersion")
 
     //spring-security
-    //implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
