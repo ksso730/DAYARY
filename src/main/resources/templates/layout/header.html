@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8">
         <title>Insert title here</title>
@@ -64,17 +65,17 @@
                                     <li>
                                         <a href="/community/communityList/1">커뮤니티</a>
                                     </li>
-                                    <li th:if="${session.peopleNo!=null}">
+                                    <li >
                                         <a href="/moimMakeView">모임 만들기</a>
                                     </li>
                                     <li th:if="${session.peopleNo==null}">
                                         <a href="/signupView">회원가입</a>
                                     </li>
-                                    <li th:if="${session.peopleNo==null}">
+                                   <li sec:authorize="isAnonymous()">
                                         <a href="/signinView">로그인
                                         </a>
                                     </li>
-                                    <li th:if="${session.peopleNo!=null}">
+                                  	<li sec:authorize="isAnonymous()" >
                                         <a href="/logout">로그아웃</a>
                                     </li>
                                     <li th:if="${session.peopleNo!=null}">

@@ -87,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.GET, "/**/**")
                         .permitAll()
                     .anyRequest()
-                        .authenticated();
+                        .authenticated().and().logout().logoutUrl("/logout").logoutSuccessUrl("/signinView").and().exceptionHandling().accessDeniedPage("/people/error");
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
