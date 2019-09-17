@@ -273,12 +273,11 @@ public class MoimController {
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
         
-        long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
+//        long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
         
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
         model.addAttribute("moimpeopleList",moimpeopleList);
-        model.addAttribute("checkPeople",checkPeople);
         
         return "moim/moimDetail"; 
     }

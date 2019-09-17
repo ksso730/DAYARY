@@ -54,7 +54,7 @@ public class AuthController {
 
 	        Authentication authentication = authenticationManager.authenticate(
 	                new UsernamePasswordAuthenticationToken(
-	                        loginRequest.getId(),
+	                        loginRequest.getEmail(),
 	                        loginRequest.getPassword()
 	                )
 	        );
@@ -66,14 +66,14 @@ public class AuthController {
 	    }
 	 @PostMapping("/signup")
 	    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-	        if(peopleRepository.existsById(signUpRequest.getId())) {
+	        if(peopleRepository.existsByEmail(signUpRequest.getEmail())) {
 	            return new ResponseEntity(new ApiResponse(false, "id is already taken!"),
 	                    HttpStatus.BAD_REQUEST);
 	        }
 
 	      
 	        // Creating user's account
-	        People user = new People(signUpRequest.getId(), signUpRequest.getPassword(),
+	        People user = new People(signUpRequest.getEmail(), signUpRequest.getPassword(),
 	        						signUpRequest.getName(), signUpRequest.getPhoto(), signUpRequest.getActivation());
 
 	        user.setPassword(bcrypt.hashpw(user.getPassword()));

@@ -55,9 +55,9 @@ public class MoimServiceImpl implements moimService{
 		return categoryList;
 	}
 	
-    public void saveMoim(String id, String subject, Moim moim, MultipartFile file) {
+    public void saveMoim(String email, String subject, Moim moim, MultipartFile file) {
 
-        People people = peopleRepository.findById(id);
+        People people = peopleRepository.findByEmail(email);
         Category category = categoryRepository.findBySubject(subject);
 
         //이미지파일이름생성
@@ -108,7 +108,7 @@ public class MoimServiceImpl implements moimService{
 		moim.setNo(moimNo);
 		
 		People people=new People();
-		people.setNo(peopleNo);
+		people.setId(peopleNo);
 		
 		MoimPeople moimPeople=new MoimPeople();
 		moimPeople.setMoim(moim);

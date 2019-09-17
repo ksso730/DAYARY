@@ -11,5 +11,4 @@ import us.flower.dayary.domain.MoimPeople;
 public interface MoimPeopleRepository extends JpaRepository<MoimPeople, Long>{
 
 	 
-	 long countBypeopleNo(long no);
 }

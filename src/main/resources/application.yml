@@ -6,7 +6,7 @@ spring:
         cache: false
   
   datasource:
-        url: "jdbc:mariadb://localhost:3306/test"
+        url: "jdbc:mariadb://localhost:3306/jpatest"
         username: root
         password: 1234
   jpa:
@@ -25,7 +25,7 @@ spring:
                   
 
 server:
-    port: 8080
+    port: 9090
 
 moimImagePath: C:/dayary/moim/image
 

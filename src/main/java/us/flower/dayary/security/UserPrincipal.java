@@ -22,9 +22,9 @@ import us.flower.dayary.domain.People;
 */
 public class UserPrincipal implements UserDetails {
 	
-	private Long no;
-	
-    private String id;
+	private Long id;
+	@JsonIgnore
+    private String email;
 
     private String name;
 
@@ -38,8 +38,9 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(long no,String id,String name, String password,String photo,String activation, Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
+    public UserPrincipal(long id,String email,String name, String password,String photo,String activation, Collection<? extends GrantedAuthority> authorities) {
+    	this.id=id;
+    	this.email = email;
         this.name = name;
         this.password = password;
         this.photo=photo;
@@ -53,8 +54,8 @@ public class UserPrincipal implements UserDetails {
         ).collect(Collectors.toList());
 
         return new UserPrincipal(
-        		user.getNo(),
         		user.getId(),
+        		user.getEmail(),
                 user.getName(),
                 user.getPassword(),
                 user.getPhoto(),
@@ -63,14 +64,13 @@ public class UserPrincipal implements UserDetails {
         );
     }
 
-    public Long getNo() {
-		return no;
+    public Long getId() {
+		return id;
+	}
+    public String getEmail() {
+		return email;
 	}
     
-    public String getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
