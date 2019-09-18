@@ -54,14 +54,14 @@ public class AuthenticationController {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    
 
         try {
 			if (peopleRepository.existsByEmail(loginRequest.getEmail())) {
 				People dbPeople = peopleRepository.findByEmail(loginRequest.getEmail());
 					if (bcrypt.checkpw(loginRequest.getPassword(), dbPeople.getPassword())) {// 비밀번호가맞다면
-						session.setAttribute("peopleNo", auth);// NO세션저장
+						session.setAttribute("peopleNo", dbPeople.getId());// NO세션저장
 						session.setAttribute("peopleId", dbPeople.getEmail());// ID세션저장
 						returnData.put("code", "1");
 					
