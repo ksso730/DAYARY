@@ -1,6 +1,5 @@
 package us.flower.dayary.controller;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,10 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -214,12 +217,12 @@ public class MoimController {
      */
     @ResponseBody
     @PostMapping("/moimMake")
-    public Map<String, Object> moimMake(@RequestPart("moim") Moim moim, @RequestPart("file") MultipartFile file, Principal principal) {
+    public Map<String, Object> moimMake(@RequestPart("moim") Moim moim, @RequestPart("file") MultipartFile file, HttpSession session) {
 
         Map<String, Object> returnData = new HashMap<String, Object>();
-        String id = principal.getName();
+        String id = (String) session.getAttribute("peopleId");
         String subject = moim.getCategory().getSubject();
- 
+    	System.out.println("현재 사용자아이디는?_#@$$@#$");
         if (id.equals(null) || id.equals("")) {
             returnData.put("code", "0");
             returnData.put("message", "로그인 후 이용해주세요");
@@ -281,9 +284,9 @@ public class MoimController {
         
         return "moim/moimDetail"; 
     }
-    
-	/**
-	 * 모임 리스트 출력
+
+    /**
+	 * 모임 리스트 출력(Paging 처리)
 	 *
 	 * @param locale
 	 * @param Moim
@@ -292,11 +295,15 @@ public class MoimController {
 	 * @author choiseongjun
 	 */
 	@GetMapping("/moimlistView")
-	public String moimListView(Model model,HttpSession session) {
-		Moim moim = new Moim();
-		List<Moim> moimList = moimService.findMoim(moim);
+	public String moimListView(@PageableDefault Pageable pageable,HttpSession session,Model model) {
+
+		 int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+	        pageable = PageRequest.of(page, 9);
+	        
+		Page<Moim> moimList = moimRepository.findAll(pageable);
 		model.addAttribute("moimList", moimList);
-		System.out.println(moimList.toString());
+	
+		logger.info(moimList.toString());
 		return "moim/moimList";
 	}
 	/**

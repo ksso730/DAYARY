@@ -1,10 +1,20 @@
 package us.flower.dayary.service;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import us.flower.dayary.common.FileManager;
 import us.flower.dayary.common.TokenGenerator;
 import us.flower.dayary.domain.Category;
@@ -15,15 +25,6 @@ import us.flower.dayary.repository.CategoryRepository;
 import us.flower.dayary.repository.MoimPeopleRepository;
 import us.flower.dayary.repository.MoimRepository;
 import us.flower.dayary.repository.PeopleRepository;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -70,7 +71,7 @@ public class MoimServiceImpl implements moimService{
 				break; 
 			}
 		}
-
+  
         //이미지파일확장자추출
         String originalFileName = file.getOriginalFilename();
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
@@ -90,10 +91,7 @@ public class MoimServiceImpl implements moimService{
 
         moimRepository.save(moim);
     }
-
-	public List<Moim> findMoim(Moim moim) {
-		return moimRepository.findAll();
-	}
+ 
 
 	public Optional<Moim> findMoimone(long no) {
 		return moimRepository.findById(no);
@@ -116,6 +114,8 @@ public class MoimServiceImpl implements moimService{
 		
 		return moimpeopleRepository.save(moimPeople);
 	}
+
+
 
 	
 

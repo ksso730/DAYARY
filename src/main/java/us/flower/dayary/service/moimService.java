@@ -1,9 +1,10 @@
 package us.flower.dayary.service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import us.flower.dayary.domain.Moim;
@@ -17,11 +18,11 @@ public interface moimService {
 
 	Optional<Moim> findMoimone(long no);//모임한개찾기
 
-	List<Moim> findMoim(Moim moim);//모임찾기
 
 
 	byte[] getMoimImage(String imageName) throws Exception;//모임이미지들고오기
 
 	MoimPeople moimParticipant(long peopleNo, long moimNo);//회원 모임참가하기
+
 
 }
