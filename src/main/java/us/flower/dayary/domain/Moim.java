@@ -89,7 +89,7 @@ public class Moim {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "MOIM_PEOPLE",
                joinColumns = @JoinColumn(name = "MOIM_NO"),
-               inverseJoinColumns = @JoinColumn(name = "PEOPLE_NO"))
+               inverseJoinColumns = @JoinColumn(name = "PEOPLE_ID"))
     private List<People> peopleList;
 
 
