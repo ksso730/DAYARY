@@ -33,15 +33,11 @@
 				<div class="col-md-6">
 					<span>Category</span>
 					<h3>Sports</h3>
-					<p>여기서 나중에 카테고리별 분류할 예정 (지역별,주제별 ,밑에는 모임리스트)
-												
-					</p>
+					<p>여기서 나중에 카테고리별 분류할 예정 (지역별,주제별 ,밑에는 모임리스트)</p>
 					<div id="myBtnContainer">
 						<button class="btn active" id="categorybox"
-							onclick="filterSelection('all')">모든 주제 보기
-							
-							</button>
-						
+							onclick="filterSelection('all')">모든 주제 보기</button>
+
 					</div>
 				</div>
 			</div>
@@ -60,7 +56,7 @@
 								alt="Image" class="img-fluid rounded">
 							</a>
 							<div class="excerpt">
-								
+
 								<span class="post-category text-white bg-secondary mb-3">
 									<td th:text="${moimList.category.subject}"></td>
 								</span>
@@ -76,8 +72,8 @@
 									<figure class="author-figure mb-0 mr-3 float-left">
 										<img src="images/person_1.jpg" alt="Image" class="img-fluid">
 									</figure>
-									<span class="d-inline-block mt-1">By <a href="#"><td 
-											th:text="${moimList.people.id}"></td></a></span> <span>&nbsp;-&nbsp;
+									<span class="d-inline-block mt-1">By <a href="#"><td
+											th:text="${moimList.people.email}"></td></a></span> <span>&nbsp;-&nbsp;
 										July 19, 2019</span>
 								</div>
 
@@ -99,17 +95,57 @@
 	</div>
 
 	</div>
-	<div class="row text-center pt-5 border-top">
+
+	<!-- <div class="row text-center pt-5 border-top">
 		<div class="col-md-12">
-			<div class="custom-pagination">
-				<span>1</span> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a>
-				<span>...</span> <a href="#">15</a>
+			<div class="custom-pagination"  th:with="start=${T(Math).floor(moimList.number/10)*10 + 1},
+                    last=(${start + 9 < moimList.totalPages ? start + 9 : moimList.totalPages})">
+					 <a th:href="@{/moimlistView(page=1)}" aria-label="First"><span>1</span></a>
+					<a href="#">2</a> 
+					<a href="#">3</a> 
+					<a href="#">4</a>
+					<span>...</span> 
+					<a href="#">15</a>
 			</div>
 		</div>
+	</div> -->
+	<nav style="text-align: center;">
+    <ul class="pagination"
+        th:with="start=${T(Math).floor(moimList.number/10)*10 + 1},
+                    last=(${start + 9 < moimList.totalPages ? start + 9 : moimList.totalPages})">
+        <li>
+            <a th:href="@{/moimlistView(page=1)}" aria-label="First">
+                <span aria-hidden="true">First</span>
+            </a>
+        </li>
+
+        <li th:class="${moimList.first} ? 'disabled'">
+            <a th:href="${moimList.first} ? '#' :@{/moimlistView(page=${moimList.number})}" aria-label="Previous">
+                <span aria-hidden="true">&lt;</span>
+            </a>
+        </li>
+
+        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == moimList.number + 1} ? 'active'">
+            <a th:text="${page}" th:href="@{/moimlistView(page=${page})}"></a>
+        </li>
+
+        <li th:class="${moimList.last} ? 'disabled'">
+            <a th:href="${moimList.last} ? '#' : @{/moimlistView(page=${moimList.number + 2})}" aria-label="Next">
+                <span aria-hidden="true">&gt;</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/boards(page=${moimList.totalPages})}" aria-label="Last">
+                <span aria-hidden="true">Last</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+	
 	</div>
 	</div>
-	</div>
-<script src="/js/moim/moimList.js"></script>
+	<script src="/js/moim/moimList.js"></script>
 
 </body>
 </html>
