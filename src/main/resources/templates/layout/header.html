@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="col-4 site-logo">
-                            <a href="/" class="text-black h2 mb-0">StudyFind</a>
+                            <a href="/" class="text-black h2 mb-0">StudyFind<span th:if="${csj}"></span></a>
                                
                         </div>
 
@@ -70,20 +70,20 @@
                                     <li >
                                         <a href="/moimMakeView">모임 만들기</a>
                                     </li>
-                                    <li th:if="${session.peopleNo==null}">
+                                    <li th:if="${session.peopleEmail==null}">
                                         <a href="/signupView">회원가입</a>
                                     </li>
-                                  	<li th:if="${session.peopleNo==null}">
+                                  	<li th:if="${session.peopleEmail==null}">
                                         <a href="/signinView">로그인
                                         </a>
                                     </li>
-                                  	 <li th:if="${session.peopleNo!=null}">
+                                  	 <li th:if="${session.peopleEmail!=null}">
                                         <a href="/logout">로그아웃</a>
                                     </li>
-                                    <li th:if="${session.peopleNo!=null}">
+                                    <li th:if="${session.peopleEmail!=null}">
                                         <a href="/myprofileView">내정보보기 </a>
                                     </li>
-                                    <li th:if="${session.peopleNo!=null}">
+                                    <li th:if="${session.peopleEmail!=null}">
                                         <div class="notification notishow">
                                             <span>Inbox</span>
                                             <span class="badge">3</span>

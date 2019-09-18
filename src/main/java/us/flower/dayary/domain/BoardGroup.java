@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import us.flower.dayary.domain.common.DateAudit;
 /**
  * 게시판그룹
  *   by choiseongjun
@@ -29,7 +30,7 @@ import lombok.Data;
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
         )
 @Data
-public class BoardGroup {
+public class BoardGroup{
 
 	@Id
 	@GeneratedValue(

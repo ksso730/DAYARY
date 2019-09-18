@@ -109,7 +109,7 @@ public class PeopleController {
 
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		session.setAttribute("peopleNo", null);
+		session.setAttribute("peopleId", null);
 		return "main";
 	}
 
