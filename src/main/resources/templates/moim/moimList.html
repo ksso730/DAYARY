@@ -22,6 +22,42 @@
 	background-color: #666;
 	color: white;
 }
+/*검색 바 스타일 start*/
+* {
+  box-sizing: border-box;
+}
+
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+/*검색 바 스타일 End*/
 </style>
 </head>
 <body>
@@ -30,9 +66,14 @@
 	<div class="py-5 bg-light">
 		<div class="container">
 			<div class="row">
+			<h2>모임 검색하기</h2>
+
+				<form class="example" action="/action_page.php">
+				  <input type="text" placeholder="Search.." name="search">
+				  <button type="submit"><i class="fa fa-search"></i></button>
+				</form>
 				<div class="col-md-6">
 					<span>Category</span>
-					<h3>Sports</h3>
 					<p>여기서 나중에 카테고리별 분류할 예정 (지역별,주제별 ,밑에는 모임리스트)</p>
 					<div id="myBtnContainer">
 						<button class="btn active" id="categorybox"
