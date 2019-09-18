@@ -64,7 +64,7 @@ public class Moim {
 
     //사용자번호
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PEOPLE_NO", referencedColumnName = "NO")
+    @JoinColumn(name = "PEOPLE_ID", referencedColumnName = "ID")
     private People people;
 
     //모임 카테고리

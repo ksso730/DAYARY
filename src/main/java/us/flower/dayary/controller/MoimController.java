@@ -1,5 +1,6 @@
 package us.flower.dayary.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import us.flower.dayary.domain.Category;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.MoimPeopleRepository;
@@ -214,10 +214,10 @@ public class MoimController {
      */
     @ResponseBody
     @PostMapping("/moimMake")
-    public Map<String, Object> moimMake(@RequestPart("moim") Moim moim, @RequestPart("file") MultipartFile file, HttpSession session) {
+    public Map<String, Object> moimMake(@RequestPart("moim") Moim moim, @RequestPart("file") MultipartFile file, Principal principal) {
 
         Map<String, Object> returnData = new HashMap<String, Object>();
-        String id = (String) session.getAttribute("peopleId");
+        String id = principal.getName();
         String subject = moim.getCategory().getSubject();
  
         if (id.equals(null) || id.equals("")) {
@@ -273,12 +273,11 @@ public class MoimController {
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
         
-        long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
+//        long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
         
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
         model.addAttribute("moimpeopleList",moimpeopleList);
-        model.addAttribute("checkPeople",checkPeople);
         
         return "moim/moimDetail"; 
     }

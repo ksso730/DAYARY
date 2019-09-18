@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -30,7 +31,7 @@ import lombok.NoArgsConstructor;
 @Table(name="PEOPLE",uniqueConstraints = {
       
             @UniqueConstraint(columnNames = {
-                "id"
+                "email"
             })
     })
 @Data
@@ -38,13 +39,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class People {
  
-	@Id
-	@GeneratedValue
-	@Column(name="NO")
-	private long no;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
-	private String id;
+	private long id;
+
+	@Column(name="EMAIL")
+	private String email;
 
 	@Column(name="PASSWORD")
 	private String password;
@@ -58,13 +60,22 @@ public class People {
 	@Column(name="ACTIVATION")
 	private String activation;
 	
-	 @ManyToMany(fetch = FetchType.LAZY)
-	    @JoinTable(name = "USERS_ROLES",
-	            joinColumns = @JoinColumn(name = "PEOPLE_ID"),
-	            inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-	    private Set<Role> roles = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "USER_ROLES", 
+            joinColumns = @JoinColumn(name = "PEOPLE_ID"),
+            inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+    private Set<Role> roles = new HashSet<>();
 //	// 회원  참여자 예정
 //    @OneToMany(mappedBy = "people")
 //    @JsonIgnore 
 //    private List<MoimPeople> moimPeopleList=new ArrayList<>();
+
+    public People(String email,String password,String name,String photo,String activation) {
+    	this.email=email;
+    	this.password=password;
+    	this.name=name;
+    	this.photo=photo;
+    	this.activation=activation;
+    }
+	
 }
