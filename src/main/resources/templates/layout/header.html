@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" 
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"    
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8">
         <title>Insert title here</title>
@@ -50,6 +51,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
                         <div class="col-4 site-logo">
                             <a href="/" class="text-black h2 mb-0">StudyFind</a>
+                               
                         </div>
 
                         <div class="col-8 text-right">
@@ -71,11 +73,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                                     <li th:if="${session.peopleNo==null}">
                                         <a href="/signupView">회원가입</a>
                                     </li>
-                                   <li sec:authorize="isAnonymous()">
+                                  	<li th:if="${session.peopleNo==null}">
                                         <a href="/signinView">로그인
                                         </a>
                                     </li>
-                                  	<li sec:authorize="isAnonymous()" >
+                                  	 <li th:if="${session.peopleNo!=null}">
                                         <a href="/logout">로그아웃</a>
                                     </li>
                                     <li th:if="${session.peopleNo!=null}">

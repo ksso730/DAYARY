@@ -19,42 +19,42 @@ public class PeopleController {
 	private PeopleRepository peopleRepository;
 	private BCRYPT bcrypt;
 
-	public PeopleController(PeopleRepository peopleRepository, BCRYPT bcrypt){
-		this.peopleRepository=peopleRepository;
-		this.bcrypt=bcrypt;
+	public PeopleController(PeopleRepository peopleRepository, BCRYPT bcrypt) {
+		this.peopleRepository = peopleRepository;
+		this.bcrypt = bcrypt;
 	}
+
 	/**
-     * 회원가입 뷰
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
+	 * 회원가입 뷰
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
 	@GetMapping("/signupView")
 	public String signupView() {
 		return "people/signup";
 	}
+
 	/**
-     * 로그인 뷰
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
+	 * 로그인 뷰
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
 	@GetMapping("/signinView")
 	public String signinView() {
 		return "people/signin";
 	}
+
 	/**
-     * 내 정보 조회
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
+	 * 내 정보 조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
 	@GetMapping("/myprofileView")
 	public String myprofileView() {
 		return "people/myprofile";
@@ -81,28 +81,35 @@ public class PeopleController {
 //		return returnData;
 //	}
 
-	/*
-	 * @ResponseBody
-	 * 
-	 * @PostMapping("/signin") public Map<String,Object> signin(@RequestBody People
-	 * people, HttpSession session){ Map<String,Object> returnData = new
-	 * HashMap<String,Object>(); try{
-	 * if(peopleRepository.existsById(people.getId())){ People dbPeople =
-	 * peopleRepository.findById(people.getId());
-	 * if(bcrypt.checkpw(people.getPassword(),dbPeople.getPassword())){//비밀번호가맞다면
-	 * session.setAttribute("peopleNo",dbPeople.getNo());//NO세션저장
-	 * session.setAttribute("peopleId",dbPeople.getId());//ID세션저장
-	 * returnData.put("code","1"); }else{//비밀번호가다르면 returnData.put("code","0");
-	 * returnData.put("message","아이디 또는 비밀번호를 확인해주세요:("); } }else{//없는아이디이면
-	 * returnData.put("code","0");
-	 * returnData.put("message","아이디 또는 비밀번호를 확인해주세요:("); } }catch (Exception e){
-	 * e.printStackTrace(); returnData.put("code","E4024");
-	 * returnData.put("message","잠시 후, 다시 시도해주세요:("); } return returnData; }
-	 */
+//	@ResponseBody
+//	@PostMapping("/signin")
+//	public Map<String, Object> signin(@RequestBody People people, HttpSession session) {
+//		Map<String, Object> returnData = new HashMap<String, Object>();
+//		try {
+//			if (peopleRepository.existsById(people.getId())) {
+//				People dbPeople = peopleRepository.findById(people.getId());
+//				if (bcrypt.checkpw(people.getPassword(), dbPeople.getPassword())) {// 비밀번호가맞다면
+//					session.setAttribute("peopleNo", dbPeople.getNo());// NO세션저장
+//					session.setAttribute("peopleId", dbPeople.getId());// ID세션저장
+//					returnData.put("code", "1");
+//				} else {// 비밀번호가다르면 returnData.put("code","0");
+//					returnData.put("message", "아이디 또는 비밀번호를 확인해주세요:(");
+//				}
+//			} else {// 없는아이디이면
+//				returnData.put("code", "0");
+//				returnData.put("message", "아이디 또는 비밀번호를 확인해주세요:(");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			returnData.put("code", "E4024");
+//			returnData.put("message", "잠시 후, 다시 시도해주세요:(");
+//		}
+//		return returnData;
+//	}
 
 	@GetMapping("/logout")
-	public String logout(HttpSession session){
-		session.setAttribute("peopleNo",null);
+	public String logout(HttpSession session) {
+		session.setAttribute("peopleNo", null);
 		return "main";
 	}
 

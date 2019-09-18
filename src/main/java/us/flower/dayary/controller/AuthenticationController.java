@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/signin")
-	public Map<String, Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+	public Map<String, Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,HttpSession session) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -59,12 +60,58 @@ public class AuthenticationController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String user_id = auth.getName();
 
-		System.out.println("SECURITY 정");
-		System.out.println(auth);
+//        try {
+//			    if(peopleRepository.existsByEmail(loginRequest.getEmail())) {
+//			    	People dbPeople=peopleRepository.findByEmail(loginRequest.getEmail());
+//			    	
+//			    	if(bcrypt.checkpw(loginRequest.getPassword(), dbPeople.getPassword())) {
+//			    		SecurityContextHolder.getContext().setAuthentication(authentication);
+//			    		returnData.put("code", "1");
+//			    		returnData.put("message", "로그인 완료");
+//			    		String jwt = tokenProvider.generateToken(authentication);
+//			    		System.out.println("로그인 완료");
+//			    		session.setAttribute("peopleNo",auth);//NO세션저장
+//			    	}else {//비밀번호가 다르면
+//			    		returnData.put("code","0");
+//						returnData.put("message", "아이디 또는 비밀번호를 확인해주세요:(");
+//						System.out.println("비번 틀릶");
+//			    	}
+//			    	
+//			    	
+//				}else {//없는 아이디면
+//					returnData.put("code", "0");
+//					returnData.put("message", "아이디 또는 비밀번호를 확인해주세요:(");
+//					System.out.println("아이디 틀리");
+//				}
+//        }catch(Exception e) {
+//        	e.printStackTrace(); 
+//        	returnData.put("code","E4024");
+//        	returnData.put("message","잠시 후, 다시 시도해주세요:(");
+//		}
+        try {
+			if (peopleRepository.existsByEmail(loginRequest.getEmail())) {
+				People dbPeople = peopleRepository.findByEmail(loginRequest.getEmail());
+					if (bcrypt.checkpw(loginRequest.getPassword(), dbPeople.getPassword())) {// 비밀번호가맞다면
+						session.setAttribute("peopleNo", auth);// NO세션저장
+						session.setAttribute("peopleId", dbPeople.getId());// ID세션저장
+						returnData.put("code", "1");
+						returnData.put("message", "로그인 완료!");
+					} else {// 비밀번호가다르면 
+						returnData.put("code","0");
+						returnData.put("message", "아이디 또는 비밀번호를 확인해주세요:(");
+						System.out.println("비밅번호 트림!!");
+					}
+			} else {// 없는아이디이면
+				returnData.put("code", "0");
+				returnData.put("message", "아이디 또는 비밀번호를 확인해주세요:(");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			returnData.put("code", "E4024");
+			returnData.put("message", "잠시 후, 다시 시도해주세요:(");
+		}
 		
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		returnData.put("code", "1");
-		String jwt = tokenProvider.generateToken(authentication);
+		
 		return returnData;
 	}
 
