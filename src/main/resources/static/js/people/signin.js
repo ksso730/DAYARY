@@ -15,13 +15,12 @@ $('#signin_btn').off().on('click',function(){
 			if(data.code==1){
 				alert(data.message);
 				location.href='/';
-			}else{
-				alert(data.message);
-			
 			}
 		},
-		error:function(){
-
+		error:function(xhr,error){
+			if(xhr.status==401){
+				alert('아이디나 비밀번호가  틀렸습니다');
+			}
 		}
 
 	});
