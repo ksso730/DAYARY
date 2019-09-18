@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.Role;
 import us.flower.dayary.domain.RoleName;
 import us.flower.dayary.exception.AppException;
+import us.flower.dayary.payload.JwtAuthenticationResponse;
 import us.flower.dayary.payload.LoginRequest;
 import us.flower.dayary.payload.SignUpRequest;
 import us.flower.dayary.repository.PeopleRepository;
@@ -49,37 +51,34 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/signin")
-	public Map<String, Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,HttpSession session,Principal principal) {
+	public Map<String, Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,HttpSession session,Model model,Principal principal) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
 		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    
-
+		
         try {
 			if (peopleRepository.existsByEmail(loginRequest.getEmail())) {
 				People dbPeople = peopleRepository.findByEmail(loginRequest.getEmail());
 					if (bcrypt.checkpw(loginRequest.getPassword(), dbPeople.getPassword())) {// 비밀번호가맞다면
-						session.setAttribute("peopleNo", dbPeople.getId());// NO세션저장
-						session.setAttribute("peopleId", dbPeople.getEmail());// ID세션저장
+						session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
+						session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
 						returnData.put("code", "1");
-					
+						  String jwt = tokenProvider.generateToken(authentication);
+					       JwtAuthenticationResponse csj= new JwtAuthenticationResponse(jwt);
+					        model.addAttribute("csj",csj);
+					        System.out.println(jwt);
 						returnData.put("message", "로그인 완료!");
-					} else {// 비밀번호가다르면 
-						returnData.put("code","0");
-						returnData.put("message", "아이디 또는 비밀번호를 확인해주세요:(");
-					}
-			} else {// 없는아이디이면
-				returnData.put("code", "0");
-				returnData.put("message", "아이디 또는 비밀번호를 확인해주세요:(");
-			}
+					} 
+			} 
 		} catch (Exception e) {
 			e.printStackTrace();
 			returnData.put("code", "E4024");
 			returnData.put("message", "잠시 후, 다시 시도해주세요:(");
 		}
-		
+      
 		
 		return returnData;
 	}

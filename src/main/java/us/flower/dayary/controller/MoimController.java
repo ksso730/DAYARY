@@ -220,7 +220,7 @@ public class MoimController {
     public Map<String, Object> moimMake(@RequestPart("moim") Moim moim, @RequestPart("file") MultipartFile file, HttpSession session) {
 
         Map<String, Object> returnData = new HashMap<String, Object>();
-        String id = (String) session.getAttribute("peopleId");
+        String id = (String) session.getAttribute("peopleEmail");
         String subject = moim.getCategory().getSubject();
     	System.out.println("현재 사용자아이디는?_#@$$@#$");
         if (id.equals(null) || id.equals("")) {
