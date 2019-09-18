@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"    
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8">
         <title>Insert title here</title>
@@ -49,6 +51,7 @@
 
                         <div class="col-4 site-logo">
                             <a href="/" class="text-black h2 mb-0">StudyFind</a>
+                               
                         </div>
 
                         <div class="col-8 text-right">
@@ -64,17 +67,17 @@
                                     <li>
                                         <a href="/community/communityList/1">커뮤니티</a>
                                     </li>
-                                    <li th:if="${session.peopleNo!=null}">
+                                    <li >
                                         <a href="/moimMakeView">모임 만들기</a>
                                     </li>
                                     <li th:if="${session.peopleNo==null}">
                                         <a href="/signupView">회원가입</a>
                                     </li>
-                                    <li th:if="${session.peopleNo==null}">
+                                  	<li th:if="${session.peopleNo==null}">
                                         <a href="/signinView">로그인
                                         </a>
                                     </li>
-                                    <li th:if="${session.peopleNo!=null}">
+                                  	 <li th:if="${session.peopleNo!=null}">
                                         <a href="/logout">로그아웃</a>
                                     </li>
                                     <li th:if="${session.peopleNo!=null}">

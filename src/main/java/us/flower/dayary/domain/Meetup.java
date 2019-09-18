@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 /**
  * 오프라인모임
+ *   by choiseongjun
  */
 @Entity
 @Table(name="MEETUP")

@@ -2,7 +2,7 @@
 $('#signin_btn').off().on('click',function(){
 
 	let people = {};
-	people.id=$('#id').val();
+	people.email=$('#email').val();
 	people.password=$('#password').val();
 
 	$.ajax({
@@ -13,9 +13,11 @@ $('#signin_btn').off().on('click',function(){
 		data: JSON.stringify(people),
 		success:function(data){
 			if(data.code==1){
+				alert(data.message);
 				location.href='/';
 			}else{
 				alert(data.message);
+			
 			}
 		},
 		error:function(){

@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 온라인모임참가자
+ * by choiseongjun
  */
 @Entity
 @Table(name = "MOIM_PEOPLE")
@@ -35,7 +36,7 @@ public class MoimPeople {
 	@JoinColumn(name = "MOIM_NO")
 	private Moim moim;
 	@ManyToOne
-	@JoinColumn(name = "PEOPLE_NO")
+	@JoinColumn(name = "PEOPLE_ID")
 	private People people;
 	@CreatedDate
 	private LocalDateTime createdDate;

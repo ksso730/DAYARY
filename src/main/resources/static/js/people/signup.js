@@ -2,7 +2,7 @@
 $('#signup_btn').off().on('click',function(){
 
 	let people = {};
-	people.id=$('#id').val();
+	people.email=$('#email').val();
 	people.name=$('#name').val();
 	people.password=$('#password').val();
 	people.sex=$('#sex').val();

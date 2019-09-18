@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 /**
  * 카테고리[온라인모임/오프라인모임]
+ * by 김유나
  */
 @Entity
 @Data
