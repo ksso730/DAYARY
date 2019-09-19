@@ -66,10 +66,12 @@ public class AuthenticationController {
 						session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
 						session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
 						returnData.put("code", "1");
-						  String jwt = tokenProvider.generateToken(authentication);
-					       JwtAuthenticationResponse csj= new JwtAuthenticationResponse(jwt);
+						 
+							String jwt = tokenProvider.generateToken(authentication);
+							JwtAuthenticationResponse csj= new JwtAuthenticationResponse(jwt);
 					        model.addAttribute("csj",csj);
 					        System.out.println(jwt);
+					        
 						returnData.put("message", "로그인 완료!");
 					} 
 			} 

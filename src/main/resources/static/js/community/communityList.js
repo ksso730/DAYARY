@@ -1,5 +1,5 @@
 $('#community_write_btn').off().on('click', function () {
-	var board_group_no = $('#board_group_no').attr("data-boardGroupNo");
+	const board_group_no = $('#board_group_no').attr("data-boardGroupNo");
 	
 	let communityBoard = {};
 	communityBoard.memo=$('#memo').val();
@@ -13,7 +13,7 @@ $('#community_write_btn').off().on('click', function () {
         success:function(data){
 			if(data.code==1){
 				alert(data.message);
-				location.href='/';
+				location.href='/community/communityList/'+board_group_no;
 			}else{
 				alert(data.message)
 			}
@@ -24,3 +24,30 @@ $('#community_write_btn').off().on('click', function () {
     });
 	
 });
+
+
+$(document).ready(function(){
+	  $("#community_delete_btn").click(function(){
+		  	const board_group_no = $('#board_group_no').attr("data-boardGroupNo");
+			const timeLineListNo = $('#timeLineListNo').attr("data-timeLineListNo");
+			console.log(timeLineListNo);
+			
+			$.ajax({
+		        url:'/community/communityList/'+board_group_no+'/communityDelete/'+timeLineListNo,
+		        type:'DELETE',
+				contentType: 'application/json; charset=UTF-8',
+		        dataType:'json',
+		        success:function(data){
+					if(data.code==1){
+						alert(data.message);
+						location.href='/';
+					}else{
+						alert(data.message)
+					}
+				},
+				error:function(xhr,error){
+					
+				}
+		    });
+	  });
+	});

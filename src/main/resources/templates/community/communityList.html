@@ -29,19 +29,12 @@
 <div class="container">
 <div th:replace="community/sidemenu::sidemenu"/>
 <div id="board_group_no" class="board_group_no"th:data-boardGroupNo="${board_group_no}"></div>
+
    <ul class="timeline">
    <!-- 글쓰기 -->
     <li>
-         <!-- begin timeline-time -->
-         <div class="timeline-time">
-            <span class="date">today<td th:text="${board_group_no}" /></span>
-            <span class="time">04:20</span>
-         </div>
-         <!-- end timeline-time -->
-         <!-- begin timeline-icon -->
-         <div class="timeline-icon">
-            <a href="javascript:;">&nbsp;</a>
-         </div>
+      
+         
          <!-- end timeline-icon -->
          <!-- begin timeline-body -->
          <div class="timeline-body">
@@ -58,11 +51,12 @@
          <!-- end timeline-body -->
       </li>
    <!-- 글쓰기완료시점 -->
+   <tr th:each="timeLineList : ${timeLineList}">
       <li>
          <!-- begin timeline-time -->
          <div class="timeline-time">
             <span class="date">today</span>
-            <span class="time">04:20</span>
+            <span class="time">19:30 </span>
          </div>
          <!-- end timeline-time -->
          <!-- begin timeline-icon -->
@@ -71,12 +65,16 @@
          </div>
          <!-- end timeline-icon -->
          <!-- begin timeline-body -->
-         <tr th:each="timeLineList : ${timeLineList}">
+   
          <div class="timeline-body">
             <div class="timeline-header">
                <span class="userimage"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""></span>
-               <span class="username"><a href="javascript:;"><td th:text="${timeLineList.people.email}"></td> </a> <small></small></span>
+               <span class="username"><a href="javascript:;"><td th:text="${timeLineList.people.email}"> </a> <small></small></span>
                <span class="pull-right text-muted">18 Views</span>
+               <div id="timeLineListNo" th:data-timeLineListNo="${timeLineList.no}"></div>
+               <span th:if="${session.peopleId==timeLineList.people.id}">
+               <button class="pull-right text-muted" id="community_delete_btn" type="button">글 삭제하기</button>
+               </span>
             </div>
             <div class="timeline-content">
                <p>
@@ -119,22 +117,11 @@
                </div>
             </div>
          </div>
-         </tr>
+       
          <!-- end timeline-body -->
       </li>
-      <li>
-         <!-- begin timeline-time -->
-         <div class="timeline-time">
-            <span class="date">24 February 2014</span>
-            <span class="time">08:17</span>
-         </div>
-         <!-- end timeline-time -->
-         <!-- begin timeline-icon -->
-         <div class="timeline-icon">
-            <a href="javascript:;">&nbsp;</a>
-         </div>
-         <!-- end timeline-icon -->
-         
+       </tr>
+      
       
    </ul>
    <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
