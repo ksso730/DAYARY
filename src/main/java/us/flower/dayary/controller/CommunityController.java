@@ -27,8 +27,6 @@ public class CommunityController {
 	
 	@Autowired
 	CommunityBoardService communityBoardService;
-	@Autowired
-	CommunityBoardRepository communityBoardRepository;
 	 /**
      * 커뮤니티 타임라인 글쓰기
      *
@@ -79,11 +77,11 @@ public class CommunityController {
 		//sort=sort.and(new Sort(Sort.Direction.DESC));
 		 
 		model.addAttribute("board_group_no",board_group_no);
-		CommunityBoard communityBoard=new CommunityBoard();
-		
-		List<CommunityBoard> timeLineList=communityBoardRepository.findAll();
-		
-		
+
+
+
+		List<CommunityBoard> timeLineList=communityBoardService.CommunityList();
+
 		model.addAttribute("timeLineList",timeLineList);
 		return "community/communityList";
 	}

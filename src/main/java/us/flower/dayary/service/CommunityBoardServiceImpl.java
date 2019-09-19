@@ -10,6 +10,8 @@ import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.CommunityBoardRepository;
 
+import java.util.List;
+
 @Service
 public class CommunityBoardServiceImpl implements CommunityBoardService{
 
@@ -32,5 +34,11 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		communityBoardRepository.save(communityBoard);
 
 	}
+
+	@Override
+	public List<CommunityBoard> CommunityList() {
+		return communityBoardRepository.findAll();
+	}
+
 
 }
