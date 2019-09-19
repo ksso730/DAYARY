@@ -96,7 +96,7 @@ public class AuthenticationController {
 				user.setPassword(bcrypt.hashpw(user.getPassword()));
 
 				Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-						.orElseThrow(() -> new AppException("User Role not set."));
+						.orElseThrow(() -> new AppException("먼저 Role테이블에 insert문으로 데이터 넣어주세요.트렐로에 필수 INSERT문 넣었습니다"));
 
 				user.setRoles(Collections.singleton(userRole));
 

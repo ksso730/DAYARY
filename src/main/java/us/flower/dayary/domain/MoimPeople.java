@@ -13,6 +13,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,11 +36,11 @@ public class MoimPeople {
 	private long no;
 	@ManyToOne
 	@JoinColumn(name = "MOIM_NO")
+	@JsonIgnore
 	private Moim moim;
 	@ManyToOne
 	@JoinColumn(name = "PEOPLE_ID")
+	@JsonIgnore
 	private People people;
-	@CreatedDate
-	private LocalDateTime createdDate;
 
 }

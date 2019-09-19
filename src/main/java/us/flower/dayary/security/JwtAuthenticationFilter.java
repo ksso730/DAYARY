@@ -17,8 +17,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import us.flower.dayary.service.CustomUserDetailsService;
-
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired

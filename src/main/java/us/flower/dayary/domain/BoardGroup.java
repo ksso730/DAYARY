@@ -52,5 +52,5 @@ public class BoardGroup{
 	
   @OneToMany(mappedBy = "boardGroup",cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore 
-  private List<ComunityBoard> communityBoard=new ArrayList<>();
+  private List<CommunityBoard> communityBoard=new ArrayList<>();
 }

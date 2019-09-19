@@ -1,4 +1,4 @@
-package us.flower.dayary.service;
+package us.flower.dayary.security;
 
 import javax.transaction.Transactional;
 
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.PeopleRepository;
-import us.flower.dayary.security.UserPrincipal;
 
 @Service 
 public class CustomUserDetailsService implements UserDetailsService {

@@ -1,0 +1,11 @@
+package us.flower.dayary.service;
+
+import java.util.Map;
+
+import us.flower.dayary.domain.CommunityBoard;
+
+public interface CommunityBoardService {
+
+	void communityWrite(Long people_no, long board_group_no, CommunityBoard communityBoard);
+
+}

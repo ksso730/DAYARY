@@ -101,12 +101,12 @@ public class MoimServiceImpl implements moimService{
         return fileManager.getByteArray(moimImagePath+"/"+imageName);
     }
 
-	public MoimPeople moimParticipant(long peopleNo, long moimNo) {
+	public MoimPeople moimParticipant(long peopleId, long moimNo) {
 		Moim moim=new Moim();
 		moim.setNo(moimNo);
 		
 		People people=new People();
-		people.setId(peopleNo);
+		people.setId(peopleId);
 		
 		MoimPeople moimPeople=new MoimPeople();
 		moimPeople.setMoim(moim);

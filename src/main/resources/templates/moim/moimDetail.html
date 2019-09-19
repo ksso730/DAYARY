@@ -159,7 +159,7 @@ background-color: rgb(255, 255, 255);
 </head>
 <body>
 
-
+<div id="moimNo" th:data-moimNo="${moimDetail.no}"></div>
 	<link rel="stylesheet" href="/css/friendList.css">
 	<div class="content">
 		<div class="container">
@@ -198,8 +198,7 @@ background-color: rgb(255, 255, 255);
 						<h4 class="header-title mt-0">우리 모임 소개</h4>
 						<div class="panel-body">
 							<p class="text-muted font-13">우리 모임은 spring jpa스터디를 하며  스터디 모임/일정관리  시스템을 만듭니다</p>
-							<button type="button"
-											class="btn btn-primary btn-xs">스터디 가입하기</button>
+							<button type="button" id="signup_btn" class="btn btn-primary btn-xs">스터디 가입하기</button>
 							<hr>
 							<div class="text-left">
 								<p class="text-muted font-13">
@@ -246,94 +245,29 @@ background-color: rgb(255, 255, 255);
 					
 						<div class="clearfix"><button type="button" class="btn btn-info">모임원</button>	</div>
 						<div class="inbox-widget">
-						
+							<tr th:each="moimpeopleList : ${moimpeopleList}">
 							<a href="#">
 								<div class="inbox-item">
 									<div class="inbox-item-img">
 										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
 											class="rounded-circle" alt="">
 									</div>
-									<p class="inbox-item-author">Tomaslau</p>
-									<p class="inbox-item-text">I've finished it! See you so...</p>
+									<p class="inbox-item-author"><td th:text="${moimpeopleList.name}" /></p>
 									<p class="inbox-item-date">
 										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진권한주기</button>
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
 										<button type="button"
 											class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
 									</p>
 								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar3.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Stillnotdavid</p>
-									<p class="inbox-item-text">This theme is awesome!</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar4.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Kurafire</p>
-									<p class="inbox-item-text">Nice to meet you</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar5.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Shahedk</p>
-									<p class="inbox-item-text">Hey! there I'm available...</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar6.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Adhamdannaway</p>
-									<p class="inbox-item-text">This theme is awesome!</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Tomaslau</p>
-									<p class="inbox-item-text">I've finished it! See you so...</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> 
+							
+							</a>
+							</tr>
 							<center>
 								
 								<span style="font-size:30px;cursor:pointer" onclick="openNav()"> ☰ 더 보기</span>
 							</center>
-							
-						</div>
+							</div>
 					</div>
 				</div>
 				<div class="col-xl-8">
@@ -611,7 +545,7 @@ background-color: rgb(255, 255, 255);
 											class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
 									</p>
 								</div>
-							</a> <a href="#">
+							</a> <a href="#"> 
 								<div class="inbox-item">
 									<div class="inbox-item-img">
 										<img src="https://bootdey.com/img/Content/avatar/avatar3.png"

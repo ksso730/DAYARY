@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import us.flower.dayary.domain.common.DateAudit;
 /**
  * 커뮤니티게시판
  *   by choiseongjun
@@ -19,7 +20,7 @@ import lombok.Data;
 @Entity
 @Table(name="COMUNITY_BOARD")
 @Data
-public class ComunityBoard {
+public class CommunityBoard extends DateAudit{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,7 +35,11 @@ public class ComunityBoard {
 	@Column(name="HEART")
 	private long heart;
 	
-	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_GROUP_NO")
     private BoardGroup boardGroup;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PEOPLE_ID")
+    private People people;
 }

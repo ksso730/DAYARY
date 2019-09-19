@@ -222,7 +222,7 @@ public class MoimController {
         Map<String, Object> returnData = new HashMap<String, Object>();
         String id = (String) session.getAttribute("peopleEmail");
         String subject = moim.getCategory().getSubject();
-    	System.out.println("현재 사용자아이디는?_#@$$@#$");
+        
         if (id.equals(null) || id.equals("")) {
             returnData.put("code", "0");
             returnData.put("message", "로그인 후 이용해주세요");
@@ -268,7 +268,7 @@ public class MoimController {
     	
     	
         moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));
-        Long people_no = (Long) session.getAttribute("peopleNo");//일반회원 번호를 던져준다.참가를 위해 
+        Long people_no = (Long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.참가를 위해 
         session.setAttribute("people_no", people_no);
 
        
@@ -318,12 +318,13 @@ public class MoimController {
 	@ResponseBody
 	@PostMapping("/moimParticipant/{moimNo}")
 	public Map<String, Object> moimParticipant(@PathVariable("moimNo") long moimNo,HttpSession session) {
-		Long peopleNo = (Long) session.getAttribute("peopleNo");
+		Long peopleId = (Long) session.getAttribute("peopleId");
 		
+		System.out.println(peopleId);
 		Map<String,Object> returnData = new HashMap<String,Object>();
 		returnData.put("code","1");
 		returnData.put("message","모임가입완료:)");
-		moimService.moimParticipant(peopleNo,moimNo);
+		moimService.moimParticipant(peopleId,moimNo);
 		return returnData;
 	}
 	
