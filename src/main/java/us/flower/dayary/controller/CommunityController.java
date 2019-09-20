@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.CommunityBoard;
@@ -122,7 +123,6 @@ public class CommunityController {
 
 
 		List<CommunityBoard> timeLineList=communityBoardService.CommunityList();
-
 		model.addAttribute("timeLineList",timeLineList);
 		return "community/communityList";
 	}

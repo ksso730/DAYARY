@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import us.flower.dayary.domain.common.DateAudit;
 
 /**
  * 온라인모임
@@ -32,7 +33,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Moim {
+public class Moim extends DateAudit{
  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

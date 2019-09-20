@@ -18,6 +18,7 @@ import javax.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import us.flower.dayary.domain.common.DateAudit;
 
 /**
 *회원
@@ -37,7 +38,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class People {
+public class People extends DateAudit{
  
 
 	@Id
