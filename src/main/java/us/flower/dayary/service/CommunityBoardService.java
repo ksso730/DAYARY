@@ -11,4 +11,7 @@ public interface CommunityBoardService {
 
 
     List<CommunityBoard> CommunityList();
+
+
+	void deleteBoardone(long timeLineListNo);
 }

@@ -36,8 +36,13 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	}
 
 	@Override
-	public List<CommunityBoard> CommunityList() {
+	public List<CommunityBoard> CommunityList() { 
 		return communityBoardRepository.findAll();
+	}
+
+	@Override
+	public void deleteBoardone(long timeLineListNo) {
+		communityBoardRepository.deleteById(timeLineListNo);
 	}
 
 

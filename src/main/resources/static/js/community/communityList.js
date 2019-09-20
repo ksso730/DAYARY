@@ -40,7 +40,7 @@ $(document).ready(function(){
 		        success:function(data){
 					if(data.code==1){
 						alert(data.message);
-						location.href='/';
+						location.href='/community/communityList/'+board_group_no;
 					}else{
 						alert(data.message)
 					}

@@ -18,7 +18,7 @@ import us.flower.dayary.domain.common.DateAudit;
  *   by choiseongjun
  */
 @Entity
-@Table(name="COMUNITY_BOARD")
+@Table(name="COMMUNITY_BOARD")
 @Data
 public class CommunityBoard extends DateAudit{
 

@@ -8,6 +8,5 @@ public interface CommunityBoardRepository extends JpaRepository<CommunityBoard,L
 
 
 
-	void deleteByboardGroupAndNo(long board_group_no, long timeLineListNo);
  
 }

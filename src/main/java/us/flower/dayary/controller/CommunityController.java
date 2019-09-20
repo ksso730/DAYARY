@@ -47,8 +47,16 @@ public class CommunityController {
 		 Map<String, Object> returnData = new HashMap<String, Object>();
 		
 		 
-		communityBoardRepository.deleteById(timeLineListNo);
+		
+		try {
+			communityBoardService.deleteBoardone(timeLineListNo);
+		  	returnData.put("code", "1");
+            returnData.put("message", "삭제되었습니다");
 
+        } catch (Exception e) {
+            returnData.put("code", "E3290");
+            returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+        }
  
 
 		return returnData;
