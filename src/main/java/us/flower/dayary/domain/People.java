@@ -42,8 +42,7 @@ import us.flower.dayary.domain.common.DateAudit;
                 "email"
             })
     })
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class People extends DateAudit{

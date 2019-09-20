@@ -307,25 +307,20 @@ public class MoimController {
     	
     	
         moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));
-        
-        Long people_no = (Long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.참가를 위해 
+        long people_no = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.참가를 위해 
         session.setAttribute("people_no", people_no);
 
-       
-        
+        Optional<People> joinedpeople=moimService.findPeopleOne(people_no);//참여자 조회
+        System.out.println("==================");
+        System.out.println(joinedpeople.toString());
+        System.out.println("==================");        
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
-        System.out.println("======================");
-        System.out.println(moimOne.toString());
-        System.out.println("======================"); 
-        System.out.println(moimpeopleList.toString());
-        System.out.println("======================");
         
 //        long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
-        
-        
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
+        model.addAttribute("moimpeopleList",moimpeopleList);
         
         return "moim/moimDetail"; 
     }

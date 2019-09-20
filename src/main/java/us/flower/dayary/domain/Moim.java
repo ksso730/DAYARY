@@ -33,8 +33,7 @@ import us.flower.dayary.domain.common.DateAudit;
  */
 @Entity
 @Table(name = "MOIM")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Moim extends DateAudit{

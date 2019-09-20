@@ -8,9 +8,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -120,6 +117,14 @@ public class MoimServiceImpl implements moimService{
 	public void deleteMoimOne(long moimNo) {
 		moimRepository.deleteById(moimNo);
 	}
+
+	@Override
+	public Optional<People> findPeopleOne(Long people_no) {
+		System.out.println("현재 세션값은?????");
+		System.out.println(people_no);
+		return peopleRepository.findPeopleOne(people_no);
+	}
+
 
 
 

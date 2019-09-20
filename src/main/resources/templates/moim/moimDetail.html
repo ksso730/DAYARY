@@ -264,7 +264,7 @@ background-color: rgb(255, 255, 255);
 									<p class="inbox-item-date">
 										<span th:if="${session.peopleId==moimDetail.people.id}">
 											<button type="button"
-												class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
+												class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기<td th:text="${moimpeopleList.name}" /></button>
 											<button type="button"
 												class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
 										</span>
