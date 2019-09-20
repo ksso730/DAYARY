@@ -22,6 +22,7 @@ public class InsertData {
 		  Category category=new Category();
 		  category.setNo(0L);
 		  category.setSubject("수학");
+		  categoryRepository.save(category);
 		  category.setNo(1L);
 		  category.setSubject("영어");
 		  categoryRepository.save(category);

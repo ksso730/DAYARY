@@ -43,5 +43,8 @@ public class MoimPeople extends DateAudit{
 	@JoinColumn(name = "PEOPLE_ID")
 	@JsonIgnore
 	private People people;
+	 
+	@Column(name="JOINROLE")
+	private String joinrole;
 
 }

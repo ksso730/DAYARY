@@ -15,13 +15,16 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import us.flower.dayary.domain.common.DateAudit;
 
 /**
@@ -30,7 +33,8 @@ import us.flower.dayary.domain.common.DateAudit;
  */
 @Entity
 @Table(name = "MOIM")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Moim extends DateAudit{
@@ -92,7 +96,7 @@ public class Moim extends DateAudit{
                joinColumns = @JoinColumn(name = "MOIM_NO"),
                inverseJoinColumns = @JoinColumn(name = "PEOPLE_ID"))
     private List<People> peopleList;
-
+	   
 
 
 }

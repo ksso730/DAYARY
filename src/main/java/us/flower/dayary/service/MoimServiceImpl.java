@@ -111,8 +111,14 @@ public class MoimServiceImpl implements moimService{
 		MoimPeople moimPeople=new MoimPeople();
 		moimPeople.setMoim(moim);
 		moimPeople.setPeople(people);
+		moimPeople.setJoinrole("study"); 
 		
 		return moimpeopleRepository.save(moimPeople);
+	}
+
+	@Override
+	public void deleteMoimOne(long moimNo) {
+		moimRepository.deleteById(moimNo);
 	}
 
 

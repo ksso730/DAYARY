@@ -1,4 +1,4 @@
-$('#community_write_btn').off().on('click', function () {
+$('#community_write_btn').off().on('click', function () {//게시판(타임라인)글 쓰기 by choiseongjun
 	const board_group_no = $('#board_group_no').attr("data-boardGroupNo");
 	
 	let communityBoard = {};
@@ -26,7 +26,7 @@ $('#community_write_btn').off().on('click', function () {
 });
 
 
-$(document).ready(function(){
+$(document).ready(function(){//게시판(타임라인)글 삭제 by choiseongjun
 	  $("#community_delete_btn").click(function(){
 		  	const board_group_no = $('#board_group_no').attr("data-boardGroupNo");
 			const timeLineListNo = $('#timeLineListNo').attr("data-timeLineListNo");

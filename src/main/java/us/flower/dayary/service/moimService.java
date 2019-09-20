@@ -24,5 +24,7 @@ public interface moimService {
 
 	MoimPeople moimParticipant(long peopleNo, long moimNo);//회원 모임참가하기
 
+	void deleteMoimOne(long moimNo);
+
 
 }
