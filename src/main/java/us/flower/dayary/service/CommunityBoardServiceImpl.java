@@ -30,6 +30,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		communityBoard.setMemo(communityBoard.getMemo());
 		communityBoard.setBoardGroup(boardGroup);
 		communityBoard.setPeople(people);
+		communityBoard.setDeleteFlag('N');
 		
 		communityBoardRepository.save(communityBoard);
 

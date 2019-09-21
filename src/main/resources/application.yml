@@ -31,7 +31,7 @@ logging:
 server:
     port: 8080
 
-moimImagePath: C:/dayary/moim/image
+moimImagePath: /Users/choiseongjun/git/DAYARY/moim/image
 
 app:
       jwtSecret : JWTSuperSecretKey

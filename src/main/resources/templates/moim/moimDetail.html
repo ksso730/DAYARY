@@ -198,8 +198,11 @@ background-color: rgb(255, 255, 255);
 				<div class="col-xl-4">
 					<!-- Personal-Information -->
 					<div class="card-box">
-						<h4 class="header-title mt-0">우리 모임 소개</h4>
-						<div class="panel-body">
+						<h4 class="header-title mt-0">우리 모임 소개 </h4>
+						<span th:if="${joinedpeople}==null">
+							<td th:text="${joinedpeople}" ></td>
+						</span>
+						<div class="panel-body"> 
 							<p class="text-muted font-13">우리 모임은 spring jpa스터디를 하며  스터디 모임/일정관리  시스템을 만듭니다</p>
 							<span th:if="${session.peopleId!=moimDetail.people.id}">
 								<button type="button" id="signup_btn" class="btn btn-primary btn-xs">스터디 가입하기</button>
