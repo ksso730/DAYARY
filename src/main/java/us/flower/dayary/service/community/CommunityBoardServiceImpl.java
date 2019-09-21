@@ -1,4 +1,4 @@
-package us.flower.dayary.service;
+package us.flower.dayary.service.community;
 
 
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.People;
-import us.flower.dayary.repository.CommunityBoardRepository;
+import us.flower.dayary.repository.community.CommunityBoardRepository;
 
 import java.util.List;
 

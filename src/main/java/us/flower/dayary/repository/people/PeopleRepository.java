@@ -1,4 +1,4 @@
-package us.flower.dayary.repository;
+package us.flower.dayary.repository.people;
 
 import java.util.List;
 import java.util.Optional;

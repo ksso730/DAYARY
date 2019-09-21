@@ -1,4 +1,4 @@
-package us.flower.dayary.service;
+package us.flower.dayary.service.moim;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,9 +19,9 @@ import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.CategoryRepository;
-import us.flower.dayary.repository.MoimPeopleRepository;
-import us.flower.dayary.repository.MoimRepository;
-import us.flower.dayary.repository.PeopleRepository;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
+import us.flower.dayary.repository.moim.MoimRepository;
+import us.flower.dayary.repository.people.PeopleRepository;
 
 @Service
 @Transactional

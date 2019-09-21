@@ -1,4 +1,4 @@
-package us.flower.dayary.controller;
+package us.flower.dayary.controller.moim;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +28,9 @@ import org.springframework.web.multipart.MultipartFile;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
-import us.flower.dayary.repository.MoimPeopleRepository;
-import us.flower.dayary.repository.MoimRepository;
-import us.flower.dayary.service.moimService;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
+import us.flower.dayary.repository.moim.MoimRepository;
+import us.flower.dayary.service.moim.moimService;
 
 
 

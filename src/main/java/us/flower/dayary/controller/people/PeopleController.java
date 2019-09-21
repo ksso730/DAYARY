@@ -1,23 +1,15 @@
-package us.flower.dayary.controller;
-
-import java.net.URI;
-import java.security.Principal;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+package us.flower.dayary.controller.people;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import us.flower.dayary.common.BCRYPT;
@@ -28,12 +20,21 @@ import us.flower.dayary.exception.AppException;
 import us.flower.dayary.payload.JwtAuthenticationResponse;
 import us.flower.dayary.payload.LoginRequest;
 import us.flower.dayary.payload.SignUpRequest;
-import us.flower.dayary.repository.PeopleRepository;
-import us.flower.dayary.repository.RoleRepository;
+import us.flower.dayary.repository.people.PeopleRepository;
+import us.flower.dayary.repository.people.RoleRepository;
 import us.flower.dayary.security.JwtTokenProvider;
 
-@RestController
-public class AuthenticationController {
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import java.net.URI;
+import java.security.Principal;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+@Controller
+public class PeopleController {
 
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -46,11 +47,12 @@ public class AuthenticationController {
 
 	private BCRYPT bcrypt;
 
-	public AuthenticationController(BCRYPT bcrypt) {
+	public PeopleController(BCRYPT bcrypt) {
 		this.bcrypt = bcrypt;
 	}
 
 	@PostMapping("/signin")
+	@ResponseBody
 	public Map<String, Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,HttpSession session,Model model,Principal principal) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		Authentication authentication = authenticationManager.authenticate(
@@ -86,6 +88,7 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/signup")
+	@ResponseBody
 	public Map<String, Object> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
 		Map<String, Object> returnData = new HashMap<String, Object>();
@@ -117,6 +120,49 @@ public class AuthenticationController {
 			returnData.put("message", "잠시 후, 다시 시도해주세요:(");
 		}
 		return returnData;
+	}
+
+	/**
+	 * 회원가입 뷰
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@GetMapping("/signupView")
+	public String signupView() {
+		return "people/signup";
+	}
+
+	/**
+	 * 로그인 뷰
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@GetMapping("/signinView")
+	public String signinView() {
+		return "people/signin";
+	}
+
+	/**
+	 * 내 정보 조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@GetMapping("/myprofileView")
+	public String myprofileView() {
+		return "people/myprofile";
+	}
+
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.setAttribute("peopleId", null);
+		return "main";
 	}
 
 }

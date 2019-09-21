@@ -1,4 +1,4 @@
-package us.flower.dayary.repository;
+package us.flower.dayary.repository.moim;
 
 import java.util.List;
 
