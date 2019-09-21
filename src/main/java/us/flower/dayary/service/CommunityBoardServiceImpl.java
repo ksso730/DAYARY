@@ -19,13 +19,13 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	CommunityBoardRepository communityBoardRepository;
 	
 	@Override
-	public void communityWrite(Long people_no, long board_group_no, CommunityBoard communityBoard) {
+	public void communityWrite(Long people_no, long board_group_id, CommunityBoard communityBoard) {
 		 
 		People people=new People();
 		people.setId(people_no);
 		
 		BoardGroup boardGroup=new BoardGroup();
-		boardGroup.setNo(board_group_no);
+		boardGroup.setId(board_group_id);
 		
 		communityBoard.setMemo(communityBoard.getMemo());
 		communityBoard.setBoardGroup(boardGroup);

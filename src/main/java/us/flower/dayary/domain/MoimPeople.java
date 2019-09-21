@@ -33,10 +33,10 @@ public class MoimPeople extends DateAudit{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "no")
-	private long no;
+	@Column(name = "ID")
+	private long id;
 	@ManyToOne
-	@JoinColumn(name = "MOIM_NO")
+	@JoinColumn(name = "MOIM_ID")
 	@JsonIgnore
 	private Moim moim;
 	@ManyToOne

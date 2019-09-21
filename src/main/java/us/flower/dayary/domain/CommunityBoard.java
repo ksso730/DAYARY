@@ -28,8 +28,8 @@ public class CommunityBoard extends DateAudit{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="NO")
-	private long no;
+	@Column(name="ID")
+	private long id;
 	@Column(name="TITLE")
 	private String title;
 	@Column(name="MEMO")

@@ -15,6 +15,6 @@ public class Meetup {
 
     @Id
     @GeneratedValue
-    @Column(name="NO")
-    private long no;
+    @Column(name="ID")
+    private long id;
 }

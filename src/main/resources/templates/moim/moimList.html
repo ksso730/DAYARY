@@ -91,7 +91,7 @@ form.example::after {
 
 					<div class="col-lg-4 mb-4">
 						<div class="entry2" style="width: 300px;">
-							<a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
+							<a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
 								<img
 								th:src="${'/getMoimImage/'+moimList.imageName+'.'+moimList.imageExtension}"
 								alt="Image" class="img-fluid rounded">
@@ -104,7 +104,7 @@ form.example::after {
 
 								<h2>
 									<a
-										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
+										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
 										<td th:text="${moimList.title}"></td>
 									</a>
 								</h2>
@@ -123,7 +123,7 @@ form.example::after {
 								</p>
 								<p>
 									<a
-										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.no}}">
+										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
 										Read More</a>
 
 								</p>
