@@ -123,7 +123,11 @@ public class CommunityController {
 
 
 		List<CommunityBoard> timeLineList=communityBoardService.CommunityList();
+		
 		model.addAttribute("timeLineList",timeLineList);
+		
+		System.out.println(timeLineList.toString());
+		
 		return "community/communityList";
 	}
 	/**

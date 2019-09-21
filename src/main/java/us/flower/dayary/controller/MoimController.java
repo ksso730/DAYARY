@@ -312,16 +312,16 @@ public class MoimController {
 
         Optional<People> joinedpeople=moimService.findPeopleOne(people_no);//참여자 조회
         System.out.println("==================");
-        System.out.println(joinedpeople.toString());
+        
         System.out.println("==================");        
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
-        
+        System.out.println(moimpeopleList.toString());
 //        long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
         model.addAttribute("moimpeopleList",moimpeopleList);
-        
+        model.addAttribute("joinedpeople",joinedpeople);
         return "moim/moimDetail"; 
     }
 
