@@ -74,7 +74,7 @@ public class MoimServiceImpl implements moimService{
         moim.setImageExtension(fileExtension);
 
         //파일업로드
-        try {
+        try { 
             fileManager.fileUpload(file, moimImagePath+"/"+imageName+"."+fileExtension);
         } catch (IOException e) {
             e.printStackTrace();
