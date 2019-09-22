@@ -8,7 +8,11 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,14 +45,14 @@ public class CommunityController {
      * @throws 
      * @author choiseongjun
      */
+
 	@ResponseBody
 	@DeleteMapping("/community/communityList/{board_group_no}/communityDelete/{timeLineListNo}")
 	public Map<String, Object> CommunityTimeLinedelete(@PathVariable("timeLineListNo") long timeLineListNo,Model model,Sort sort) {
 	
 		 Map<String, Object> returnData = new HashMap<String, Object>();
-		
-		 
-		
+
+
 		try {
 			communityBoardService.deleteBoardone(timeLineListNo);
 		  	returnData.put("code", "1");
@@ -63,7 +67,7 @@ public class CommunityController {
 		return returnData;
 	}
 	 /**
-     * 커뮤니티 타임라인 글쓰기
+     * 커뮤니티 글쓰기
      *
      * @param 
      * @return
@@ -114,40 +118,52 @@ public class CommunityController {
      */
 	@GetMapping("/community/communityList/{board_group_no}")
 	public String CommunityView(@PathVariable("board_group_no") long board_group_no,Model model,Sort sort) {
-	
-		
+
 		//sort=sort.and(new Sort(Sort.Direction.DESC));
 		 
 		model.addAttribute("board_group_no",board_group_no);
-
-
 
 		List<CommunityBoard> timeLineList=communityBoardService.CommunityList();
 		model.addAttribute("timeLineList",timeLineList);
 		return "community/communityList";
 	}
 	/**
-     * 커뮤니티리스트 조회
+     * 커뮤니티/스터디리스트 조회
      *
      * @param 
      * @return
      * @throws 
-     * @author choiseongjun
+     * @author minholee
      */
 	@GetMapping("/community/communityList/studyList/{board_group_no}")
-	public String studyList(@PathVariable("board_group_no") long board_group_no,Model model) {
-		
+	public String studyList(@PathVariable("board_group_no") long board_group_no, Model model,
+							@PageableDefault Pageable pageable) {
+
+		// board group
 		model.addAttribute("board_group_no",board_group_no);
-		
+		BoardGroup boardGroup = new BoardGroup();
+		boardGroup.setNo(board_group_no);
+
+		// page
+		Page<CommunityBoard> communityStudyList =communityBoardRepository.findAllByBoardGroup(boardGroup, pageable);
+		model.addAttribute("communityStudyList", communityStudyList.getContent());
+
+		Long communityStudyListCount = communityBoardRepository.countByBoardGroupIs(boardGroup);
+		model.addAttribute("communityStudyListCount", communityStudyListCount);
+
+		// page number
+		model.addAttribute("pageNumber", communityStudyList.getTotalPages());
+
 		return "community/comunitystudyList";
 	}
+
 	/**
-     * 커뮤니티리스트 조회
+     * 커뮤니티 글쓰기
      *
      * @param 
      * @return
      * @throws 
-     * @author choiseongjun
+     * @author minholee
      */
 	@GetMapping("/community/communityList/studyWrite/{board_group_no}")
 	public String studyWrite(@PathVariable("board_group_no") long board_group_no) {

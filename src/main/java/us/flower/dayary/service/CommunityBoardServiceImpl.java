@@ -3,6 +3,9 @@ package us.flower.dayary.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import us.flower.dayary.domain.BoardGroup;
@@ -38,6 +41,12 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	@Override
 	public List<CommunityBoard> CommunityList() { 
 		return communityBoardRepository.findAll();
+	}
+
+
+	@Override
+	public Page<CommunityBoard> CommunityStudyList(BoardGroup boardGroup, Pageable pageable) {
+		return communityBoardRepository.findAllByBoardGroup(boardGroup, pageable);
 	}
 
 	@Override

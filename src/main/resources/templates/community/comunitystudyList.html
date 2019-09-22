@@ -62,7 +62,12 @@
       100% {color:red; font-weight: bold;} */
     }
 </style>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    console.log($('#communityStudyListCount').val());
+});
+</script>
 </head>
 <body>
 <div th:replace="layout/header::header"/>
@@ -76,11 +81,10 @@
     </div>
    
     <div id="list">
-      <b>게시판 (전체 글: ${totalCount})</b>
+      <b th:inline="text" id="communityStudyListCount">게시판 (전체 글: [[${communityStudyListCount}]])</b>
     </div>
      
     <div id="write">
-    
       <a th:href="@{'/community/communityList/studyWrite/' + ${board_group_no}}">
       <button type="button" class="btn btn-primary btn-xs">글쓰기</button></a>
     </div>
@@ -96,63 +100,17 @@
           </tr>
         </thead>
         <tbody>
-          <c:forEach var="article" items="{articles}" varStatus="status">
-            <tr>
-              <td>${article.articleNumber}</td>
+          <tr th:each="communityStudy : ${communityStudyList}">
+              <td th:text ="${communityStudy.no}"></td>
               <td id="title">
-                  &nbsp;&nbsp;
-                <a href="/bbs/content.bbs?articleNumber=${article.articleNumber}&pageNum=${pageNum}">{article.title}</a>
+<!--                <a th:href="'/bbs/content.bbs?articleNumber=' + ${article.articleNumber} +'&pageNum=' + ${pageNum}"></a>-->
+                 <a th:text="${communityStudy.title}"></a>
                   <span class="hit">hit!</span>
               </td>
-              <td>{article.id}</td>
-              <td>{article.writeDate}</td>
+              <td th:text="${communityStudy.people.email}"></td>
+              <td th:text="${communityStudy.createdAt}"></td>
               <td>3</td>
-            <tr>
-            <tr>
-              <td>${article.articleNumber}</td>
-              <td id="title">
-                  &nbsp;&nbsp;
-                <a href="/bbs/content.bbs?articleNumber=${article.articleNumber}&pageNum=${pageNum}">{article.title}</a>
-                  <span class="hit">hit!</span>
-              </td>
-              <td>{article.id}</td>
-              <td>{article.writeDate}</td>
-              <td>3</td>
-            <tr>
-            <tr>
-              <td>${article.articleNumber}</td>
-              <td id="title">
-                  &nbsp;&nbsp;
-                <a href="/bbs/content.bbs?articleNumber=${article.articleNumber}&pageNum=${pageNum}">{article.title}</a>
-                  <span class="hit">hit!</span>
-              </td>
-              <td>{article.id}</td>
-              <td>{article.writeDate}</td>
-              <td>3</td>
-            <tr>
-            <tr>
-              <td>${article.articleNumber}</td>
-              <td id="title">
-                  &nbsp;&nbsp;
-                <a href="/bbs/content.bbs?articleNumber=${article.articleNumber}&pageNum=${pageNum}">{article.title}</a>
-                  <span class="hit">hit!</span>
-              </td>
-              <td>{article.id}</td>
-              <td>{article.writeDate}</td>
-              <td>3</td>
-            <tr>
-            <tr>
-              <td>${article.articleNumber}</td>
-              <td id="title">
-                  &nbsp;&nbsp;
-                <a href="/bbs/content.bbs?articleNumber=${article.articleNumber}&pageNum=${pageNum}">{article.title}</a>
-                  <span class="hit">hit!</span>
-              </td>
-              <td>{article.id}</td>
-              <td>{article.writeDate}</td>
-              <td>3</td>
-            <tr>
-          </c:forEach>
+          </tr>
         </tbody>
       </table>
        
@@ -163,15 +121,15 @@
 
 		<div class="row text-center pt-5 border-top">
 		<div class="col-md-12">
-			<div class="custom-pagination">
-				<span>1</span> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a>
-				<span>...</span> <a href="#">15</a>
+			<div >
+                <ul class="pagination align-content-center">
+                    <li style="list-style-type: none;" class="page-item" th:each="i: ${#numbers.sequence(0, pageNumber - 1)}">
+                        <a  th:href="@{/community/communityList/studyList/2(page=${i}, size=10)}">[[${i}+1]]</a>
+                    </li>
+                </ul>
 			</div>
 		</div>
 	</div>
-
   </div>
-
-
 </body>
 </html>
