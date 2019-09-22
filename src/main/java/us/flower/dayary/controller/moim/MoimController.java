@@ -239,7 +239,7 @@ public class MoimController {
     	Map<String, Object> categoryList = new HashMap<String, Object>();
     	try {
     		categoryList =  moimService.getMoimCategory();
-    		
+    		System.out.println(categoryList);
     	}catch (Exception e) {
 		}
     	return categoryList;

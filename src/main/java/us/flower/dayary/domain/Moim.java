@@ -44,7 +44,7 @@ public class Moim extends DateAudit{
     private long id;
     
     //모임 카테고리
-    @JoinColumn(name = "CATEGORY")
+    @Column(name = "CATEGORY")
     private String category;
     
     //모임제목
