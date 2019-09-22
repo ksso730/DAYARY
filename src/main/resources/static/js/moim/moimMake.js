@@ -18,10 +18,10 @@ function initMoimMake(opt){
          var item = data._category;
          
          for (var n=0; n<item.length; n++){
-            var no         = item[n].no;
-            var subject = item[n].subject;
+        	 var code  = item[n].commCode;
+            var name = item[n].commName;
             
-            $('#categorybox').append('<option value="' + no + '">' + subject + '</option>');
+            $('#categorybox').append('<option value="' + code + '">' + name + '</option>');
          }
          $('#categorybox').selectmenu('refresh');
       }

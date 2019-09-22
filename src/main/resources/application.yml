@@ -6,9 +6,9 @@ spring:
         cache: false
   
   datasource:
-        url: "jdbc:mariadb://localhost:3306/jpatest"
+        url: "jdbc:mariadb://localhost:3306/dayary"
         username: root
-        password: 1234
+        password: root
   jpa:
         show-sql: true
         hibernate:
