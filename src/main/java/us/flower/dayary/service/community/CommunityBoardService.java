@@ -14,7 +14,7 @@ public interface CommunityBoardService {
 
 
     List<CommunityBoard> CommunityList();
-	Page<CommunityBoard> CommunityStudyList(BoardGroup boardGroup, Pageable pageable);
+	//Page<CommunityBoard> CommunityStudyList(BoardGroup boardGroup, Pageable pageable);
 
 	void deleteBoardone(long timeLineListNo);
 }
