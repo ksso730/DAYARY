@@ -7,10 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import us.flower.dayary.domain.BoardGroup;
-import us.flower.dayary.domain.Category;
+import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.BoardGroupRepository;
-import us.flower.dayary.repository.CategoryRepository;
+import us.flower.dayary.repository.CommonRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
 
 @RunWith(SpringRunner.class)
@@ -18,33 +18,40 @@ import us.flower.dayary.repository.people.PeopleRepository;
 public class InsertData {
 
 	@Autowired
-	CategoryRepository categoryRepository;
+	CommonRepository commonRepository;
 
 	@Autowired
 	PeopleRepository peopleRepository;
 	
 	  @Test
-	    public void createMoimAndInsertPeople()
-		{
-		  Category category=new Category();
-		  category.setId(1L);
-		  category.setSubject("영어");
-		  categoryRepository.save(category);
-		  category.setId(2L);
-		  category.setSubject("수능");
-		  categoryRepository.save(category);
-		  category.setId(3L);
-		  category.setSubject("공무원");
-		  categoryRepository.save(category);
-		  category.setId(4L);
-		  category.setSubject("프로그래밍");
-		  categoryRepository.save(category);
-		  category.setId(5L);
-		  category.setSubject("대기업");
-		  categoryRepository.save(category);
-		  category.setId(6L);
-		  category.setSubject("공기업");
-		  categoryRepository.save(category);
+	  public void createMoimAndInsertPeople(){
+		  
+		  Common comm = new Common();
+
+		  comm.setCommHead("CA1");
+		  comm.setCommCode("01");
+		  comm.setCommName("영어");
+		  commonRepository.save(comm);
+		  comm.setCommHead("CA1");
+		  comm.setCommCode("02");
+		  comm.setCommName("수능");
+		  commonRepository.save(comm);
+		  comm.setCommHead("CA1");
+		  comm.setCommCode("03");
+		  comm.setCommName("공무원");
+		  commonRepository.save(comm);
+		  comm.setCommHead("CA1");
+		  comm.setCommCode("04");
+		  comm.setCommName("프로그래밍");
+		  commonRepository.save(comm);
+		  comm.setCommHead("CA1");
+		  comm.setCommCode("05");
+		  comm.setCommName("대기업");
+		  commonRepository.save(comm);
+		  comm.setCommHead("CA1");
+		  comm.setCommCode("06");
+		  comm.setCommName("공기업");
+		  commonRepository.save(comm);
 		}
 	@Autowired
 	BoardGroupRepository brdgrprepo;

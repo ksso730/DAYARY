@@ -14,11 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import us.flower.dayary.common.FileManager;
 import us.flower.dayary.common.TokenGenerator;
-import us.flower.dayary.domain.Category;
+import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
-import us.flower.dayary.repository.CategoryRepository;
+import us.flower.dayary.repository.CommonRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
@@ -35,7 +35,7 @@ public class MoimServiceImpl implements moimService{
 	@Autowired
     private MoimRepository moimRepository;
 	@Autowired
-    private CategoryRepository categoryRepository;
+    private CommonRepository commonRepository;
 	@Autowired
 	private MoimPeopleRepository moimpeopleRepository;
 	
@@ -45,7 +45,7 @@ public class MoimServiceImpl implements moimService{
 	private FileManager fileManager;
 
 	public Map<String, Object> getMoimCategory(){
-		List<Category> cateList= (List<Category>) categoryRepository.findAll();
+		List<Common> cateList= (List<Common>) commonRepository.findAll();
 	
 		Map<String, Object> categoryList = new HashMap<String, Object>();
 		categoryList.put("_category", cateList);
@@ -56,7 +56,6 @@ public class MoimServiceImpl implements moimService{
     public void saveMoim(String email, String subject, Moim moim, MultipartFile file) {
 
         People people = peopleRepository.findByEmail(email);
-        Category category = categoryRepository.findBySubject(subject);
 
         //이미지파일이름생성
         String imageName="";
@@ -84,7 +83,6 @@ public class MoimServiceImpl implements moimService{
         moim.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
         moim.setUpdateDate(new java.sql.Date(System.currentTimeMillis()));
         moim.setPeople(people);
-        moim.setCategory(category);
 
         moimRepository.save(moim);
     }
