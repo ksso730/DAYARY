@@ -8,7 +8,11 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,14 +41,14 @@ public class TimeLineController {
      * @throws 
      * @author choiseongjun
      */
+
 	@ResponseBody
 	@DeleteMapping("/community/communityList/{board_group_no}/communityDelete/{timeLineListNo}")
 	public Map<String, Object> CommunityTimeLinedelete(@PathVariable("timeLineListNo") long timeLineListNo,Model model,Sort sort) {
 	
 		 Map<String, Object> returnData = new HashMap<String, Object>();
-		
-		 
-		
+
+
 		try {
 			communityBoardService.deleteBoardone(timeLineListNo);
 		  	returnData.put("code", "1");
@@ -59,7 +63,7 @@ public class TimeLineController {
 		return returnData;
 	}
 	 /**
-     * 커뮤니티 타임라인 글쓰기
+     * 커뮤니티 글쓰기
      *
      * @param 
      * @return
@@ -119,11 +123,11 @@ public class TimeLineController {
 
 
 		List<CommunityBoard> timeLineList=communityBoardService.CommunityList();
-		
+
 		model.addAttribute("timeLineList",timeLineList);
-		
+
 		System.out.println(timeLineList.toString());
-		
+
 		return "community/communityList";
 	}
 }
