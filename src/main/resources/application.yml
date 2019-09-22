@@ -1,38 +1,39 @@
 spring:
+  freemarker:
+    cache: false
   devtools:
     livereload:
       enabled: true
   thymeleaf:
-        cache: false
-  
+    cache: false
   datasource:
-        url: "jdbc:mariadb://localhost:3306/jpatest"
-        username: root
-        password: 1234
+    url: "jdbc:mariadb://localhost:3306/diary?useUnicode=true&characterEncoding=utf8"
+    username: root
+    password: dlalsgh123
   jpa:
-        show-sql: true
-        hibernate:
-            ddl-auto: update
-            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-        properties:
-            hibernate:
-                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-                format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: true
   jackson:
     time-zone: UTC
     serialization:
-                  WRITE_DATES_AS_TIMESTAMPS : false
-                  
+      WRITE_DATES_AS_TIMESTAMPS : false
+
 logging:
-        level:
-              com:
-                  devson:
-                          pagination: debug
+  level:
+    com:
+      devson:
+        pagination: debug
 server:
-    port: 8080
+  port: 8080
 
 moimImagePath: C:/dayary/moim/image
 
 app:
-      jwtSecret : JWTSuperSecretKey
-      jwtExpirationInMs : 604800000
+  jwtSecret : JWTSuperSecretKey
+  jwtExpirationInMs : 604800000

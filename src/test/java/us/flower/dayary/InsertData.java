@@ -8,9 +8,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.Category;
+import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.BoardGroupRepository;
 import us.flower.dayary.repository.CategoryRepository;
+import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
 
 @RunWith(SpringRunner.class)
@@ -22,6 +24,9 @@ public class InsertData {
 
 	@Autowired
 	PeopleRepository peopleRepository;
+
+	@Autowired
+	CommunityBoardRepository communityBoardRepository;
 	
 	  @Test
 	    public void createMoimAndInsertPeople()
@@ -85,9 +90,19 @@ public class InsertData {
 		brdgrp7.setName("독서실소개 ");
 		brdgrprepo.save(brdgrp7);
 
-		People defualtUser = new People();
-		defualtUser.setEmail("user");
-		defualtUser.setPassword("123");
-		peopleRepository.save(defualtUser);
+//		People defualtUser = new People();
+//		defualtUser.setEmail("user");
+//		defualtUser.setPassword("123");
+		People defualtUser = peopleRepository.getOne(1L);
+
+		for(int i=0; i<12; i++){
+			CommunityBoard board = new CommunityBoard();
+			board.setMemo("테스트");
+			board.setTitle("테스트");
+			board.setBoardGroup(brdgrp2);
+			board.setHeart(3);
+			board.setPeople(defualtUser);
+			communityBoardRepository.save(board);
+		}
 	}
 }

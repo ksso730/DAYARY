@@ -23,7 +23,6 @@ body {
 <body>
 	
 <article>
-
 		<div class="container1" style="margin-left:250px; max-width:1180px">
 			<h2>글 작성</h2>
 			<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">
@@ -31,18 +30,18 @@ body {
 					<label for="title">제목</label>
 					<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요">
 				</div>
-				<div class="mb-3">
-					<label for="reg_id">작성자</label>
-					<input type="text" class="form-control" name="reg_id" id="reg_id" placeholder="이름을 입력해 주세요">
-				</div>
+<!--				<div class="mb-3">-->
+<!--					<label for="reg_id">작성자</label>-->
+<!--					<input type="text" class="form-control" name="reg_id" id="reg_id" placeholder="이름을 입력해 주세요">-->
+<!--				</div>-->
 				<div class="mb-3">
 					<label for="content">내용</label>
 					<textarea class="form-control" rows="5" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
 				</div>
-				<div class="mb-3">
-					<label for="tag">TAG</label>
-					<input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요">
-				</div>
+<!--				<div class="mb-3">-->
+<!--					<label for="tag">TAG</label>-->
+<!--					<input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요">-->
+<!--				</div>-->
 			</form>
 			<div >
 				<button type="button" class="btn btn-sm btn-primary" id="btnSave">저장</button>
@@ -55,6 +54,34 @@ body {
 CKEDITOR.replace("content",{
     filebrowserUploadUrl : "${path}/imageUpload.do"
 }); //이미지 업로드 기능을 추가하기위한 코드
+
+
+$('#btnSave').off().on('click', function () {
+	const board_group_no = $('#board_group_no').attr("data-boardGroupNo");
+
+	let communityBoard = {};
+	communityBoard.memo=$('#memo').val();
+
+	$.ajax({
+		url:'/community/communityList/'+board_group_no+'/communityWrite',
+		type:'POST',
+		contentType: 'application/json; charset=UTF-8',
+		dataType:'json',
+		data: JSON.stringify(communityBoard),
+		success:function(data){
+			if(data.code==1){
+				alert(data.message);
+				location.href='/community/communityList/'+board_group_no;
+			}else{
+				alert(data.message)
+			}
+		},
+		error:function(xhr,error){
+
+		}
+	});
+
+});
 </script>
 
 </body>
