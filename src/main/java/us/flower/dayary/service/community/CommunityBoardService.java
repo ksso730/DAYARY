@@ -1,4 +1,4 @@
-package us.flower.dayary.service;
+package us.flower.dayary.service.community;
 
 import java.util.List;
 import java.util.Map;

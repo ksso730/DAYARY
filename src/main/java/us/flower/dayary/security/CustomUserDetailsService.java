@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import us.flower.dayary.domain.People;
-import us.flower.dayary.repository.PeopleRepository;
+import us.flower.dayary.repository.people.PeopleRepository;
 
 @Service 
 public class CustomUserDetailsService implements UserDetailsService {

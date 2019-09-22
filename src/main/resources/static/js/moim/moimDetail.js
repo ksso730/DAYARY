@@ -1,4 +1,4 @@
-$('#signup_btn').off().on('click', function () {
+$('#signup_btn').off().on('click', function () {//스터디 가입하기 by choiseongjun 2019-09-20
 
     var moimNo = $('#moimNo').attr("data-moimNo");
     console.log(moimNo);
@@ -14,7 +14,7 @@ $('#signup_btn').off().on('click', function () {
         	if(data.code==1){
         		console.log("success callback data");
         		 alert(data.message);
-                 location.href='/';
+                 location.href='/moimlistView';
 			}else{
 				alert(data.message);
 			}
@@ -24,3 +24,27 @@ $('#signup_btn').off().on('click', function () {
         }
     });
 });
+
+$(document).ready(function(){//스터디 삭제 by choiseongjun 2019-09-20
+	  $("#moim_delete_btn").click(function(){
+		  var moimNo = $('#moimNo').attr("data-moimNo");
+		  
+			$.ajax({
+		        url:'/moimDetail/moimDeleteOne/'+moimNo,
+		        type:'DELETE',
+				contentType: 'application/json; charset=UTF-8',
+		        dataType:'json',
+		        success:function(data){
+					if(data.code==1){
+						alert(data.message);
+						location.href='/moimlistView';
+					}else{
+						alert(data.message)
+					}
+				},
+				error:function(xhr,error){
+					
+				}
+		    });
+	  });
+	});

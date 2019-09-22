@@ -1,4 +1,4 @@
-package us.flower.dayary.controller;
+package us.flower.dayary.controller.community;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -21,17 +21,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.CommunityBoard;
-import us.flower.dayary.domain.People;
-import us.flower.dayary.repository.CommunityBoardRepository;
-import us.flower.dayary.service.CommunityBoardService;
+import us.flower.dayary.repository.community.CommunityBoardRepository;
+import us.flower.dayary.service.community.CommunityBoardService;
 
 @Controller
-public class CommunityController {
-	
+public class TimeLineController {
 	@Autowired
 	CommunityBoardService communityBoardService;
 	
@@ -116,84 +112,22 @@ public class CommunityController {
      * @throws 
      * @author choiseongjun
      */
-	@GetMapping("/community/communityList/{board_group_no}")
-	public String CommunityView(@PathVariable("board_group_no") long board_group_no,Model model,Sort sort) {
-
+	@GetMapping("/community/communityList/{board_group_id}")
+	public String CommunityView(@PathVariable("board_group_id") long board_group_id,Model model,Sort sort) {
+	
+		
 		//sort=sort.and(new Sort(Sort.Direction.DESC));
 		 
-		model.addAttribute("board_group_no",board_group_no);
+		model.addAttribute("board_group_id",board_group_id);
+
+
 
 		List<CommunityBoard> timeLineList=communityBoardService.CommunityList();
+
 		model.addAttribute("timeLineList",timeLineList);
+
+		System.out.println(timeLineList.toString());
+
 		return "community/communityList";
-	}
-	/**
-     * 커뮤니티/스터디리스트 조회
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author minholee
-     */
-	@GetMapping("/community/communityList/studyList/{board_group_no}")
-	public String studyList(@PathVariable("board_group_no") long board_group_no, Model model,
-							@PageableDefault Pageable pageable) {
-
-		// board group
-		model.addAttribute("board_group_no",board_group_no);
-		BoardGroup boardGroup = new BoardGroup();
-		boardGroup.setNo(board_group_no);
-
-		// page
-		Page<CommunityBoard> communityStudyList =communityBoardRepository.findAllByBoardGroup(boardGroup, pageable);
-		model.addAttribute("communityStudyList", communityStudyList.getContent());
-
-		Long communityStudyListCount = communityBoardRepository.countByBoardGroupIs(boardGroup);
-		model.addAttribute("communityStudyListCount", communityStudyListCount);
-
-		// page number
-		model.addAttribute("pageNumber", communityStudyList.getTotalPages());
-
-		return "community/comunitystudyList";
-	}
-
-	/**
-     * 커뮤니티 글쓰기
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author minholee
-     */
-	@GetMapping("/community/communityList/studyWrite/{board_group_no}")
-	public String studyWrite(@PathVariable("board_group_no") long board_group_no) {
-		
-		return "community/comunitystudyWrite";
-	}
-	 /**
-     * 커뮤니티 StudyCafeList 조회
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
-	@GetMapping("/community/studycafeList/{board_group_no}")
-	public String studcafeList(@PathVariable("board_group_no") long board_group_no) {
-		
-		return "community/studycafeList";
-	}
-	 /**
-     * 커뮤니티 StudyCafeDetail 조회
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
-	@GetMapping("/community/studycafeDetail")
-	public String studycafeDetail() {
-		
-		return "community/studycafeDetail";
 	}
 }

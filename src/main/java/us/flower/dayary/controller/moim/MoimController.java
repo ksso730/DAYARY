@@ -1,4 +1,4 @@
-package us.flower.dayary.controller;
+package us.flower.dayary.controller.moim;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,10 +26,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
-import us.flower.dayary.repository.MoimPeopleRepository;
-import us.flower.dayary.repository.MoimRepository;
-import us.flower.dayary.service.moimService;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
+import us.flower.dayary.repository.moim.MoimRepository;
+import us.flower.dayary.service.moim.moimService;
 
 
 
@@ -44,6 +47,36 @@ public class MoimController {
     
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
  
+    /**
+     * 모임 삭제
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     * @date 2019-09-20
+     */
+	@ResponseBody
+	@DeleteMapping("/moimDetail/moimDeleteOne/{moimNo}")
+	public Map<String, Object> MoimDeleteOne(@PathVariable("moimNo") long moimNo,Model model,Sort sort) {
+	
+		Map<String, Object> returnData = new HashMap<String, Object>();
+		
+		try {
+			moimService.deleteMoimOne(moimNo);
+
+		  	returnData.put("code", "1");
+            returnData.put("message", "삭제되었습니다");
+
+        } catch (Exception e) {
+            returnData.put("code", "E3290");
+            returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+        }
+ 
+
+		return returnData;
+	}
+    
     /**
      * 모임  디테일 게시판(공지사항,가입인사 및 자기소개,자유게시판 등등)  조회
      *
@@ -134,9 +167,15 @@ public class MoimController {
      * @throws 
      * @author choiseongjun 
      */
-    @GetMapping("/moimDetail/moimChatroom")
-    public String moimChatroom() {
-    	
+    @GetMapping("/moimDetail/moimChatroom/{no}")
+    public String moimChatroom(@PathVariable("no") long no,Model model) {
+    	Optional<Moim> moimOne=moimRepository.findById(no);
+        List<People> moimpeopleList=moimOne.get().getPeopleList();
+        
+        
+        model.addAttribute("moimpeopleList",moimpeopleList);
+        model.addAttribute("moimOne",moimOne); 
+        System.out.println(moimOne.toString());
     	return "moim/moimChatroom";
     }
     /**
@@ -268,20 +307,21 @@ public class MoimController {
     	
     	
         moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));
-        Long people_no = (Long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.참가를 위해 
+        long people_no = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.참가를 위해 
         session.setAttribute("people_no", people_no);
 
-       
+        Optional<People> joinedpeople=moimService.findPeopleOne(people_no);//참여자 조회
+        System.out.println("==================");
         
+        System.out.println("==================");        
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
-        
+        System.out.println(moimpeopleList.toString());
 //        long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
-        
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
         model.addAttribute("moimpeopleList",moimpeopleList);
-        
+        model.addAttribute("joinedpeople",joinedpeople);
         return "moim/moimDetail"; 
     }
 

@@ -15,13 +15,16 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import us.flower.dayary.domain.common.DateAudit;
 
 /**
@@ -37,8 +40,8 @@ public class Moim extends DateAudit{
  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "NO")
-    private long no;
+    @Column(name = "ID")
+    private long id;
 
     //모임제목
     @Column(name = "TITLE")
@@ -70,7 +73,7 @@ public class Moim extends DateAudit{
 
     //모임 카테고리
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATEGORY_NO")
+    @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
     //이미지경로
@@ -89,10 +92,10 @@ public class Moim extends DateAudit{
     // 모임 참여자 예정
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "MOIM_PEOPLE",
-               joinColumns = @JoinColumn(name = "MOIM_NO"),
+               joinColumns = @JoinColumn(name = "MOIM_ID"),
                inverseJoinColumns = @JoinColumn(name = "PEOPLE_ID"))
     private List<People> peopleList;
-
+	   
 
 
 }

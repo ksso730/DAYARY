@@ -10,8 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
-import us.flower.dayary.repository.MoimPeopleRepository;
-import us.flower.dayary.repository.MoimRepository;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
+import us.flower.dayary.repository.moim.MoimRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

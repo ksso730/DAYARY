@@ -20,8 +20,8 @@ import javax.persistence.*;
 public class Category {
 
     @Id
-    @Column(name="NO")
-    private long no;
+    @Column(name="ID")
+    private long id;
 
     @Column(name="SUBJECT")
     private String subject;

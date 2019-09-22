@@ -30,15 +30,15 @@ import us.flower.dayary.domain.common.DateAudit;
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
         )
 @Data
-public class BoardGroup{
+public class BoardGroup extends DateAudit{
 
 	@Id
 	@GeneratedValue(
             strategy=GenerationType.SEQUENCE, //사용할 전략을 시퀀스로  선택
             generator="BOARD_GROUP_GEN" //식별자 생성기를 설정해놓은  USER_SEQ_GEN으로 설정        
             )
-	@Column(name="NO")
-	private long no;
+	@Column(name="ID")
+	private long id;
 	
 	@Column(name="NAME")
 	private String name;
@@ -50,7 +50,7 @@ public class BoardGroup{
 //	@Column(name="READ_ONLY")
 //	private char readOnly;
 	
-  @OneToMany(mappedBy = "boardGroup",cascade = CascadeType.ALL, orphanRemoval = true)
-  @JsonIgnore 
-  private List<CommunityBoard> communityBoard=new ArrayList<>();
+//  @OneToMany(mappedBy = "boardGroup",cascade = CascadeType.ALL, orphanRemoval = true)
+//  @JsonIgnore 
+//  private List<CommunityBoard> communityBoard=new ArrayList<>();
 }

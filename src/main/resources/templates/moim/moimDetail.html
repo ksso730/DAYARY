@@ -159,7 +159,7 @@ background-color: rgb(255, 255, 255);
 </head>
 <body>
 
-<div id="moimNo" th:data-moimNo="${moimDetail.no}"></div>
+<div id="moimNo" th:data-moimNo="${moimDetail.id}"></div>
 	<link rel="stylesheet" href="/css/friendList.css">
 	<div class="content">
 		<div class="container">
@@ -180,9 +180,12 @@ background-color: rgb(255, 255, 255);
 							</div>
 							<div class="col-sm-6">
 								<div class="text-right">
-									<button type="button" class="btn btn-light waves-effect">
-										<i class="mdi mdi-account-settings-variant mr-1"></i> 모임 수정하기
-									</button>
+									<span th:if="${session.peopleId==moimDetail.people.id}">
+											<button type="button"
+												class="btn btn-icon btn-sm waves-effect waves-light btn-success">모임수정하기</button>
+											<button type="button" id="moim_delete_btn"
+												class="btn btn-icon btn-sm waves-effect waves-light btn-success">모임삭제하기</button>
+									</span>
 								</div>
 							</div>
 						</div>
@@ -195,10 +198,18 @@ background-color: rgb(255, 255, 255);
 				<div class="col-xl-4">
 					<!-- Personal-Information -->
 					<div class="card-box">
-						<h4 class="header-title mt-0">우리 모임 소개</h4>
-						<div class="panel-body">
+						<h4 class="header-title mt-0">우리 모임 소개 </h4>
+						<span th:if="${joinedpeople}==null">
+							<td th:text="${joinedpeople}" ></td>
+						</span>
+						<div class="panel-body"> 
 							<p class="text-muted font-13">우리 모임은 spring jpa스터디를 하며  스터디 모임/일정관리  시스템을 만듭니다</p>
-							<button type="button" id="signup_btn" class="btn btn-primary btn-xs">스터디 가입하기</button>
+							<span th:if="${session.peopleId!=moimDetail.people.id}">
+								<button type="button" id="signup_btn" class="btn btn-primary btn-xs">스터디 가입하기</button>
+							</span>
+							<span th:if="${session.peopleId==moimDetail.people.id}">
+								<button type="button" id="signup_btn" class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
+							</span>
 							<hr>
 							<div class="text-left">
 								<p class="text-muted font-13">
@@ -206,10 +217,10 @@ background-color: rgb(255, 255, 255);
 										Deo</span>
 								</p>
 								<p class="text-muted font-13">
-									<strong>모임장 :</strong><span class="m-l-15">최성준</span>
+									<strong>모임장 :</strong><span class="m-l-15"><td th:text="${moimDetail.people.email}" /> <td th:text="${moimDetail}" /></span>
 								</p>
 								<p class="text-muted font-13">
-									<strong>모임주제 :</strong> <span class="m-l-15">it/토익/프로그래밍</span>
+									<strong>모임주제 :</strong> <span class="m-l-15"><td th:text="${moimDetail.category.subject}" /></span></span>
 								</p>
 								<p class="text-muted font-13">
 									<strong>지역 :</strong> <span class="m-l-5"><span
@@ -221,7 +232,7 @@ background-color: rgb(255, 255, 255);
 									</span>
 								</p>
 								<p class="text-muted font-13">
-									<strong>모임 생성일자 :</strong> <span class="m-l-15">서울 동작구 노량진</span>
+									<strong>모임 생성일자 :</strong> <span class="m-l-15"><td th:text="${moimDetail.createDate}" /></span>
 								</p>
 								
 							</div>
@@ -254,10 +265,12 @@ background-color: rgb(255, 255, 255);
 									</div>
 									<p class="inbox-item-author"><td th:text="${moimpeopleList.name}" /></p>
 									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
+										<span th:if="${session.peopleId==moimDetail.people.id}">
+											<button type="button"
+												class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기<td th:text="${moimpeopleList.name}" /></button>
+											<button type="button"
+												class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
+										</span>
 									</p>
 								</div>
 							
@@ -299,7 +312,8 @@ background-color: rgb(255, 255, 255);
 						<div class="col-sm-4">
 							<div class="card-box tilebox-one">
 								<i class="icon-rocket float-right text-muted"></i>
-								<a href="/moimDetail/moimChatroom"><h6 class="text-muted text-uppercase mt-0">단체채팅방 들어가기</h6></a>
+								<a
+										th:href="@{'/moimDetail/moimChatroom/' + ${no}}"><h6 class="text-muted text-uppercase mt-0">단체채팅방 들어가기</h6></a>
 								<h3 class="" data-plugin="counterup">30(명)  <span class="badge badge-info">4</span>
 							</div>
 						</div>

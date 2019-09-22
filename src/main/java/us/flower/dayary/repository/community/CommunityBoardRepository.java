@@ -1,4 +1,4 @@
-package us.flower.dayary.repository;
+package us.flower.dayary.repository.community;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

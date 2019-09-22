@@ -16,15 +16,7 @@ public class MeetupPeople extends DateAudit{
 
     @Id
     @GeneratedValue
-    @Column(name="NO")
-    private long no;
+    @Column(name="ID")
+    private long id;
 
-    @Column(name="MOIM_NO")
-    private long moimNo;
-
-    @Column(name="MEETUP_PEOPLE_NO")
-    private long meetupPeopleNo;
-
-    @Column(name="PEOPLE_NO")
-    private long peopleNo;
 }

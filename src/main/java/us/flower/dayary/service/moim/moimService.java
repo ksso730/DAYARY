@@ -1,5 +1,6 @@
-package us.flower.dayary.service;
+package us.flower.dayary.service.moim;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
+import us.flower.dayary.domain.People;
 
 public interface moimService {
 
@@ -23,6 +25,11 @@ public interface moimService {
 	byte[] getMoimImage(String imageName) throws Exception;//모임이미지들고오기
 
 	MoimPeople moimParticipant(long peopleNo, long moimNo);//회원 모임참가하기
+
+	void deleteMoimOne(long moimNo);
+
+	Optional<People> findPeopleOne(Long people_no);//모임탈퇴조건으로 인해 한명조회
+
 
 
 }

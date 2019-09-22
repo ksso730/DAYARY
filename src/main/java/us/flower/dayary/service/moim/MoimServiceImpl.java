@@ -1,4 +1,4 @@
-package us.flower.dayary.service;
+package us.flower.dayary.service.moim;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,9 +8,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,9 +19,9 @@ import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.CategoryRepository;
-import us.flower.dayary.repository.MoimPeopleRepository;
-import us.flower.dayary.repository.MoimRepository;
-import us.flower.dayary.repository.PeopleRepository;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
+import us.flower.dayary.repository.moim.MoimRepository;
+import us.flower.dayary.repository.people.PeopleRepository;
 
 @Service
 @Transactional
@@ -101,9 +98,9 @@ public class MoimServiceImpl implements moimService{
         return fileManager.getByteArray(moimImagePath+"/"+imageName);
     }
 
-	public MoimPeople moimParticipant(long peopleId, long moimNo) {
+	public MoimPeople moimParticipant(long peopleId, long moimId) {
 		Moim moim=new Moim();
-		moim.setNo(moimNo);
+		moim.setId(moimId);
 		
 		People people=new People();
 		people.setId(peopleId);
@@ -111,9 +108,23 @@ public class MoimServiceImpl implements moimService{
 		MoimPeople moimPeople=new MoimPeople();
 		moimPeople.setMoim(moim);
 		moimPeople.setPeople(people);
+		moimPeople.setJoinrole("study"); 
 		
 		return moimpeopleRepository.save(moimPeople);
 	}
+
+	@Override
+	public void deleteMoimOne(long moimNo) {
+		moimRepository.deleteById(moimNo);
+	}
+
+	@Override
+	public Optional<People> findPeopleOne(Long people_no) {
+		System.out.println("현재 세션값은?????");
+		System.out.println(people_no);
+		return peopleRepository.findPeopleOne(people_no);
+	}
+
 
 
 

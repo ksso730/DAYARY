@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import us.flower.dayary.repository.PeopleRepository;
+import us.flower.dayary.repository.people.PeopleRepository;
 
 @Service
 @Transactional

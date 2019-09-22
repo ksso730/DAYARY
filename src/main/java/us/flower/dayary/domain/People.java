@@ -1,8 +1,10 @@
 package us.flower.dayary.domain;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,12 +14,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import us.flower.dayary.domain.common.DateAudit;
 
 /**
@@ -66,11 +73,11 @@ public class People extends DateAudit{
             joinColumns = @JoinColumn(name = "PEOPLE_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private Set<Role> roles = new HashSet<>();
-//	// 회원  참여자 예정
-//    @OneToMany(mappedBy = "people")
-//    @JsonIgnore 
-//    private List<MoimPeople> moimPeopleList=new ArrayList<>();
-
+    // 스터디 가입된 회원 참여자 
+ 
+ 
+    
+    
     public People(String email,String password,String name,String photo,String activation) {
     	this.email=email;
     	this.password=password;
