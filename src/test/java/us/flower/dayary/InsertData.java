@@ -92,9 +92,5 @@ public class InsertData {
 		brdgrp7.setName("독서실소개 ");
 		brdgrprepo.save(brdgrp7);
 
-		People defualtUser = new People();
-		defualtUser.setEmail("user");
-		defualtUser.setPassword("123");
-		peopleRepository.save(defualtUser);
 	}
 }

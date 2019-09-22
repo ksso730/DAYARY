@@ -7,4 +7,7 @@ import us.flower.dayary.domain.CommonId;
 
 public interface CommonRepository extends JpaRepository<Common, CommonId>{
 
+
+	Common findBycommName(String subject);
+
 }

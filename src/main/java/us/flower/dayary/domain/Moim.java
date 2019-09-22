@@ -44,8 +44,9 @@ public class Moim extends DateAudit{
     private long id;
     
     //모임 카테고리
-    @Column(name = "CATEGORY")
-    private String category;
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "COMM_CODE")
+    private Common category;
     
     //모임제목
     @Column(name = "TITLE")

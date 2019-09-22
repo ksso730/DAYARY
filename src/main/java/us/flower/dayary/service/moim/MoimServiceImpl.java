@@ -56,7 +56,9 @@ public class MoimServiceImpl implements moimService{
     public void saveMoim(String email, String subject, Moim moim, MultipartFile file) {
 
         People people = peopleRepository.findByEmail(email);
-
+        Common category=commonRepository.findBycommName(subject);
+        System.out.println("서브젝트은???????");
+        System.out.println(category);
         //이미지파일이름생성
         String imageName="";
 		while(true){
@@ -80,9 +82,10 @@ public class MoimServiceImpl implements moimService{
             e.printStackTrace();
         }
 
+        moim.setPeople(people);
+        moim.setCategory(category);
         moim.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
         moim.setUpdateDate(new java.sql.Date(System.currentTimeMillis()));
-        moim.setPeople(people);
 
         moimRepository.save(moim);
     }

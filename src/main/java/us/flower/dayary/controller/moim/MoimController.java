@@ -260,7 +260,7 @@ public class MoimController {
 
         Map<String, Object> returnData = new HashMap<String, Object>();
         String id = (String) session.getAttribute("peopleEmail");
-        
+        String subject = moim.getCategory().getCommName();
         if (id.equals(null) || id.equals("")) {
             returnData.put("code", "0");
             returnData.put("message", "로그인 후 이용해주세요");
@@ -278,9 +278,10 @@ public class MoimController {
             returnData.put("message", "모임 주제를 선택해주세요");
             return returnData;
         }
-
+       System.out.println("@#$#$@#$@#$#@$##@$");
+       System.out.println(subject);
         try {
-            moimService.saveMoim(id, moim.getCategory(), moim, file);
+            moimService.saveMoim(id, subject, moim, file);
             returnData.put("code", "1");
             returnData.put("message", "저장되었습니다");
 
@@ -340,9 +341,8 @@ public class MoimController {
 	        pageable = PageRequest.of(page, 9);
 	        
 		Page<Moim> moimList = moimRepository.findAll(pageable);
-		model.addAttribute("moimList", moimList);
 	
-		logger.info(moimList.toString());
+		model.addAttribute("moimList",moimList);
 		return "moim/moimList";
 	}
 	/**

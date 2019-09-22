@@ -75,6 +75,7 @@ form.example::after {
 				<div class="col-md-6">
 					<span>Category</span>
 					<p>여기서 나중에 카테고리별 분류할 예정 (지역별,주제별 ,밑에는 모임리스트)</p>
+
 					<div id="myBtnContainer">
 						<button class="btn active" id="categorybox"
 							onclick="filterSelection('all')">모든 주제 보기</button>
@@ -98,9 +99,9 @@ form.example::after {
 							</a>
 							<div class="excerpt">
 
-								<span class="post-category text-white bg-secondary mb-3">
-									<td th:text="${moimList.category.subject}"></td>
-								</span>
+ 								<span class="post-category text-white bg-secondary mb-3">
+									  <td th:text="${moimList.category.commName}"></td>  
+								</span> 
 
 								<h2>
 									<a
@@ -151,7 +152,7 @@ form.example::after {
 		</div>
 	</div> -->
 	<nav style="text-align: center;">
-    <ul class="pagination"
+     <ul class="pagination"
         th:with="start=${T(Math).floor(moimList.number/10)*10 + 1},
                     last=(${start + 9 < moimList.totalPages ? start + 9 : moimList.totalPages})">
         <li>
@@ -181,7 +182,7 @@ form.example::after {
                 <span aria-hidden="true">Last</span>
             </a>
         </li>
-    </ul>
+    </ul> 
 </nav>
 	
 	</div>

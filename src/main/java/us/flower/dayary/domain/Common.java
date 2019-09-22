@@ -22,11 +22,9 @@ import lombok.Data;
 
 @Entity
 @Data
-@IdClass(CommonId.class)
 @Table(name="COMMON")
 public class Common{
 	
-	@Id
 	@Column(name="COMM_HEAD")
     private String commHead;
 	

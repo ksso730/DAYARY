@@ -41,7 +41,7 @@ $('#moimMake_btn').off().on('click', function () {
     moim.intro = $('#intro').val();
 
     let category = {};
-    category.subject = obj.options[obj.selectedIndex].text;
+    category.commName = obj.options[obj.selectedIndex].text;
     moim.category = category;
 
     let formData = new FormData();
