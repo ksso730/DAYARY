@@ -65,6 +65,11 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+	$('#community_list_btn').on('click', function(){
+
+
+	});
 });
 
 </script>
@@ -97,7 +102,9 @@ $(document).ready(function(){
 			<!--</form>-->
 			<div >
 				<button type="button" class="btn btn-sm btn-primary" id="community_write_btn">저장</button>
-				<button type="button" class="btn btn-sm btn-primary" id="community_list_btn">목록</button>
+				<a th:href="@{'/community/communityList/studyList/'+${board_group_no}+'?page='+${page}}">
+					<button type="button" class="btn btn-sm btn-primary" id="community_list_btn">목록</button>
+				</a>
 			</div>
 		</div>
 	</article>
