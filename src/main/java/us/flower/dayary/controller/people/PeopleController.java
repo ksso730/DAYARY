@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import us.flower.dayary.common.BCRYPT;
@@ -51,9 +53,20 @@ public class PeopleController {
 		this.bcrypt = bcrypt;
 	}
 
+	
+	@RequestMapping("/people/signinWarning")
+	public ModelAndView needLogin() throws Exception{
+		ModelAndView mav=new ModelAndView("/people/signinwarning");
+		
+		return mav;
+	}
+	
+	
 	@PostMapping("/signin")
 	@ResponseBody
-	public Map<String, Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,HttpSession session,Model model,Principal principal) {
+	public Map<String, Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,HttpSession session
+												,Model model,ModelAndView mav
+												,Principal principal) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -67,13 +80,21 @@ public class PeopleController {
 					if (bcrypt.checkpw(loginRequest.getPassword(), dbPeople.getPassword())) {// 비밀번호가맞다면
 						session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
 						session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
+					
 						returnData.put("code", "1");
-						 
 							String jwt = tokenProvider.generateToken(authentication);
 							JwtAuthenticationResponse csj= new JwtAuthenticationResponse(jwt);
 					        model.addAttribute("csj",csj);
 					        System.out.println(jwt);
+					    	String savePage = (String)session.getAttribute("savePage");
 					        
+					    	
+					        if(savePage!=null) {
+								mav.setViewName("redirect:/"+savePage);
+								session.setAttribute("savePage", null);
+								returnData.put("savePage",savePage);
+								returnData.put("code", "2");								
+							}
 						returnData.put("message", "로그인 완료!");
 					} 
 			} 
