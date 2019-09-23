@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import us.flower.dayary.security.CustomAccessDeniedHandler;
+import us.flower.dayary.security.CustomHttp403ForbiddenEntryPoint;
 import us.flower.dayary.security.CustomUserDetailsService;
 import us.flower.dayary.security.JwtAuthenticationEntryPoint;
 import us.flower.dayary.security.JwtAuthenticationFilter;
@@ -31,7 +33,6 @@ import us.flower.dayary.security.JwtAuthenticationFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomUserDetailsService customUserDetailsService;
-
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
@@ -70,7 +71,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
+				/*
+				 * .and() .authorizeRequests() .antMatchers("/moimlistView/**")
+				 * .access("ROLE_USER")
+				 */
+                	
+                	.and()
                 .authorizeRequests()
                     .antMatchers("/",
                         "/favicon.ico",
@@ -86,16 +92,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                     .antMatchers(HttpMethod.GET, "/**/**")
                         .permitAll()
-                    .antMatchers("/moimlistView/moimdetailView/**")
-                    .access("hasRole('ROLE_USER')")
-                    .anyRequest()
+                        .anyRequest()
                         .authenticated()
-                        .and()
-                        .exceptionHandling().accessDeniedPage("/403")
-                        .and().logout().logoutUrl("/logout")
+                    .and()
+                    .formLogin()
+                       .loginPage("/signinView")
+                       .permitAll()
+                     .and()
+                     	.logout().logoutUrl("/logout")
                         .logoutSuccessUrl("/signinView")
                         .invalidateHttpSession(true)
-                        .and().exceptionHandling().accessDeniedPage("/people/error");
+                        .and()
+                        .exceptionHandling()
+                        .accessDeniedHandler(new CustomAccessDeniedHandler()).and()
+                        .exceptionHandling().authenticationEntryPoint(new CustomHttp403ForbiddenEntryPoint());
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

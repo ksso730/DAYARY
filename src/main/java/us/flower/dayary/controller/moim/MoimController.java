@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -191,7 +192,7 @@ public class MoimController {
 	 * @throws Exception
 	 * @author choiseongjun
 	 */
-	@GetMapping("/moimlistView")
+	@GetMapping("/moimlistView") 
 	public String moimListView(@PageableDefault Pageable pageable,HttpSession session,Model model) {
 
 		 int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작

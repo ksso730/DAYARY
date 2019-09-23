@@ -32,7 +32,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest,
                          HttpServletResponse httpServletResponse,
                          AuthenticationException e) throws IOException, ServletException {
-        logger.error("아이디 또는 비밀번호가 틀렸습니다. Message - {}", e.getMessage());
+       
+    
+    	logger.error("아이디 또는 비밀번호가 틀렸습니다. Message - {}", e.getMessage());
         
         httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
     }
