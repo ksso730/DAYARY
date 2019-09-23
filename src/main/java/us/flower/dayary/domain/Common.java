@@ -25,27 +25,24 @@ import lombok.Data;
 @Table(name="COMMON")
 public class Common{
 	
-	@Column(name="COMM_HEAD")
-    private String commHead;
-	
+	@Column(name = "COMM_HEAD")
+	private String commHead;
+
 	@Id
-	@Column(name="COMM_CODE")
-    private String commCode;
-	
-	@Column(name="COMM_NAME")
-    private String commName;
-	
-	@Column(name="SORT")
-    private int sort;
-	
-	/*
-	 * @ManyToOne(fetch = FetchType.EAGER)
-	 * 
-	 * @JoinColumn(name = "COMMON_COMM_CODE", referencedColumnName =
-	 * "PAR_COMM_CODE") private Common parent;
-	 * 
-	 * @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent") private List<Common>
-	 * children;
-	 */
+	@Column(name = "COMM_CODE")
+	private String commCode;
+
+	@Column(name = "COMM_NAME")
+	private String commName;
+
+	@Column(name = "SORT")
+	private int sort;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "PAR_COMM_CODE",referencedColumnName = "COMM_CODE")
+	private Common parent;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+	private List<Common> children;
 	
 }
