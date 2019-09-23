@@ -22,7 +22,10 @@ import us.flower.dayary.security.CustomHttp403ForbiddenEntryPoint;
 import us.flower.dayary.security.CustomUserDetailsService;
 import us.flower.dayary.security.JwtAuthenticationEntryPoint;
 import us.flower.dayary.security.JwtAuthenticationFilter;
-
+/**
+ * 시큐리티 설정 2019-09월초
+ *   by 최성준
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(

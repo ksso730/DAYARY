@@ -10,7 +10,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import us.flower.dayary.domain.People;
-
+/**
+ * 인터셉터 설정 2019-09-23
+ *   by 최성준
+ */
 @Component
 public class CertificationInterceptor implements HandlerInterceptor {
 

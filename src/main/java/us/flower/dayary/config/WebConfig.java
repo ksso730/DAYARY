@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
+/**
+ * 인터셉터 설정 2019-09-23
+ *   by 최성준
+ */
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter{
 	 /*
