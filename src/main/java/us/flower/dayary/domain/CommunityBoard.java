@@ -1,14 +1,6 @@
 package us.flower.dayary.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,6 +9,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import us.flower.dayary.domain.common.DateAudit;
+
+import java.util.List;
+
 /**
  * 커뮤니티게시판
  *   by choiseongjun
@@ -46,4 +41,7 @@ public class CommunityBoard extends DateAudit{
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PEOPLE_ID")
     private People people;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard")
+	private List<File> files;
 }
