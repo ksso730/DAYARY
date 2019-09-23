@@ -165,12 +165,12 @@ public class MoimController {
     	
     	
         moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));
-        long people_no = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.참가를 위해 
-        session.setAttribute("people_no", people_no);
-
-        Optional<People> joinedpeople=moimService.findPeopleOne(people_no);//참여자 조회
-        System.out.println("==================");
-        
+        long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.참가를 위해 
+        session.setAttribute("peopleId", peopleId);
+ 
+        String joinedpeople=moimService.findPeopleOne(peopleId);//참여자 조회
+        System.out.println("=================="); 
+        System.out.println(joinedpeople);
         System.out.println("==================");        
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();

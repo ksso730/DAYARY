@@ -25,7 +25,7 @@ public interface moimService {
 
 	void deleteMoimOne(long moimNo);
 
-	Optional<People> findPeopleOne(Long people_no);//모임탈퇴조건으로 인해 한명조회
+	String findPeopleOne(Long people_no);//모임탈퇴조건으로 인해 한명조회
 
 
 

@@ -199,16 +199,16 @@ background-color: rgb(255, 255, 255);
 					<!-- Personal-Information -->
 					<div class="card-box">
 						<h4 class="header-title mt-0">우리 모임 소개 </h4>
-						<span th:if="${joinedpeople}==null">
+<!-- 						<span th:if="${joinedpeople}==null">
 							<td th:text="${joinedpeople}" ></td>
-						</span>
+						</span> -->
 						<div class="panel-body"> 
 							<p class="text-muted font-13">우리 모임은 spring jpa스터디를 하며  스터디 모임/일정관리  시스템을 만듭니다</p>
-							<span th:if="${session.peopleId!=moimDetail.people.id}">
+							<span th:if="${joinedpeople==null}">
 								<button type="button" id="signup_btn" class="btn btn-primary btn-xs">스터디 가입하기</button>
 							</span>
-							<span th:if="${session.peopleId==moimDetail.people.id}">
-								<button type="button" id="signup_btn" class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
+							<span th:if="${joinedpeople!=null}">
+								<button type="button" id="withdraw_btn" class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
 							</span>
 							<hr>
 							<div class="text-left">
