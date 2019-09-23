@@ -42,7 +42,12 @@ public class Moim extends DateAudit{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private long id;
-
+    
+    //모임 카테고리
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "COMM_CODE")
+    private Common category;
+    
     //모임제목
     @Column(name = "TITLE")
     private String title;
@@ -70,11 +75,6 @@ public class Moim extends DateAudit{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PEOPLE_ID", referencedColumnName = "ID")
     private People people;
-
-    //모임 카테고리
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATEGORY_ID")
-    private Category category;
 
     //이미지경로
 	@Column(name = "IMAGE_PATH")

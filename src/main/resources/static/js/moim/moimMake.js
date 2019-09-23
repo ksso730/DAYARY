@@ -18,10 +18,10 @@ function initMoimMake(opt){
          var item = data._category;
          
          for (var n=0; n<item.length; n++){
-            var no         = item[n].no;
-            var subject = item[n].subject;
+        	 var code  = item[n].commCode;
+            var name = item[n].commName;
             
-            $('#categorybox').append('<option value="' + no + '">' + subject + '</option>');
+            $('#categorybox').append('<option value="' + code + '">' + name + '</option>');
          }
          $('#categorybox').selectmenu('refresh');
       }
@@ -41,7 +41,7 @@ $('#moimMake_btn').off().on('click', function () {
     moim.intro = $('#intro').val();
 
     let category = {};
-    category.subject = obj.options[obj.selectedIndex].text;
+    category.commName = obj.options[obj.selectedIndex].text;
     moim.category = category;
 
     let formData = new FormData();

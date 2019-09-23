@@ -19,9 +19,9 @@ function initMoimCategoryList(opt){
          
          for (var n=0; n<item.length; n++){
             var no         = item[n].no;
-            var subject = item[n].subject;
+            var name = item[n].commName;
             
-            $('#categorybox').append('<button class="btn active">' + subject + '</button>');
+            $('#categorybox').append('<button class="btn active">' + name + '</button>');
          }
          $('#categorybox').selectmenu('refresh');
       } 

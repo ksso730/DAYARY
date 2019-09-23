@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 * @param 
 * @return
 * @throws 
-* @date Role 추가  2019-09-17
+* @date 공통 데이트 설정  2019-09-17
 * @author choiseongjun
 */
 @Configuration

@@ -1,13 +1,15 @@
 package us.flower.dayary;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import us.flower.dayary.domain.Moim;
-import us.flower.dayary.repository.moim.MoimRepository;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
+import us.flower.dayary.repository.moim.MoimRepository;
 
 @Controller
 public class HomeController {
@@ -21,4 +23,10 @@ public class HomeController {
 //		return moim.get();
 		return "main";
 	}
+	
+	 @GetMapping("/access-denied")
+	    public String accessDenied() {
+	        return "/error/access-denied";
+	    }
+
 }

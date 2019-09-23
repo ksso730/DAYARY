@@ -33,6 +33,11 @@ public class CommunityBoardController {
 
 	@Autowired
 	PeopleRepository peopleRepository;
+
+	@PostMapping("")
+
+
+
 	/**
 	 * 커뮤니티/스터디리스트 조회
 	 *

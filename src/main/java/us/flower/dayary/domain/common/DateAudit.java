@@ -19,7 +19,7 @@ import lombok.Data;
 * @param 
 * @return
 * @throws 
-* @date Role 추가  2019-09-17
+* @date 공통 데이트  2019-09-17
 * @author choiseongjun
 */
 @MappedSuperclass
