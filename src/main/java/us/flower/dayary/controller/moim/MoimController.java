@@ -77,152 +77,10 @@ public class MoimController {
 		return returnData;
 	}
     
-    /**
-     * 모임  디테일 게시판(공지사항,가입인사 및 자기소개,자유게시판 등등)  조회
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
-    @GetMapping("/moimdetailView/moimboard/{no}")
-    public String moimboard(@PathVariable("no") long no) {
-    	
-    	
-    	return "moim/moimDetailboard";
-    }
     
-    /**
-     * 모임  해야할일(ToDoList) 현재목록  DetailView  조회
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
-    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/{no}/moimtodostatusDetail")
-    public String todostatusdetail(@PathVariable("no") long no) {
-    	
-    	return "moim/moimtodostatusDetail";
-    }
-    /**
-     * 모임 일정관리(ToDoList) 완료된것만 보기
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
-    @GetMapping("/moimDetail/moimTodoList/moimTodoListcompleted/{no}")
-    public String moimTodoListcompleted(@PathVariable("no") long no) {
-    	 
-    	return "moim/moimTodoListcompleted";
-    }
-    /**
-     * 모임 일정관리(ToDoList) 작성하기
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
-    @GetMapping("/moimDetail/moimTodoList/moimTodowrite")
-    public String moimTodowrite() {
-    	 
-    	return "moim/moimTodowrite";
-    }
-    /**
-     * 모임 해야할일(ToDoList)에서 달력  조회
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
-    @GetMapping("/moimDetail/moimTodoList/moimcalender")
-    public String moimcalender() {
-    	
-    	return "moim/moimCalender";
-    }
-    /**
-     * 모임 해야할일(ToDoList) 현재목록  조회
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
-    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/{no}")
-    public String moimtodostatus(@PathVariable("no") long no,Model model) {
-    	
-    	model.addAttribute("no",no);
-    	
-    	return "moim/moimTodostatus";
-    }
-    /**
-     * 모임 단체채팅방 조회
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun 
-     */
-    @GetMapping("/moimDetail/moimChatroom/{no}")
-    public String moimChatroom(@PathVariable("no") long no,Model model) {
-    	Optional<Moim> moimOne=moimRepository.findById(no);
-        List<People> moimpeopleList=moimOne.get().getPeopleList();
-        
-        
-        model.addAttribute("moimpeopleList",moimpeopleList);
-        model.addAttribute("moimOne",moimOne); 
-        System.out.println(moimOne.toString());
-    	return "moim/moimChatroom";
-    }
-    /**
-     * 모임 사진첩 글쓰기
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun 
-     */
-    @GetMapping("/moimDetail/{no}/moimPicture/moimPictureWrite")
-    public String moimPictureWrite(@PathVariable("no") long no,Model model) {
-    	
-    	model.addAttribute("no",no);
-    	
-    	return "moim/moimpictureWrite"; 
-    }
-    /**
-     * 모임 사진첩 조회
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun 
-     */
-    @GetMapping("/moimDetail/{no}/moimPicture")
-    public String moimPicture(@PathVariable("no") long no,Model model) {
-    	
-    	model.addAttribute("no",no);
-    	
-    	return "moim/moimpictureList"; 
-    }
-    /**
-     * 모임 해야할일(ToDoList) 목록 조회
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
-    @GetMapping("/moimDetail/moimTodoList/{no}")
-    public String moimTodoList(@PathVariable("no") long no,Model model) {
-    	
-    	
-    	model.addAttribute("no",no);
-    	return "moim/moimTodoList";
-    }
+   
+  
+ 
     /**
      * 모임 카테고리 목록 조회
      *
@@ -278,8 +136,7 @@ public class MoimController {
             returnData.put("message", "모임 주제를 선택해주세요");
             return returnData;
         }
-       System.out.println("@#$#$@#$@#$#@$##@$");
-       System.out.println(subject);
+        
         try {
             moimService.saveMoim(id, subject, moim, file);
             returnData.put("code", "1");
@@ -345,34 +202,21 @@ public class MoimController {
 		model.addAttribute("moimList",moimList);
 		return "moim/moimList";
 	}
-	/**
-	 * 일반회원 모임 참가 
-	 *
-	 * @param locale
-	 * @param Moim
-	 * @return returnData
-	 * @throws Exception
-	 * @author choiseongjun
-	 */
-	@ResponseBody
-	@PostMapping("/moimParticipant/{moimNo}")
-	public Map<String, Object> moimParticipant(@PathVariable("moimNo") long moimNo,HttpSession session) {
-		Long peopleId = (Long) session.getAttribute("peopleId");
-		
-		System.out.println(peopleId);
-		Map<String,Object> returnData = new HashMap<String,Object>();
-		returnData.put("code","1");
-		returnData.put("message","모임가입완료:)");
-		moimService.moimParticipant(peopleId,moimNo);
-		return returnData;
-	}
+	
 	
 	@ResponseBody
     @GetMapping("/getMoimImage/{imageName:.+}")
     public byte[] getMoimImage(@PathVariable("imageName") String imageName) throws Exception {
         return moimService.getMoimImage(imageName);
     }
-
+	 /**
+		 * 모임 만들기 화면으로
+		 *
+		 * @param 
+		 * @return 
+		 * @throws Exception
+		 * @author choiseongjun
+		 */
     @GetMapping("/moimMakeView")
     public String moimMakeView() {
         return "moim/moimMake";

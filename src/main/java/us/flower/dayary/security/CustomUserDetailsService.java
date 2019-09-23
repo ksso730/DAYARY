@@ -35,37 +35,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	
 
-//	@Override
-//	@Transactional
-//	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-//		 People user = peopleRepository.findById(id);
-//		 
-//		return UserPrincipal.create(user);
-//	}
-//
-//	public UserDetails loadUserByNo(Long no) {
-//		 People user = peopleRepository.findById(no).orElseThrow(
-//		            () -> new UsernameNotFoundException("User not found with id : " + no)
-//			        );
-//		return UserPrincipal.create(user);
-//	}
-
-//	@Override
-//	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-//		  People user = peopleRepository.findById(id).orElseThrow(
-//		            () -> new UsernameNotFoundException("User not found with id : " + id)
-//		        );
-//		return UserPrincipal.create(user);
-//		      
-//	}
-//	/*이 메서드가 로그인 접속할수 있는 메서드이다*/
-//	@Transactional
-//    public UserDetails loadUserByNo(Long no) {
-//		  People user = peopleRepository.findByNo(no).orElseThrow(
-//		            () -> new UsernameNotFoundException("User not found with id : " + no)
-//		        );
-//		return UserPrincipal.create(user);
-//    }
 	
 
 }
