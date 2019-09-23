@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +49,7 @@ public class MoimJoinPeopleController {
 		returnData.put("message","모임가입완료:)");
 		return returnData;
 	}
+	@Transactional
 	@DeleteMapping("/moimParticipant/deletejoinedPeople")
 	public Map<String, Object> moimdeletejoinedPeople(HttpSession session) {
 		Long peopleId = (Long) session.getAttribute("peopleId");
@@ -59,7 +61,7 @@ public class MoimJoinPeopleController {
 			
 		moimPeopleRepository.deleteById(peopleId);
 		returnData.put("code","1");
-		returnData.put("message","모임가입완료:)");
+		returnData.put("message","모임탈퇴 완료:)");
 		return returnData;
 	}
 }
