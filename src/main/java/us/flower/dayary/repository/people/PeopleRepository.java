@@ -18,6 +18,8 @@ public interface PeopleRepository extends JpaRepository<People, Long>{
 	boolean existsByEmail(String email);
 	@Query("select a.id as id from People a inner join MoimPeople b on a.id=b.people where b.joinrole='study' and a.id=(:people_no)")
 	String findPeopleOne(@Param("people_no") long people_no);
+	@Query("select b.id as id from People a inner join MoimPeople b on a.id=b.people where b.joinrole='study' and a.id=(:people_no)")
+	String findMoimPeopleNoOne(@Param("people_no") long peopleId);
 
     
 

@@ -122,6 +122,12 @@ public class MoimServiceImpl implements moimService{
 		return peopleRepository.findPeopleOne(people_no);
 	}
 
+	@Override
+	public String findMoimPeopleNoOne(long peopleId) {
+		
+		return peopleRepository.findMoimPeopleNoOne(peopleId);
+	}
+
 
 
 

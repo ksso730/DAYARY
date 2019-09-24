@@ -107,8 +107,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .invalidateHttpSession(true)
                         .and()
                         .exceptionHandling()
-                        .accessDeniedHandler(new CustomAccessDeniedHandler()).and()
-                        .exceptionHandling().authenticationEntryPoint(new CustomHttp403ForbiddenEntryPoint());
+                        .accessDeniedHandler(new CustomAccessDeniedHandler())
+                        .and().exceptionHandling().accessDeniedPage("/people/error");
+                        /*.and()
+                        .exceptionHandling().authenticationEntryPoint(new CustomHttp403ForbiddenEntryPoint());*/
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

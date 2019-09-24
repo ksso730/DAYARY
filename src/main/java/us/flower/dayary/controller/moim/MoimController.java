@@ -169,8 +169,10 @@ public class MoimController {
         session.setAttribute("peopleId", peopleId);
  
         String joinedpeople=moimService.findPeopleOne(peopleId);//참여자 조회
+        String moimPeopleNo=moimService.findMoimPeopleNoOne(peopleId);//참여자 조회
         System.out.println("=================="); 
         System.out.println(joinedpeople);
+        System.out.println(moimPeopleNo);
         System.out.println("==================");        
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
@@ -178,6 +180,7 @@ public class MoimController {
 //        long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
+        model.addAttribute("moimPeopleNo",moimPeopleNo);
         model.addAttribute("moimpeopleList",moimpeopleList);
         model.addAttribute("joinedpeople",joinedpeople);
         return "moim/moimDetail"; 

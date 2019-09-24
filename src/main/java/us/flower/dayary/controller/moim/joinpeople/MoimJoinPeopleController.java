@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.service.moim.moimService;
+import us.flower.dayary.service.moim.joinpeople.MoimJoinPeopleService;
 
 @Controller
 public class MoimJoinPeopleController {
@@ -23,7 +24,7 @@ public class MoimJoinPeopleController {
     @Autowired
     private moimService moimService;
     @Autowired
-    MoimPeopleRepository moimPeopleRepository;
+    MoimJoinPeopleService moimjoinPeopleService;
 	/**
 	 * 일반회원 모임 참가 
 	 *
@@ -42,26 +43,42 @@ public class MoimJoinPeopleController {
 	
 		Map<String,Object> returnData = new HashMap<String,Object>();
 	
-			
-		moimService.moimParticipant(peopleId,moimNo);
-		
-		returnData.put("code","1");
-		returnData.put("message","모임가입완료:)");
+		try {	
+				moimService.moimParticipant(peopleId,moimNo);
+				returnData.put("code","1");
+				returnData.put("message","모임가입완료:)");
+		}catch(Exception e) {
+			    returnData.put("code", "E3290");
+	            returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+		}
 		return returnData;
 	}
-	@Transactional
-	@DeleteMapping("/moimParticipant/deletejoinedPeople")
-	public Map<String, Object> moimdeletejoinedPeople(HttpSession session) {
+	/**
+	 * 일반회원 모임 탈퇴 
+	 *
+	 * @param locale
+	 * @param moimPeopleNo
+	 * @return returnData
+	 * @throws Exception
+	 * @author choiseongjun
+	 * @Date 2019-09-24
+	 */
+	@ResponseBody
+	@DeleteMapping("/moimParticipant/deletejoinedPeople/{moimPeopleNo}")
+	public Map<String, Object> moimdeletejoinedPeople(@PathVariable("moimPeopleNo") long moimPeopleNo,HttpSession session) {
 		Long peopleId = (Long) session.getAttribute("peopleId");
 	
 		
-		System.out.println(peopleId);
 		Map<String,Object> returnData = new HashMap<String,Object>();
 	
-			
-		moimPeopleRepository.deleteById(peopleId);
-		returnData.put("code","1");
-		returnData.put("message","모임탈퇴 완료:)");
+		  try {
+			  	moimjoinPeopleService.deleteMoimPeople(moimPeopleNo);
+				returnData.put("code","1");
+				returnData.put("message","모임탈퇴 완료:)");
+		  }catch (Exception e) {
+	            returnData.put("code", "E3290");
+	            returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+	      }
 		return returnData;
 	}
 }
