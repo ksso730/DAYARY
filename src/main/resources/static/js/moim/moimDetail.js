@@ -1,3 +1,8 @@
+function myPeopleCount() {
+  alert("Page is loaded");
+
+}
+
 $('#signup_btn').off().on('click', function () {//스터디 가입하기 by choiseongjun 2019-09-20
 
     var moimNo = $('#moimNo').attr("data-moimNo");

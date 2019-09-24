@@ -164,26 +164,32 @@ public class MoimController {
       
     	
     	
-        moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));
+        moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));//모임장중심으로 데이터 불러옴
         long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.참가를 위해 
         session.setAttribute("peopleId", peopleId);
  
         String joinedpeople=moimService.findPeopleOne(peopleId);//참여자 조회
-        String moimPeopleNo=moimService.findMoimPeopleNoOne(peopleId);//참여자 조회
-        System.out.println("=================="); 
-        System.out.println(joinedpeople);
-        System.out.println(moimPeopleNo);
-        System.out.println("==================");        
+        String moimPeopleNo=moimService.findMoimPeopleNoOne(peopleId);//참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에 넣어준다)
+       
+        
+        
+        
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
+
+        long totalPeople = 0;
+        for(int i=0;i<=moimpeopleList.size();i++) {//데이터 값 들고온것을 size만큼 반복해서 뽑기 모임리스트까지 <=한 이유는 모임장이 제외됬기때문에 +1해야한다
+        	totalPeople++;
+        }
         System.out.println(moimpeopleList.toString());
-//        long checkPeople=moimpeopleRepository.countBypeopleNo(people_no);//모임참가회원인지 체크하는것
+
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
         model.addAttribute("moimPeopleNo",moimPeopleNo);
         model.addAttribute("moimpeopleList",moimpeopleList);
         model.addAttribute("joinedpeople",joinedpeople);
-        return "moim/moimDetail"; 
+        model.addAttribute("totalPeople",totalPeople);//해당하는 모임의 총회원수 뽑기
+        return "moim/moimDetail";  
     }
 
     /**
