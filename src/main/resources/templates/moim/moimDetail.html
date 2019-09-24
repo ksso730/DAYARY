@@ -205,7 +205,7 @@ background-color: rgb(255, 255, 255);
 						</span> -->
 						<div class="panel-body"> 
 							<p class="text-muted font-13">우리 모임은 spring jpa스터디를 하며  스터디 모임/일정관리  시스템을 만듭니다</p>
-							<span th:if="${joinedpeople==null}">
+							<span th:if="${joinedpeople==null&&!(session.peopleId==moimDetail.people.id)}"><!-- 미가입자와 운영자가 아닌경우 -->
 								<button type="button" id="signup_btn" class="btn btn-primary btn-xs">스터디 가입하기</button>
 							</span>
 							<span th:if="${joinedpeople!=null}">
@@ -218,7 +218,7 @@ background-color: rgb(255, 255, 255);
 										Deo</span>
 								</p>
 								<p class="text-muted font-13">
-									<strong>모임장 :</strong><span class="m-l-15"><td th:text="${moimDetail.people.email}" /> <td th:text="${moimDetail}" /></span>
+									<strong>모임장 :</strong><span class="m-l-15"><td th:text="${moimDetail.people.email}" /> </span>
 								</p>
 								<p class="text-muted font-13">
 									<strong>모임주제 :</strong> <span class="m-l-15"><td th:text="${moimDetail.category.commName}" /></span></span>
@@ -256,7 +256,18 @@ background-color: rgb(255, 255, 255);
 					<div class="card-box ribbon-box">
 					
 						<div class="clearfix"><button type="button" class="btn btn-info">모임원</button>	</div>
+						<!-- 운영자 랜더링 by choiseongjun -->
 						<div class="inbox-widget">
+							<div class="inbox-item">
+									<div class="inbox-item-img">
+										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+											class="rounded-circle" alt="">
+									</div>
+									<p class="inbox-item-author"><td th:text="${moimDetail.people.name}" /><button class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영자</button></p>
+									<p class="inbox-item-date">
+									</p>
+								</div>
+						<!-- 운영자 랜더링 End by choiseongjun -->							
 							<tr th:each="moimpeopleList : ${moimpeopleList}">
 							<a href="#">
 								<div class="inbox-item">
@@ -268,7 +279,7 @@ background-color: rgb(255, 255, 255);
 									<p class="inbox-item-date">
 										<span th:if="${session.peopleId==moimDetail.people.id}">
 											<button type="button"
-												class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기<td th:text="${moimpeopleList.name}" /></button>
+												class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
 											<button type="button"
 												class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
 										</span>
