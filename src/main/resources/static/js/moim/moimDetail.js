@@ -1,5 +1,5 @@
 function myPeopleCount() {
-  alert("Page is loaded");
+  console.log("페이지 로딩 완료");
 
 }
 

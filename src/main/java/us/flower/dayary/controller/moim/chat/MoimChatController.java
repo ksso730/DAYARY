@@ -37,7 +37,6 @@ public class MoimChatController {
         moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));//모임장중심으로 데이터 불러옴
         model.addAttribute("moimpeopleList",moimpeopleList);
         model.addAttribute("moimOne",moimOne); 
-        System.out.println("데이터시즈아악");
         System.out.println(moimpeopleList.toString());
         System.out.println(moimOne.toString());
     	return "moim/moimChatroom";
