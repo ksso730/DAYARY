@@ -29,7 +29,8 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		
 		BoardGroup boardGroup=new BoardGroup();
 		boardGroup.setId(board_group_id);
-		
+
+		communityBoard.setTitle(communityBoard.getTitle());
 		communityBoard.setMemo(communityBoard.getMemo());
 		communityBoard.setBoardGroup(boardGroup);
 		communityBoard.setPeople(people);
@@ -45,10 +46,10 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	}
 
 
-	@Override
-	public Page<CommunityBoard> CommunityStudyList(BoardGroup boardGroup, Pageable pageable) {
-		return communityBoardRepository.findAllByBoardGroup(boardGroup, pageable);
-	}
+//	@Override
+//	public Page<CommunityBoard> CommunityStudyList(BoardGroup boardGroup, Pageable pageable) {
+//		return communityBoardRepository.findAllByBoardGroup(boardGroup, pageable);
+//	}
 
 	@Override
 	public void deleteBoardone(long timeLineListNo) {

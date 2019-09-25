@@ -7,10 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import us.flower.dayary.domain.BoardGroup;
-import us.flower.dayary.domain.Common;
+import us.flower.dayary.domain.Category;
+import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.BoardGroupRepository;
-import us.flower.dayary.repository.CommonRepository;
+import us.flower.dayary.repository.CategoryRepository;
+import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
 
 @RunWith(SpringRunner.class)
@@ -18,40 +20,36 @@ import us.flower.dayary.repository.people.PeopleRepository;
 public class InsertData {
 
 	@Autowired
-	CommonRepository commonRepository;
+	CategoryRepository categoryRepository;
 
 	@Autowired
 	PeopleRepository peopleRepository;
+
+	@Autowired
+	CommunityBoardRepository communityBoardRepository;
 	
 	  @Test
-	  public void createMoimAndInsertPeople(){
-		  
-		  Common comm = new Common();
-
-		  comm.setCommHead("CA1");
-		  comm.setCommCode("01");
-		  comm.setCommName("영어");
-		  commonRepository.save(comm);
-		  comm.setCommHead("CA1");
-		  comm.setCommCode("02");
-		  comm.setCommName("수능");
-		  commonRepository.save(comm);
-		  comm.setCommHead("CA1");
-		  comm.setCommCode("03");
-		  comm.setCommName("공무원");
-		  commonRepository.save(comm);
-		  comm.setCommHead("CA1");
-		  comm.setCommCode("04");
-		  comm.setCommName("프로그래밍");
-		  commonRepository.save(comm);
-		  comm.setCommHead("CA1");
-		  comm.setCommCode("05");
-		  comm.setCommName("대기업");
-		  commonRepository.save(comm);
-		  comm.setCommHead("CA1");
-		  comm.setCommCode("06");
-		  comm.setCommName("공기업");
-		  commonRepository.save(comm);
+	    public void createMoimAndInsertPeople()
+		{
+		  Category category=new Category();
+		  category.setId(1L);
+		  category.setSubject("영어");
+		  categoryRepository.save(category);
+		  category.setId(2L);
+		  category.setSubject("수능");
+		  categoryRepository.save(category);
+		  category.setId(3L);
+		  category.setSubject("공무원");
+		  categoryRepository.save(category);
+		  category.setId(4L);
+		  category.setSubject("프로그래밍");
+		  categoryRepository.save(category);
+		  category.setId(5L);
+		  category.setSubject("대기업");
+		  categoryRepository.save(category);
+		  category.setId(6L);
+		  category.setSubject("공기업");
+		  categoryRepository.save(category);
 		}
 	@Autowired
 	BoardGroupRepository brdgrprepo;
@@ -92,5 +90,19 @@ public class InsertData {
 		brdgrp7.setName("독서실소개 ");
 		brdgrprepo.save(brdgrp7);
 
+//		People defualtUser = new People();
+//		defualtUser.setEmail("user");
+//		defualtUser.setPassword("123");
+		People defualtUser = peopleRepository.getOne(1L);
+
+		for(int i=0; i<12; i++){
+			CommunityBoard board = new CommunityBoard();
+			board.setMemo("테스트");
+			board.setTitle("테스트");
+			board.setBoardGroup(brdgrp2);
+			board.setHeart(3);
+			board.setPeople(defualtUser);
+			communityBoardRepository.save(board);
+		}
 	}
 }
