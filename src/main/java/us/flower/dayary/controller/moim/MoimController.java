@@ -181,7 +181,6 @@ public class MoimController {
         for(int i=0;i<=moimpeopleList.size();i++) {//데이터 값 들고온것을 size만큼 반복해서 뽑기 모임리스트까지 <=한 이유는 모임장이 제외됬기때문에 +1해야한다
         	totalPeople++;
         }
-        System.out.println(moimpeopleList.toString());
 
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
@@ -207,8 +206,7 @@ public class MoimController {
 		 int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
 	        pageable = PageRequest.of(page, 9);
 	        
-		Page<Moim> moimList = moimRepository.findAll(pageable);
-	
+	    Page<Moim> moimList= moimService.selectListAll(pageable);//모임리스트 출력한다
 		model.addAttribute("moimList",moimList);
 		return "moim/moimList";
 	}
@@ -219,8 +217,20 @@ public class MoimController {
     public byte[] getMoimImage(@PathVariable("imageName") String imageName) throws Exception {
         return moimService.getMoimImage(imageName);
     }
+	 /**
+	 * 모임 오프라인모임 만들기 화면으로
+	 *
+	 * @param 
+	 * @return 
+	 * @throws Exception
+	 * @author choiseongjun
+	 */
+	@GetMapping("/moimoffMakeView")
+	public String moimoffMakeView() {
+	    return "moim/popup/moimoffMake";
+	}
 	/**
-	 * 모임 만들기 화면으로
+	 * 모임 수정 화면으로
 	 *
 	 * @param 
 	 * @return 
