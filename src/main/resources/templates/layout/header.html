@@ -67,7 +67,7 @@
                                     <li>
                                         <a href="/community/communityList/1">커뮤니티</a>
                                     </li>
-                                    <li >
+                                   	<li th:if="${session.peopleEmail!=null}">
                                         <a href="/moimMakeView">모임 만들기</a>
                                     </li>
                                     <li th:if="${session.peopleEmail==null}">
