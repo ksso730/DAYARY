@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <css th:replace="layout/header::headerCss"/>
+</head>
+<body>
+<form action="#" class="p-5 bg-white">
+   <div class="site-section bg-light" >
+        <div class="container" >
+            <div class="row">
+                <div class="col-md-7 mb-5"  style="margin-left:250px">
+
+                    <form id="moim_make_from" class="p-5 bg-white">
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="text-black">오프라인모임 이름 </label> <input
+                                    type="text" name="title" id="title" placeholder="모임이름을 입력하세요" class="form-control">
+                            </div>
+
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="text-black">모임 인원수</label> 
+                                <input
+                                    type="number" name="peopleLimit" id="peopleLimit" class="form-control"
+                                    placeholder="2~999 입력"  min="0" max="40" step="1" >
+                            </div>
+                        </div>
+
+                       
+                        
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="text-black">시 </label>
+                                <select name="category" id="categorybox" class="form-control">
+                                    <option value="">필수 선택</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="text-black">구 </label>
+                                <select name="category" id="categorybox" class="form-control">
+                                    <option value="">필수 선택</option>
+                                </select>
+                            </div>
+                        </div>
+
+ 						<div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="text-black">동 </label>
+                                <select name="category" id="categorybox" class="form-control">
+                                    <option value="">필수 선택</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="text-black">모임 소개 </label>
+                                <textarea name="message" id="intro" cols="30" rows="7"
+                                          class="form-control"
+                                          placeholder="당신의 모임을 소개하세요!"></textarea>
+                            </div>
+                        </div>
+
+                   
+                    </form>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</form>
+<script src="/js/people/signin.js"></script>
+<script>
+
+</script>
+</body>
+</html>
