@@ -57,8 +57,6 @@ public class MoimServiceImpl implements moimService{
 
         People people = peopleRepository.findByEmail(email);
         Common category=commonRepository.findBycommName(subject);
-        System.out.println("서브젝트은???????");
-        System.out.println(category);
         //이미지파일이름생성
         String imageName="";
 		while(true){
@@ -120,10 +118,14 @@ public class MoimServiceImpl implements moimService{
 	}
 
 	@Override
-	public Optional<People> findPeopleOne(Long people_no) {
-		System.out.println("현재 세션값은?????");
-		System.out.println(people_no);
+	public String findPeopleOne(Long people_no) {
 		return peopleRepository.findPeopleOne(people_no);
+	}
+
+	@Override
+	public String findMoimPeopleNoOne(long peopleId) {
+		
+		return peopleRepository.findMoimPeopleNoOne(peopleId);
 	}
 
 
