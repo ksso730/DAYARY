@@ -219,6 +219,22 @@ public class MoimController {
     public byte[] getMoimImage(@PathVariable("imageName") String imageName) throws Exception {
         return moimService.getMoimImage(imageName);
     }
+	/**
+	 * 모임 만들기 화면으로
+	 *
+	 * @param 
+	 * @return 
+	 * @throws Exception
+	 * @author choiseongjun
+	 */
+	@GetMapping("/moimUpdateView/{no}")
+	public String moimUpdateView(@PathVariable("no") long no,Model model) {
+		
+		 moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));
+		 
+		 
+	    return "moim/moimUpdate";
+	}
 	 /**
 		 * 모임 만들기 화면으로
 		 *

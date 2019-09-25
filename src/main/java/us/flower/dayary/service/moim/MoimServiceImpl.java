@@ -113,6 +113,7 @@ public class MoimServiceImpl implements moimService{
 	}
 
 	@Override
+	@Transactional
 	public void deleteMoimOne(long moimNo) {
 		moimRepository.deleteById(moimNo);
 	}
