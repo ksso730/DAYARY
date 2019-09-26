@@ -1,0 +1,39 @@
+spring:
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+        cache: false
+  
+  datasource:
+        url: "secret"
+        username: secret
+        password: secret
+  jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+                format_sql: true
+  jackson:
+    time-zone: UTC
+    serialization:
+                  WRITE_DATES_AS_TIMESTAMPS : false
+                  
+logging:
+        level:
+              com:
+                  devson: 
+                          pagination: debug
+                          
+server:
+    port: 8080
+
+moimImagePath: C:/dayary/moim/image
+
+app:
+      jwtSecret : JWTSuperSecretKey
+      jwtExpirationInMs : 604800000
