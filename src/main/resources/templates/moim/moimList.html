@@ -106,7 +106,7 @@ form.example::after {
 								<h2>
 									<a
 										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
-										<td th:text="${moimList.title}"></td>
+										<h3><td th:text="${moimList.title}" /></h4>
 									</a>
 								</h2>
 								<div class="post-meta align-items-center text-left clearfix">
@@ -115,8 +115,9 @@ form.example::after {
 										<img src="images/person_1.jpg" alt="Image" class="img-fluid">
 									</figure>
 									<span class="d-inline-block mt-1">By <a href="#"><td
-											th:text="${moimList.people.email}"></td></a></span> <span>&nbsp;-&nbsp;
-										July 19, 2019</span>
+											th:text="${moimList.people.email}"></td></a></span> <span>&nbsp;
+										<td
+										th:text="${moimList.createDate}" /></span>
 								</div>
 
 								<p>
