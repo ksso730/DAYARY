@@ -1,12 +1,43 @@
 package us.flower.dayary.controller.moim.todolist;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.List;
+import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.ToDoWrite;
+import us.flower.dayary.domain.ToDoWriteList;
+import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
+import us.flower.dayary.service.moim.todo.ToDoWriteService;
+
 
 @Controller
 public class MoimTodoListController {
+	@Autowired 
+	private ToDoWriteService service;
+	
 	 /**
      * 모임  해야할일(ToDoList) 현재목록  DetailView  조회
      *
@@ -36,16 +67,48 @@ public class MoimTodoListController {
     /**
      * 모임 일정관리(ToDoList) 작성하기
      *
-     * @param 
+     * @param  
      * @return
      * @throws 
      * @author choiseongjun
      */
-    @GetMapping("/moimDetail/moimTodoList/moimTodowrite")
-    public String moimTodowrite() {
-    	 
+    @GetMapping("/moimDetail/moimTodoList/moimTodowrite/{no}")
+    public String moimTodowrite(@PathVariable("no") long no,Model model) {
+    	 model.addAttribute("no",no);
     	return "moim/moimTodowrite";
     }
+    /**
+     * 모임 일정관리(ToDoList) 작성하기
+     *
+     * @param locale
+     * @param ToDoWriteList
+     * @return
+     * @throws 
+     * @author JY
+     */
+	@ResponseBody
+	@PostMapping("/moimDetail/moimTodoList/moimTodowrite")
+	public Map<String, Object> moimTodowrite(HttpSession session,@RequestBody ToDoWriteList todo ) {
+		  Map<String, Object> returnData = new HashMap<String, Object>();
+		  String id =  (String) session.getAttribute("peopleEmail");
+		  if (id.equals(null) || id.equals("")) {
+	            returnData.put("code", "0");
+	            returnData.put("message", "로그인 후 이용해주세요");
+	            return returnData;
+	        }
+	      
+		  try {
+	    	  	service.saveList(todo,id);
+	            returnData.put("code", "1");
+	            returnData.put("message", "저장되었습니다");
+
+	        } catch (Exception e) {
+	            returnData.put("code", "E3290");
+	            returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+	        }
+	      
+	  return returnData;
+	}
     /**
      * 모임 해야할일(ToDoList)에서 달력  조회
      *
@@ -67,7 +130,7 @@ public class MoimTodoListController {
      * @throws 
      * @author choiseongjun
      */
-    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/{no}")
+    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/")
     public String moimtodostatus(@PathVariable("no") long no,Model model) {
     	
     	model.addAttribute("no",no);
@@ -83,10 +146,11 @@ public class MoimTodoListController {
      * @author choiseongjun
      */
     @GetMapping("/moimDetail/moimTodoList/{no}")
-    public String moimTodoList(@PathVariable("no") long no,Model model) {
-    	
-    	
+    public String moimTodoList(@PathVariable("no") long no,Model model,@PageableDefault Pageable pageable) {
+	        pageable = PageRequest.of(1,10,new Sort(Direction.DESC,"create_date"));
+    	//Page<ToDoWrite> toDolist=service.findByMoim_id(pageable,no);
     	model.addAttribute("no",no);
+    	//model.addAttribute("todolist", toDolist);
     	return "moim/moimTodoList";
     }
 }
