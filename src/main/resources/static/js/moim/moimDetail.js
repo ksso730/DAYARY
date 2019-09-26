@@ -69,7 +69,7 @@ $(document).ready(function(){//스터디 삭제 by choiseongjun 2019-09-20
 		        success:function(data){
 					if(data.code==1){
 						alert(data.message);
-						location.href='/moimlistView/moimdetailView/'+moimNo;
+						location.href='/moimlistView';
 					}else{
 						alert(data.message)
 					}

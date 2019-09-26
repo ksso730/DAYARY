@@ -188,6 +188,8 @@ public class MoimController {
         model.addAttribute("moimpeopleList",moimpeopleList);
         model.addAttribute("joinedpeople",joinedpeople);
         model.addAttribute("totalPeople",totalPeople);//해당하는 모임의 총회원수 뽑기
+        System.out.println("로그찍기");
+        	System.out.println(joinedpeople);
         return "moim/moimDetail";  
     }
 
