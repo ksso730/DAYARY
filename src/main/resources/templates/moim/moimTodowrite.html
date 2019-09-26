@@ -33,19 +33,12 @@
 		
 			   <div class="todolist not-done" id="myDIV" >
 					<h2 style="margin: 5px">My To Do List</h2>
-					<input type="text" id="myInput1" class="form-control" placeholder="Title..." > 
+					<input type="text" id="myInput1" class="form-control" placeholder="Title..." onkeyup="onKeyDown();"> 
 					<span onclick="newElement()" class="btn btn-success">Add</span>
 				</div>
 
 			<ul id="myUL" class="list-unstyled">
-				<li  class="ui-state-default" id="x">Hit the gym</li>
-				<li  class="ui-state-default">Pay bills</li>
-				<li  class="ui-state-default">Meet George</li>
-				<li class="ui-state-default">Buy eggs</li>
-				<li  class="ui-state-default">Read a book</li>
-				<li  class="ui-state-default">Organize office</li>
 			</ul>
-			<input type="hidden" name="list" id="list">
 			<div align="center">
 				<button type="button" class="btn btn-sm btn-primary btn-create" onclick="post_send();">
 				일정계획 완료</button>

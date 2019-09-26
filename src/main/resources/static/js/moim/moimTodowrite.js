@@ -61,7 +61,7 @@ function newElement() {
  $( "#to_date" ).datepicker({
 	 dateFormat: 'yymmdd'
 });
- 
+//날짜범위체크
 function check(){
 	let d=new Date();
 	var from =$( "#from_date" ).val();
@@ -70,6 +70,13 @@ function check(){
 	 alert("잘못된 날짜 범위입니다.");
 	 $( "#to_date" ).val("");
  }
+}
+//엔터시 리스트에 추가
+function onKeyDown(){
+     if(event.keyCode == 13)
+     {
+    	 newElement();
+     }
 }
 
  function post_send() {

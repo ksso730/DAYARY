@@ -44,7 +44,7 @@
                     <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimTodoListcompleted/' + ${no}}" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>완료된것들<span class="ml-auto align-self-center badge badge-secondary badge-pill">12</span></a></li>
                     <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/' + ${no}}" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>현재 진행상태(목록)<span class="ml-auto align-self-center badge badge-secondary badge-pill">4</span></a></li>
                     <li class="nav-item"><a href="#" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>미완료 목록<span class="ml-auto align-self-center badge badge-secondary badge-pill">9</span></a></li>
-                    <li class="nav-item"><a href="/moimDetail/moimTodoList/moimTodowrite" class="nav-link"><i class="fa fa-fw fa-plus mr-2"></i>일정 관리 세우기</a></li>
+                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimTodowrite/' + ${no}}" class="nav-link"><i class="fa fa-fw fa-plus mr-2"></i>일정 관리 세우기</a></li>
                 </ul>
             </div>
             <div class="mb-4">
@@ -126,48 +126,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="align-middle">
+                      		<tr th:each="list : ${todolist}">
+                      		<td class="align-middle">
                                     <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div>
                                 </td>
-                                <td class="align-middle">
-                                    <div><a href="/apps/tasks/list">Ergonomic real-time adapter</a></div><span>Lasti Edted by: Savanah Durgan <br>Sunday, 12 June, 2018</span></td>
-                                <td class="align-middle"><span class="badge badge-success badge-pill">Active</span></td>
-                                <td class="align-middle">
-                                    <div class="mb-2 progress" style="height: 15px;">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+                      		<td><div><a href="@{'/moimDetail/moimTodoList/moimtodostatus/${list.id}/moimtodostatusDetail}"><span  th:text="${list.plan_title}"></span></a></div>
+                      		    <div th:text="${list.people.email}"></div><div th:text="${list.create_date}"></div></td>  
+                                 <td class="align-middle"><span class="badge badge-danger badge-pill">Suspended</span></td>
+                                  <td class="align-middle">
+                                    <div class="mb-2 progress" style="height: 5px;">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
                                     </div>
                                     <div>Tasks Completed:<span class="text-inverse">36/94</span></div>
                                 </td>
-                                <td class="align-middle">
-                                    <div class="avatar-image avatar-image--loaded">
-                                        <div class="avatar avatar--md avatar-image__image">
-                                            <div class="avatar__content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png"></div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-right">
-                                    <div class="btn-group">
-                                        <a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/' + ${no}}" class="d-flex nav-link"><i class="fa fa-search"></i></a>
-                                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                                            <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-folder-open mr-2"></i>View</button>
-                                            <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-ticket mr-2"></i>Add Task</button>
-                                            <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-paperclip mr-2"></i>Add Files</button>
-                                            <div tabindex="-1" class="dropdown-divider"></div>
-                                            <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-trash mr-2"></i>Delete</button>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                      		<tr>
-                      		<div><a href="@{'/moimDetail/moimTodoList/moimtodostatus/${list.id}/moimtodostatusDetail}"><span  th:text="${list.plan_title}"></span></a></div>
-                                    <span>  <p th:text="${list.people_id}"></p><br><p th:text="${list.create_date}"></p></span></td>     
-                                <td class="align-middle">
-                                    <div class="mb-2 progress" style="height: 15px;">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
-                                    </div>
-                                    <div>Tasks Completed:<span class="text-inverse">36/94</span></div>
-                                </td>
+                                
+                              
                                 <td class="align-middle">
                                     <div class="avatar-image avatar-image--loaded">
                                         <div class="avatar avatar--md avatar-image__image">
