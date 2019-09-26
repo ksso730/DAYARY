@@ -90,7 +90,7 @@ public class Moim extends DateAudit{
 
     
     // 모임 참여자 예정
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "MOIM_PEOPLE",
                joinColumns = @JoinColumn(name = "MOIM_ID"),
                inverseJoinColumns = @JoinColumn(name = "PEOPLE_ID"))
