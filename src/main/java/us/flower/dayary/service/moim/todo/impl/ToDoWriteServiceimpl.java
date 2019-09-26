@@ -36,20 +36,21 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 			list.getToDoWrite().setCreate_date(new java.sql.Date(System.currentTimeMillis()));
 			//생성자 설정
 			People p=peopleRepository.findByEmail(id);
-			list.setPeople(p);
 			list.getToDoWrite().setPeople(p);
 			//모임 설정
 			Optional<Moim> moimOne=moimRepository.findById(list.getMoim().getId());
-			list.setMoim(moimOne.get());
 			list.getToDoWrite().setMoim(moimOne.get());
-		   //저장하기
-			 toDowriteRepository.save(list.getToDoWrite());
+		   //todowrite 저장하고 객체 반환
+			 ToDoWrite t =toDowriteRepository.save(list.getToDoWrite());
 		   String[] todo=list.getPlan_list().split(",");
 		   //todo계획에 있는 목록들인 list를 하나씩 목록에 빼서 넣어주기
 		  for(String i: todo) {
+			  //각각 저장을 위해 객체 생성
 			  ToDoWriteList todolist=new ToDoWriteList(); 
-			  list.setPlan_list(i);
-			  todolist=list;
+			  todolist.setToDoWrite(t);
+			  todolist.setPlan_list(i);
+			  todolist.setPeople(p);
+			  todolist.setMoim(moimOne.get());
 			  toDowriteListRepository.save(todolist);
 		  }
 	}

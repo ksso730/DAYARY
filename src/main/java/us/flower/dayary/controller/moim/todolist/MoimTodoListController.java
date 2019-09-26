@@ -147,10 +147,11 @@ public class MoimTodoListController {
      */
     @GetMapping("/moimDetail/moimTodoList/{no}")
     public String moimTodoList(@PathVariable("no") long no,Model model,@PageableDefault Pageable pageable) {
-	        pageable = PageRequest.of(1,10,new Sort(Direction.DESC,"create_date"));
-    	//Page<ToDoWrite> toDolist=service.findByMoim_id(pageable,no);
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+        pageable = PageRequest.of(page, 9);
+    	Page<ToDoWrite> toDolist=service.findByMoim_id(pageable,no);
     	model.addAttribute("no",no);
-    	//model.addAttribute("todolist", toDolist);
+    	model.addAttribute("todolist", toDolist);
     	return "moim/moimTodoList";
     }
 }
