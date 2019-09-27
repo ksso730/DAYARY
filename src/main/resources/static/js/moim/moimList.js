@@ -1,5 +1,6 @@
 function initMoimCategoryList(opt){
    
+	
    $.ajax({
       
       url:'/getMoimCategory',
@@ -18,10 +19,10 @@ function initMoimCategoryList(opt){
          var item = data._category;
          
          for (var n=0; n<item.length; n++){
-            var no         = item[n].no;
-            var name = item[n].commName;
+        	 var code  = item[n].commCode;
+             var name = item[n].commName;
             
-            $('#categorybox').append('<button class="btn active">' + name + '</button>');
+             $('#categorybox').append('<option value="' + code + '">' + name + '</option>');
          }
          $('#categorybox').selectmenu('refresh');
       } 

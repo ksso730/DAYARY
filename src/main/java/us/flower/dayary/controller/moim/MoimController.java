@@ -210,6 +210,7 @@ public class MoimController {
 	        
 	    Page<Moim> moimList= moimService.selectListAll(pageable);//모임리스트 출력한다
 		model.addAttribute("moimList",moimList);
+		
 		return "moim/moimList";
 	}
 	
