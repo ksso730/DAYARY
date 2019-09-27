@@ -55,7 +55,6 @@
       <li>
          <!-- begin timeline-time -->
          <div class="timeline-time">
-            <span class="date"><td th:text="${timeLineList.createDate}"></span>
             <span class="time"><!--  <td th:text="${timeLineList}">  --> </span>
          </div>
          <!-- end timeline-time -->
@@ -69,8 +68,8 @@
          <div class="timeline-body">
             <div class="timeline-header">
                <span class="userimage"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""></span>
-               <span class="username"><a href="javascript:;"><td th:text="${timeLineList.people.email}"> </a> <small></small></span>
-               <span class="pull-right text-muted">18 Views</span>
+               <span class="username"><a href="javascript:;">작성자:<td th:text="${timeLineList.people.name}" />  </a> <small>작성일자:<td th:text="${timeLineList.createDate}"></small></span>
+               <span class="pull-right text-muted">18 Views</span> 
                <div id="timeLineListNo" th:data-timeLineListNo="${timeLineList.id}"></div><!-- 타임라인 각번호(자바스크립트  ajax로 보내기위함) by choiseongjun -->
                <span th:if="${session.peopleId==timeLineList.people.id}">
                <button class="pull-right text-muted" id="community_delete_btn" type="button">글 삭제하기</button>
