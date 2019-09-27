@@ -34,7 +34,8 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		communityBoard.setBoardGroup(boardGroup);
 		communityBoard.setPeople(people);
 		communityBoard.setDeleteFlag('N');
-
+		communityBoard.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
+		communityBoard.setUpdateDate(new java.sql.Date(System.currentTimeMillis()));
 		communityBoardRepository.save(communityBoard);
 
 	}

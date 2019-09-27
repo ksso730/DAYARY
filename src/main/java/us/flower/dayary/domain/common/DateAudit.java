@@ -15,6 +15,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 /**
 * @param 
 * @return
@@ -28,7 +31,9 @@ import lombok.Data;
         value = {"createdAt", "updatedAt"},
         allowGetters = true
 )
-@Data
+@ToString
+@Getter
+@Setter
 public abstract class DateAudit implements Serializable {
 
     @CreatedDate
