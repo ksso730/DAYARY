@@ -1,5 +1,7 @@
 package us.flower.dayary.domain;
 
+import java.sql.Blob;
+import java.sql.Clob;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -36,7 +39,9 @@ public class CommunityBoard{
 	private long id;
 	@Column(name="TITLE")
 	private String title;
+	
 	@Column(name="MEMO")
+	@Lob
 	private String memo;
 	@Column(name="DELETEFLAG" ,nullable=false, columnDefinition = "char(1) default 'N'")
 	private char deleteFlag;

@@ -167,17 +167,7 @@ public class PeopleController {
 		return "people/signin";
 	}
 
-	/**
-	 * 내 정보 조회
-	 *
-	 * @param
-	 * @return
-	 * @throws @author choiseongjun
-	 */
-	@GetMapping("/myprofileView")
-	public String myprofileView() {
-		return "people/myprofile";
-	}
+	
 
 
 	@GetMapping("/logout")

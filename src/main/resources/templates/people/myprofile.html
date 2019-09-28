@@ -259,26 +259,21 @@
                 </div>
                 <div class="tab-pane" id="edit">
                     <form>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">First name</label>
+                       <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">아이디</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="Mark">
+                                <input class="form-control" type="email" th:value="${peopleinfo.email}">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+                            <label class="col-lg-3 col-form-label form-control-label">이름</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="Jhonsan">
+                                <input class="form-control" type="text" th:value="${peopleinfo.name}">
                             </div>
                         </div>
+                       
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Email</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="email" value="mark@example.com">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Change profile</label>
+                            <label class="col-lg-3 col-form-label form-control-label">사진 바꾸기</label>
                             <div class="col-lg-9">
                                 <input class="form-control" type="file">
                             </div>
