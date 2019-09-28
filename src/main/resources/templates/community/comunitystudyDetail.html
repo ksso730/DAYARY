@@ -17,68 +17,7 @@ body {
 </style>
 <script src="/ckeditor/ckeditor.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-	var flag = [[${writerFlag}]];
-	if(flag){
-		$('#community_modify_btn').show();
-	}else{
-		$('#community_modify_btn').hide();
-	}
 
-	$('#community_write_btn').on('click', function () {
-
-		// check title data input
-		if($('#title').val()==''||$('#title').val()=='undefined'||$('#title').val()==null){
-			alert('제목을 입력하세요');
-			$('#title').focus();
-			return;
-		}
-
-		// check content data input
-		//const content = CKEDITOR.instances['content'].editable().getText();
-
-		// ck editior defualt length == 1
-		if($('#content').val()==''||$('#content').val()=='undefined'||$('#content').val()==null){
-			alert('내용을 입력하세요');
-			$('#content').focus();
-			return;
-		}
-
-		// set post data
-		var board_group_no = [[${board_group_no}]];
-		var communityBoard = {};
-
-		communityBoard.title = $('#title').val();
-		communityBoard.memo= $('#content').val();
-
-		$.ajax({
-			url:'/community/communityList/studyWrite/' + board_group_no,
-			type:'POST',
-			contentType: 'application/json; charset=UTF-8',
-			dataType:'json',
-			data: JSON.stringify(communityBoard),
-			success:function(data){
-				if(data.code==1){
-					alert(data.message);
-					location.href='/community/communityList/studyList/' + board_group_no;
-				}else{
-					alert(data.message)
-				}
-			},
-			error:function(xhr,error){
-
-			}
-		});
-	});
-
-	$('#community_list_btn').on('click', function(){
-
-
-	});
-});
-
-</script>
 <div th:replace="community/sidemenu::sidemenu" />
 
 </head>
@@ -88,6 +27,7 @@ $(document).ready(function(){
 	<article>
 		<div class="container1" style="margin-left:250px; max-width:1180px">
 			<h2>글 작성</h2>
+			<button type="button" class="btn btn-sm btn-dark" id="community_remove_btn">삭제</button>
 			<!--<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">-->
 				<div class="mb-3">
 					<label for="title">제목</label>
@@ -107,12 +47,113 @@ $(document).ready(function(){
 <!--				</div>-->
 			<!--</form>-->
 			<div >
-				<button type="button" class="btn btn-sm btn-primary" id="community_modify_btn">수정</button>
+				<button type="button" class="btn btn-sm btn-danger" id="community_modify_btn" >수정</button>
+				<button type="button" class="btn btn-sm btn-success" id="community_modify_save_btn" >저장</button>
+				<button type="button" class="btn btn-sm btn-warning" id="community_modify_cancel_btn" >취소</button>
 				<a th:href="@{'/community/communityList/studyList/'+${board_group_no}+'?page='+${page}}">
 					<button type="button" class="btn btn-sm btn-primary" id="community_list_btn">목록</button>
 				</a>
 			</div>
 		</div>
 	</article>
+<script>
+		$(document).ready(function(){
+			var baseTitle;
+			var baseContent;
+
+			var flag = [[${writerFlag}]];
+			if(flag){
+				$('#community_modify_btn').show();
+				$('#community_remove_btn').show();
+			}else{
+				$('#community_modify_btn').hide();
+			}
+
+			$('#community_modify_save_btn').hide();
+			$('#community_modify_cancel_btn').hide();
+
+			$('')
+
+			$('#community_modify_btn').on('click', function(){
+				$('#title').attr('readonly', false);
+				$('#content').attr('readonly', false);
+
+				baseTitle = $('#title').val();
+				baseContent = $('#content').val();
+
+				$('#community_modify_btn').hide();
+				$('#community_modify_save_btn').show();
+				$('#community_modify_cancel_btn').show();
+			});
+
+			$('#community_modify_cancel_btn').on('click', function(){
+				if(confirm('정말 취소하시겠습니까?')){
+					$('#title').attr('readonly', true);
+					$('#content').attr('readonly', true);
+
+					$('#title').val(baseTitle);
+					$('#content').val(baseContent);
+
+					$('#community_modify_btn').show();
+					$('#community_modify_save_btn').hide();
+					$('#community_modify_cancel_btn').hide();
+				}else{
+					return;
+				}
+			});
+
+			$('#community_write_btn').on('click', function () {
+
+				// check title data input
+				if($('#title').val()==''||$('#title').val()=='undefined'||$('#title').val()==null){
+					alert('제목을 입력하세요');
+					$('#title').focus();
+					return;
+				}
+
+				// check content data input
+				//const content = CKEDITOR.instances['content'].editable().getText();
+
+				// ck editior defualt length == 1
+				if($('#content').val()==''||$('#content').val()=='undefined'||$('#content').val()==null){
+					alert('내용을 입력하세요');
+					$('#content').focus();
+					return;
+				}
+
+				// set post data
+				var board_group_no = [[${board_group_no}]];
+				var communityBoard = {};
+
+				communityBoard.title = $('#title').val();
+				communityBoard.memo= $('#content').val();
+
+				$.ajax({
+					url:'/community/communityList/studyWrite/' + board_group_no,
+					type:'POST',
+					contentType: 'application/json; charset=UTF-8',
+					dataType:'json',
+					data: JSON.stringify(communityBoard),
+					success:function(data){
+						if(data.code==1){
+							alert(data.message);
+							location.href='/community/communityList/studyList/' + board_group_no;
+						}else{
+							alert(data.message)
+						}
+					},
+					error:function(xhr,error){
+
+					}
+				});
+			});
+
+			$('#community_list_btn').on('click', function(){
+
+
+			});
+		});
+
+</script>
 </body>
 </html>

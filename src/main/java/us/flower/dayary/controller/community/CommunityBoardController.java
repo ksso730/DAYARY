@@ -100,10 +100,10 @@ public class CommunityBoardController {
 
 		// people name (사용자 정보)
 		Long peopleId = (Long) session.getAttribute("peopleId");
-		Long writerId = (Long) writer.getId();
+		Long writerId = writer.getId();
 
 		// 작성자 == 사용자 확인
-		if(peopleId==writerId){
+		if(peopleId.longValue()==writerId.longValue()){
 			model.addAttribute("writerFlag", TRUE);
 		}else{
 			model.addAttribute("writerFlag", FALSE);
