@@ -42,16 +42,16 @@ public class TimeLineController {
      * @throws 
      * @author choiseongjun
      */
-	@ResponseBody
 	@GetMapping("/community/communityList/findwrittenView/{no}")
 	public String CommunityfindwrittenView(@PathVariable("no") Long board_group_id,Model model,HttpSession session) {
 	
 		long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.
 		List<CommunityBoard> mywrittenList=communityBoardRepository.findByPeople_id(peopleId);
 		//sort=sort.and(new Sort(Sort.Direction.DESC));
-			System.out.println("VALEASESU");
+		
+		model.addAttribute("mywrittenList",mywrittenList);
 			System.out.println(mywrittenList);
-		return null;
+		return "community/communityfindmyinfo";
 	}
 	/**
      * 커뮤니티리스트(Timeline) 글삭제
