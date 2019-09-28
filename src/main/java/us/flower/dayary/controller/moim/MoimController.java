@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartResolver;
 
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
@@ -103,7 +106,7 @@ public class MoimController {
 		}
     	return categoryList;
     }
-
+	
     /**
      * 모임 만들기
      *
@@ -116,7 +119,7 @@ public class MoimController {
     @ResponseBody
     @PostMapping("/moimMake")
     public Map<String, Object> moimMake(@RequestPart("moim") Moim moim, @RequestPart("file") MultipartFile file, HttpSession session) {
-
+    	
         Map<String, Object> returnData = new HashMap<String, Object>();
         String id = (String) session.getAttribute("peopleEmail");
         String subject = moim.getCategory().getCommName();
@@ -135,6 +138,10 @@ public class MoimController {
         } else if (moim.getCategory() == null || moim.getCategory().equals("")) {
             returnData.put("code", "0");
             returnData.put("message", "모임 주제를 선택해주세요");
+            return returnData;
+        } else if (moim.getSido_code() == null || moim.getSido_code().equals("") || moim.getSigoon_code() == null || moim.getSigoon_code().equals("")) {
+            returnData.put("code", "0");
+            returnData.put("message", "활동 지역을 선택해주세요");
             return returnData;
         }
         

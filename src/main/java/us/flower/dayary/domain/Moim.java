@@ -3,7 +3,6 @@ package us.flower.dayary.domain;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,16 +14,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import us.flower.dayary.domain.common.DateAudit;
 
 /**
@@ -77,17 +73,24 @@ public class Moim extends DateAudit{
     private People people;
 
     //이미지경로
-	@Column(name = "IMAGE_PATH")
+	@Column(name = "IMAGE_PATH", nullable = true)
     private String imagePath;
 
 	//이미지이름
-	@Column(name = "IMAGE_NAME")
+	@Column(name = "IMAGE_NAME", nullable = true)
     private String imageName;
 
 	//이미지확장자
-	@Column(name = "IMAGE_EXTENSION")
+	@Column(name = "IMAGE_EXTENSION", nullable = true)
     private String imageExtension;
-
+	
+	//시/도
+	@Column(name = "SIDO_CODE")
+    private String sido_code;
+	
+	//구
+	@Column(name = "SIGOON_CODE")
+    private String sigoon_code;
     
     // 모임 참여자 예정
 	@ManyToMany(fetch = FetchType.LAZY)

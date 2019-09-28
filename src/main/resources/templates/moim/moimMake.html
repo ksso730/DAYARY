@@ -64,7 +64,9 @@
                 <div class="col-md-7 mb-5"  style="margin-left:250px">
 
                     <form id="moim_make_from" class="p-5 bg-white">
-
+						<input type="hidden" id="sido_key" value="12685d425f1af0872d756c" />
+						<input type="hidden" id="sigoon_key" value="b0888bae39fbd0463a9252" /> 
+                      
                         <div class="row form-group">
                             <div class="col-md-12">
                                 <label class="text-black">모임 이름 </label> <input
@@ -92,32 +94,17 @@
                         </div>
                         
                         <div class="row form-group">
-                            <div class="col-md-12">
-                                <label class="text-black">시 </label>
-                                <select name="category" id="categorybox" class="form-control">
-                                    <option value="">필수 선택</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <label class="text-black">구 </label>
-                                <select name="category" id="categorybox" class="form-control">
-                                    <option value="">필수 선택</option>
-                                </select>
-                            </div>
-                        </div>
-
- 						<div class="row form-group">
-                            <div class="col-md-12">
-                                <label class="text-black">동 </label>
-                                <select name="category" id="categorybox" class="form-control">
-                                    <option value="">필수 선택</option>
-                                </select>
-                            </div>
-                        </div>
-                        
+                            <div class="col-md-6">
+                         		<label class="text-black">활동 지역 </label>
+		                        <select name="sido_code" id="sido_code" class="form-control">
+									<option>선택</option>
+								</select> 
+								<select name="sigoon_code" id="sigoon_code" class="form-control">
+									<option>선택</option>
+								</select>
+							</div>
+						</div>
+						
                         <div class="row form-group">
                             <div class="col-md-12">
                                 <label class="text-black">모임 소개 </label>
@@ -146,7 +133,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="site-footer">
         <div class="container">
