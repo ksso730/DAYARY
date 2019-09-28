@@ -132,17 +132,17 @@ form.example::after {
 									<span style=" font-weight:bold;" >스터디장: <td
 											th:text="${moimList.people.email}"></td></a></span> <span>
 										<br /><span style=" font-weight:bold;">회원수:<td th:text="${moimList.peopleList.size()}" />/<td th:text="${moimList.peopleLimit}" /></p><span style=" font-weight:bold;">
-										모임개설일:</span><td th:text="${moimList.createDate}" />
+										개설일:</span><td th:text="${moimList.createDate}" />
 									</span>
 								</div>
 
 								<p>
-									모임소개:<td th:text="${moimList.intro}" />
+									소개:<td th:text="${moimList.intro}" />
 								</p>
 								<p>
 									<a
 										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
-										Read More</a>
+										스터디 들여다보기</a>
 
 								</p>
 							</div>
