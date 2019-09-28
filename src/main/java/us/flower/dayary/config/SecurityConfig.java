@@ -73,12 +73,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticationEntryPoint(unauthorizedHandler)
                     .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)    /* the request was rejected because the url contained a potentially malicious string ";" 500에러 떄문에  추가했음 by choiseongjun 2019-09-29*/
 				/*
 				 * .and() .authorizeRequests() .antMatchers("/moimlistView/**")
 				 * .access("ROLE_USER")
 				 */
-                	
                 	.and()
                 .authorizeRequests()
                     .antMatchers("/",

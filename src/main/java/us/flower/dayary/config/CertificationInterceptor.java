@@ -25,7 +25,6 @@ public class CertificationInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 
 		String path = request.getRequestURI().substring(request.getContextPath().length());
-		System.out.println("!@#$%^&*()!@#$%^&*(!@#$%^&*" + path);
 		// 세션이 없으면(로그인되지 않은 상태)
 		if (session.getAttribute("peopleEmail") == null) {
 
