@@ -103,8 +103,7 @@ $(document).ready(function(){
           <tr th:each="communityStudy : ${communityStudyList}">
               <td th:text ="${communityStudy.id}"></td>
               <td id="title">
-<!--                <a th:href="'/bbs/content.bbs?articleNumber=' + ${article.articleNumber} +'&pageNum=' + ${pageNum}"></a>-->
-                 <a th:text="${communityStudy.title}"></a>
+                  <a th:href="@{'/community/communityList/studyDetail/' + ${board_group_no} + '/' + ${communityStudy.id}}"><span th:text = "${communityStudy.title}"></span></a>
                   <span class="hit">hit!</span>
               </td>
               <td th:text="${communityStudy.people.email}"></td>

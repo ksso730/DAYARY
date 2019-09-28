@@ -22,6 +22,9 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 
 @Controller
 public class CommunityBoardController {
@@ -33,9 +36,6 @@ public class CommunityBoardController {
 
 	@Autowired
 	PeopleRepository peopleRepository;
-
-	@PostMapping("")
-
 
 
 	/**
@@ -74,6 +74,47 @@ public class CommunityBoardController {
 
 		return "community/comunitystudyList";
 	}
+
+	/**
+	 *
+	 * @param board_group_no
+	 * @param board_id
+	 * @param session
+	 * @param model
+	 * @return 게시판 글 디테일
+	 */
+	@GetMapping("/community/communityList/studyDetail/{board_group_no}/{board_id}")
+	public String studyDetail(@PathVariable("board_group_no") long board_group_no, @PathVariable("board_id") long board_id,
+							  HttpSession session, Model model) {
+
+		// board group (게시판 그룹)
+		model.addAttribute("board_group_no",board_group_no);
+
+		// communityBoard (게시글)
+		CommunityBoard communityBoard = communityBoardRepository.getOne(board_id);
+		model.addAttribute("communityBoard", communityBoard);
+
+		// people name (작성자 정보)
+		People writer = communityBoard.getPeople();
+		model.addAttribute("name", writer.getName());
+
+		// people name (사용자 정보)
+		Long peopleId = (Long) session.getAttribute("peopleId");
+		Long writerId = (Long) writer.getId();
+
+		// 작성자 == 사용자 확인
+		if(peopleId==writerId){
+			model.addAttribute("writerFlag", TRUE);
+		}else{
+			model.addAttribute("writerFlag", FALSE);
+		}
+
+		// set session page number (이전페이지 돌아갈때 사용)
+		model.addAttribute("page", session.getAttribute("page"));
+
+		return "community/comunitystudyDetail";
+	}
+
 
 	/**
 	 *

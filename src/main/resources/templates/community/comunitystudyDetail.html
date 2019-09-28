@@ -19,8 +19,12 @@ body {
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-	// 작성자 이름 제외 (2019-09-28)
-	//$('#writer_name').val([[${name}]]);
+	var flag = [[${writerFlag}]];
+	if(flag){
+		$('#community_modify_btn').show();
+	}else{
+		$('#community_modify_btn').hide();
+	}
 
 	$('#community_write_btn').on('click', function () {
 
@@ -87,15 +91,15 @@ $(document).ready(function(){
 			<!--<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">-->
 				<div class="mb-3">
 					<label for="title">제목</label>
-					<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요">
+					<input type="text" class="form-control" name="title" id="title" readonly="true" th:value="${communityBoard.title}">
 				</div>
-<!--				<div class="mb-3">-->
-<!--					<label for="writer_name">작성자</label>-->
-<!--					<input type="text" class="form-control" name="writer_name" id="writer_name" placeholder="이름을 입력해 주세요" readonly="true">-->
-<!--				</div>-->
+				<div class="mb-3">
+					<label for="writer_name">작성자</label>
+					<input type="text" class="form-control" name="writer_name" id="writer_name" readonly="true" th:value="${name}">
+				</div>
 				<div class="mb-3">
 					<label for="content">내용</label>
-					<textarea class="form-control" rows="20" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
+					<textarea class="form-control" rows="20" name="content" id="content" readonly="true" th:inline="text">[[${communityBoard.memo}]]</textarea>
 				</div>
 <!--				<div class="mb-3">-->
 <!--					<label for="tag">TAG</label>-->
@@ -103,7 +107,7 @@ $(document).ready(function(){
 <!--				</div>-->
 			<!--</form>-->
 			<div >
-				<button type="button" class="btn btn-sm btn-primary" id="community_write_btn">저장</button>
+				<button type="button" class="btn btn-sm btn-primary" id="community_modify_btn">수정</button>
 				<a th:href="@{'/community/communityList/studyList/'+${board_group_no}+'?page='+${page}}">
 					<button type="button" class="btn btn-sm btn-primary" id="community_list_btn">목록</button>
 				</a>
