@@ -1,5 +1,6 @@
 package us.flower.dayary.service.moim;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public interface moimService {
 
 	String findPeopleOne(Long people_no);//모임탈퇴조건으로 인해 한명조회
 
-	String findMoimPeopleNoOne(long peopleId);//모임넘버 조회해오는것(모임탈퇴할떄 Moim_people no기준으로 삭제)
+	String findMoimPeopleNoOne(long peopleId, long no);//모임넘버 조회해오는것(모임탈퇴할떄 Moim_people no기준으로 삭제)
 
 	Page<Moim> selectListAll(Pageable pageable);
 

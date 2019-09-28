@@ -1,5 +1,7 @@
 package us.flower.dayary.controller.moim;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -175,31 +177,36 @@ public class MoimController {
         long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.참가를 위해 
         session.setAttribute("peopleId", peopleId);
  
-        String joinedpeople=moimService.findPeopleOne(peopleId);//참여자 조회
-        String moimPeopleNo=moimService.findMoimPeopleNoOne(peopleId);//참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에 넣어준다)
-       
+        String moimPeopleNo=moimService.findMoimPeopleNoOne(peopleId,no);//참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에 넣어준다)
+        List<MoimPeople> joinedpeoplelist=moimpeopleRepository.findByMoim_idAndPeople_id(no,peopleId);
         
+        System.out.println(joinedpeoplelist);
         
+        System.out.println("값은??"); 
+        for(int i=0;i<joinedpeoplelist.size();i++) {
+        	long joinedpeople=joinedpeoplelist.get(i).getId();
+        	   model.addAttribute("joinedpeople",joinedpeople);
+        }
         
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
 
+        System.out.println(moimpeopleList.toString());
+        
         long totalPeople = 0;
         for(int i=0;i<=moimpeopleList.size();i++) {//데이터 값 들고온것을 size만큼 반복해서 뽑기 모임리스트까지 <=한 이유는 모임장이 제외됬기때문에 +1해야한다
         	totalPeople++;
-        }
-
+        }  
+        model.addAttribute("moimPeopleNo", moimPeopleNo);
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
-        model.addAttribute("moimPeopleNo",moimPeopleNo);
         model.addAttribute("moimpeopleList",moimpeopleList);
-        model.addAttribute("joinedpeople",joinedpeople);
+     
         model.addAttribute("totalPeople",totalPeople);//해당하는 모임의 총회원수 뽑기
-        System.out.println("로그찍기");
-        	System.out.println(joinedpeople);
+        System.out.println("로그찍기"); 
         return "moim/moimDetail";  
     }
-
+ 
     /**
 	 * 모임 리스트 출력(Paging 처리)
 	 *
@@ -217,7 +224,7 @@ public class MoimController {
 	        
 	    Page<Moim> moimList= moimService.selectListAll(pageable);//모임리스트 출력한다
 		model.addAttribute("moimList",moimList);
-		
+
 		return "moim/moimList";
 	}
 	

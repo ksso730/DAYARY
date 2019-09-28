@@ -217,16 +217,22 @@ body {
 						<div class="panel-body">
 							<p class="text-muted font-13">우리 모임은 spring jpa스터디를 하며 스터디
 								모임/일정관리 시스템을 만듭니다</p>
-							<span th:if="${joinedpeople!=null&&!(session.peopleId==moimDetail.people.id)}">
-								<button type="button" id="withdraw_btn"
-									class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
+							</p>
+								
+							<span th:if="${joinedpeople}!=null">	
+								<span th:if="${!(session.peopleId==moimDetail.people.id)}">
+									<button type="button" id="withdraw_btn"
+										class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
+								</span>
 							</span>
-							<span
-								th:if="${joinedpeople==null&&!(session.peopleId==moimDetail.people.id) &&!(totalPeople>=moimDetail.peopleLimit) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
-								<!-- 미가입자와 운영자가 아닌경우 -->
-								<button type="button" id="signup_btn"
-									class="btn btn-primary btn-xs">스터디 가입하기</button>
-							</span> 
+							<span th:if="${joinedpeople}==null">	
+								<span
+									th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople>=moimDetail.peopleLimit) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
+									<!-- 미가입자와 운영자가 아닌경우 -->
+									<button type="button" id="signup_btn"
+										class="btn btn-primary btn-xs">스터디 가입하기</button>
+								</span> 
+							</span>
 							<hr>
 							<div class="text-left">
 								<p class="text-muted font-13">

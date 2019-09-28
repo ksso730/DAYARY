@@ -32,6 +32,7 @@ $('#signup_btn').off().on('click', function () {//스터디 가입하기 by choi
 $('#withdraw_btn').off().on('click', function () {//스터디 탈퇴하기 by choiseongjun 2019-09-20
 
 	  var moimPeopleNo = $('#moimPeopleNo').attr("data-moimPeopleNo");
+	  moimPeopleNo*=1;
 	  console.log(moimPeopleNo);
 	 $.ajax({
 	    	url : '/moimParticipant/deletejoinedPeople/'+moimPeopleNo, 

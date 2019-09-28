@@ -125,16 +125,17 @@ public class MoimServiceImpl implements moimService{
 		return peopleRepository.findPeopleOne(people_no);
 	}
 
-	@Override
-	public String findMoimPeopleNoOne(long peopleId) {
-		
-		return peopleRepository.findMoimPeopleNoOne(peopleId);
-	}
 
 	@Override
 	public Page<Moim> selectListAll(Pageable pageable) {
 		return moimRepository.findAll(pageable);
 	}
+
+	@Override
+	public String findMoimPeopleNoOne(long peopleId, long no) {
+		return peopleRepository.findMoimPeopleNoOne(peopleId,no);
+	}
+	
 
 
 
