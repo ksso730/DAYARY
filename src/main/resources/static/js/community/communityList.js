@@ -39,7 +39,7 @@ $(document).ready(function(){//게시판(타임라인)글 삭제 by choiseongjun
 		        success:function(data){
 					if(data.code==1){
 						alert(data.message);
-						location.href='/community/communityList/'+board_group_no;
+						location.href='/community/communityList/1';
 					}else{
 						alert(data.message)
 					}

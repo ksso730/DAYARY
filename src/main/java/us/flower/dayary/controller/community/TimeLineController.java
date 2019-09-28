@@ -33,6 +33,26 @@ public class TimeLineController {
 	
 	@Autowired
 	CommunityBoardRepository communityBoardRepository;
+	
+	 /**
+     * 커뮤니티리스트(Timeline) 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
+	@ResponseBody
+	@GetMapping("/community/communityList/findwrittenView/{no}")
+	public String CommunityfindwrittenView(@PathVariable("no") Long board_group_id,Model model,HttpSession session) {
+	
+		long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.
+		List<CommunityBoard> mywrittenList=communityBoardRepository.findByPeople_id(peopleId);
+		//sort=sort.and(new Sort(Sort.Direction.DESC));
+			System.out.println("VALEASESU");
+			System.out.println(mywrittenList);
+		return null;
+	}
 	/**
      * 커뮤니티리스트(Timeline) 글삭제
      *
@@ -125,7 +145,7 @@ public class TimeLineController {
 		List<CommunityBoard> timeLineList=communityBoardService.CommunityList();
 
 		model.addAttribute("timeLineList",timeLineList);
-
+		model.addAttribute("no",board_group_id);
 		System.out.println(timeLineList.toString());
 
 		return "community/communityList";
