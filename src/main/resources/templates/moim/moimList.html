@@ -117,14 +117,18 @@ form.example::after {
 							<div class="excerpt">
 
 								<span class="post-category text-white bg-secondary mb-3">
-									<td th:text="${moimList.category.commName}"></td>
+									<td th:text="${moimList.sido_code}" />
+									<td th:text="${moimList.sigoon_code}" />
+								
 								</span>
-
+								<span class="post-category text-white bg-secondary mb-3">
+									<td th:text="${moimList.category.commName}" />
+								</span>
 								<h2>
 									<a
 										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
 										<h3>
-											<td th:text="${moimList.title}+${moimList.imageName!=null}" />
+											<td th:text="${moimList.title}" />
 											</h4>
 											
 											<!-- <tr th:each="dto : ${moimList.peopleList}">
