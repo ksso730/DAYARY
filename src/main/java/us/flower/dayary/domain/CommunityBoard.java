@@ -1,13 +1,7 @@
 package us.flower.dayary.domain;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import us.flower.dayary.domain.common.DateAudit;
 
 import java.util.List;
@@ -34,14 +28,17 @@ public class CommunityBoard extends DateAudit{
 	@Column(name="HEART")
 	private long heart;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = BoardGroup.class)
     @JoinColumn(name = "BOARD_GROUP_NO")
     private BoardGroup boardGroup;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = People.class)
     @JoinColumn(name = "PEOPLE_ID")
     private People people;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard")
 	private List<File> files;
+
+	@Column(name="VIEW_COUNT")
+	private long viewCount;
 }

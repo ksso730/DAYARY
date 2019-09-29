@@ -108,7 +108,7 @@ $(document).ready(function(){
               </td>
               <td th:text="${communityStudy.people.email}"></td>
               <td th:utext="${#strings.replace(communityStudy.createdAt,'T',' ')}"></td>
-              <td>3</td>
+              <td th:text="${communityStudy.viewCount}"></td>
           </tr>
         </tbody>
       </table>

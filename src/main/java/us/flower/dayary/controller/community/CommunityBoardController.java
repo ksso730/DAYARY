@@ -122,12 +122,17 @@ public class CommunityBoardController {
 	public String studyDetail(@PathVariable("board_group_no") long board_group_no, @PathVariable("board_id") long board_id,
 							  HttpSession session, Model model) {
 
+
 		// board group (게시판 그룹)
 		model.addAttribute("board_group_no",board_group_no);
 
 		// communityBoard (게시글)
 		CommunityBoard communityBoard = communityBoardRepository.getOne(board_id);
 		model.addAttribute("communityBoard", communityBoard);
+
+		// 조회수 업데이트
+		communityBoard.setViewCount(communityBoard.getViewCount()+1);
+		communityBoardRepository.save(communityBoard);
 
 		// people name (작성자 정보)
 		People writer = communityBoard.getPeople();
