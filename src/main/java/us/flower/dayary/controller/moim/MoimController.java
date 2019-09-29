@@ -114,9 +114,9 @@ public class MoimController {
      */
     @ResponseBody
     @PostMapping("/moimMake")
-    public Map<String, Object> moimMake(@RequestPart("moim") Moim moim, @RequestPart("file") MultipartFile file, HttpSession session) {
-    	
-        Map<String, Object> returnData = new HashMap<String, Object>();
+    public Map<String, Object> moimMake(@RequestPart("moim") Moim moim, @RequestPart(name="file",required=false) MultipartFile file, HttpSession session) {
+    	Map<String, Object> returnData = new HashMap<String, Object>();
+        
         String id = (String) session.getAttribute("peopleEmail");
         String subject = moim.getCategory().getCommName();
         if (id.equals(null) || id.equals("")) {

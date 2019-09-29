@@ -110,7 +110,7 @@ form.example::after {
 						<div class="entry2" style="width: 300px;">
 							<a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
 								<img
-								th:src="${'/getMoimImage/'+moimList.imageName+'.'+moimList.imageExtension}"
+									th:src="${moimList.imageName!=null} ? ${'/getMoimImage/'+moimList.imageName+'.'+moimList.imageExtension} : '/images/img_4.jpg'"
 								alt="Image" class="img-fluid rounded"
 								style="height: 200px; width: 500px">
 							</a>
@@ -124,7 +124,7 @@ form.example::after {
 									<a
 										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
 										<h3>
-											<td th:text="${moimList.title}" />
+											<td th:text="${moimList.title}+${moimList.imageName!=null}" />
 											</h4>
 											
 											<!-- <tr th:each="dto : ${moimList.peopleList}">
@@ -148,12 +148,12 @@ form.example::after {
 								</div>
 
 								<p>
-									소개:<td th:text="${moimList.intro}" />
+									소개:<td th:text="${#strings.length(moimList.intro)>10} ? ${#strings.substring(moimList.intro,0,10)+'...'} : ${moimList.intro}" id="moimtitle" />
 								</p>
 								<p>
 									<a
 										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
-										스터디 들여다보기</a>
+										더보기</a>
 
 								</p>
 							</div>
