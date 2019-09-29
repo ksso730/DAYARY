@@ -8,12 +8,20 @@ $('#signup_btn').off().on('click',function(){
 	people.sex=$('#sex').val();
 	people.birth=$('#birth').val();
 
+	let formData = new FormData();
+	formData.append("file", $('#people_image_file')[0].files[0]);
+	formData.append('signUpRequest', new Blob([JSON.stringify(people)], {
+	        type: "application/json; charset=UTF-8"
+	    }));
 	$.ajax({
 		url:'/signup',
 		type:'POST',
-		contentType: 'application/json; charset=UTF-8',
-		dataType:'json',
-		data: JSON.stringify(people),
+		 enctype: 'multipart/form-data',
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        contentType: false,
+	        dataType:'json',
+		mimeType:"multipart/form-data",
+	    data: formData,
 		success:function(data){
 			if(data.code==1){
 				alert(data.message);
