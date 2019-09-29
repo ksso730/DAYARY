@@ -10,6 +10,7 @@ import us.flower.dayary.domain.CommunityBoard;
 public interface CommunityBoardRepository extends JpaRepository<CommunityBoard,Long>{
 
 
-    Page<CommunityBoard> findAllByBoardGroup(BoardGroup boardGroup, Pageable pageable);
-    Long countByBoardGroupIs(BoardGroup boardGroup);
+    Page<CommunityBoard> findAllByBoardGroupAndDeleteFlag(BoardGroup boardGroup, char deleteFlag, Pageable pageable);
+    Long countByBoardGroupAndDeleteFlag(BoardGroup boardGroup, char deleteFlag);
+
 }

@@ -57,4 +57,10 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	}
 
 
+	@Override
+	public void deleteBoard(long boardId) {
+		CommunityBoard communityBoard = communityBoardRepository.getOne(boardId);
+		communityBoard.setDeleteFlag('Y');
+		communityBoardRepository.save(communityBoard);
+	}
 }

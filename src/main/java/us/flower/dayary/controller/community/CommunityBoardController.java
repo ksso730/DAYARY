@@ -61,11 +61,11 @@ public class CommunityBoardController {
 		// 이전에 보고있던 화면이 2page 이상일 경우
 
 		// page
-		Page<CommunityBoard> communityStudyList = communityBoardRepository.findAllByBoardGroup(boardGroup, pageable);
+		Page<CommunityBoard> communityStudyList = communityBoardRepository.findAllByBoardGroupAndDeleteFlag(boardGroup, 'N',pageable);
 		model.addAttribute("communityStudyList", communityStudyList.getContent());
 
-		Long communityStudyListCount = communityBoardRepository.countByBoardGroupIs(boardGroup);
-		model.addAttribute("communityStudyListCount", communityStudyListCount);
+		//Long communityStudyListCount = communityBoardRepository.countByBoardGroupAndDeleteFlag(boardGroup, 'N');
+		model.addAttribute("communityStudyListCount", communityStudyList.getTotalElements());
 
 		// page number
 		model.addAttribute("pageNumber", communityStudyList.getTotalPages());
@@ -73,6 +73,41 @@ public class CommunityBoardController {
 
 
 		return "community/comunitystudyList";
+	}
+
+	/**
+	 * 게시판 게시글 삭제
+	 * @param board_id
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@DeleteMapping("/community/communityList/studyDelete/{board_id}")
+	public Map<String, Object> sutdyDelete(@PathVariable("board_id") long board_id,
+							  HttpSession session){
+
+		Map<String, Object> returnData = new HashMap<>();
+
+		// 게시글 작성자와 현재 세션의 사용자 아이디 체크
+		Long peopleId = (Long) session.getAttribute("peopleId");
+		Long writerId = communityBoardRepository.getOne(board_id).getPeople().getId();
+
+		if(peopleId.longValue()==writerId.longValue()){
+			try {
+				communityBoardService.deleteBoard(board_id);
+				returnData.put("code", "1");
+				returnData.put("message", "삭제되었습니다");
+
+			} catch (Exception e) {
+				returnData.put("code", "E3290");
+				returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+			}
+		}else {
+				returnData.put("code", "E3290");
+				returnData.put("message", "게시글 작성자만 삭제할 수 있습니다.");
+		}
+
+		return returnData;
 	}
 
 	/**
