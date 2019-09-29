@@ -1,6 +1,7 @@
 package us.flower.dayary.controller.people;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,11 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import us.flower.dayary.common.BCRYPT;
+import us.flower.dayary.common.FileManager;
+import us.flower.dayary.common.TokenGenerator;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.Role;
 import us.flower.dayary.domain.RoleName;
@@ -29,6 +34,7 @@ import us.flower.dayary.security.JwtTokenProvider;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
 import java.util.Collections;
@@ -46,6 +52,13 @@ public class PeopleController {
 	PeopleRepository peopleRepository;
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Autowired
+    private TokenGenerator tokenGenerator;
+	@Autowired
+	private FileManager fileManager;
+	@Value("${moimImagePath}")
+	private String moimImagePath;
 
 	private BCRYPT bcrypt;
 
@@ -110,8 +123,11 @@ public class PeopleController {
 
 	@PostMapping("/signup")
 	@ResponseBody
-	public Map<String, Object> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+	public Map<String, Object> registerUser(@Valid @RequestPart("signUpRequest") SignUpRequest signUpRequest, @RequestPart("file") MultipartFile file) {
 
+		System.out.println(signUpRequest.getEmail());
+		System.out.println(file.getName());
+		
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		try {
 			if (!peopleRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -126,6 +142,33 @@ public class PeopleController {
 
 				user.setRoles(Collections.singleton(userRole));
 
+				
+				//이미지파일이름생성
+		        String imageName="";
+				while(true){
+		        	imageName=tokenGenerator.getToken();
+					//DB에 파일이름이 존재하지 않으면 moim domain에 set
+		        	if(!peopleRepository.existsByImageName(imageName)){
+						user.setImageName(imageName);
+						break; 
+					} 
+				}
+		  
+				
+				
+		        //이미지파일확장자추출
+		        String originalFileName = file.getOriginalFilename();
+		        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
+		        user.setImageExtension(fileExtension);
+
+		        //파일업로드
+		        try { 
+		            fileManager.fileUpload(file, moimImagePath+"/"+imageName+"."+fileExtension);
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+				
+				
 				People result = peopleRepository.save(user);
 
 				URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{username}")
