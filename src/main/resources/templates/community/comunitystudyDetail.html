@@ -110,7 +110,7 @@ body {
 			});
 
 			// 수정
-			$('#community_write_btn').off().on('click', function () {
+			$('#community_modify_save_btn').off().on('click', function () {
 
 				// check title data input
 				if($('#title').val()==''||$('#title').val()=='undefined'||$('#title').val()==null){
@@ -137,7 +137,7 @@ body {
 				communityBoard.memo= $('#content').val();
 
 				$.ajax({
-					url:'/community/communityList/studyWrite/' + board_group_no,
+					url:'/community/communityList/studyModify/' + board_group_no + '/' + board_id,
 					type:'POST',
 					contentType: 'application/json; charset=UTF-8',
 					dataType:'json',

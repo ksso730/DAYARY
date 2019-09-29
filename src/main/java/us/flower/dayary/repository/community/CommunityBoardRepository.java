@@ -11,6 +11,5 @@ public interface CommunityBoardRepository extends JpaRepository<CommunityBoard,L
 
 
     Page<CommunityBoard> findAllByBoardGroupAndDeleteFlag(BoardGroup boardGroup, char deleteFlag, Pageable pageable);
-    Long countByBoardGroupAndDeleteFlag(BoardGroup boardGroup, char deleteFlag);
-
+    //Long countByBoardGroupAndDeleteFlag(BoardGroup boardGroup, char deleteFlag);
 }

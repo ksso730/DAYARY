@@ -18,9 +18,11 @@ import us.flower.dayary.service.PeopleService;
 import us.flower.dayary.service.community.CommunityBoardService;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.text.html.Option;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -69,8 +71,6 @@ public class CommunityBoardController {
 
 		// page number
 		model.addAttribute("pageNumber", communityStudyList.getTotalPages());
-
-
 
 		return "community/comunitystudyList";
 	}
@@ -216,6 +216,59 @@ public class CommunityBoardController {
 			returnData.put("code", "E3290");
 			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
 		}
+
+		return returnData;
+	}
+
+	/**
+	 * 커뮤니티리스트 글 수정
+	 *
+	 * @param
+	 * @return
+	 * @throws
+	 * @author minholee
+	 */
+	@ResponseBody
+	@PostMapping("/community/communityList/studyModify/{board_group_no}/{board_id}")
+	public Map<String, Object> studyModify(@PathVariable("board_group_no") long board_group_no, @PathVariable("board_id") long board_id, @RequestBody CommunityBoard communityBoard,
+										  HttpSession session) {
+
+		Map<String, Object> returnData = new HashMap<>();
+
+		if (communityBoard.getTitle().equals(null) || communityBoard.getTitle().equals("")) {
+			returnData.put("code", "0");
+			returnData.put("message", "제목을 입력해주세요");
+			return returnData;
+		}
+
+		if (communityBoard.getMemo().equals(null) || communityBoard.getMemo().equals("")) {
+			returnData.put("code", "0");
+			returnData.put("message", "내용을 입력해주세요");
+			return returnData;
+		}
+
+
+		Long peopleId = (Long) session.getAttribute("peopleId");//사용자세션정보 들고오기
+		CommunityBoard modifyBoard = communityBoardRepository.getOne(board_id);
+		Long writerId = modifyBoard.getPeople().getId();
+
+		if(peopleId.longValue()==writerId.longValue()){
+			try {
+				modifyBoard.setTitle(communityBoard.getTitle());
+				modifyBoard.setMemo(communityBoard.getMemo());
+				communityBoardRepository.save(modifyBoard);
+				returnData.put("code", "1");
+				returnData.put("message", "수정되었습니다");
+
+			} catch (Exception e) {
+				returnData.put("code", "E3290");
+				returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+			}
+		}else{
+			returnData.put("code", "E3290");
+			returnData.put("message", "게시글 작성자만 수정할 수 있습니다.");
+		}
+
 
 		return returnData;
 	}
