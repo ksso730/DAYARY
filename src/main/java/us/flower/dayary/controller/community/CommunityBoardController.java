@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.bind.annotation.*;
 import us.flower.dayary.domain.BoardGroup;
+import us.flower.dayary.domain.BoardLike;
 import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.People;
+import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
 import us.flower.dayary.service.PeopleService;
@@ -110,6 +112,45 @@ public class CommunityBoardController {
 		return returnData;
 	}
 
+	@Autowired
+	BoardLikeRepository boardLikeRepository;
+	/**
+	 * 좋아요 카운트
+	 *
+	 */
+	@ResponseBody
+	@PostMapping("/community/communityList/studyLike/{board_group_id}/{board_id}")
+	public Map<String, Object> studyLike(@PathVariable("board_id") long board_id, @PathVariable("board_group_id") long board_group_id,
+							HttpSession session) {
+
+		Map<String, Object> returnData = new HashMap<>();
+
+		CommunityBoard communityBoard = new CommunityBoard();
+		communityBoard.setId(board_id);
+
+		People people = new People();
+		Long peopleId = (Long) session.getAttribute("peopleId");
+		people.setId(peopleId);
+
+		// 이전 추천했는지 확인
+		BoardLike boardLike = boardLikeRepository.findBoardLikeByBoardAndPeople(communityBoard, people);
+		if(boardLike==null){
+			boardLike = new BoardLike();
+			boardLike.setBoard(communityBoard);
+			boardLike.setPeople(people);
+
+			BoardGroup boardGroup = new BoardGroup();
+			boardGroup.setId(board_group_id);
+			boardLike.setBoardGroup(boardGroup);
+			boardLikeRepository.save(boardLike);
+
+		}else{
+			returnData.put("code", "2");
+			returnData.put("message", "이미 추천한 게시글 입니다");
+		}
+
+		return returnData;
+	}
 	/**
 	 *
 	 * @param board_group_no

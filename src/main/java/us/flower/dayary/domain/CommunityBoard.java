@@ -41,4 +41,7 @@ public class CommunityBoard extends DateAudit{
 
 	@Column(name="VIEW_COUNT")
 	private long viewCount;
+
+	@Column(name="LIKE_COUNT")
+	private long likeCount;
 }

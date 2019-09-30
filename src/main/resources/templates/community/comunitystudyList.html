@@ -93,10 +93,12 @@ $(document).ready(function(){
         <thead>
           <tr>
             <th width="10%">번호</th>
-            <th width="50%">제목</th>
+            <th width="30%">제목</th>
             <th width="10%">작성자</th>
             <th width="20%">작성일</th>
-            <th width="10%">조회</th>
+            <th width="10%">조회수</th>
+            <th width="10%">좋아요수</th>
+            <th width="10%">댓글수</th>
           </tr>
         </thead>
         <tbody>
@@ -109,6 +111,8 @@ $(document).ready(function(){
               <td th:text="${communityStudy.people.email}"></td>
               <td th:utext="${#strings.replace(communityStudy.createdAt,'T',' ')}"></td>
               <td th:text="${communityStudy.viewCount}"></td>
+              <td th:text="${communityStudy.likeCount}"></td>
+              <td>7</td>
           </tr>
         </tbody>
       </table>

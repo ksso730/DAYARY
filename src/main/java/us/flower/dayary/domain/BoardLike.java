@@ -26,7 +26,7 @@ public class BoardLike extends DateAudit {
     private CommunityBoard board;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="BAORD_GROUP_ID")
+    @JoinColumn(name="BOARD_GROUP_ID")
     private BoardGroup boardGroup;
 
 }
