@@ -19,14 +19,6 @@ for (i = 0; i < close.length; i++) {
   }
 }
 
-/* Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('#myUL1');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
-}, false);
-*/
 // Create a new list item when clicking on the "Add" button
 function newElement() {
   var li = document.createElement("li");
@@ -106,8 +98,7 @@ function onKeyDown(){
 	        contentType: "application/json; charset=utf-8",
 	        success:function(data){
 	        	 if(data.code==1){
-	                 alert(data.message);
-	                 location.href='moimlistView/moimdetailView'+ $('#moimNo').attr("data-moimNo");
+	                 location.href='/moimlistView/moimdetailView/'+ $('#moimNo').attr("data-moimNo");
 	             }else{
 	                 alert(data.message);
 	             }

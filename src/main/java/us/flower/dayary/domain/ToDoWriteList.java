@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import antlr.collections.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -52,5 +54,9 @@ public class ToDoWriteList extends DateAudit {
 	
 	@Column(name="PLAN_LIST")
 	private String plan_list;
+	
+	@Column(name="CHECK_CONFIRM")	
+	@ColumnDefault("N")
+	private char checkConfirm;
 	
 }
