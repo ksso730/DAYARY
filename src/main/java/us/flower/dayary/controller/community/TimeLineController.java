@@ -101,7 +101,7 @@ public class TimeLineController {
 	            returnData.put("code", "0");
 	            returnData.put("message", "내용을 입력해주세요");
 	            return returnData;
-	        }
+		 }
 		 
 		SimpleDateFormat format = new SimpleDateFormat ( "yyyy년 MM월dd일 HH시mm분ss초");
 		String format_time = format.format (System.currentTimeMillis());
@@ -116,12 +116,8 @@ public class TimeLineController {
 	        } catch (Exception e) {
 	            returnData.put("code", "E3290");
 	            returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
-	        }
-		
-		
-		 
-		
-		
+		}
+
 		return returnData;
 	}
 	 /**

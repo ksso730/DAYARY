@@ -93,23 +93,26 @@ $(document).ready(function(){
         <thead>
           <tr>
             <th width="10%">번호</th>
-            <th width="50%">제목</th>
+            <th width="30%">제목</th>
             <th width="10%">작성자</th>
             <th width="20%">작성일</th>
-            <th width="10%">조회</th>
+            <th width="10%">조회수</th>
+            <th width="10%">좋아요수</th>
+            <th width="10%">댓글수</th>
           </tr>
         </thead>
         <tbody>
           <tr th:each="communityStudy : ${communityStudyList}">
-              <td th:text ="${communityStudy.no}"></td>
+              <td th:text ="${communityStudy.id}"></td>
               <td id="title">
-<!--                <a th:href="'/bbs/content.bbs?articleNumber=' + ${article.articleNumber} +'&pageNum=' + ${pageNum}"></a>-->
-                 <a th:text="${communityStudy.title}"></a>
+                  <a th:href="@{'/community/communityList/studyDetail/' + ${board_group_no} + '/' + ${communityStudy.id}}"><span th:text = "${communityStudy.title}"></span></a>
                   <span class="hit">hit!</span>
               </td>
               <td th:text="${communityStudy.people.email}"></td>
-              <td th:text="${communityStudy.createdAt}"></td>
-              <td>3</td>
+              <td th:utext="${#strings.replace(communityStudy.createdAt,'T',' ')}"></td>
+              <td th:text="${communityStudy.viewCount}"></td>
+              <td th:text="${communityStudy.likeCount}"></td>
+              <td>7</td>
           </tr>
         </tbody>
       </table>
@@ -118,13 +121,12 @@ $(document).ready(function(){
       <div id="paging">
       </div>
     </div>
-
 		<div class="row text-center pt-5 border-top">
 		<div class="col-md-12">
 			<div >
                 <ul class="pagination align-content-center">
                     <li style="list-style-type: none;" class="page-item" th:each="i: ${#numbers.sequence(0, pageNumber - 1)}">
-                        <a  th:href="@{/community/communityList/studyList/2(page=${i}, size=10)}">[[${i}+1]]</a>
+                        <a  th:href="@{/community/communityList/studyList/2(page=${i})}">[[${i}+1]]</a>
                     </li>
                 </ul>
 			</div>

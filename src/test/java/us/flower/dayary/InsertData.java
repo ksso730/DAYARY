@@ -22,10 +22,10 @@
 //
 //	@Autowired
 //	PeopleRepository peopleRepository;
-//	
+//
 //	  @Test
 //	  public void createMoimAndInsertPeople(){
-//		  
+//
 //		  Common comm = new Common();
 //
 //		  comm.setCommHead("CA1");

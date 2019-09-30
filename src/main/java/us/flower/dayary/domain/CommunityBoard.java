@@ -1,29 +1,11 @@
 package us.flower.dayary.domain;
 
-import java.sql.Blob;
-import java.sql.Clob;
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import javax.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import us.flower.dayary.domain.common.DateAudit;
+
+import java.util.List;
+
 /**
  * 커뮤니티게시판
  *   by choiseongjun
@@ -31,7 +13,7 @@ import us.flower.dayary.domain.common.DateAudit;
 @Entity
 @Table(name="COMMUNITY_BOARD")
 @Data
-public class CommunityBoard{
+public class CommunityBoard extends DateAudit{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,7 +21,7 @@ public class CommunityBoard{
 	private long id;
 	@Column(name="TITLE")
 	private String title;
-	
+
 	@Column(name="MEMO")
 	@Lob
 	private String memo;
@@ -48,21 +30,20 @@ public class CommunityBoard{
 	@Column(name="HEART")
 	private long heart;
 	
-	   // 생성일자
-    @Column(name = "CREATE_DATE", updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-
-    // 수정일자
-    @Column(name = "UPDATE_DATE", updatable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = BoardGroup.class)
     @JoinColumn(name = "BOARD_GROUP_NO")
     private BoardGroup boardGroup;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = People.class)
     @JoinColumn(name = "PEOPLE_ID")
     private People people;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard")
+	private List<File> files;
+
+	@Column(name="VIEW_COUNT")
+	private long viewCount;
+
+	@Column(name="LIKE_COUNT")
+	private long likeCount;
 }

@@ -16,46 +16,99 @@ body {
 
 </style>
 <script src="/ckeditor/ckeditor.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	// 작성자 이름 제외 (2019-09-28)
+	//$('#writer_name').val([[${name}]]);
+
+	$('#community_write_btn').on('click', function () {
+
+		// check title data input
+		if($('#title').val()==''||$('#title').val()=='undefined'||$('#title').val()==null){
+			alert('제목을 입력하세요');
+			$('#title').focus();
+			return;
+		}
+
+		// check content data input
+		//const content = CKEDITOR.instances['content'].editable().getText();
+
+		// ck editior defualt length == 1
+		if($('#content').val()==''||$('#content').val()=='undefined'||$('#content').val()==null){
+			alert('내용을 입력하세요');
+			$('#content').focus();
+			return;
+		}
+
+		// set post data
+		var board_group_no = [[${board_group_no}]];
+		var communityBoard = {};
+
+		communityBoard.title = $('#title').val();
+		communityBoard.memo= $('#content').val();
+
+		$.ajax({
+			url:'/community/communityList/studyWrite/' + board_group_no,
+			type:'POST',
+			contentType: 'application/json; charset=UTF-8',
+			dataType:'json',
+			data: JSON.stringify(communityBoard),
+			success:function(data){
+				if(data.code==1){
+					alert(data.message);
+					location.href='/community/communityList/studyList/' + board_group_no;
+				}else{
+					alert(data.message)
+				}
+			},
+			error:function(xhr,error){
+
+			}
+		});
+	});
+
+	$('#community_list_btn').on('click', function(){
+
+
+	});
+});
+
+</script>
 <div th:replace="community/sidemenu::sidemenu" />
 
 </head>
 
 <body>
-	
-<article>
 
+	<article>
 		<div class="container1" style="margin-left:250px; max-width:1180px">
 			<h2>글 작성</h2>
-			<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">
+			<!--<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">-->
 				<div class="mb-3">
 					<label for="title">제목</label>
 					<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요">
 				</div>
-				<div class="mb-3">
-					<label for="reg_id">작성자</label>
-					<input type="text" class="form-control" name="reg_id" id="reg_id" placeholder="이름을 입력해 주세요">
-				</div>
+<!--				<div class="mb-3">-->
+<!--					<label for="writer_name">작성자</label>-->
+<!--					<input type="text" class="form-control" name="writer_name" id="writer_name" placeholder="이름을 입력해 주세요" readonly="true">-->
+<!--				</div>-->
 				<div class="mb-3">
 					<label for="content">내용</label>
-					<textarea class="form-control" rows="5" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
+					<textarea class="form-control" rows="20" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
 				</div>
-				<div class="mb-3">
-					<label for="tag">TAG</label>
-					<input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요">
-				</div>
-			</form>
+<!--				<div class="mb-3">-->
+<!--					<label for="tag">TAG</label>-->
+<!--					<input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요">-->
+<!--				</div>-->
+			<!--</form>-->
 			<div >
-				<button type="button" class="btn btn-sm btn-primary" id="btnSave">저장</button>
-				<button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+				<button type="button" class="btn btn-sm btn-primary" id="community_write_btn">저장</button>
+				<a th:href="@{'/community/communityList/studyList/'+${board_group_no}+'?page='+${page}}">
+					<button type="button" class="btn btn-sm btn-primary" id="community_list_btn">목록</button>
+				</a>
 			</div>
 		</div>
 	</article>
-
-<script>
-CKEDITOR.replace("content",{
-    filebrowserUploadUrl : "${path}/imageUpload.do"
-}); //이미지 업로드 기능을 추가하기위한 코드
-</script>
-
 </body>
 </html>
