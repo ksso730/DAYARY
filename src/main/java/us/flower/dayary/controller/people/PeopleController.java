@@ -123,10 +123,8 @@ public class PeopleController {
 
 	@PostMapping("/signup")
 	@ResponseBody
-	public Map<String, Object> registerUser(@Valid @RequestPart("signUpRequest") SignUpRequest signUpRequest, @RequestPart("file") MultipartFile file) {
+	public Map<String, Object> registerUser(@Valid @RequestPart("signUpRequest") SignUpRequest signUpRequest, @RequestPart(name="file",required=false) MultipartFile file) {
 
-		System.out.println(signUpRequest.getEmail());
-		System.out.println(file.getName());
 		
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		try {
@@ -142,33 +140,32 @@ public class PeopleController {
 
 				user.setRoles(Collections.singleton(userRole));
 
-				
-				//이미지파일이름생성
-		        String imageName="";
-				while(true){
-		        	imageName=tokenGenerator.getToken();
-					//DB에 파일이름이 존재하지 않으면 moim domain에 set
-		        	if(!peopleRepository.existsByImageName(imageName)){
-						user.setImageName(imageName);
-						break; 
-					} 
+				if(file!=null) {	//파일이 null이 아니면 
+							//이미지파일이름생성
+					        String imageName="";
+							while(true){
+					        	imageName=tokenGenerator.getToken();
+								//DB에 파일이름이 존재하지 않으면 moim domain에 set
+					        	if(!peopleRepository.existsByImageName(imageName)){
+									user.setImageName(imageName);
+									break; 
+								} 
+							}
+					  
+							
+					        //이미지파일확장자추출
+					        String originalFileName = file.getOriginalFilename();
+					        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
+					        user.setImageExtension(fileExtension);
+			
+					        //파일업로드
+					        try { 
+					            fileManager.fileUpload(file, moimImagePath+"/"+imageName+"."+fileExtension);
+					        } catch (IOException e) {
+					            e.printStackTrace();
+					        }
 				}
-		  
-				
-				
-		        //이미지파일확장자추출
-		        String originalFileName = file.getOriginalFilename();
-		        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
-		        user.setImageExtension(fileExtension);
-
-		        //파일업로드
-		        try { 
-		            fileManager.fileUpload(file, moimImagePath+"/"+imageName+"."+fileExtension);
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		        }
-				
-				
+						
 				People result = peopleRepository.save(user);
 
 				URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{username}")

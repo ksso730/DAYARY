@@ -80,10 +80,11 @@
               <div class="card-body text-center bg-primary rounded-top">
                <div class="user-box">
                 <!-- <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user avatar"> -->
+                
                 <img
-								th:src="${'/getMoimImage/'+peopleinfo.imageName+'.'+peopleinfo.imageExtension}"
-								alt="Image" class="img-fluid rounded"
-								style="height: 200px; width: 500px">
+											th:src="${peopleinfo.imageName!=null} ? ${'/getMoimImage/'peopleinfo.imageName'.'+peopleinfo.imageExtension} : '/images/default_people.png'"
+											alt="Image" class="img-fluid rounded"
+											style="height: 200px; width: 500px">
               </div>
               <h5 class="mb-1 text-white">최성준</h5>
               <h6 class="text-light">Web Developer</h6>
