@@ -112,6 +112,7 @@ public class CommunityBoardController {
 		return returnData;
 	}
 
+	// git commit error check
 	@Autowired
 	BoardLikeRepository boardLikeRepository;
 	/**
