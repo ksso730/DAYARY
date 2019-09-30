@@ -7,7 +7,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.bind.annotation.*;
 import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.BoardLike;
@@ -16,15 +15,11 @@ import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
-import us.flower.dayary.service.PeopleService;
 import us.flower.dayary.service.community.CommunityBoardService;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.text.html.Option;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -33,48 +28,47 @@ import static java.lang.Boolean.TRUE;
 @Controller
 public class CommunityBoardController {
 
-	@Autowired CommunityBoardRepository communityBoardRepository;
-
+	@Autowired
+	CommunityBoardRepository communityBoardRepository;
 	@Autowired
 	CommunityBoardService communityBoardService;
-
 	@Autowired
 	PeopleRepository peopleRepository;
-
+	@Autowired
+	BoardLikeRepository boardLikeRepository;
 
 	/**
-	 * 커뮤니티/스터디리스트 조회
-	 *
-	 * @param
+	 * 게시판 리스트 조회
+	 * 2019-09-30 minholee
+	 * @param boardGroupId
+	 * @param model
+	 * @param pageable
+	 * @param session
 	 * @return
-	 * @throws
-	 * @author minholee
 	 */
-	@GetMapping("/community/communityList/studyList/{board_group_no}")
-	public String studyList(@PathVariable("board_group_no") long board_group_no, Model model,
+	@GetMapping("/community/boardList/{boardGroupId}")
+	public String studyList(@PathVariable("boardGroupId") long boardGroupId, Model model,
 							@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable, HttpSession session) {
 
 		// board group
-		model.addAttribute("board_group_no",board_group_no);
-		BoardGroup boardGroup = new BoardGroup();
-		boardGroup.setId(board_group_no);
+		model.addAttribute("boardGroupId",boardGroupId);
 
 		// session check
 		session.setAttribute("page", pageable.getPageNumber());
 
-		// 이전에 보고있던 화면이 2page 이상일 경우
+		// service
+		Page<CommunityBoard> communityBoardList = communityBoardService.getCommunityBoardList(boardGroupId, pageable);
 
-		// page
-		Page<CommunityBoard> communityStudyList = communityBoardRepository.findAllByBoardGroupAndDeleteFlag(boardGroup, 'N',pageable);
-		model.addAttribute("communityStudyList", communityStudyList.getContent());
+		// contents list
+		model.addAttribute("boardList", communityBoardList.getContent());
 
-		//Long communityStudyListCount = communityBoardRepository.countByBoardGroupAndDeleteFlag(boardGroup, 'N');
-		model.addAttribute("communityStudyListCount", communityStudyList.getTotalElements());
+		// total element count
+		model.addAttribute("boardListCount", communityBoardList.getTotalElements());
 
 		// page number
-		model.addAttribute("pageNumber", communityStudyList.getTotalPages());
+		model.addAttribute("pageNumber", communityBoardList.getTotalPages());
 
-		return "community/comunitystudyList";
+		return "community/boardList";
 	}
 
 	/**
@@ -88,14 +82,19 @@ public class CommunityBoardController {
 	public Map<String, Object> sutdyDelete(@PathVariable("board_id") long board_id,
 							  HttpSession session){
 
+		// return message
 		Map<String, Object> returnData = new HashMap<>();
 
-		// 게시글 작성자와 현재 세션의 사용자 아이디 체크
-		Long peopleId = (Long) session.getAttribute("peopleId");
-		Long writerId = communityBoardRepository.getOne(board_id).getPeople().getId();
+		// 세션 사용자 ID
+		Long people_id = (Long) session.getAttribute("people_id");
 
-		if(peopleId.longValue()==writerId.longValue()){
+		// 게시글 작성자와 현재 세션의 사용자 같은지
+		boolean check = communityBoardService.checkWriter(people_id, board_id);
+
+		// 게시글 작성자가 본인이라면
+		if(check){
 			try {
+				// 게시글 Delete Flag를 'Y'로 변경
 				communityBoardService.deleteBoard(board_id);
 				returnData.put("code", "1");
 				returnData.put("message", "삭제되었습니다");
@@ -112,9 +111,7 @@ public class CommunityBoardController {
 		return returnData;
 	}
 
-	// git commit error
-	@Autowired
-	BoardLikeRepository boardLikeRepository;
+
 	/**
 	 * 좋아요 카운트
 	 *
@@ -152,40 +149,36 @@ public class CommunityBoardController {
 
 		return returnData;
 	}
+
 	/**
-	 *
-	 * @param board_group_no
-	 * @param board_id
+	 * 게시글 Detial
+	 * 2019-09-30 minholee
+	 * @param boardGroupId
+	 * @param boardId
 	 * @param session
 	 * @param model
-	 * @return 게시판 글 디테일
+	 * @return
 	 */
-	@GetMapping("/community/communityList/studyDetail/{board_group_no}/{board_id}")
-	public String studyDetail(@PathVariable("board_group_no") long board_group_no, @PathVariable("board_id") long board_id,
+	@GetMapping("/community/boardDetail/{boardGroupId}/{boardId}")
+	public String studyDetail(@PathVariable("boardGroupId") long boardGroupId, @PathVariable("boardId") long boardId,
 							  HttpSession session, Model model) {
 
-
 		// board group (게시판 그룹)
-		model.addAttribute("board_group_no",board_group_no);
+		model.addAttribute("boardGroupId",boardGroupId);
 
 		// communityBoard (게시글)
-		CommunityBoard communityBoard = communityBoardRepository.getOne(board_id);
-		model.addAttribute("communityBoard", communityBoard);
+		CommunityBoard communityBoard = communityBoardService.getCommunityBoard(boardId);
+		model.addAttribute("board", communityBoard);
 
 		// 조회수 업데이트
-		communityBoard.setViewCount(communityBoard.getViewCount()+1);
-		communityBoardRepository.save(communityBoard);
+		communityBoardService.addViewCount(communityBoard);
 
-		// people name (작성자 정보)
-		People writer = communityBoard.getPeople();
-		model.addAttribute("name", writer.getName());
-
-		// people name (사용자 정보)
+		// 게시글 작성자와 현재 세션의 사용자 같은지
 		Long peopleId = (Long) session.getAttribute("peopleId");
-		Long writerId = writer.getId();
+		boolean check = communityBoardService.checkWriter(peopleId, communityBoard);
 
-		// 작성자 == 사용자 확인
-		if(peopleId.longValue()==writerId.longValue()){
+		// 게시글 작성자가 본인이라면
+		if(check){
 			model.addAttribute("writerFlag", TRUE);
 		}else{
 			model.addAttribute("writerFlag", FALSE);
@@ -194,7 +187,7 @@ public class CommunityBoardController {
 		// set session page number (이전페이지 돌아갈때 사용)
 		model.addAttribute("page", session.getAttribute("page"));
 
-		return "community/comunitystudyDetail";
+		return "community/boardDetail";
 	}
 
 

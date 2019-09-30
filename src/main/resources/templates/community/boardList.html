@@ -65,7 +65,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-    console.log($('#communityStudyListCount').val());
+    //console.log($('#communityStudyListCount').val());
 });
 </script>
 </head>
@@ -81,11 +81,11 @@ $(document).ready(function(){
     </div>
    
     <div id="list">
-      <b th:inline="text" id="communityStudyListCount">게시판 (전체 글: [[${communityStudyListCount}]])</b>
+      <b th:inline="text" id="boardListCount">게시판 (전체 글: [[${boardListCount}]])</b>
     </div>
      
     <div id="write">
-      <a th:href="@{'/community/communityList/studyWrite/' + ${board_group_no}}">
+      <a th:href="@{'/community/communityList/studyWrite/' + ${boardGroupId}}">
       <button type="button" class="btn btn-primary btn-xs">글쓰기</button></a>
     </div>
     <div>
@@ -102,16 +102,16 @@ $(document).ready(function(){
           </tr>
         </thead>
         <tbody>
-          <tr th:each="communityStudy : ${communityStudyList}">
-              <td th:text ="${communityStudy.id}"></td>
+          <tr th:each="board : ${boardList}">
+              <td th:text ="${board.id}"></td>
               <td id="title">
-                  <a th:href="@{'/community/communityList/studyDetail/' + ${board_group_no} + '/' + ${communityStudy.id}}"><span th:text = "${communityStudy.title}"></span></a>
+                  <a th:href="@{'/community/boardDetail/' + ${boardGroupId} + '/' + ${board.id}}"><span th:text = "${board.title}"></span></a>
                   <span class="hit">hit!</span>
               </td>
-              <td th:text="${communityStudy.people.email}"></td>
-              <td th:utext="${#strings.replace(communityStudy.createdAt,'T',' ')}"></td>
-              <td th:text="${communityStudy.viewCount}"></td>
-              <td th:text="${communityStudy.likeCount}"></td>
+              <td th:text="${board.people.email}"></td>
+              <td th:utext="${#strings.replace(board.createdAt,'T',' ')}"></td>
+              <td th:text="${board.viewCount}"></td>
+              <td th:text="${board.likeCount}"></td>
               <td>7</td>
           </tr>
         </tbody>
@@ -126,7 +126,7 @@ $(document).ready(function(){
 			<div >
                 <ul class="pagination align-content-center">
                     <li style="list-style-type: none;" class="page-item" th:each="i: ${#numbers.sequence(0, pageNumber - 1)}">
-                        <a  th:href="@{/community/communityList/studyList/2(page=${i})}">[[${i}+1]]</a>
+                        <a  th:href="@{/community/boardList/2(page=${i})}">[[${i}+1]]</a>
                     </li>
                 </ul>
 			</div>
