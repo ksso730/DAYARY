@@ -54,6 +54,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 			  todolist.setPlan_list(i);
 			  todolist.setPeople(p);
 			  todolist.setMoim(moimOne.get());
+			  todolist.setCheckConfirm('N');
 			  toDowriteListRepository.save(todolist);
 		  }
 	}
