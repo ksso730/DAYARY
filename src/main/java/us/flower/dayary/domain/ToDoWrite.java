@@ -62,4 +62,5 @@ public class ToDoWrite extends DateAudit{
 	@Column(name="CREATE_DATE")
 	private Date create_date;
 	
+	private String count;
 }

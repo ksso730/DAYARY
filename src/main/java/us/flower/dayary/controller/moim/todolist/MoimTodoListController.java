@@ -46,9 +46,10 @@ public class MoimTodoListController {
      * @throws 
      * @author choiseongjun
      */
-    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/{no}/moimtodostatusDetail")
-    public String todostatusdetail(@PathVariable("no") long no) {
-    	
+    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/{no}")
+    public String todostatusdetail(@PathVariable("no") long no,Model model) {
+    	model.addAttribute("list",service.findByToDoWrite_id(no));
+    	model.addAttribute("todo",service.findById(no));
     	return "moim/moimtodostatusDetail";
     }
     /**
@@ -130,10 +131,11 @@ public class MoimTodoListController {
      * @throws 
      * @author choiseongjun
      */
-    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/")
+    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/{no}")
     public String moimtodostatus(@PathVariable("no") long no,Model model) {
     	
     	model.addAttribute("no",no);
+    	model.addAttribute("list", service.findByMoim_id(no));
     	
     	return "moim/moimTodostatus";
     }

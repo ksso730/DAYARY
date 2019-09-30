@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +60,31 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 	@Override
 	public Page<ToDoWrite> findByMoim_id(Pageable pageable, long id) {
 		// TODO Auto-generated method stub
-		return toDowriteRepository.findByMoim_id(pageable, id);
+		Page<ToDoWrite> todo=toDowriteRepository.findByMoim_id(pageable,id);
+		 for(int i=0;i<todo.getContent().size();i++) {
+			 //모임 아이디 가져와서 해당todo의 총갯수 ,체크된갯수 반환
+			 String x=Integer.toString(toDowriteListRepository.countByCheckConfirmAndToDoWrite_id('Y',todo.getContent().get(i).getId()));
+			  x+="/"+Integer.toString(toDowriteListRepository.countByToDoWrite_id(todo.getContent().get(i).getId()));
+			 todo.getContent().get(i).setCount(x);
+		 }
+	
+		return todo;
 	}
-
+	 @Override
+	public List<ToDoWriteList> findByToDoWrite_id(long id) {
+		// TODO Auto-generated method stub
+		//todo아이디 기준으로 리스트불러온다
+		return toDowriteListRepository.findByToDoWrite_id(id);
+	 }
+	@Override
+	public List<ToDoWrite> findByMoim_id(long id) {
+		// TODO Auto-generated method stub
+		return toDowriteRepository.findByMoim_id(id);
+	}
+	@Override
+	public ToDoWrite findById(long id) {
+		// TODO Auto-generated method stub
+		return toDowriteRepository.findById(id);
+	}
+	
 }
