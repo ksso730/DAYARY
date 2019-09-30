@@ -21,7 +21,9 @@ public class CommunityBoard extends DateAudit{
 	private long id;
 	@Column(name="TITLE")
 	private String title;
+
 	@Column(name="MEMO")
+	@Lob
 	private String memo;
 	@Column(name="DELETEFLAG" ,nullable=false, columnDefinition = "char(1) default 'N'")
 	private char deleteFlag;

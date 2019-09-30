@@ -24,38 +24,38 @@
 }
 /*검색 바 스타일 start*/
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 form.example input[type=text] {
-  padding: 10px;
-  font-size: 17px;
-  border: 1px solid grey;
-  float: left;
-  width: 80%;
-  background: #f1f1f1;
+	padding: 10px;
+	font-size: 17px;
+	border: 1px solid grey;
+	float: left;
+	width: 80%;
+	background: #f1f1f1;
 }
 
 form.example button {
-  float: left;
-  width: 20%;
-  padding: 10px;
-  background: #2196F3;
-  color: white;
-  font-size: 17px;
-  border: 1px solid grey;
-  border-left: none;
-  cursor: pointer;
+	float: left;
+	width: 20%;
+	padding: 10px;
+	background: #2196F3;
+	color: white;
+	font-size: 17px;
+	border: 1px solid grey;
+	border-left: none;
+	cursor: pointer;
 }
 
 form.example button:hover {
-  background: #0b7dda;
+	background: #0b7dda;
 }
 
 form.example::after {
-  content: "";
-  clear: both;
-  display: table;
+	content: "";
+	clear: both;
+	display: table;
 }
 /*검색 바 스타일 End*/
 </style>
@@ -63,25 +63,41 @@ form.example::after {
 <body>
 <body onload="initMoimCategoryList();">
 	<div th:replace="layout/header::header" />
+	<!-- <div id="moimPeopleList" th:data-moimPeopleList="${moimList.peopleList}"></div> -->
 	<div class="py-5 bg-light">
 		<div class="container">
-			<div class="row">
-			<h2>모임 검색하기</h2>
-
-				<form class="example" action="/action_page.php">
-				  <input type="text" placeholder="Search.." name="search">
-				  <button type="submit"><i class="fa fa-search"></i></button>
-				</form>
-				<div class="col-md-6">
-					<span>Category</span>
-					<p>여기서 나중에 카테고리별 분류할 예정 (지역별,주제별 ,밑에는 모임리스트)</p>
-
-					<div id="myBtnContainer">
+				
+			<input type="hidden" id="sido_key" value="12685d425f1af0872d756c" />
+			<input type="hidden" id="sigoon_key" value="b0888bae39fbd0463a9252" /> 
+					<!-- 	<div id="myBtnContainer">
 						<button class="btn active" id="categorybox"
 							onclick="filterSelection('all')">모든 주제 보기</button>
 
-					</div>
-				</div>
+					</div> -->
+					<h2>주제<form >
+						<div >
+							<select name="category" id="categorybox" class="form-control">
+								<option value="">필수 선택</option>
+							</select>
+						</div>
+						
+					</form></h2>
+                     <label class="text-black">활동 지역 </label>
+	                   	   <select name="sido_code" id="sido_code" class="form-control">
+							<option>선택</option>
+						</select> 
+						<select name="sigoon_code" id="sigoon_code" class="form-control">
+							<option>선택</option>
+						</select>
+						
+				<h2>모임 검색하기</h2>
+
+				<form class="example" action="">
+					<input type="text" placeholder="Search.." name="search">
+					<button type="submit">
+						<i class="fa fa-search"></i>
+					</button>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -90,42 +106,58 @@ form.example::after {
 			<div class="row">
 				<tr th:each="moimList : ${moimList}">
 
-					<div class="col-lg-4 mb-4">
+					<div class="col-lg-21">
 						<div class="entry2" style="width: 300px;">
 							<a th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
 								<img
-								th:src="${'/getMoimImage/'+moimList.imageName+'.'+moimList.imageExtension}"
-								alt="Image" class="img-fluid rounded">
+									th:src="${moimList.imageName!=null} ? ${'/getMoimImage/'+moimList.imageName+'.'+moimList.imageExtension} : '/images/img_4.jpg'"
+								alt="Image" class="img-fluid rounded"
+								style="height: 200px; width: 500px">
 							</a>
 							<div class="excerpt">
 
- 								<span class="post-category text-white bg-secondary mb-3">
-									  <td th:text="${moimList.category.commName}"></td>  
-								</span> 
-
+								<span class="post-category text-white bg-secondary mb-3">
+									<td th:text="${moimList.sido_code}" />
+									<td th:text="${moimList.sigoon_code}" />
+								
+								</span>
+								<span class="post-category text-white bg-secondary mb-3">
+									<td th:text="${moimList.category.commName}" />
+								</span>
 								<h2>
 									<a
 										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
-										<td th:text="${moimList.title}"></td>
+										<h3>
+											<td th:text="${moimList.title}" />
+											</h4>
+											
+											<!-- <tr th:each="dto : ${moimList.peopleList}">
+												<td th:text="${dto.getByteSize()}"></td>
+											</tr> -->
 									</a>
 								</h2>
 								<div class="post-meta align-items-center text-left clearfix">
 
 									<figure class="author-figure mb-0 mr-3 float-left">
-										<img src="images/person_1.jpg" alt="Image" class="img-fluid">
+										<img
+												th:src="${'/getMoimImage/'+moimList.people.imageName+'.'+moimList.people.imageExtension}"
+												alt="Image" class="img-fluid rounded"
+												style="height: 30px; width: 30px"> 
 									</figure>
-									<span class="d-inline-block mt-1">By <a href="#"><td
-											th:text="${moimList.people.email}"></td></a></span> <span>&nbsp;-&nbsp;
-										July 19, 2019</span>
+									<span style=" font-weight:bold;" >스터디장: <td
+											th:text="${moimList.people.email}"></td></a></span> <span>
+										<br /><span style=" font-weight:bold;">회원수:<td th:text="${moimList.peopleList.size()}" />/<td th:text="${moimList.peopleLimit}" /><span style=" font-weight:bold;">
+										<br />개설일:</span><td th:text="${moimList.createDate}" />
+									</span>
 								</div>
 
 								<p>
-									<td th:text="${moimList.intro}" />
+									소개:<td th:text="${#strings.length(moimList.intro)>10} ? ${#strings.substring(moimList.intro,0,10)+'...'} : ${moimList.intro}" id="moimtitle" />
 								</p>
 								<p>
 									<a
 										th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
-										Read More</a>
+										더보기</a>
 
 								</p>
 							</div>
@@ -152,39 +184,33 @@ form.example::after {
 		</div>
 	</div> -->
 	<nav style="text-align: center;">
-     <ul class="pagination"
-        th:with="start=${T(Math).floor(moimList.number/10)*10 + 1},
+		<ul class="pagination"
+			th:with="start=${T(Math).floor(moimList.number/10)*10 + 1},
                     last=(${start + 9 < moimList.totalPages ? start + 9 : moimList.totalPages})">
-        <li>
-            <a th:href="@{/moimlistView(page=1)}" aria-label="First">
-                <span aria-hidden="true">First</span>
-            </a>
-        </li>
+			<li><a th:href="@{/moimlistView(page=1)}" aria-label="First">
+					<span aria-hidden="true">First</span>
+			</a></li>
 
-        <li th:class="${moimList.first} ? 'disabled'">
-            <a th:href="${moimList.first} ? '#' :@{/moimlistView(page=${moimList.number})}" aria-label="Previous">
-                <span aria-hidden="true">&lt;</span>
-            </a>
-        </li>
+			<li th:class="${moimList.first} ? 'disabled'"><a
+				th:href="${moimList.first} ? '#' :@{/moimlistView(page=${moimList.number})}"
+				aria-label="Previous"> <span aria-hidden="true">&lt;</span>
+			</a></li>
 
-        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == moimList.number + 1} ? 'active'">
-            <a th:text="${page}" th:href="@{/moimlistView(page=${page})}"></a>
-        </li>
+			<li th:each="page: ${#numbers.sequence(start, last)}"
+				th:class="${page == moimList.number + 1} ? 'active'"><a
+				th:text="${page}" th:href="@{/moimlistView(page=${page})}"></a></li>
 
-        <li th:class="${moimList.last} ? 'disabled'">
-            <a th:href="${moimList.last} ? '#' : @{/moimlistView(page=${moimList.number + 2})}" aria-label="Next">
-                <span aria-hidden="true">&gt;</span>
-            </a>
-        </li>
+			<li th:class="${moimList.last} ? 'disabled'"><a
+				th:href="${moimList.last} ? '#' : @{/moimlistView(page=${moimList.number + 2})}"
+				aria-label="Next"> <span aria-hidden="true">&gt;</span>
+			</a></li>
 
-        <li>
-            <a th:href="@{/moimlistView(page=${moimList.totalPages})}" aria-label="Last">
-                <span aria-hidden="true">Last</span>
-            </a>
-        </li>
-    </ul> 
-</nav>
-	
+			<li><a th:href="@{/moimlistView(page=${moimList.totalPages})}"
+				aria-label="Last"> <span aria-hidden="true">Last</span>
+			</a></li>
+		</ul>
+	</nav>
+
 	</div>
 	</div>
 	<script src="/js/moim/moimList.js"></script>

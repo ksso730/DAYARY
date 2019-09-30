@@ -73,12 +73,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticationEntryPoint(unauthorizedHandler)
                     .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)    /* the request was rejected because the url contained a potentially malicious string ";" 500에러 떄문에  추가했음 by choiseongjun 2019-09-29*/
 				/*
 				 * .and() .authorizeRequests() .antMatchers("/moimlistView/**")
 				 * .access("ROLE_USER")
 				 */
-                	
                 	.and()
                 .authorizeRequests()
                     .antMatchers("/",
@@ -107,8 +106,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .invalidateHttpSession(true)
                         .and()
                         .exceptionHandling()
-                        .accessDeniedHandler(new CustomAccessDeniedHandler()).and()
-                        .exceptionHandling().authenticationEntryPoint(new CustomHttp403ForbiddenEntryPoint());
+                        .accessDeniedHandler(new CustomAccessDeniedHandler())
+                        .and().exceptionHandling().accessDeniedPage("/people/error");
+                        /*.and()
+                        .exceptionHandling().authenticationEntryPoint(new CustomHttp403ForbiddenEntryPoint());*/
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

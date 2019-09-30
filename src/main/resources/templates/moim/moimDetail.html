@@ -5,161 +5,167 @@
 <title>Insert title here</title>
 <css th:replace="layout/header::headerCss" />
 <div th:replace="layout/header::header" />
-  <link th:href="@{/css/moim/moimDetail.css}" rel="stylesheet" />
-  <style>
-  .add-new-plus {
-    height: 32px;
-    text-align: center;
-    width: 32px;
-    line-height: 32px;
-    color: #98a6ad;
-    font-weight: 700;
-    background-color: #e3eaef;
-    border-radius: 50%
+<link th:href="@{/css/moim/moimDetail.css}" rel="stylesheet" />
+<style>
+.add-new-plus {
+	height: 32px;
+	text-align: center;
+	width: 32px;
+	line-height: 32px;
+	color: #98a6ad;
+	font-weight: 700;
+	background-color: #e3eaef;
+	border-radius: 50%
 }
 /* Tab list start */
-
-body {font-family: Arial;}
+body {
+	font-family: Arial;
+}
 
 /* Style the tab */
 .tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
+	overflow: hidden;
+	border: 1px solid #ccc;
+	background-color: #f1f1f1;
 }
 
 /* Style the buttons inside the tab */
 .tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 17px;
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 16px;
+	transition: 0.3s;
+	font-size: 17px;
 }
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color: #ddd;
+	background-color: #ddd;
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: #ccc;
+	background-color: #ccc;
 }
 
 /* Style the tab content */
 .tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
+	display: none;
+	padding: 6px 12px;
+	border: 1px solid #ccc;
+	border-top: none;
 }
 
 /*참여자보기 모달 시작 */
-body {font-family: Arial, Helvetica, sans-serif;}
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
 
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
 .modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
 }
 
 /* The Close Button */
 .close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+.close:hover, .close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
 }
 /*참여자 보기 모달 끝*/
 /*모임가입자 시작 */
 body {
-  font-family: 'Lato', sans-serif;
+	font-family: 'Lato', sans-serif;
 }
 
 .overlay {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: rgb(255, 255, 255);
-background-color: rgb(255, 255, 255);
-  overflow-x: hidden;
-  transition: 0.5s;
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: rgb(255, 255, 255);
+	background-color: rgb(255, 255, 255);
+	overflow-x: hidden;
+	transition: 0.5s;
 }
 
 .overlay-content {
-  position: relative;
-  top: 5%;
-  width: 100%;
-  text-align: center;
-  margin-top: 30px;
+	position: relative;
+	top: 5%;
+	width: 100%;
+	text-align: center;
+	margin-top: 30px;
 }
 
 .overlay a {
-  padding: 8px;
-  text-decoration: none;
-  font-size: 36px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
+	padding: 8px;
+	text-decoration: none;
+	font-size: 36px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
 }
 
 .overlay a:hover, .overlay a:focus {
-  color: #f1f1f1;
+	color: #f1f1f1;
 }
 
 .overlay .closebtn {
-  position: absolute;
-  top: 20px;
-  right: 45px;
-  font-size: 60px;
+	position: absolute;
+	top: 20px;
+	right: 45px;
+	font-size: 60px;
 }
 
 @media screen and (max-height: 450px) {
-  .overlay a {font-size: 20px}
-  .overlay .closebtn {
-  font-size: 40px;
-  top: 15px;
-  right: 35px;
-  }
+	.overlay a {
+		font-size: 20px
+	}
+	.overlay .closebtn {
+		font-size: 40px;
+		top: 15px;
+		right: 35px;
+	}
 }
 /*모임가입자 스타일 끝 */
-  </style>
+</style>
 </head>
 <body>
-
-<div id="moimNo" th:data-moimNo="${moimDetail.id}"></div>
+<body onload="myPeopleCount()"><!-- 인원수 세는것 by choiseongjun -->
+	<div id="moimNo" th:data-moimNo="${moimDetail.id}"></div><!-- 모임번호 -->
+	<div id="moimPeopleNo" th:data-moimPeopleNo="${moimPeopleNo}"></div><!-- 모임피플테이블번호 -->
+	
 	<link rel="stylesheet" href="/css/friendList.css">
 	<div class="content">
 		<div class="container">
@@ -173,18 +179,24 @@ background-color: rgb(255, 255, 255);
 									src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""
 									class="thumb-lg rounded-circle"></span>
 								<div class="media-body text-white">
-									<h4 class="mt-1 mb-1 font-18"><td th:text="${moimDetail.title}" /></h4>
-									<p class="font-13 text-light">주제</p>
-									<p class="text-light mb-0">지역 시/구/동</p>
+									<h4 class="mt-1 mb-1 font-18">
+										<td th:text="${moimDetail.title}" />
+									</h4>
+									<p class="text-light mb-0">회원 수:<td th:text="${totalPeople}" /> 회원제한수:<td
+										th:text="${moimDetail.peopleLimit}" /> </p>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="text-right">
 									<span th:if="${session.peopleId==moimDetail.people.id}">
-											<button type="button"
-												class="btn btn-icon btn-sm waves-effect waves-light btn-success">모임수정하기</button>
-											<button type="button" id="moim_delete_btn"
-												class="btn btn-icon btn-sm waves-effect waves-light btn-success">모임삭제하기</button>
+										<button type="button" id="moim_offMoim_btn"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success" >오프라인모임만들기</button>
+										<a th:href="@{'/moimUpdateView/' + ${no}}"><button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">
+												모임수정하기</button></a>
+										<button type="button" id="moim_delete_btn"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">모임삭제하기</button>
+											
 									</span>
 								</div>
 							</div>
@@ -198,17 +210,28 @@ background-color: rgb(255, 255, 255);
 				<div class="col-xl-4">
 					<!-- Personal-Information -->
 					<div class="card-box">
-						<h4 class="header-title mt-0">우리 모임 소개 </h4>
-						<span th:if="${joinedpeople}==null">
+						<h4 class="header-title mt-0">우리 모임 소개</h4>
+						<!-- 						<span th:if="${joinedpeople}==null">
 							<td th:text="${joinedpeople}" ></td>
-						</span>
-						<div class="panel-body"> 
-							<p class="text-muted font-13">우리 모임은 spring jpa스터디를 하며  스터디 모임/일정관리  시스템을 만듭니다</p>
-							<span th:if="${session.peopleId!=moimDetail.people.id}">
-								<button type="button" id="signup_btn" class="btn btn-primary btn-xs">스터디 가입하기</button>
+						</span> -->
+						<div class="panel-body">
+							<p class="text-muted font-13">우리 모임은 spring jpa스터디를 하며 스터디
+								모임/일정관리 시스템을 만듭니다</p>
+							</p>
+								
+							<span th:if="${joinedpeople}!=null">	
+								<span th:if="${!(session.peopleId==moimDetail.people.id)}">
+									<button type="button" id="withdraw_btn"
+										class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
+								</span>
 							</span>
-							<span th:if="${session.peopleId==moimDetail.people.id}">
-								<button type="button" id="signup_btn" class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
+							<span th:if="${joinedpeople}==null">	
+								<span
+									th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople>=moimDetail.peopleLimit) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
+									<!-- 미가입자와 운영자가 아닌경우 -->
+									<button type="button" id="signup_btn"
+										class="btn btn-primary btn-xs">스터디 가입하기</button>
+								</span> 
 							</span>
 							<hr>
 							<div class="text-left">
@@ -217,10 +240,12 @@ background-color: rgb(255, 255, 255);
 										Deo</span>
 								</p>
 								<p class="text-muted font-13">
-									<strong>모임장 :</strong><span class="m-l-15"><td th:text="${moimDetail.people.email}" /> <td th:text="${moimDetail}" /></span>
+									<strong>모임장 :</strong><span class="m-l-15"><td
+										th:text="${moimDetail.people.name}" /> </span>
 								</p>
 								<p class="text-muted font-13">
-									<strong>모임주제 :</strong> <span class="m-l-15"><td th:text="${moimDetail.category.commName}" /></span></span>
+									<strong>모임주제 :</strong> <span class="m-l-15"><td
+										th:text="${moimDetail.category.commName}" /></span></span>
 								</p>
 								<p class="text-muted font-13">
 									<strong>지역 :</strong> <span class="m-l-5"><span
@@ -232,9 +257,10 @@ background-color: rgb(255, 255, 255);
 									</span>
 								</p>
 								<p class="text-muted font-13">
-									<strong>모임 생성일자 :</strong> <span class="m-l-15"><td th:text="${moimDetail.createDate}" /></span>
+									<strong>모임 생성일자 :</strong> <span class="m-l-15"><td
+										th:text="${moimDetail.createDate}" /></span>
 								</p>
-								
+
 							</div>
 							<ul class="social-links list-inline mt-4 mb-0">
 								<li class="list-inline-item"><a title=""
@@ -253,75 +279,100 @@ background-color: rgb(255, 255, 255);
 					</div>
 					<!-- Personal-Information -->
 					<div class="card-box ribbon-box">
-					
-						<div class="clearfix"><button type="button" class="btn btn-info">모임원</button>	</div>
+
+						<div class="clearfix">
+							<button type="button" class="btn btn-info">모임원</button>
+						</div>
+						<!-- 운영자 랜더링 by choiseongjun -->
 						<div class="inbox-widget">
-							<tr th:each="moimpeopleList : ${moimpeopleList}">
-							<a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author"><td th:text="${moimpeopleList.name}" /></p>
-									<p class="inbox-item-date">
-										<span th:if="${session.peopleId==moimDetail.people.id}">
-											<button type="button"
-												class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기<td th:text="${moimpeopleList.name}" /></button>
-											<button type="button"
-												class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
-										</span>
-									</p>
+							<div class="inbox-item">
+								<div class="inbox-item-img">
+									<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+										class="rounded-circle" alt="">
 								</div>
+								<p class="inbox-item-author">
+									<td th:text="${moimDetail.people.name}" />
+									<button
+										class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영자</button>
+								</p>
+								<p class="inbox-item-date"></p>
+							</div>
+							<!-- 운영자 랜더링 End by choiseongjun -->
+							<tr th:each="moimpeopleList : ${moimpeopleList}">
 							
-							</a>
+								<a href="#">
+									<div class="inbox-item">
+										<div class="inbox-item-img">
+											<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+												class="rounded-circle" alt="">
+										</div>
+										<p class="inbox-item-author">
+											<td th:text="${moimpeopleList.name}" />
+										</p>
+										<p class="inbox-item-date">
+											<span th:if="${session.peopleId==moimDetail.people.id}">
+												<button type="button"
+													class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
+												<button type="button"
+													class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
+											</span>
+										</p>
+									</div>
+
+								</a>
 							</tr>
 							<center>
-								
-								<span style="font-size:30px;cursor:pointer" onclick="openNav()"> ☰ 더 보기</span>
+
+								<span style="font-size: 30px; cursor: pointer"
+									onclick="openNav()"> ☰ 더 보기</span>
 							</center>
-							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-xl-8">
 					<div class="row">
 						<div class="col-sm-4">
 							<div class="card-box tilebox-one">
-								<i class="icon-layers float-right text-muted"></i>
-								<a
-										th:href="@{'/moimDetail/moimTodoList/' + ${no}}">
-								<h6 class="text-muted text-uppercase mt-0">모임 일정관리보기</h6></a>
-								<h3 class="" data-plugin="counterup">1,587개의 일정</h2>
-								
+								<i class="icon-layers float-right text-muted"></i> <a
+									th:href="@{'/moimDetail/moimTodoList/' + ${no}}">
+									<h6 class="text-muted text-uppercase mt-0">모임 일정관리보기</h6>
+								</a>
+								<h3 class="" data-plugin="counterup">
+									1,587개의 일정
+									</h2>
 							</div>
 						</div>
 						<!-- end col -->
 						<div class="col-sm-4">
 							<div class="card-box tilebox-one">
-								<i class="icon-paypal float-right text-muted"></i>
-								 		<a
-										th:href="@{'/moimDetail/' + ${no}+'/moimPicture'}">
-								 <h6 class="text-muted text-uppercase mt-0">사진첩보기</h6></a>
+								<i class="icon-paypal float-right text-muted"></i> <a
+									th:href="@{'/moimDetail/' + ${no}+'/moimPicture'}">
+									<h6 class="text-muted text-uppercase mt-0">사진첩보기</h6>
+								</a>
 								<h3 class="">
 									<span data-plugin="counterup">46,782장</span>
 								</h3>
-								
+
 							</div>
 						</div>
 						<!-- end col -->
 						<div class="col-sm-4">
 							<div class="card-box tilebox-one">
-								<i class="icon-rocket float-right text-muted"></i>
-								<a
-										th:href="@{'/moimDetail/moimChatroom/' + ${no}}"><h6 class="text-muted text-uppercase mt-0">단체채팅방 들어가기</h6></a>
-								<h3 class="" data-plugin="counterup">30(명)  <span class="badge badge-info">4</span>
+								<i class="icon-rocket float-right text-muted"></i> <a
+									th:href="@{'/moimDetail/moimChatroom/' + ${no}}"><h6
+										class="text-muted text-uppercase mt-0">단체채팅방 들어가기</h6></a>
+								<h3 class="" data-plugin="counterup">
+									30(명) <span class="badge badge-info">4</span>
 							</div>
 						</div>
 						<!-- end col -->
 					</div>
 					<!-- end row -->
 					<div class="card-box">
-						<h4 class="header-title mt-0 mb-3">오프라인모임활동 <td th:text="${no}"></td></h4>
+						<h4 class="header-title mt-0 mb-3">
+							오프라인모임활동
+							<td th:text="${no}"></td>
+						</h4>
 						<div class="">
 							<div class="">
 								<h5 class="text-custom">자바 및 스프링 스터디</h5>
@@ -329,9 +380,10 @@ background-color: rgb(255, 255, 255);
 								<p>
 									<b>2019-09-10-19:20</b>
 								</p>
-								<button type="button"
-											class="btn btn-primary btn-xs">참여 하기</button><br />
-								<button id="myBtn"  class="btn btn-info btn-xs">참여자 보기</button>
+								<button type="button" class="btn btn-primary btn-xs">참여
+									하기</button>
+								<br />
+								<button id="myBtn" class="btn btn-info btn-xs">참여자 보기</button>
 							</div>
 							<hr>
 							<div class="">
@@ -339,7 +391,6 @@ background-color: rgb(255, 255, 255);
 								<p class="mb-0">coderthemes.com</p>
 								<p>
 									<b>2007-2009</b>
-								</p>
 								<p class="text-muted font-13 mb-0">Lorem Ipsum is simply
 									dummy text of the printing and typesetting industry. Lorem
 									Ipsum has been the industry's standard dummy text ever since
@@ -348,27 +399,27 @@ background-color: rgb(255, 255, 255);
 							</div>
 						</div>
 					</div>
-					
-					
-	<!-- Tab list start-->
+
+
+					<!-- Tab list start-->
 					<div class="tab">
-					  <button class="tablinks" onclick="openCity(event, 'London')">공지사항게시판</button>
-					  <button class="tablinks" onclick="openCity(event, 'Paris')">가입인사및 자기소개 게시판</button>
-					  <button class="tablinks" onclick="openCity(event, 'Tokyo')">자유게시판</button>
+						<button class="tablinks" onclick="openCity(event, 'London')">공지사항게시판</button>
+						<button class="tablinks" onclick="openCity(event, 'Paris')">가입인사및
+							자기소개 게시판</button>
+						<button class="tablinks" onclick="openCity(event, 'Tokyo')">자유게시판</button>
 					</div>
-					
+
 					<div id="London" class="tabcontent">
-						 <div class="card-box">
-								<h4 class="header-title mb-3">공지사항!
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<button type="button"
-													class="btn btn-icon btn-sm waves-effect waves-light btn-success">
-													<a
-														th:href="@{'/moimdetailView/moimboard/' + ${no}}">
-													더 보기</a>
-									</button>
-								</h4>
+						<div class="card-box">
+							<h4 class="header-title mb-3">
+								공지사항!
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<button type="button"
+									class="btn btn-icon btn-sm waves-effect waves-light btn-success">
+									<a th:href="@{'/moimdetailView/moimboard/' + ${no}}"> 더 보기</a>
+								</button>
+							</h4>
 							<div class="table-responsive">
 								<table class="table">
 									<thead>
@@ -402,27 +453,27 @@ background-color: rgb(255, 255, 255);
 											<td><span class="label label-info">공지사항</span></td>
 											<td>07/05/2015</td>
 										</tr>
-										
+
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-					
+
 					<div id="Paris" class="tabcontent">
-					  <h3>가입인사및 자기소개 게시판</h3>
-					  <p>Paris is the capital of France.</p> 
+						<h3>가입인사및 자기소개 게시판</h3>
+						<p>Paris is the capital of France.</p>
 					</div>
-					
+
 					<div id="Tokyo" class="tabcontent">
-					  <h3>Tokyo</h3>
-					  <p>Tokyo is the capital of Japan.</p>
+						<h3>Tokyo</h3>
+						<p>Tokyo is the capital of Japan.</p>
 					</div>
 					<!-- Tab List end -->
-					
-					
-					
-					
+
+
+
+
 				</div>
 				<!-- end col -->
 			</div>
@@ -431,255 +482,217 @@ background-color: rgb(255, 255, 255);
 		<!-- container -->
 	</div>
 
-<!-- 참여자보기 모달 시작 -->
-<!-- The Modal -->
-<div id="myModal" class="modal">
+	<!-- 참여자보기 모달 시작 -->
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div class="inbox-widget">
-						
-							<a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Tomaslau</p>
-									<p class="inbox-item-text">I've finished it! See you so...</p>
-									<p class="inbox-item-date">
-									
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar3.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Stillnotdavid</p>
-									<p class="inbox-item-text">This theme is awesome!</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar4.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Kurafire</p>
-									<p class="inbox-item-text">Nice to meet you</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar5.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Shahedk</p>
-									<p class="inbox-item-text">Hey! there I'm available...</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar6.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Adhamdannaway</p>
-									<p class="inbox-item-text">This theme is awesome!</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Tomaslau</p>
-									<p class="inbox-item-text">I've finished it! See you so...</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar3.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Stillnotdavid</p>
-									<p class="inbox-item-text">This theme is awesome!</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a>
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<div class="inbox-widget">
+
+				<a href="#">
+					<div class="inbox-item">
+						<div class="inbox-item-img">
+							<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+								class="rounded-circle" alt="">
 						</div>
-  </div>
+						<p class="inbox-item-author">TomaslaASDASDASDu</p>
+						<p class="inbox-item-text">I've finished it! See you so...</p>
+						<p class="inbox-item-date"></p>
+					</div>
+				</a> <a href="#">
+					<div class="inbox-item">
+						<div class="inbox-item-img">
+							<img src="https://bootdey.com/img/Content/avatar/avatar3.png"
+								class="rounded-circle" alt="">
+						</div>
+						<p class="inbox-item-author">Stillnotdavid</p>
+						<p class="inbox-item-text">This theme is awesome!</p>
+						<p class="inbox-item-date">
+							<button type="button"
+								class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+						</p>
+					</div>
+				</a> <a href="#">
+					<div class="inbox-item">
+						<div class="inbox-item-img">
+							<img src="https://bootdey.com/img/Content/avatar/avatar4.png"
+								class="rounded-circle" alt="">
+						</div>
+						<p class="inbox-item-author">Kurafire</p>
+						<p class="inbox-item-text">Nice to meet you</p>
+						<p class="inbox-item-date">
+							<button type="button"
+								class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+						</p>
+					</div>
+				</a> <a href="#">
+					<div class="inbox-item">
+						<div class="inbox-item-img">
+							<img src="https://bootdey.com/img/Content/avatar/avatar5.png"
+								class="rounded-circle" alt="">
+						</div>
+						<p class="inbox-item-author">Shahedk</p>
+						<p class="inbox-item-text">Hey! there I'm available...</p>
+						<p class="inbox-item-date">
+							<button type="button"
+								class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+						</p>
+					</div>
+				</a> <a href="#">
+					<div class="inbox-item">
+						<div class="inbox-item-img">
+							<img src="https://bootdey.com/img/Content/avatar/avatar6.png"
+								class="rounded-circle" alt="">
+						</div>
+						<p class="inbox-item-author">Adhamdannaway</p>
+						<p class="inbox-item-text">This theme is awesome!</p>
+						<p class="inbox-item-date">
+							<button type="button"
+								class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+						</p>
+					</div>
+				</a> <a href="#">
+					<div class="inbox-item">
+						<div class="inbox-item-img">
+							<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+								class="rounded-circle" alt="">
+						</div>
+						<p class="inbox-item-author">더보기Tomaslau</p>
+						<p class="inbox-item-text">I've finished it! See you so...</p>
+						<p class="inbox-item-date">
+							<button type="button"
+								class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+						</p>
+					</div>
+				</a> <a href="#">
+					<div class="inbox-item">
+						<div class="inbox-item-img">
+							<img src="https://bootdey.com/img/Content/avatar/avatar3.png"
+								class="rounded-circle" alt="">
+						</div>
+						<p class="inbox-item-author">Stillnotdavid</p>
+						<p class="inbox-item-text">This theme is awesome!</p>
+						<p class="inbox-item-date">
+							<button type="button"
+								class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+						</p>
+					</div>
+				</a>
+			</div>
+		</div>
 
-</div>
+	</div>
 
-<!-- 참여자보기 모달 끝 -->
+	<!-- 참여자보기 모달 끝 -->
 
-<!-- 스터디가입자 모달 시작 -->
+	<!-- 스터디가입자 모달 시작 -->
 	<div id="myNav" class="overlay">
-	  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	  <div class="overlay-content">
-	  	<h1>모임가입자 현황</h1>
-	    <div class="inbox-widget">
-							<a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Tomaslau</p>
-									<p class="inbox-item-text">I've finished it! See you so...</p>
-									<p class="inbox-item-date">
-									<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진권한주기</button>
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<div class="overlay-content">
+			<h1>모임가입자 현황</h1>
+			<div class="inbox-widget">
+				<div class="inbox-widget">
+					
+					
+					<tr th:each="moimpeopleList : ${moimpeopleList}">
+						<a href="#">
+							
+							<div class="inbox-item">
+								<div class="inbox-item-img">
+									<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+										class="rounded-circle" alt="">
+								</div>
+								<p class="inbox-item-author">
+									<td th:text="${moimpeopleList.name}" />
+								</p>
+								<p class="inbox-item-date">
+									<span th:if="${session.peopleId==moimDetail.people.id}">
+										<button type="button"
+											class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
 										<button type="button"
 											class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
-									</p>
-								</div>
-							</a> <a href="#"> 
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar3.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Stillnotdavid</p>
-									<p class="inbox-item-text">This theme is awesome!</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar4.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Kurafire</p>
-									<p class="inbox-item-text">Nice to meet you</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar5.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Shahedk</p>
-									<p class="inbox-item-text">Hey! there I'm available...</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar6.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Adhamdannaway</p>
-									<p class="inbox-item-text">This theme is awesome!</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> <a href="#">
-								<div class="inbox-item">
-									<div class="inbox-item-img">
-										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-											class="rounded-circle" alt="">
-									</div>
-									<p class="inbox-item-author">Tomaslau</p>
-									<p class="inbox-item-text">I've finished it! See you so...</p>
-									<p class="inbox-item-date">
-										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-									</p>
-								</div>
-							</a> 
-						</div>
-	  </div>
-	</div>
-<!-- 스터디가입자 모달 끝 -->
-	<script>
-	function openCity(evt, cityName) {
-	  var i, tabcontent, tablinks;
-	  tabcontent = document.getElementsByClassName("tabcontent");
-	  for (i = 0; i < tabcontent.length; i++) {
-	    tabcontent[i].style.display = "none";
-	  }
-	  tablinks = document.getElementsByClassName("tablinks");
-	  for (i = 0; i < tablinks.length; i++) {
-	    tablinks[i].className = tablinks[i].className.replace(" active", "");
-	  }
-	  document.getElementById(cityName).style.display = "block";
-	  evt.currentTarget.className += " active";
-	}
-	//참여자보기 모달 스크립트 시작 
-	// Get the modal
-	var modal = document.getElementById("myModal");
+									</span>
+								</p>
+							</div>
 
-	// Get the button that opens the modal
-	var btn = document.getElementById("myBtn");
+						</a>
+					</tr>
+				</div>
+			</div>
+			<!-- 스터디가입자 모달 끝 -->
+			<script>
+				function openCity(evt, cityName) {
+					var i, tabcontent, tablinks;
+					tabcontent = document.getElementsByClassName("tabcontent");
+					for (i = 0; i < tabcontent.length; i++) {
+						tabcontent[i].style.display = "none";
+					}
+					tablinks = document.getElementsByClassName("tablinks");
+					for (i = 0; i < tablinks.length; i++) {
+						tablinks[i].className = tablinks[i].className.replace(
+								" active", "");
+					}
+					document.getElementById(cityName).style.display = "block";
+					evt.currentTarget.className += " active";
+				}
+				//참여자보기 모달 스크립트 시작 
+				// Get the modal
+				var modal = document.getElementById("myModal");
 
-	// Get the <span> element that closes the modal
-	var span = document.getElementsByClassName("close")[0];
+				// Get the button that opens the modal
+				var btn = document.getElementById("myBtn");
 
-	// When the user clicks the button, open the modal 
-	btn.onclick = function() {
-	  modal.style.display = "block";
-	}
+				// Get the <span> element that closes the modal
+				var span = document.getElementsByClassName("close")[0];
 
-	// When the user clicks on <span> (x), close the modal
-	span.onclick = function() {
-	  modal.style.display = "none";
-	}
+				// When the user clicks the button, open the modal 
+				btn.onclick = function() {
+					modal.style.display = "block";
+				}
 
-	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
-	  if (event.target == modal) {
-	    modal.style.display = "none";
-	  }
-	}
-	//참여자 보기 모달 스크립트 끝
-	//모임가입자 보기
-	function openNav() {
-	  document.getElementById("myNav").style.width = "100%";
-	}
-	
-	function closeNav() {
-	  document.getElementById("myNav").style.width = "0%";
-	}
-	//모임가입자 보기 끝
-	</script>
-	<script src="/js/moim/moimDetail.js"></script>
+				// When the user clicks on <span> (x), close the modal
+				span.onclick = function() {
+					modal.style.display = "none";
+				}
+
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function(event) {
+					if (event.target == modal) {
+						modal.style.display = "none";
+					}
+				}
+				//참여자 보기 모달 스크립트 끝
+				//모임가입자 보기
+				function openNav() {
+					document.getElementById("myNav").style.width = "100%";
+				}
+
+				function closeNav() {
+					document.getElementById("myNav").style.width = "0%";
+				}
+				//모임가입자 보기 끝
+				//오프라인모임 팝업창 시작
+				$('#moim_offMoim_btn').click(function(event){  //버튼을 클릭 했을시 popupOpen 함수 출력 
+			        console.log('click');
+			        popupOpen();	//Popup Open 함수
+			    });
+			  	
+				function popupOpen(){
+					  var scWidth = screen.availWidth;
+					  var scHeight = screen.availHeight;
+					
+					
+					 var left = (parseInt(scWidth)-650)/2;   // 창의 왼쪽 간격을
+					 var top = (parseInt(scHeight)-900)/2; //창의 높이를
+					
+					 var url= "/moimoffMakeView";    //팝업창 페이지 URL
+					 var win = window.open(url , 'test_popup', 'width=1030, height=695, top='+top+', left='+left);
+					 win.focus();
+				}
+				//오프라인모임 팝업창 끝
+			</script>
+			<script src="/js/moim/moimDetail.js"></script>
 </body>
 </html>

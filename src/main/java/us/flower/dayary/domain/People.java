@@ -64,7 +64,19 @@ public class People extends DateAudit{
 
 	@Column(name="PHOTO")
 	private String photo;
+	 //이미지경로
+   	@Column(name = "IMAGE_PATH", nullable = true)
+       private String imagePath;
+ 
+   	//이미지이름
+   	@Column(name = "IMAGE_NAME", nullable = true)
+       private String imageName;
 
+   	//이미지확장자
+   	@Column(name = "IMAGE_EXTENSION", nullable = true)
+       private String imageExtension;
+	
+	
 	@Column(name="ACTIVATION")
 	private String activation;
 	
@@ -76,7 +88,7 @@ public class People extends DateAudit{
     // 스터디 가입된 회원 참여자 
  
  
-    
+   
     
     public People(String email,String password,String name,String photo,String activation) {
     	this.email=email;

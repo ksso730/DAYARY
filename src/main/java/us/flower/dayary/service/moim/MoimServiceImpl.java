@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,30 +59,36 @@ public class MoimServiceImpl implements moimService{
 
         People people = peopleRepository.findByEmail(email);
         Common category=commonRepository.findBycommName(subject);
-        System.out.println("서브젝트은???????");
-        System.out.println(category);
-        //이미지파일이름생성
-        String imageName="";
-		while(true){
-        	imageName=tokenGenerator.getToken();
-			//DB에 파일이름이 존재하지 않으면 moim domain에 set
-        	if(!moimRepository.existsByImageName(imageName)){
-				moim.setImageName(imageName);
-				break; 
+       
+        //사진이있다면
+        if(file!=null) {
+        	
+        	//이미지파일이름생성
+	        String imageName="";
+			while(true){
+	        	imageName=tokenGenerator.getToken();
+				//DB에 파일이름이 존재하지 않으면 moim domain에 set
+	        	if(!moimRepository.existsByImageName(imageName)){
+					moim.setImageName(imageName);
+					break; 
+				}
 			}
-		}
-  
-        //이미지파일확장자추출
-        String originalFileName = file.getOriginalFilename();
-        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
-        moim.setImageExtension(fileExtension);
-
-        //파일업로드
-        try { 
-            fileManager.fileUpload(file, moimImagePath+"/"+imageName+"."+fileExtension);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+	  
+	        //이미지파일확장자추출
+	        String originalFileName = file.getOriginalFilename();
+	        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
+	        moim.setImageExtension(fileExtension);
+	
+	        //파일업로드
+	        try { 
+	            fileManager.fileUpload(file, moimImagePath+"/"+imageName+"."+fileExtension);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        
+    	}
+	        
+    	
 
         moim.setPeople(people);
         moim.setCategory(category);
@@ -115,16 +123,27 @@ public class MoimServiceImpl implements moimService{
 	}
 
 	@Override
+	@Transactional
 	public void deleteMoimOne(long moimNo) {
 		moimRepository.deleteById(moimNo);
 	}
 
 	@Override
-	public Optional<People> findPeopleOne(Long people_no) {
-		System.out.println("현재 세션값은?????");
-		System.out.println(people_no);
+	public String findPeopleOne(Long people_no) {
 		return peopleRepository.findPeopleOne(people_no);
 	}
+
+
+	@Override
+	public Page<Moim> selectListAll(Pageable pageable) {
+		return moimRepository.findAll(pageable);
+	}
+
+	@Override
+	public String findMoimPeopleNoOne(long peopleId, long no) {
+		return peopleRepository.findMoimPeopleNoOne(peopleId,no);
+	}
+	
 
 
 

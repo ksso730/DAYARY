@@ -3,57 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <css th:replace="layout/header::headerCss" />
 <link th:href="@{/css/moim/moimTodowrite.css}" rel="stylesheet" />
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <style>
 .table-sortable tbody tr {
 	cursor: move;
 }
 </style>
 </head>
-<div th:replace="layout/header::header" />
+<div th:replace="layout/header::header"/>
 <link th:href="@{/css/moim/moimtodostatusDetail.css}" rel="stylesheet" />
 <!--할일목록체크박스리스트  -->
-
 <div class="container">
 	<div class="row">
-
 		<p></p>
 		<h1>일정 계획 세우기</h1>
+		<div id="moimNo" th:data-moimNo="${no}"></div><!-- 모임번호 -->
 		<input type="text" name="title" id="title"
 			placeholder="일정이름을 입력하세요 ex)공부계획" class="form-control">
 		<div class="col-md-10 col-md-offset-1">
-			시작일=<input type="text" name="date" id="from_date" size="12" />달력넣기
-			종료일=<input type="text" name="date" id="to_date" size="12" />
+			시작일=<input type="text" name="from_date" id="from_date" />
+			종료일=<input type="text" name="to_date" id="to_date" onchange="check();" />
+		
+			   <div class="todolist not-done" id="myDIV" >
+					<h2 style="margin: 5px">My To Do List</h2>
+					<input type="text" id="myInput1" class="form-control" placeholder="Title..." onkeyup="onKeyDown();"> 
+					<span onclick="newElement()" class="btn btn-success">Add</span>
+				</div>
 
-
-			<div id="myDIV" class="header">
-				<h2 style="margin: 5px">My To Do List</h2>
-				<input type="text" id="myInput1" placeholder="Title..."> <span
-					onclick="newElement()" class="addBtn">Add</span>
-			</div>
-
-			<ul id="myUL1">
-				<li>Hit the gym</li>
-				<li class="checked">Pay bills</li>
-				<li>Meet George</li>
-				<li>Buy eggs</li>
-				<li>Read a book</li>
-				<li>Organize office</li>
+			<ul id="myUL" class="list-unstyled">
 			</ul>
-
-
-			<center>
-				<button type="button" class="btn btn-sm btn-primary btn-create">일정
-					계획 완료</button>
+			<div align="center">
+				<button type="button" class="btn btn-sm btn-primary btn-create" onclick="post_send();">
+				일정계획 완료</button>
 				<a href="/moimDetail/moimTodoList/moimtodostatus">
 					<button type="button" class="btn btn-light waves-effect">목록으로
 						가기</button>
 				</a>
-
-			</center>
+			</div>
 		</div>
 	</div>
 </div>

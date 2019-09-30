@@ -27,7 +27,6 @@
                     <h2 class="m-b-20">게획 제목</h4>
                     <h4 class="m-b-20">계획내용.</h4>
                   
-                  
                   	<ul id="myUL">
 					  <li>Hit the gym
 						  <button type="button" id="myBtn"  aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-link">
@@ -36,21 +35,17 @@
 						  </button>
 					  </li>
 					  
-					  <li class="checked">Pay bills</li>
-					  <li>Meet George</li>
-					  <li>Buy eggs</li>
-					  <li>Read a book</li>
-					  <li>Organize office</li>
+					<li th:each="l:${list}"> <span th:text="${l.plan_list}"><input type="hidden" th:attr="${l.id}"></span></li>
+					
 					</ul>
-                  
                     <ul class="list-inline task-dates m-b-0 mt-5">
                         <li>
                             <h5 class="m-b-5">시작 일자</h5>
-                            <p>01 December 2017 <small class="text-muted">1:00 PM</small></p>
+                            <p th:text="${todo.from_date}"></p>
                         </li>
                         <li>
                             <h5 class="m-b-5">종료 일자</h5>
-                            <p>17 February 2018 <small class="text-muted">12:00 PM</small></p>
+                            <p th:text="${todo.to_date}"></p>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
@@ -169,10 +164,8 @@
     
    
 <div th:replace="moim/moimtodostatusModal::moimtodostatusModal" />
-
 <script>
-
-// 할일목록에서 체크된거 ---표시하는것
+//할일목록에서 체크된거 ---표시하는것
 var list = document.querySelector('#myUL');
 list.addEventListener('click', function(ev) {
   if (ev.target.tagName === 'LI') {
