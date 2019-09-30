@@ -1,11 +1,17 @@
 package us.flower.dayary.domain;
 
-import com.sun.javafx.beans.IDProperty;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import lombok.Data;
 import us.flower.dayary.domain.common.DateAudit;
-import javax.persistence.*;
-import javax.persistence.Column;
-import javax.persistence.Id;
 
 @Entity
 @Table(name="BOARD_LIKE")
