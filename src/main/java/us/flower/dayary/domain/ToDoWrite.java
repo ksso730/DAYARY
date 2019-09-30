@@ -24,21 +24,12 @@ import us.flower.dayary.domain.common.DateAudit;
 
 @Entity
 @Table(name="MOIM_TODO_WRITE")
-@SequenceGenerator(
-        name="MOIM_TODO_WRITE_GEN", //시퀀스 제너레이터 이름
-        sequenceName="MOIM_TODO_WRITE_SEQ", //시퀀스 이름
-        initialValue=1, //시작값
-        allocationSize=1 //메모리를 통해 할당할 범위 사이즈
-        )
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class ToDoWrite extends DateAudit{
 	@Id
-	@GeneratedValue(
-            strategy=GenerationType.SEQUENCE, //사용할 전략을 시퀀스로  선택
-            generator="MOIM_TODO_WRITE_GEN" //식별자 생성기를 설정해놓은  GEN으로 설정        
-            )
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID")
 	private long id;
 	
