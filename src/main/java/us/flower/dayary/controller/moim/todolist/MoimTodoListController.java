@@ -52,6 +52,22 @@ public class MoimTodoListController {
     	model.addAttribute("todo",service.findById(no));
     	return "moim/moimtodostatusDetail";
     }
+    @ResponseBody
+    @PostMapping("/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail")
+    public Map<String, Object> todostatusdetailpost(@RequestBody Map<String,String> param) {
+    	Map<String, Object> returnData = new HashMap<String, Object>();
+    		  try {
+    			  service.updateList(param.get("list"));
+    	            returnData.put("code", "1");
+    	            returnData.put("message", "저장되었습니다");
+
+    	        } catch (Exception e) {
+    	            returnData.put("code", "E3290");
+    	            returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+    	        }
+    	      
+    	  return returnData;
+    }
     /**
      * 모임 일정관리(ToDoList) 완료된것만 보기
      *
@@ -92,11 +108,7 @@ public class MoimTodoListController {
 	public Map<String, Object> moimTodowrite(HttpSession session,@RequestBody ToDoWriteList todo ) {
 		  Map<String, Object> returnData = new HashMap<String, Object>();
 		  String id =  (String) session.getAttribute("peopleEmail");
-		  if (id.equals(null) || id.equals("")) {
-	            returnData.put("code", "0");
-	            returnData.put("message", "로그인 후 이용해주세요");
-	            return returnData;
-	        }
+		 
 	      
 		  try {
 	    	  	service.saveList(todo,id);

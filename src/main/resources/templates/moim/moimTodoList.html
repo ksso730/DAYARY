@@ -105,7 +105,6 @@
                     </ol>
                 </nav>
                 <div role="toolbar" class="btn-toolbar">
-                    <div role="group" class="mr-auto mr-md-2 btn-group"><a class="align-self-center btn btn-secondary active" aria-current="page" id="tooltipShowList" href="/apps/projects/list"><i class="fa-fw fa fa-bars"></i></a><a class="align-self-center btn btn-secondary" id="tooltipShowGrid" href="/apps/projects/grid"><i class="fa-fw fa fa-th-large"></i></a></div>
                     <div role="group" class="btn-group">
                      <a th:href="@{'/moimDetail/moimTodoList/moimTodowrite/' + ${no}}" class="d-flex nav-link">
                         <button id="tooltipAddNew" class="align-self-center btn btn-primary"><i class="fa-fw fa fa-plus"></i></button></a>
@@ -150,7 +149,7 @@
                                 </td>
                                 <td class="align-middle text-right">
                                     <div class="btn-group">
-                                        <a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/' + ${no}}" class="d-flex nav-link"><i class="fa fa-search"></i></a>
+                                        <a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/' + ${list.id}}" class="d-flex nav-link"><i class="fa fa-search"></i></a>
                                         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
                                             <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-folder-open mr-2"></i>View</button>
                                             <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-ticket mr-2"></i>Add Task</button>

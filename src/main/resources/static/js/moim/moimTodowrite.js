@@ -90,7 +90,6 @@ function onKeyDown(){
 	toDoWriteList.toDoWrite=toDoWrite;
 	toDoWriteList.moim=moim;
 	toDoWriteList.plan_list=list;
-	  alert( JSON.stringify(toDoWriteList) );
 	   $.ajax({
 	      url:'/moimDetail/moimTodoList/moimTodowrite',
 	        type:'post',
