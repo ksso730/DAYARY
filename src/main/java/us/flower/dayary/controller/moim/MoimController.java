@@ -217,9 +217,12 @@ public class MoimController {
 	        pageable = PageRequest.of(page, 9);
 	        
 	    Page<Moim> moimList= moimService.selectListAll(pageable);//모임리스트 출력한다
-		model.addAttribute("moimList",moimList);
-
-		return "moim/moimList";
+		long moimListcount=moimRepository.count();
+	    model.addAttribute("moimList",moimList);
+		model.addAttribute("moimListcount",moimListcount);
+	
+		
+		return "moim/moimList"; 
 	}
 	
 	
