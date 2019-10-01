@@ -22,6 +22,12 @@ public interface CommunityBoardService {
 	// 게시판 작성글 리스트
 	Page<CommunityBoard> getCommunityBoardList(long boardGroupId, Pageable pageable);
 
+	// 타임라인 작성글 리스트
+	List<CommunityBoard> getCommunityBoardList(long boardGroupId);
+
+	// 타임라인 본인글 리스트
+	List<CommunityBoard> getCommunityBoardList(long boardGroupId, long peopleId);
+
 	CommunityBoard getCommunityBoard(long boardId);
 
 	void addViewCount(CommunityBoard communityBoard);
@@ -29,7 +35,7 @@ public interface CommunityBoardService {
 	// 게시글 DELETE FLAG = 'Y'로 변경
 	void deleteBoard(long boardId);
 
-    //List<CommunityBoard> CommunityList();
+
 
 	//void deleteBoardone(long timeLineListNo);
 

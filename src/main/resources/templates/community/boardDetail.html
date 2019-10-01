@@ -23,7 +23,6 @@ body {
 </head>
 
 <body>
-
 	<article>
 		<div class="container1" style="margin-left:250px; max-width:1180px">
 			<h2>글 작성</h2>
@@ -36,7 +35,7 @@ body {
 				</div>
 				<div class="mb-3">
 					<label for="writer_name">작성자</label>
-					<input type="text" class="form-control" name="writer_name" id="writer_name" readonly="true" th:value="${name}">
+					<input type="text" class="form-control" name="writer_name" id="writer_name" readonly="true" th:value="${board.people.name}">
 				</div>
 				<div class="mb-3">
 					<label for="content">내용</label>
@@ -51,7 +50,7 @@ body {
 				<button type="button" class="btn btn-sm btn-danger" id="community_modify_btn" style="display: none;">수정</button>
 				<button type="button" class="btn btn-sm btn-success" id="community_modify_save_btn" style="display: none;">저장</button>
 				<button type="button" class="btn btn-sm btn-warning" id="community_modify_cancel_btn" style="display: none;">취소</button>
-				<a th:href="@{'/community/boardList/'+${boardGroupId}+'?page='+${page}}">
+				<a th:href="@{'/community/board/'+${boardGroup}+'?page='+${page}}">
 					<button type="button" class="btn btn-sm btn-primary" id="community_list_btn" style="display: none;">목록</button>
 				</a>
 			</div>
@@ -62,7 +61,6 @@ body {
 			let baseTitle;
 			let baseContent;
 
-			const boardGroupId = [[${boardGroupId}]];
 			const boardId = [[${board.id}]];
 			const page = [[${page}]];
 
@@ -96,7 +94,7 @@ body {
 					$('#like').css('color', 'red');
 
 					$.ajax({
-						url:'/community/communityList/studyLike/' + boardGroupId + '/'  + boardId,
+						url:'/community/board/[[${boardGroup}]]/like/'  + boardId,
 						type:'POST',
 						contentType: 'application/json; charset=UTF-8',
 						dataType:'json',
@@ -164,14 +162,13 @@ body {
 				}
 
 				// set post data
-				const boardGroupId = [[${boardGroupId}]];
 				let board = {};
 
 				board.title = $('#title').val();
 				board.memo= $('#content').val();
 
 				$.ajax({
-					url:'/community/communityList/studyModify/' + boardGroupId + '/' + boardId,
+					url:'/community/board/[[${boardGroup}]]/modify/' + boardId,
 					type:'POST',
 					contentType: 'application/json; charset=UTF-8',
 					dataType:'json',
@@ -179,7 +176,7 @@ body {
 					success:function(data){
 						if(data.code==1){
 							alert(data.message);
-							location.href='/community/boardList/' + boardGroupId;
+							location.href='/community/board/[[${boardGroup}]]' + '?page=' + page;
 						}else{
 							alert(data.message)
 						}
@@ -198,7 +195,7 @@ body {
 			$('#community_remove_btn').off().on('click', function(){
 				if(confirm('정말 삭제하시겠습니까?')){
 					$.ajax({
-						url:'/community/communityList/studyDelete/' + boardId,
+						url:'/community/board/delete/' + boardId,
 						type:'DELETE',
 						contentType: 'application/json; charset=UTF-8',
 						dataType:'json',
@@ -206,7 +203,7 @@ body {
 						success:function(data){
 							if(data.code==1){
 								alert(data.message);
-								location.href='/community/communityList/studyList/'+boardGroupId + '?page='+page;
+								location.href='/community/board/[[${boardGroup}]]' + '?page='+page;
 							}else{
 								alert(data.message)
 							}
@@ -218,7 +215,6 @@ body {
 				}
 			});
 		});
-
 </script>
 </body>
 </html>

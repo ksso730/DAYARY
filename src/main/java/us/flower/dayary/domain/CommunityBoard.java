@@ -31,7 +31,7 @@ public class CommunityBoard extends DateAudit{
 	private long heart;
 	
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = BoardGroup.class)
-    @JoinColumn(name = "BOARD_GROUP_NO")
+    @JoinColumn(name = "BOARD_GROUP_ID")
     private BoardGroup boardGroup;
 	
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = People.class)

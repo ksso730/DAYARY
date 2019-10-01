@@ -85,7 +85,7 @@ $(document).ready(function(){
     </div>
      
     <div id="write">
-      <a th:href="@{'/community/communityList/studyWrite/' + ${boardGroupId}}">
+      <a th:href="@{'/community/board/' + ${boardGroup} + '/write'}">
       <button type="button" class="btn btn-primary btn-xs">글쓰기</button></a>
     </div>
     <div>
@@ -105,7 +105,7 @@ $(document).ready(function(){
           <tr th:each="board : ${boardList}">
               <td th:text ="${board.id}"></td>
               <td id="title">
-                  <a th:href="@{'/community/boardDetail/' + ${boardGroupId} + '/' + ${board.id}}"><span th:text = "${board.title}"></span></a>
+                  <a th:href="@{'/community/board/' + ${boardGroup} + '/detail/' + ${board.id}}"><span th:text = "${board.title}"></span></a>
                   <span class="hit">hit!</span>
               </td>
               <td th:text="${board.people.email}"></td>
@@ -126,7 +126,7 @@ $(document).ready(function(){
 			<div >
                 <ul class="pagination align-content-center">
                     <li style="list-style-type: none;" class="page-item" th:each="i: ${#numbers.sequence(0, pageNumber - 1)}">
-                        <a  th:href="@{/community/boardList/2(page=${i})}">[[${i}+1]]</a>
+                        <a  th:href="@{'/community/board/' + ${boardGroup}(page=${i})}">[[${i}+1]]</a>
                     </li>
                 </ul>
 			</div>
