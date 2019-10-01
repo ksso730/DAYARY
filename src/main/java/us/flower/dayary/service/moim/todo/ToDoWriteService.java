@@ -19,4 +19,5 @@ public interface ToDoWriteService {
 	public List<ToDoWrite> findByMoim_id(long id); 
 	public List<ToDoWriteList> findByToDoWrite_id(long id);
 	public ToDoWrite findById(long id);
+	public void updateList(String list);
 }

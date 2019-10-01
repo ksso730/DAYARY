@@ -87,5 +87,17 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 		// TODO Auto-generated method stub
 		return toDowriteRepository.findById(id);
 	}
+	@Override
+	public void updateList(String list) {
+		// TODO Auto-generated method stub
+		String[] id=list.split(",");
+		for(int i=0;i<id.length;i++) {
+			ToDoWriteList l=new ToDoWriteList();
+			Optional<ToDoWriteList> todo=toDowriteListRepository.findById(Long.parseLong(id[i]));
+			l=todo.get();
+			l.setCheckConfirm('Y');
+			toDowriteListRepository.save(l);
+		}
+	}
 	
 }
