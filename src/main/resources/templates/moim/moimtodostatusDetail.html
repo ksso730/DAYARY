@@ -22,20 +22,17 @@
                 <div class="card-box task-detail">
                     <div class="media mt-0 m-b-30"><img class="d-flex mr-3 rounded-circle" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png" style="width: 48px; height: 48px;">
                         <div class="media-body">
-                            <h5 class="media-heading mb-0 mt-0">작성자</h5><span class="badge badge-danger">Urgent</span></div>
+                            <h5 class="media-heading mb-0 mt-0">작성자</h5><span class="badge badge-danger" th:text=${todo.people.name}></span></div>
                     </div>
                     <h2 class="m-b-20">게획 제목</h4>
-                    <h4 class="m-b-20">계획내용.</h4>
+                    <h4 class="m-b-20">계획내용</h4>
                   
                   	<ul id="myUL">
-					  <li>Hit the gym
+					<li th:each="l:${list}"> <span th:text="${l.plan_list}"><input type="hidden" th:attr="${l.id}">
 						  <button type="button" id="myBtn"  aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-link">
 						  <i class="fa fa-search" >
 						  </i>
-						  </button>
-					  </li>
-					  
-					<li th:each="l:${list}"> <span th:text="${l.plan_list}"><input type="hidden" th:attr="${l.id}"></span></li>
+						  </button></span></li>
 					
 					</ul>
                     <ul class="list-inline task-dates m-b-0 mt-5">
@@ -56,14 +53,7 @@
                         </div>
 
                     </div>
-                    <div class="assign-team mt-4">
-                        <h5 class="m-b-5">본 사람들</h5>
-                        <div>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png"> </a>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar3.png"> </a>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar5.png"> </a>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar8.png"> </a><a href="#"><span class="add-new-plus"><i class="fa fa-plus"></i></span></a></div>
-                    </div>
+                
                     <div class="attached-files mt-4">
                         <h5 class="">Attached Files</h5>
                         <div class="files-list">
