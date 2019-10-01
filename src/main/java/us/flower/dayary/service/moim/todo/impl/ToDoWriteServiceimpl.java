@@ -64,9 +64,11 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 		Page<ToDoWrite> todo=toDowriteRepository.findByMoim_id(pageable,id);
 		 for(int i=0;i<todo.getContent().size();i++) {
 			 //모임 아이디 가져와서 해당todo의 총갯수 ,체크된갯수 반환
-			 String x=Integer.toString(toDowriteListRepository.countByCheckConfirmAndToDoWrite_id('Y',todo.getContent().get(i).getId()));
-			  x+="/"+Integer.toString(toDowriteListRepository.countByToDoWrite_id(todo.getContent().get(i).getId()));
+			 int done= toDowriteListRepository.countByCheckConfirmAndToDoWrite_id('Y',todo.getContent().get(i).getId());
+			 int total=toDowriteListRepository.countByToDoWrite_id(todo.getContent().get(i).getId());
+			 String x=Integer.toString(done)+"/"+Integer.toString(total);
 			 todo.getContent().get(i).setCount(x);
+			 todo.getContent().get(i).setProgress(done/total*100);
 		 }
 	
 		return todo;
