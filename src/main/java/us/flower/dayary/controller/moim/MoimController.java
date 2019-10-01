@@ -214,7 +214,7 @@ public class MoimController {
 	public String moimListView(@PageableDefault Pageable pageable,HttpSession session,Model model) {
 
 		 int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
-	        pageable = PageRequest.of(page, 9);
+	        pageable = PageRequest.of(page, 9,Sort.Direction.DESC,"id");//내림차순으로 정렬한다 
 	        
 	    Page<Moim> moimList= moimService.selectListAll(pageable);//모임리스트 출력한다
 		long moimListcount=moimRepository.count();
