@@ -6,4 +6,6 @@ public interface PeopleInfoService {
 
 	byte[] getMoimImage(String imageName) throws Exception;
 
+	void deletePeople(long peopleId);
+
 }

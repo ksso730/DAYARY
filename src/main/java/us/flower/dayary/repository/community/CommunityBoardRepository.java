@@ -1,5 +1,7 @@
 package us.flower.dayary.repository.community;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +25,6 @@ public interface CommunityBoardRepository extends JpaRepository<CommunityBoard,L
     List<CommunityBoard> findAllByBoardGroupAndDeleteFlagAndPeople(BoardGroup boardGroup, char deleteFlag, People people);
 
     //Long countByBoardGroupAndDeleteFlag(BoardGroup boardGroup, char deleteFlag);
+
+	List<CommunityBoard> findByPeople_id(long peopleId);
 }

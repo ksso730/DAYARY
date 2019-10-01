@@ -22,22 +22,25 @@
                 <div class="card-box task-detail">
                     <div class="media mt-0 m-b-30"><img class="d-flex mr-3 rounded-circle" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png" style="width: 48px; height: 48px;">
                         <div class="media-body">
-                            <h5 class="media-heading mb-0 mt-0">작성자</h5><span class="badge badge-danger">Urgent</span></div>
+                            <h5 class="media-heading mb-0 mt-0">작성자</h5><span class="badge badge-danger" th:text=${todo.people.name}></span></div>
                     </div>
+                    <div id="moimNo" th:data-moimNo="${todo.moim.id}"></div><!-- 모임번호 -->
                     <h2 class="m-b-20">게획 제목</h4>
-                    <h4 class="m-b-20">계획내용.</h4>
+                    <h4 class="m-b-20">계획내용</h4>
                   
                   	<ul id="myUL">
-					  <li>Hit the gym
+					<li th:each="l:${list}" th:if="${l.checkConfirm}=='N'" th:value="${l.id}"> <span th:text="${l.plan_list}"></span>
 						  <button type="button" id="myBtn"  aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-link">
 						  <i class="fa fa-search" >
 						  </i>
-						  </button>
-					  </li>
-					  
-					<li th:each="l:${list}"> <span th:text="${l.plan_list}"><input type="hidden" th:attr="${l.id}"></span></li>
+						  </button></li>
 					
 					</ul>
+						<ul id="DoneUL">
+						<li th:each="l:${list}" th:if="${l.checkConfirm}=='Y'" class="checked">
+						 <span th:text="${l.plan_list}" ></span>
+						</li>
+						</ul>
                     <ul class="list-inline task-dates m-b-0 mt-5">
                         <li>
                             <h5 class="m-b-5">시작 일자</h5>
@@ -48,22 +51,6 @@
                             <p th:text="${todo.to_date}"></p>
                         </li>
                     </ul>
-                    <div class="clearfix"></div>
-                    <div class="task-tags mt-4">
-                        <h5 class="">Tags</h5>
-                        <div class="bootstrap-tagsinput"><span class="tag label label-info">Amsterdam<span data-role="remove"></span></span> <span class="tag label label-info">Washington<span data-role="remove"></span></span> <span class="tag label label-info">Sydney<span data-role="remove"></span></span>
-                            
-                        </div>
-
-                    </div>
-                    <div class="assign-team mt-4">
-                        <h5 class="m-b-5">본 사람들</h5>
-                        <div>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png"> </a>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar3.png"> </a>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar5.png"> </a>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar8.png"> </a><a href="#"><span class="add-new-plus"><i class="fa fa-plus"></i></span></a></div>
-                    </div>
                     <div class="attached-files mt-4">
                         <h5 class="">Attached Files</h5>
                         <div class="files-list">
@@ -84,8 +71,10 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="text-right mt-4">
-                                    <button type="submit" class="btn btn-success waves-effect waves-light">완료하기</button>
-                                    <a href="/moimDetail/moimTodoList/moimtodostatus">
+                                <span th:if="${todo.people.email eq session.peopleEmail}">
+                                    <button type="button" class="btn btn-success waves-effect waves-light" onclick="post_send();">완료하기</button>
+                                 </span>   
+                                    <a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/'+${todo.id}}">
                                     	<button type="button" class="btn btn-light waves-effect">목록으로 가기</button>
                                     </a>
                                 </div>
