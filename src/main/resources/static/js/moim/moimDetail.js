@@ -3,32 +3,23 @@ function myPeopleCount() {
 
 }
 $('[name="banpeople_btn"]').on('click', function () {//회원 강퇴하기 by choiseongjun 2019-10-01
-     var moimPeopleNo = $(this).val();
    var moimNo = $('#moimNo').attr("data-moimNo");
-      moimNo*=1;
-     console.log(moimNo);
-     console.log(moimPeopleNo);
-     let moimPeople = {};
-     moimPeople.moim=moimNo;
-     moimPeople.people=moimPeopleNo;
+
+     let tempdata = {};
+     tempdata.no1= $(this).val();
+     tempdata.no2= $('#moimNo').attr("data-moimNo");
      
-     let formData = new FormData();
- 	formData.append('moimPeople', new Blob([JSON.stringify(moimPeople)], {
- 	        type: "application/json; charset=UTF-8"
- 	    }));
+
     $.ajax({
           url : '/moimParticipant/banjoinedPeople', 
           type : "post",   
- 		 enctype: 'form-data',
- 	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
- 	        contentType: false,
- 	        dataType:'json',
- 		mimeType:"form-data",
- 	    data: formData,
- 		success:function(data){
+          contentType: 'application/json; charset=UTF-8',
+  		  dataType:'json',
+  		  data: JSON.stringify(tempdata),
+ 		  success:function(data){
  			if(data.code==1){
  				alert(data.message);
- 				//location.href='/signinView';
+ 				  location.href='/moimlistView/moimdetailView/'+moimNo;
  			}else{
  				alert(data.message);
  			}
