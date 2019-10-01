@@ -165,7 +165,7 @@ body {
 <body onload="myPeopleCount()"><!-- 인원수 세는것 by choiseongjun -->
 	<div id="moimNo" th:data-moimNo="${moimDetail.id}"></div><!-- 모임번호 -->
 	<div id="moimPeopleNo" th:data-moimPeopleNo="${moimPeopleNo}"></div><!-- 모임피플테이블번호 -->
-	
+		
 	<link rel="stylesheet" href="/css/friendList.css">
 	<div class="content">
 		<div class="container">
@@ -301,21 +301,25 @@ body {
 							<tr th:each="moimpeopleList : ${moimpeopleList}">
 							
 								<a href="#">
-									<div class="inbox-item">
+									<div class="inbox-item" >
 										<div class="inbox-item-img">
 											<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
 												class="rounded-circle" alt="">
 										</div>
-										<p class="inbox-item-author">
-											<td th:text="${moimpeopleList.name}" />
-										</p>
-										<p class="inbox-item-date">
-											<span th:if="${session.peopleId==moimDetail.people.id}">
+										
+										<p class="inbox-item-author"> 
+											
+											<td th:text="${moimpeopleList.name}"/>
+										<span th:if="${session.peopleId==moimDetail.people.id}">
 												<button type="button"
 													class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
-												<button type="button"
+												<button type="button"  id="banpeople_btn"
 													class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
 											</span>
+										</p>
+									
+										<p class="inbox-item-date">
+										
 										</p>
 									</div>
 
@@ -605,15 +609,18 @@ body {
 										class="rounded-circle" alt="">
 								</div>
 								<p class="inbox-item-author">
+									<span style="visibility:hidden;" th:text="${moimpeopleList.id}" id="peopleIdKind" />
 									<td th:text="${moimpeopleList.name}" />
+									
 								</p>
 								<p class="inbox-item-date">
 									<span th:if="${session.peopleId==moimDetail.people.id}">
 										<button type="button"
 											class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
 										<button type="button"
-											class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
-									</span>
+											class="w3-button w3-white w3-border w3-border-blue">강퇴하기</button>
+									</span> 
+									
 								</p>
 							</div>
 
