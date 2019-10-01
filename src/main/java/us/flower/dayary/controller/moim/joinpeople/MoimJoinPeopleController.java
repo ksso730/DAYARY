@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.service.moim.moimService;
 import us.flower.dayary.service.moim.joinpeople.MoimJoinPeopleService;
@@ -25,6 +27,33 @@ public class MoimJoinPeopleController {
     private moimService moimService;
     @Autowired
     MoimJoinPeopleService moimjoinPeopleService;
+	/**
+	 * 일반회원 모임 참가 
+	 *
+	 * @param locale
+	 * @param Moim
+	 * @return returnData
+	 * @throws Exception
+	 * @author choiseongjun
+	 */
+	@ResponseBody
+	@PostMapping("/moimParticipant/banjoinedPeople")
+	public Map<String, Object> moimbanjoinedPeople(@RequestBody MoimPeople moimPeople,HttpSession session) {
+		Long peopleId = (Long) session.getAttribute("peopleId");
+	
+		
+		
+		  Map<String,Object> returnData = new HashMap<String,Object>();
+		  System.out.println("ㅎㅎㅎㅎㅎㅎ");
+		  System.out.println(moimPeople.getMoim());
+		  System.out.println(moimPeople.getPeople());
+		/* * try { moimService.moimParticipant(peopleId,moimNo);
+		 * returnData.put("code","1"); returnData.put("message","모임가입완료:)");
+		 * }catch(Exception e) { returnData.put("code", "E3290");
+		 * returnData.put("message", "데이터 확인 후 다시 시도해주세요."); }
+		 */
+		return returnData;
+	}
 	/**
 	 * 일반회원 모임 참가 
 	 *
