@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Meetup {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="ID")
     private long id;
 	@ManyToOne
@@ -29,13 +29,15 @@ public class Meetup {
 	private People people;
 	@Column(name = "TITLE")
 	private String title;
+	@Lob //길이 제한 없음
 	@Column(name = "INTRO")
 	private String intro;
     @JsonFormat(pattern="mm/DD/yyyy")
 	@Column(name="MEET_DATE")
     private Date meetDate;
+    @Lob //길이 제한 없음
     @Column(name="DETAIL_ADDRESS")
-    private long detailAddress;
+    private String detailAddress;
     @Column(name="LOCATION_X")
     private double locationX;
     @Column(name="LOCATION_Y")

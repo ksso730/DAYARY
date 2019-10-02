@@ -93,7 +93,7 @@
          }
      }    
  }
- $('#offmoimMake_btn').off().on('click', function () {//스터디 가입하기 by choiseongjun 2019-09-20
+ $('#offmoimMake_btn').off().on('click', function () {//오프라인 모임만들기 by choiseongjun 2019-10-02
 
 	    var moimNo = $('#moimNo').attr("data-No");
 	  
@@ -102,9 +102,10 @@
 	    meetUp.detailAddress=$('#address').val();
 	    meetUp.locationX=$('#x_location').val();
 	    meetUp.locationY=$('#y_location').val();
-	    meetUp.limit=$('#peopleLimit').val(); 
+	    meetUp.peopleLimit=$('#peopleLimit').val(); 
 	    meetUp.intro=$('#intro').val();
-	    meetUp.createDate=$('#from_date').val();
+	    meetUp.meetDate=$('#from_date').val();
+	    meetUp.money=$('#money').val();
 	    $.ajax({
 	          url : '/moimoffMake/'+moimNo, 
 	          type : "post",   
@@ -114,7 +115,7 @@
 	 		  success:function(data){
 	 			if(data.code==1){
 	 				alert(data.message);
-	 			    close();
+	 				close();
 	 			}else{
 	 				alert(data.message);
 	 			}
