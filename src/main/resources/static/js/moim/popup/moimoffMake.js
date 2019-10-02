@@ -1,4 +1,5 @@
 
+
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
@@ -92,4 +93,39 @@
          }
      }    
  }
+ $('#offmoimMake_btn').off().on('click', function () {//오프라인 모임만들기 by choiseongjun 2019-10-02
 
+	    var moimNo = $('#moimNo').attr("data-No");
+	  
+	    let meetUp = {};
+	    meetUp.title = $('#title').val();
+	    meetUp.detailAddress=$('#address').val();
+	    meetUp.locationX=$('#x_location').val();
+	    meetUp.locationY=$('#y_location').val();
+	    meetUp.peopleLimit=$('#peopleLimit').val(); 
+	    meetUp.intro=$('#intro').val();
+	    meetUp.meetDate=$('#from_date').val();
+	    meetUp.money=$('#money').val();
+	    $.ajax({
+	          url : '/moimoffMake/'+moimNo, 
+	          type : "post",   
+	          contentType: 'application/json; charset=UTF-8',
+	  		  dataType:'json',
+	  		  data: JSON.stringify(meetUp),
+	 		  success:function(data){
+	 			if(data.code==1){
+	 				alert(data.message);
+	 				close();
+	 			}else{
+	 				alert(data.message);
+	 			}
+	 		},
+	           error:function(e){
+
+	           }
+	       });
+	});
+
+ $( "#from_date" ).datepicker({
+	    dateFormat: 'yymmdd',
+});

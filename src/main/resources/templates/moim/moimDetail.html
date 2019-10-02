@@ -199,8 +199,8 @@ body {
                      <td th:text="${joinedpeople}" ></td>
                   </span> -->
                   <div class="panel-body">
-                     <p class="text-muted font-13">우리 모임은 spring jpa스터디를 하며 스터디
-                        모임/일정관리 시스템을 만듭니다</p>
+                     <p class="text-muted font-13">
+                     <td th:text="${moimDetail.intro}" />
                      </p>
                         
                      <span th:if="${joinedpeople}!=null">   
@@ -223,6 +223,7 @@ body {
                            <strong>모임이름 :</strong> <span class="m-l-15">Johnathan
                               Deo</span>
                         </p>
+             
                         <p class="text-muted font-13">
                            <strong>모임장 :</strong><span class="m-l-15"><td
                               th:text="${moimDetail.people.name}" /> </span>
@@ -271,13 +272,14 @@ body {
                   <div class="inbox-widget">
                      <div class="inbox-item">
                         <div class="inbox-item-img">
-                           <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                              class="rounded-circle" alt="">
+                           	<img
+									th:src="${moimDetail!=null} ? ${'/getMoimImage/'+moimDetail.people.imageName+'.'+moimDetail.people.imageExtension} : '/images/default_people.png'"
+									class="rounded-circle" alt="">
                         </div>
                         <p class="inbox-item-author">
                            <td th:text="${moimDetail.people.name}" />
                            <button
-                              class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영자</button>
+                              class="btn btn-icon btn-sm waves-effect waves-light btn-success">스터디장</button>
                         </p>
                         <p class="inbox-item-date"></p>
                      </div>
@@ -287,8 +289,9 @@ body {
                         <a href="#">
                            <div class="inbox-item" >
                               <div class="inbox-item-img">
-                                 <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                    class="rounded-circle" alt="">
+                                 <img
+									th:src="${moimpeopleList.imageName!=null} ? ${'/getMoimImage/'moimpeopleList.imageName'.'+moimpeopleList.imageExtension} : '/images/default_people.png'"
+									 	class="rounded-circle" alt="">  
                               </div>
                               
                               <p class="inbox-item-author"> 
@@ -666,14 +669,15 @@ body {
              });
               
             function popupOpen(){
+            	 var moimNo = $('#moimNo').attr("data-moimNo");
+            	
                  var scWidth = screen.availWidth;
                  var scHeight = screen.availHeight;
-               
-               
+    
                 var left = (parseInt(scWidth)-650)/2;   // 창의 왼쪽 간격을
                 var top = (parseInt(scHeight)-900)/2; //창의 높이를
                
-                var url= "/moimoffMakeView";    //팝업창 페이지 URL
+                var url= "/moimoffMakeView/"+moimNo;    //팝업창 페이지 URL
                 var win = window.open(url , 'test_popup', 'width=1030, height=695, top='+top+', left='+left);
                 win.focus();
             }
