@@ -55,6 +55,6 @@ public class ToDoWrite extends DateAudit{
 	
 	private String count;
 	
-	private int progress;
+	private double progress;
 	
 }

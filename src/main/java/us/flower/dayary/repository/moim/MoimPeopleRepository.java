@@ -21,6 +21,5 @@ public interface MoimPeopleRepository extends JpaRepository<MoimPeople, Long>{
 
 	void deleteByPeopleAndMoim(People people, Moim moim);
 
-  
-	 
+	boolean existsByMoim_idAndPeople_id(long no,long peopleId); 
 }
