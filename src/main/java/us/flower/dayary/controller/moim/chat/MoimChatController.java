@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimChat;
-import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.DTO.Message;
 import us.flower.dayary.repository.chat.MoimChatRepository;
@@ -31,6 +31,8 @@ public class MoimChatController {
 	moimService moimService;
 	@Autowired
 	MoimChatRepository moimchatRepository;
+	@Autowired
+	private SimpMessageSendingOperations messagingTemplate;
 	/**
      * 모임 단체채팅방 채팅 날리기
      *
@@ -42,7 +44,7 @@ public class MoimChatController {
      */
 	@MessageMapping("/moimchat")
 	@SendTo("/topic/message")
-	public String ttt(Message message) throws Exception{
+	public Message ttt(Message message) throws Exception{
 		
 		System.out.println("ID?="+message.getPeopleId());
 		System.out.println("MSG=" + message.getMsg());
@@ -58,9 +60,9 @@ public class MoimChatController {
 		moimchat.setChatMemo(message.getMsg());
 		moimchat.setMoim(moim);
 		moimchat.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
-		
+		messagingTemplate.convertAndSend("/topic/" + message.getPeopleId(), message.getMsg());
 		moimchatRepository.save(moimchat);
-		return null;
+		return message;
 	} 
 	 /**
      * 모임 단체채팅방 조회

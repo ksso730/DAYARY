@@ -186,7 +186,8 @@ function connectStomp() {
 
         // 해당 토픽을 구독한다!
         client.subscribe('/topic/message', function (event) {
-            console.log("!!!!!!!!!!!!event>>", event)
+            console.log("!!!!!!!!!!!!event>>", event);
+            console.log("!!!!!!!!!!!!event>>", event.body)
         });
     });
 
