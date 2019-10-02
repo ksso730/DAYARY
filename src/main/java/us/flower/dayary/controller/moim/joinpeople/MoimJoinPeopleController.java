@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
-import us.flower.dayary.domain.TempDataDTO;
+import us.flower.dayary.domain.DTO.TempDataDTO;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.service.moim.moimService;
 import us.flower.dayary.service.moim.joinpeople.MoimJoinPeopleService;

@@ -1,4 +1,4 @@
-package us.flower.dayary.domain;
+package us.flower.dayary.domain.DTO;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
