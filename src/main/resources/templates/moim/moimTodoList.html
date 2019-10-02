@@ -23,6 +23,7 @@
     <div class="row">
         <div class="col-lg-3">
             <div class="mb-4">
+            	<div id="moimNo" th:data-moimNo="${no}"></div><!-- 모임번호 -->
                 <div class="small mb-3">Search</div>
                 <div class="input-group">
                     <input placeholder="Search for..." type="text" class="form-control">
@@ -160,4 +161,18 @@
 </div>
 
 </body>
+<script>
+$(document).ready(function(){
+ Date d=new Date();
+ $.ajax({
+     url:'/moimDetail/moimTodoList/status/'+$('#moimNo').attr("data-moimNo")+"/"+d,
+       type:'get',
+       success:function(data){
+       	alert(d);
+       }, error:function(e){
+
+       }
+   });
+}
+</script>
 </html>

@@ -68,7 +68,11 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 			 int total=toDowriteListRepository.countByToDoWrite_id(todo.getContent().get(i).getId());
 			 String x=Integer.toString(done)+"/"+Integer.toString(total);
 			 todo.getContent().get(i).setCount(x);
-			 todo.getContent().get(i).setProgress(done/total*100);
+			 //상태바 
+			 if(total!=0) {
+				 todo.getContent().get(i).setProgress(done/total*100);}
+			 else
+				 todo.getContent().get(i).setProgress(0);
 		 }
 	
 		return todo;

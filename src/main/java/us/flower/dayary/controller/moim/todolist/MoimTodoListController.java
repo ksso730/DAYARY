@@ -1,5 +1,6 @@
 package us.flower.dayary.controller.moim.todolist;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +53,14 @@ public class MoimTodoListController {
     	model.addAttribute("todo",service.findById(no));
     	return "moim/moimtodostatusDetail";
     }
+    /**
+     * 모임  해야할일(ToDoList) 완료된 것 저장
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author jy
+     */
     @ResponseBody
     @PostMapping("/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail")
     public Map<String, Object> todostatusdetailpost(@RequestBody Map<String,String> param) {
@@ -134,6 +143,19 @@ public class MoimTodoListController {
     public String moimcalender() {
     	
     	return "moim/moimCalender";
+    }
+    /**
+     * 모임 해야할일(ToDoList) 현재시간 통해 상태 update
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author JY
+     */
+    @GetMapping("/moimDetail/moimTodoList/status/{no}/{date}")
+    public void status(@PathVariable("no")long no,@PathVariable("date")Date date) {
+    	System.out.println(no);
+    	System.out.println(date);
     }
     /**
      * 모임 해야할일(ToDoList) 현재목록  조회
