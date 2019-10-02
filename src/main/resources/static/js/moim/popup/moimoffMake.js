@@ -1,4 +1,5 @@
 
+
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
@@ -92,4 +93,38 @@
          }
      }    
  }
+ $('#offmoimMake_btn').off().on('click', function () {//스터디 가입하기 by choiseongjun 2019-09-20
 
+	    var moimNo = $('#moimNo').attr("data-No");
+	  
+	    let meetUp = {};
+	    meetUp.title = $('#title').val();
+	    meetUp.detailAddress=$('#address').val();
+	    meetUp.locationX=$('#x_location').val();
+	    meetUp.locationY=$('#y_location').val();
+	    meetUp.limit=$('#peopleLimit').val(); 
+	    meetUp.intro=$('#intro').val();
+	    meetUp.createDate=$('#from_date').val();
+	    $.ajax({
+	          url : '/moimoffMake/'+moimNo, 
+	          type : "post",   
+	          contentType: 'application/json; charset=UTF-8',
+	  		  dataType:'json',
+	  		  data: JSON.stringify(meetUp),
+	 		  success:function(data){
+	 			if(data.code==1){
+	 				alert(data.message);
+	 			    close();
+	 			}else{
+	 				alert(data.message);
+	 			}
+	 		},
+	           error:function(e){
+
+	           }
+	       });
+	});
+
+ $( "#from_date" ).datepicker({
+	    dateFormat: 'yymmdd',
+});

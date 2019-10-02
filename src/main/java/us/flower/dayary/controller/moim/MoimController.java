@@ -231,18 +231,7 @@ public class MoimController {
     public byte[] getMoimImage(@PathVariable("imageName") String imageName) throws Exception {
         return moimService.getMoimImage(imageName);
     }
-	 /**
-	 * 모임 오프라인모임 만들기 화면으로
-	 *
-	 * @param 
-	 * @return 
-	 * @throws Exception
-	 * @author choiseongjun
-	 */
-	@GetMapping("/moimoffMakeView")
-	public String moimoffMakeView() {
-	    return "moim/popup/moimoffMake";
-	}
+	
 	/**
 	 * 모임 수정 화면으로
 	 *

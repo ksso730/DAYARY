@@ -666,14 +666,15 @@ body {
              });
               
             function popupOpen(){
+            	 var moimNo = $('#moimNo').attr("data-moimNo");
+            	
                  var scWidth = screen.availWidth;
                  var scHeight = screen.availHeight;
-               
-               
+    
                 var left = (parseInt(scWidth)-650)/2;   // 창의 왼쪽 간격을
                 var top = (parseInt(scHeight)-900)/2; //창의 높이를
                
-                var url= "/moimoffMakeView";    //팝업창 페이지 URL
+                var url= "/moimoffMakeView/"+moimNo;    //팝업창 페이지 URL
                 var win = window.open(url , 'test_popup', 'width=1030, height=695, top='+top+', left='+left);
                 win.focus();
             }
