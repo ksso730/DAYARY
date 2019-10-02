@@ -31,7 +31,15 @@ public class MoimChatController {
 	moimService moimService;
 	@Autowired
 	MoimChatRepository moimchatRepository;
-
+	/**
+     * 모임 단체채팅방 채팅 날리기
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun 
+     * @Date 2019-10-02
+     */
 	@MessageMapping("/moimchat")
 	@SendTo("/topic/message")
 	public String ttt(Message message) throws Exception{
@@ -49,6 +57,7 @@ public class MoimChatController {
 		moimchat.setPeople(people);
 		moimchat.setChatMemo(message.getMsg());
 		moimchat.setMoim(moim);
+		moimchat.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
 		
 		moimchatRepository.save(moimchat);
 		return null;
@@ -68,6 +77,9 @@ public class MoimChatController {
         List<People> moimpeopleList=moimOne.get().getPeopleList();
         
         moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));//모임장중심으로 데이터 불러옴
+        List<MoimChat> moimchatList=moimchatRepository.findByMoim_id(no);//특정모임의 채팅리스트를 들고온다( ex)모임1번의 채팅리스트)
+       
+        model.addAttribute("moimchatList",moimchatList);
         model.addAttribute("moimpeopleList",moimpeopleList);
         model.addAttribute("moimOne",moimOne); 
         model.addAttribute("no",no);
