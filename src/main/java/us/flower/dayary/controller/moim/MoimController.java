@@ -30,6 +30,7 @@ import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
+import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
 import us.flower.dayary.service.moim.moimService;
 
 
@@ -44,6 +45,9 @@ public class MoimController {
     MoimPeopleRepository moimpeopleRepository;
 	@Autowired
 	MoimRepository moimRepository;
+	
+	@Autowired
+	ToDoWriteRepository toDowriteRepository;
     
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
  
@@ -192,7 +196,7 @@ public class MoimController {
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
         model.addAttribute("moimpeopleList",moimpeopleList);
-     
+        model.addAttribute("todoCount",toDowriteRepository.countByMoim_id(no));
         model.addAttribute("totalPeople",totalPeople);//해당하는 모임의 총회원수 뽑기
         System.out.println("로그찍기"); 
         return "moim/moimDetail";  

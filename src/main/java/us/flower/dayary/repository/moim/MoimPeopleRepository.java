@@ -20,7 +20,7 @@ public interface MoimPeopleRepository extends JpaRepository<MoimPeople, Long>{
 	void deleteByPeopleAndMoim(People people, Moim moim);
 
 	List<MoimPeople> findByPeople_id(long peopleId);
+	
+	boolean existsByMoim_idAndPeople_id(long no,long peopleId); 
 
-  
-	 
 }

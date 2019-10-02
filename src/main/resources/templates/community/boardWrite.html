@@ -31,9 +31,6 @@ $(document).ready(function(){
 			return;
 		}
 
-		// check content data input
-		//const content = CKEDITOR.instances['content'].editable().getText();
-
 		// ck editior defualt length == 1
 		if($('#content').val()==''||$('#content').val()=='undefined'||$('#content').val()==null){
 			alert('내용을 입력하세요');
@@ -42,14 +39,14 @@ $(document).ready(function(){
 		}
 
 		// set post data
-		var board_group_no = [[${board_group_no}]];
-		var communityBoard = {};
+		let communityBoard = {};
 
 		communityBoard.title = $('#title').val();
 		communityBoard.memo= $('#content').val();
 
+
 		$.ajax({
-			url:'/community/communityList/studyWrite/' + board_group_no,
+			url:'/community/board/[[${boardGroup}]]/write',
 			type:'POST',
 			contentType: 'application/json; charset=UTF-8',
 			dataType:'json',
@@ -57,7 +54,7 @@ $(document).ready(function(){
 			success:function(data){
 				if(data.code==1){
 					alert(data.message);
-					location.href='/community/communityList/studyList/' + board_group_no;
+					location.href='/community/board/[[${boardGroup}]]';
 				}else{
 					alert(data.message)
 				}
@@ -104,7 +101,7 @@ $(document).ready(function(){
 			<!--</form>-->
 			<div >
 				<button type="button" class="btn btn-sm btn-primary" id="community_write_btn">저장</button>
-				<a th:href="@{'/community/communityList/studyList/'+${board_group_no}+'?page='+${page}}">
+				<a th:href="@{'/community/board/'+${boardGroup}+'?page='+${page}}">
 					<button type="button" class="btn btn-sm btn-primary" id="community_list_btn">목록</button>
 				</a>
 			</div>

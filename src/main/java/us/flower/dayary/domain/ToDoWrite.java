@@ -50,4 +50,7 @@ public class ToDoWrite extends DateAudit{
 	private Date create_date;
 	
 	private String count;
+	
+	private double progress;
+	
 }

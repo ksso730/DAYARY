@@ -16,6 +16,7 @@ import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteListRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
@@ -30,7 +31,8 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 	
 	@Autowired 
 	ToDoWriteRepository toDowriteRepository;
-	
+	@Autowired
+	MoimPeopleRepository moimPeopleRepository;
 	@Autowired 
 	ToDoWriteListRepository toDowriteListRepository;
 	@Override
@@ -64,9 +66,16 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 		Page<ToDoWrite> todo=toDowriteRepository.findByMoim_id(pageable,id);
 		 for(int i=0;i<todo.getContent().size();i++) {
 			 //모임 아이디 가져와서 해당todo의 총갯수 ,체크된갯수 반환
-			 String x=Integer.toString(toDowriteListRepository.countByCheckConfirmAndToDoWrite_id('Y',todo.getContent().get(i).getId()));
-			  x+="/"+Integer.toString(toDowriteListRepository.countByToDoWrite_id(todo.getContent().get(i).getId()));
+			 int done= toDowriteListRepository.countByCheckConfirmAndToDoWrite_id('Y',todo.getContent().get(i).getId());
+			 int total=toDowriteListRepository.countByToDoWrite_id(todo.getContent().get(i).getId());
+			 String x=Integer.toString(done)+"/"+Integer.toString(total);
 			 todo.getContent().get(i).setCount(x);
+			 //상태바 
+			 if(total!=0) {
+				 
+				 todo.getContent().get(i).setProgress((double)done/(double)total*100.0);}
+			 else
+				 todo.getContent().get(i).setProgress(0);
 		 }
 	
 		return todo;
@@ -98,6 +107,15 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 			l.setCheckConfirm('Y');
 			toDowriteListRepository.save(l);
 		}
+	}
+	@Override
+	public boolean existByMoim_idAndPeople_id(long id, long peopleId) {
+		// TODO Auto-generated method stub
+		if(moimRepository.existsByIdAndPeople_id(id, peopleId))
+			return true;
+		else
+			return moimPeopleRepository.existsByMoim_idAndPeople_id(id, peopleId);
+	
 	}
 	
 }

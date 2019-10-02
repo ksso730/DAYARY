@@ -15,7 +15,7 @@ public interface MoimRepository extends JpaRepository<Moim, Long>{
     boolean existsByImageName(String imageName);
 
     
-
+    boolean existsByIdAndPeople_id(long id,long peopleId);
   
 
 

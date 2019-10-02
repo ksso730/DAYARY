@@ -6,17 +6,38 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import us.flower.dayary.domain.BoardGroup;
+import us.flower.dayary.domain.BoardLike;
 import us.flower.dayary.domain.CommunityBoard;
 
 public interface CommunityBoardService {
 
-	void communityWrite(Long people_no, long board_group_no, CommunityBoard communityBoard);
+	void communityWrite(Long peopleId, long boardGroupId, CommunityBoard communityBoard);
 
+	// 게시글 작성자와 사용자 아이디 같은지 확인
+	boolean checkWriter(Long peopleId, long boardId);
 
-    List<CommunityBoard> CommunityList();
-	//Page<CommunityBoard> CommunityStudyList(BoardGroup boardGroup, Pageable pageable);
+	// 게시글 작성자와 사용자 아이디 같은지 확인
+	boolean checkWriter(Long peopleId, CommunityBoard communityBoard);
 
-	void deleteBoardone(long timeLineListNo);
+	// 게시판 작성글 리스트
+	Page<CommunityBoard> getCommunityBoardList(long boardGroupId, Pageable pageable);
 
+	// 타임라인 작성글 리스트
+	List<CommunityBoard> getCommunityBoardList(long boardGroupId);
+
+	// 타임라인 본인글 리스트
+	List<CommunityBoard> getCommunityBoardList(long boardGroupId, long peopleId);
+
+	CommunityBoard getCommunityBoard(long boardId);
+
+	void addViewCount(CommunityBoard communityBoard);
+
+	// 게시글 DELETE FLAG = 'Y'로 변경
 	void deleteBoard(long boardId);
+
+
+
+	//void deleteBoardone(long timeLineListNo);
+
+
 }
