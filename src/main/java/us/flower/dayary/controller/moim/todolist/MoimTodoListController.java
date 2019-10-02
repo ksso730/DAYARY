@@ -31,6 +31,7 @@ import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
+import us.flower.dayary.service.moim.moimService;
 import us.flower.dayary.service.moim.todo.ToDoWriteService;
 
 
@@ -100,8 +101,9 @@ public class MoimTodoListController {
      */
     @GetMapping("/moimDetail/moimTodoList/moimTodowrite/{no}")
     public String moimTodowrite(@PathVariable("no") long no,Model model) {
-    	 model.addAttribute("no",no);
-    	return "moim/moimTodowrite";
+    		model.addAttribute("no",no);
+    	
+    		return "moim/moimTodowrite";
     }
     /**
      * 모임 일정관리(ToDoList) 작성하기
@@ -182,12 +184,14 @@ public class MoimTodoListController {
      * @author choiseongjun
      */
     @GetMapping("/moimDetail/moimTodoList/{no}")
-    public String moimTodoList(@PathVariable("no") long no,Model model,@PageableDefault Pageable pageable) {
+    public String moimTodoList(@PathVariable("no") long no,Model model,@PageableDefault Pageable pageable,HttpSession session) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
         pageable = PageRequest.of(page, 9);
     	Page<ToDoWrite> toDolist=service.findByMoim_id(pageable,no);
+    	boolean moim=service.existByMoim_idAndPeople_id(no,(long)session.getAttribute("peopleId"));
     	model.addAttribute("no",no);
     	model.addAttribute("todolist", toDolist);
+    	model.addAttribute("moimPeople",Boolean.toString(moim));
     	return "moim/moimTodoList";
     }
 }

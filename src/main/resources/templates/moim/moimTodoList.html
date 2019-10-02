@@ -163,16 +163,13 @@
 </body>
 <script>
 $(document).ready(function(){
- Date d=new Date();
- $.ajax({
-     url:'/moimDetail/moimTodoList/status/'+$('#moimNo').attr("data-moimNo")+"/"+d,
-       type:'get',
-       success:function(data){
-       	alert(d);
-       }, error:function(e){
-
-       }
+ 	if(!('${moimPeople}')){
+ 		$('body').click(function(){
+ 		    alert("모임에 가입하셔야 이용하실 수 있습니다");
+ 		    history.back();
+ 		});
+ 	}
    });
-}
+
 </script>
 </html>

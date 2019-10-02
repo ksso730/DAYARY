@@ -16,6 +16,7 @@ import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteListRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
@@ -30,7 +31,8 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 	
 	@Autowired 
 	ToDoWriteRepository toDowriteRepository;
-	
+	@Autowired
+	MoimPeopleRepository moimPeopleRepository;
 	@Autowired 
 	ToDoWriteListRepository toDowriteListRepository;
 	@Override
@@ -70,7 +72,8 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 			 todo.getContent().get(i).setCount(x);
 			 //상태바 
 			 if(total!=0) {
-				 todo.getContent().get(i).setProgress(done/total*100);}
+				 
+				 todo.getContent().get(i).setProgress((double)done/(double)total*100.0);}
 			 else
 				 todo.getContent().get(i).setProgress(0);
 		 }
@@ -104,6 +107,15 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 			l.setCheckConfirm('Y');
 			toDowriteListRepository.save(l);
 		}
+	}
+	@Override
+	public boolean existByMoim_idAndPeople_id(long id, long peopleId) {
+		// TODO Auto-generated method stub
+		if(moimRepository.existsByIdAndPeople_id(id, peopleId))
+			return true;
+		else
+			return moimPeopleRepository.existsByMoim_idAndPeople_id(id, peopleId);
+	
 	}
 	
 }
