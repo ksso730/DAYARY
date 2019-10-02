@@ -1,6 +1,7 @@
 package us.flower.dayary.controller.people;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.jdo.annotations.Transactional;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import us.flower.dayary.domain.MoimPeople;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
 import us.flower.dayary.service.people.PeopleInfoService;
 
@@ -25,7 +28,9 @@ public class PeopleInfoController {
 	PeopleInfoService peopleinfoService;
 	@Autowired
 	PeopleRepository peopleRepository;
-
+	@Autowired
+	MoimPeopleRepository moimpeopleRepository;
+	
   /**
    * 사진 불러오기 by choiseongjun
    *
@@ -86,7 +91,10 @@ public class PeopleInfoController {
 		
 		peopleRepository.findById(peopleId).ifPresent(peopleinfo->model.addAttribute("peopleinfo",peopleinfo));;
 		
+		List<MoimPeople> joinedMoim=moimpeopleRepository.findByPeople_id(peopleId);
 		
+		model.addAttribute("joinedMoim",joinedMoim);
+		System.out.println(joinedMoim.toString());
 		return "people/myprofile";
 	}
 }
