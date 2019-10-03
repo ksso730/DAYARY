@@ -26,5 +26,5 @@ public interface CommunityBoardRepository extends JpaRepository<CommunityBoard,L
 
     //Long countByBoardGroupAndDeleteFlag(BoardGroup boardGroup, char deleteFlag);
 
-	List<CommunityBoard> findByPeople_id(long peopleId);
+	//List<CommunityBoard> findByPeople_id(long peopleId);
 }
