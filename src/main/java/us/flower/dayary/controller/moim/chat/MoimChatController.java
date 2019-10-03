@@ -49,6 +49,7 @@ public class MoimChatController {
 		System.out.println("ID?="+message.getPeopleId());
 		System.out.println("MSG=" + message.getMsg());
 		System.out.println("MoimNo=" + message.getMoimNo());
+		System.out.println("peopleEmail"+message.getPeopleEmail());
 		People people=new People();
 		people.setId(message.getPeopleId());
 		
@@ -75,6 +76,7 @@ public class MoimChatController {
     @GetMapping("/moimDetail/moimChatroom/{no}")
     public String moimChatroom(@PathVariable("no") long no,Model model,HttpSession session) {
     	long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다
+    	String email = (String) session.getAttribute("peopleEmail");
     	Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
         
@@ -85,6 +87,8 @@ public class MoimChatController {
         model.addAttribute("moimpeopleList",moimpeopleList);
         model.addAttribute("moimOne",moimOne); 
         model.addAttribute("no",no);
+        model.addAttribute("peopleId",peopleId);
+        model.addAttribute("email",email);
     	return "moim/moimChatroom";
     }
 }
