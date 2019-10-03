@@ -30,6 +30,7 @@ import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
+import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
 import us.flower.dayary.service.moim.moimService;
 
 
@@ -44,6 +45,9 @@ public class MoimController {
     MoimPeopleRepository moimpeopleRepository;
 	@Autowired
 	MoimRepository moimRepository;
+	
+	@Autowired
+	ToDoWriteRepository toDowriteRepository;
     
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
  
@@ -174,9 +178,7 @@ public class MoimController {
         String moimPeopleNo=moimService.findMoimPeopleNoOne(peopleId,no);//참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에 넣어준다)
         List<MoimPeople> joinedpeoplelist=moimpeopleRepository.findByMoim_idAndPeople_id(no,peopleId);
         
-        System.out.println(joinedpeoplelist);
         
-        System.out.println("값은??"); 
         for(int i=0;i<joinedpeoplelist.size();i++) {
         	long joinedpeople=joinedpeoplelist.get(i).getId();
         	   model.addAttribute("joinedpeople",joinedpeople);
@@ -185,7 +187,6 @@ public class MoimController {
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
 
-        System.out.println(moimpeopleList.toString());
         
         long totalPeople = 0;
         for(int i=0;i<=moimpeopleList.size();i++) {//데이터 값 들고온것을 size만큼 반복해서 뽑기 모임리스트까지 <=한 이유는 모임장이 제외됬기때문에 +1해야한다
@@ -195,7 +196,7 @@ public class MoimController {
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
         model.addAttribute("moimpeopleList",moimpeopleList);
-     
+        model.addAttribute("todoCount",toDowriteRepository.countByMoim_id(no));
         model.addAttribute("totalPeople",totalPeople);//해당하는 모임의 총회원수 뽑기
         System.out.println("로그찍기"); 
         return "moim/moimDetail";  
@@ -214,7 +215,7 @@ public class MoimController {
 	public String moimListView(@PageableDefault Pageable pageable,HttpSession session,Model model) {
 
 		 int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
-	        pageable = PageRequest.of(page, 9);
+	        pageable = PageRequest.of(page, 9,Sort.Direction.DESC,"id");//내림차순으로 정렬한다 
 	        
 	    Page<Moim> moimList= moimService.selectListAll(pageable);//모임리스트 출력한다
 		long moimListcount=moimRepository.count();
@@ -231,18 +232,7 @@ public class MoimController {
     public byte[] getMoimImage(@PathVariable("imageName") String imageName) throws Exception {
         return moimService.getMoimImage(imageName);
     }
-	 /**
-	 * 모임 오프라인모임 만들기 화면으로
-	 *
-	 * @param 
-	 * @return 
-	 * @throws Exception
-	 * @author choiseongjun
-	 */
-	@GetMapping("/moimoffMakeView")
-	public String moimoffMakeView() {
-	    return "moim/popup/moimoffMake";
-	}
+	
 	/**
 	 * 모임 수정 화면으로
 	 *
