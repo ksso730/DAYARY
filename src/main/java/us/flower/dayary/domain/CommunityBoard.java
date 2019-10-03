@@ -38,7 +38,10 @@ public class CommunityBoard extends DateAudit{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard")
 	private List<File> files;
 
-	@Column(name="DELETEFLAG" ,nullable=false, columnDefinition = "char(1) default 'N'")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.communityBoard")
+	private List<CommunityBoardReply> communityBoardReplies;
+
+	@Column(name="DELETE_FLAG" ,nullable=false, columnDefinition = "char(1) default 'N'")
 	private char deleteFlag;
 
 	@Column(name="VIEW_COUNT")
