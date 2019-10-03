@@ -13,8 +13,4 @@ public class BoardLike extends DateAudit {
     @EmbeddedId
     private BoardLikeId id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name="BOARD_GROUP_ID")
-    private long boardGroupId;
-
 }

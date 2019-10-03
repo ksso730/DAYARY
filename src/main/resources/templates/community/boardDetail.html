@@ -64,9 +64,17 @@ body {
 			const boardId = [[${board.id}]];
 			const page = [[${page}]];
 
-			const flag = [[${writerFlag}]];
-			let like = 'FALSE';
+			// 추천 & 추천해제 Toggle
+			let boardLike = [[${boardLike}]];
 
+			const flag = [[${writerFlag}]];
+
+			// 이미 추천된 게시글
+			if(boardLike){
+				$('#like').css('color', 'red');
+			}else{
+				$('#like').css('color', 'black');
+			}
 
 			$('#community_list_btn').css('display', 'inline-block');
 
@@ -83,16 +91,33 @@ body {
 
 			$('#like').off().on('click', function(){
 
-				// 추천취소
-				if(like=='TRUE'){
-					$('#like').css('color', 'blue');
-					like = 'FALSE';
-				}else if(like=='FALSE'){
-				// 추천
-					like = 'TRUE';
+				// 이미 추천된 게시글
+				if(boardLike){
 
-					$('#like').css('color', 'red');
+					// 추천 해제
+					$.ajax({
+						url:'/community/board/[[${boardGroup}]]/unLike/'  + boardId,
+						type:'POST',
+						contentType: 'application/json; charset=UTF-8',
+						dataType:'json',
+						data: {},
+						success:function(data){
+							if(data.code==1){
+								// 추천 해제 성공
+								$('#like').css('color', 'black');
+								boardLike = false;
+							}else{
+								alert(data.message)
+							}
+						},
+						error:function(xhr,error){
+						}
+					});
 
+				// 추천 안한 게시글
+				}else if(!boardLike){
+
+					// 추천
 					$.ajax({
 						url:'/community/board/[[${boardGroup}]]/like/'  + boardId,
 						type:'POST',
@@ -101,13 +126,14 @@ body {
 						data: {},
 						success:function(data){
 							if(data.code==1){
-
+								// 추천 성공
+								$('#like').css('color', 'red');
+								boardLike = true;
 							}else{
 								alert(data.message)
 							}
 						},
 						error:function(xhr,error){
-
 						}
 					});
 				}

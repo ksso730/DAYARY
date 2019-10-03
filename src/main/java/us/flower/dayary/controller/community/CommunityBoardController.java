@@ -182,40 +182,74 @@ public class CommunityBoardController {
 
 
 	/**
-	 * 좋아요 기능 (작업중)
-	 * @param board_id
-	 * @param board_group_id
+	 *  게시글 추천
+	 * @param boardId
+	 * @param boardGroup
 	 * @param session
 	 * @return
 	 */
 	@ResponseBody
-	@PostMapping("/community/communityList/studyLike/{board_group_id}/{board_id}")
-	public Map<String, Object> studyLike(@PathVariable("board_id") long board_id, @PathVariable("board_group_id") long board_group_id,
+	@PostMapping("/community/board/{boardGroup}/like/{boardId}")
+	public Map<String, Object> studyLike( @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
 							HttpSession session) {
 
+		// return value
 		Map<String, Object> returnData = new HashMap<>();
 
-		CommunityBoard communityBoard = new CommunityBoard();
-		communityBoard.setId(board_id);
-
-		People people = new People();
+		// people id
 		Long peopleId = (Long) session.getAttribute("peopleId");
-		people.setId(peopleId);
 
-		// 이전 추천했는지 확인
-		BoardLike boardLike = boardLikeRepository.findBoardLikeByBoardAndPeople(communityBoard, people);
-		if(boardLike==null){
-			boardLike = new BoardLike();
-			BoardLikeId boardLikeId = new BoardLikeId();
-			boardLikeId.setPeopleId(peopleId);
-			boardLikeId.setCommunityBoardId(board_id);
-			boardLike.setId(boardLikeId);
-			boardLike.setBoardGroupId(board_group_id);
-			boardLikeRepository.save(boardLike);
+		// boardGroupId
+		Long boardGroupId = getBoargdGroupId(boardGroup);
 
+		// 이전 추천했는지 확인 (TRUE 이면 기존 추천글)
+		boolean boardLike = communityBoardService.checkBoardLike(peopleId, boardId, boardGroupId);
+
+		// 추천하지 않았던 게시글이면
+		if(!boardLike){
+			// 추천이력 등록
+			communityBoardService.addBoardLike(peopleId, boardId, boardGroupId);
+			returnData.put("code", "1");
 		}else{
 			returnData.put("code", "2");
 			returnData.put("message", "이미 추천한 게시글 입니다");
+		}
+
+		return returnData;
+	}
+
+	/**
+	 *  게시글 추천 해제
+	 * @param boardId
+	 * @param boardGroup
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/community/board/{boardGroup}/unLike/{boardId}")
+	public Map<String, Object> studyUnLike( @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+										  HttpSession session) {
+
+		// return value
+		Map<String, Object> returnData = new HashMap<>();
+
+		// people id
+		Long peopleId = (Long) session.getAttribute("peopleId");
+
+		// boardGroupId
+		Long boardGroupId = getBoargdGroupId(boardGroup);
+
+		// 이전 추천했는지 확인 (TRUE 이면 기존 추천글)
+		boolean boardLike = communityBoardService.checkBoardLike(peopleId, boardId, boardGroupId);
+
+		// 추천했던 게시글이면
+		if(boardLike){
+			// 추천이력 제거
+			communityBoardService.removeBoardLike(peopleId, boardId, boardGroupId);
+			returnData.put("code", "1");
+		}else{
+			returnData.put("code", "2");
+			returnData.put("message", "추천하지않은 게시글 입니다");
 		}
 
 		return returnData;
@@ -245,13 +279,21 @@ public class CommunityBoardController {
 
 		// 게시글 작성자와 현재 세션의 사용자 같은지
 		Long peopleId = (Long) session.getAttribute("peopleId");
-		boolean check = communityBoardService.checkWriter(peopleId, communityBoard);
+		boolean writer = communityBoardService.checkWriter(peopleId, communityBoard);
 
 		// 게시글 작성자가 본인이라면
-		if(check){
+		if(writer){
 			model.addAttribute("writerFlag", TRUE);
 		}else{
 			model.addAttribute("writerFlag", FALSE);
+		}
+
+		// TRUE 면 기존에 추천한 게시글
+		boolean boardLike = communityBoardService.checkBoardLike(peopleId, boardId, getBoargdGroupId(boardGroup));
+		if(boardLike){
+			model.addAttribute("boardLike", TRUE);
+		}else{
+			model.addAttribute("boardLike", FALSE);
 		}
 
 		// set session page number (이전페이지 돌아갈때 사용)
@@ -423,32 +465,4 @@ public class CommunityBoardController {
 	}
 
 
-
-//
-//	 /**
-//     * 커뮤니티 StudyCafeList 조회
-//     *
-//     * @param
-//     * @return
-//     * @throws
-//     * @author choiseongjun
-//     */
-//	@GetMapping("/community/studycafeList/{board_group_no}")
-//	public String studcafeList(@PathVariable("board_group_no") long board_group_no) {
-//
-//		return "community/studycafeList";
-//	}
-//	 /**
-//     * 커뮤니티 StudyCafeDetail 조회
-//     *
-//     * @param
-//     * @return
-//     * @throws
-//     * @author choiseongjun
-//     */
-//	@GetMapping("/community/studycafeDetail")
-//	public String studycafeDetail() {
-//
-//		return "community/studycafeDetail";
-//	}
 }

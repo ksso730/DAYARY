@@ -8,9 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import us.flower.dayary.domain.BoardGroup;
-import us.flower.dayary.domain.CommunityBoard;
-import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.*;
+import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 
 import java.util.List;
@@ -21,15 +20,24 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 
 	@Autowired
 	CommunityBoardRepository communityBoardRepository;
-	
+
+	@Autowired
+	BoardLikeRepository boardLikeRepository;
+
+	/**
+	 *  게시글 작성
+	 * @param peopleId
+	 * @param boardGroupId
+	 * @param communityBoard
+	 */
 	@Override
-	public void communityWrite(Long people_no, long board_group_id, CommunityBoard communityBoard) {
+	public void communityWrite(Long peopleId, long boardGroupId, CommunityBoard communityBoard) {
 		 
 		People people=new People();
-		people.setId(people_no);
+		people.setId(peopleId);
 		
 		BoardGroup boardGroup=new BoardGroup();
-		boardGroup.setId(board_group_id);
+		boardGroup.setId(boardGroupId);
 
 		communityBoard.setTitle(communityBoard.getTitle());
 		communityBoard.setMemo(communityBoard.getMemo());
@@ -40,6 +48,12 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 
 	}
 
+	/**
+	 * 사용자와 게시글 작성자 동일한지 확인
+	 * @param peopleId
+	 * @param boardId
+	 * @return
+	 */
 	@Override
 	public boolean checkWriter(Long peopleId, long boardId) {
 
@@ -52,6 +66,12 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		}
 	}
 
+	/**
+	 * 사용자와 게시글 작성자 동일한지 확인
+	 * @param peopleId
+	 * @param communityBoard
+	 * @return
+	 */
 	@Override
 	public boolean checkWriter(Long peopleId, CommunityBoard communityBoard) {
 
@@ -64,7 +84,12 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		}
 	}
 
-	// 게시글 목록
+	/**
+	 * 게시글 목록
+	 * @param boardGroupId
+	 * @param pageable
+	 * @return
+	 */
 	@Override
 	public Page<CommunityBoard> getCommunityBoardList(long boardGroupId, Pageable pageable) {
 
@@ -76,7 +101,11 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		return communityBoardList;
 	}
 
-	// 게시글 목록 (타임라인)
+	/**
+	 * 게시글 목록 (타임라인)
+	 * @param boardGroupId
+	 * @return
+	 */
 	@Override
 	public List<CommunityBoard> getCommunityBoardList(long boardGroupId) {
 
@@ -88,7 +117,12 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		return timeLineList;
 	}
 
-	// 본인글 목록 (타임라인)
+	/**
+	 * 본인이 작성한 게시글 조회
+	 * @param boardGroupId
+	 * @param peopleId
+	 * @return
+	 */
 	@Override
 	public List<CommunityBoard> getCommunityBoardList(long boardGroupId, long peopleId) {
 
@@ -104,7 +138,11 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	}
 
 
-	// 게시글 Detail 조회
+	/**
+	 * 게시글 Detail 조회
+	 * @param boardId
+	 * @return
+	 */
 	@Override
 	public CommunityBoard getCommunityBoard(long boardId) {
 
@@ -123,21 +161,94 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	}
 
 
-//	@Override
-//	public Page<CommunityBoard> CommunityStudyList(BoardGroup boardGroup, Pageable pageable) {
-//		return communityBoardRepository.findAllByBoardGroup(boardGroup, pageable);
-//	}
-//
-//	@Override
-//	public void deleteBoardone(long timeLineListNo) {
-//		communityBoardRepository.deleteById(timeLineListNo);
-//	}
-
-
+	/**
+	 * 게시글 삭제
+	 * @param boardId
+	 */
 	@Override
 	public void deleteBoard(long boardId) {
 		CommunityBoard communityBoard = communityBoardRepository.getOne(boardId);
 		communityBoard.setDeleteFlag('Y');
+		communityBoardRepository.save(communityBoard);
+	}
+
+	/**
+	 * 게시글 추천 이력 조회
+	 * @param peopleId
+	 * @param boardId
+	 * @param boardGroupId
+	 * @return
+	 */
+	@Override
+	public boolean checkBoardLike(long peopleId, long boardId, long boardGroupId) {
+
+		BoardLikeId boardLikeId = new BoardLikeId();
+		boardLikeId.setPeopleId(peopleId);
+		boardLikeId.setCommunityBoardId(boardId);
+		boardLikeId.setBoardGroupId(boardGroupId);
+
+		BoardLike boardLike =  boardLikeRepository.findBoardLikeById(boardLikeId);
+
+		// null이면 추천한 이력이 없다
+		if(boardLike==null){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+	/**
+	 * 게시글 추천
+	 * @param peopleId
+	 * @param boardId
+	 * @param boardGroupId
+	 */
+	@Override
+	public void addBoardLike(long peopleId, long boardId, long boardGroupId) {
+		// Embeddable Id
+		BoardLikeId boardLikeId = new BoardLikeId();
+		boardLikeId.setPeopleId(peopleId);
+		boardLikeId.setCommunityBoardId(boardId);
+		boardLikeId.setBoardGroupId(boardGroupId);
+
+		// board like
+		BoardLike boardLike = new BoardLike();
+		boardLike.setId(boardLikeId);
+
+		// save
+		boardLikeRepository.save(boardLike);
+
+		// update heart count (+)
+		CommunityBoard communityBoard = communityBoardRepository.getOne(boardId);
+		communityBoard.setHeart(communityBoard.getHeart()+1);
+		communityBoardRepository.save(communityBoard);
+	}
+
+	/**
+	 * 게시글 추천 삭제
+	 * @param peopleId
+	 * @param boardId
+	 * @param boardGroupId
+	 */
+	@Override
+	public void removeBoardLike(long peopleId, long boardId, long boardGroupId) {
+
+		// Embeddable Id
+		BoardLikeId boardLikeId = new BoardLikeId();
+		boardLikeId.setPeopleId(peopleId);
+		boardLikeId.setCommunityBoardId(boardId);
+		boardLikeId.setBoardGroupId(boardGroupId);
+
+		// board like
+		BoardLike boardLike = new BoardLike();
+		boardLike.setId(boardLikeId);
+
+		// delete
+		boardLikeRepository.delete(boardLike);
+
+		// update heart count (-)
+		CommunityBoard communityBoard = communityBoardRepository.getOne(boardId);
+		communityBoard.setHeart(communityBoard.getHeart()-1);
 		communityBoardRepository.save(communityBoard);
 	}
 }
