@@ -8,10 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import us.flower.dayary.domain.BoardGroup;
-import us.flower.dayary.domain.BoardLike;
-import us.flower.dayary.domain.CommunityBoard;
-import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.*;
 import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
@@ -209,12 +206,11 @@ public class CommunityBoardController {
 		BoardLike boardLike = boardLikeRepository.findBoardLikeByBoardAndPeople(communityBoard, people);
 		if(boardLike==null){
 			boardLike = new BoardLike();
-			boardLike.setBoard(communityBoard);
-			boardLike.setPeople(people);
-
-			BoardGroup boardGroup = new BoardGroup();
-			boardGroup.setId(board_group_id);
-			boardLike.setBoardGroup(boardGroup);
+			BoardLikeId boardLikeId = new BoardLikeId();
+			boardLikeId.setPeopleId(peopleId);
+			boardLikeId.setCommunityBoardId(board_id);
+			boardLike.setId(boardLikeId);
+			boardLike.setBoardGroupId(board_group_id);
 			boardLikeRepository.save(boardLike);
 
 		}else{
