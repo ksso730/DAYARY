@@ -178,7 +178,7 @@ function delete_send(){
           success:function(data){
              if(data.code==1){
                  alert(data.message);
-                 location.href='/moimDetail/moimTodoList'+moimNo;
+                 location.href='/moimDetail/moimTodoList/'+moimNo;
            }else{
               alert(data.message);
            }

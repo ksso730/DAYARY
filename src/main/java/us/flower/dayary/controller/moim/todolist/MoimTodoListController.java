@@ -156,9 +156,11 @@ public class MoimTodoListController {
      * @author JY
      */
     @GetMapping("/moimDetail/moimTodoList/status/{no}")
-    public void status(@PathVariable("no")long no) {
-	    	Date date=new java.sql.Date(System.currentTimeMillis());
+    public Map<String,Object> status(@PathVariable("no")long no) {
+    	  Map<String, Object> returnData = new HashMap<String, Object>();
+    	Date date=new java.sql.Date(System.currentTimeMillis());
 	    	service.updateById(no, date);
+	    	return returnData;
     }
     /**
      * 모임 해야할일(ToDoList) 현재목록  조회

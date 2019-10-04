@@ -137,6 +137,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 	@Transactional
 	public void deleteById(long id) {
 		// TODO Auto-generated method stub
+		toDowriteListRepository.deleteByToDoWrite_id(id);
 		toDowriteRepository.deleteById(id);
 	}
 	
