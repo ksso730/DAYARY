@@ -23,4 +23,5 @@ public interface ToDoWriteService {
 	public void updateList(String list);
 	public boolean existByMoim_idAndPeople_id(long id,long peopleId);
 	public void updateById(long id,Date date);
+	public void deleteById(long id);
 }

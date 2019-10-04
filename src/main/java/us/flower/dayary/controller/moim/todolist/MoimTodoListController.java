@@ -16,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -194,4 +195,32 @@ public class MoimTodoListController {
     	model.addAttribute("moimPeople",Boolean.toString(moim));
     	return "moim/moimTodoList";
     }
+    /**
+     * todo 삭제
+    *
+    * @param 
+    * @return
+    * @throws 
+    * @author JY
+    * @date 2019-10-04
+    */
+   @ResponseBody
+   @DeleteMapping("/moimDetail/moimTodoList/delete/{no}")
+   public Map<String, Object> MoimDeleteOne(@PathVariable("no") long no) {
+   
+      Map<String, Object> returnData = new HashMap<String, Object>();
+      
+      try {
+    	  service.deleteById(no);
+           returnData.put("code", "1");
+           returnData.put("message", "삭제되었습니다");
+
+       } catch (Exception e) {
+           returnData.put("code", "E3290");
+           returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+       }
+
+
+      return returnData;
+   }
 }
