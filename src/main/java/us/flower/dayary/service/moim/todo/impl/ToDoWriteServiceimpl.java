@@ -1,6 +1,6 @@
 package us.flower.dayary.service.moim.todo.impl;
 
-
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -132,6 +132,13 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 			}
 			toDowriteRepository.save(todo);
 		}
+	}
+	@Override
+	@Transactional
+	public void deleteById(long id) {
+		// TODO Auto-generated method stub
+		toDowriteListRepository.deleteByToDoWrite_id(id);
+		toDowriteRepository.deleteById(id);
 	}
 	
 }
