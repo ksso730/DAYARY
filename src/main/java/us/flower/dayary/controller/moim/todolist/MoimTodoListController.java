@@ -1,6 +1,6 @@
 package us.flower.dayary.controller.moim.todolist;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -154,10 +154,10 @@ public class MoimTodoListController {
      * @throws 
      * @author JY
      */
-    @GetMapping("/moimDetail/moimTodoList/status/{no}/{date}")
-    public void status(@PathVariable("no")long no,@PathVariable("date")Date date) {
-    	System.out.println(no);
-    	System.out.println(date);
+    @GetMapping("/moimDetail/moimTodoList/status/{no}")
+    public void status(@PathVariable("no")long no) {
+	    	Date date=new java.sql.Date(System.currentTimeMillis());
+	    	service.updateById(no, date);
     }
     /**
      * 모임 해야할일(ToDoList) 현재목록  조회
