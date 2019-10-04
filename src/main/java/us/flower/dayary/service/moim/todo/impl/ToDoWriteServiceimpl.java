@@ -39,6 +39,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 	public void saveList(ToDoWriteList list,String id) {
 		// TODO Auto-generated method stub
 			list.getToDoWrite().setCreate_date(new java.sql.Date(System.currentTimeMillis()));
+			list.getToDoWrite().setStatus("New");
 			//생성자 설정
 			People p=peopleRepository.findByEmail(id);
 			list.getToDoWrite().setPeople(p);
@@ -116,6 +117,21 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 		else
 			return moimPeopleRepository.existsByMoim_idAndPeople_id(id, peopleId);
 	
+	}
+	@Override
+	public void updateById(long id, Date date) {
+		// TODO Auto-generated method stub
+		List<ToDoWrite> list=toDowriteRepository.findByMoim_id(id);
+		//현재시간이 todo시작 날짜보다 지난경우
+		for(int i=0;i< list.size();i++) {
+			ToDoWrite todo=list.get(i);
+			if(!(date.compareTo(todo.getFrom_date())<0)&&!(date.compareTo(todo.getTo_date())>0)){
+				todo.setStatus("In Progress");
+			}else if(date.compareTo(todo.getTo_date())>0) {
+				todo.setStatus("End");
+			}
+			toDowriteRepository.save(todo);
+		}
 	}
 	
 }

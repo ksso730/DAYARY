@@ -97,7 +97,7 @@ function onKeyDown(){
 	        contentType: "application/json; charset=utf-8",
 	        success:function(data){
 	        	 if(data.code==1){
-	                 location.href='/moimlistView/moimdetailView/'+ $('#moimNo').attr("data-moimNo");
+	                 location.href='/moimDetail/moimTodoList/moimtodostatus/'+ $('#moimNo').attr("data-moimNo");
 	             }else{
 	                 alert(data.message);
 	             }
