@@ -1,3 +1,50 @@
+$(document).ready(function(){
+	
+	$("#moim_image_file").on("change", handleImgFileSelect);
+	$('#preview_img').hide();
+});
+
+function handleImgFileSelect(e){
+	var files = e.target.files;
+	var filesArr = Array.prototype.slice.call(files);
+	
+	filesArr.forEach(function(f) {
+		if(!f.type.match("image.*")){
+			alert('파일을 확인해주세요.');
+			return;
+		}
+		
+		sel_file = f;
+		
+		var reader = new FileReader();
+		reader.onload = function(e){
+			$('#preview_img').attr("src", e.target.result);
+		}
+		reader.readAsDataURL(f);
+		$('.img-box.upload-club-img label').attr('style',"background-image: none");
+		$('#preview_img').show();
+	});
+}
+
+$(function () {
+
+	$('.club_camera').click(function (e) {
+
+		e.preventDefault();
+	
+		$('#moim_image_file').click();
+
+	});
+
+});
+
+function deletePreImage(){
+	$('#preview_img').hide();
+	$('#moim_image_file').val("");
+	$('.img-box.upload-club-img label').attr('style',"url(images/camera_image.jpg)");
+}
+
+
 function initMoimMake(opt){
    
    $.ajax({
@@ -23,19 +70,21 @@ function initMoimMake(opt){
             
             $('#categorybox').append('<option value="' + code + '">' + name + '</option>');
          }
-         $('#categorybox').selectmenu('refresh');
+        // $('#categorybox').selectmenu('refresh');
+         
       }
    });
    
 }
 
-
-
 $('#moimMake_btn').off().on('click', function () {
 
     var cate = document.getElementById('categorybox');
     var si = document.getElementById('sido_code');
+    	alert($('#sido_code').val());
+    	alert($('#sigoon_code').val());
     var goon = document.getElementById('sigoon_code');
+    
     
     let moim = {};
     moim.title = $('#title').val();
@@ -80,38 +129,8 @@ $('#moimMake_btn').off().on('click', function () {
 });
 
 $('#peopleLimit').keyup(function () {
-    numberKey();
+    $(this).val($(this).val().replace(/[^0-9]/g,""));
 });
-
-function numberKey() {
-
-    if (check_key() != 1) {
-        event.returnValue = false;
-        alert("숫자만 입력할 수 있습니다.");
-        document.getElementById('peopleLimit').value = '';
-        return;
-    }
-}
-
-function check_key() {
-    var char_ASCII = event.keyCode;
-
-    //숫자
-    if (char_ASCII >= 48 && char_ASCII <= 57)
-        return 1;
-    //영어
-    else if ((char_ASCII >= 65 && char_ASCII <= 90) || (char_ASCII >= 97 && char_ASCII <= 122))
-        return 2;
-    //특수기호
-    else if ((char_ASCII >= 33 && char_ASCII <= 47) || (char_ASCII >= 58 && char_ASCII <= 64)
-        || (char_ASCII >= 91 && char_ASCII <= 96) || (char_ASCII >= 123 && char_ASCII <= 126))
-        return 4;
-    //한글
-    else if ((char_ASCII >= 12592) || (char_ASCII <= 12687))
-        return 3;
-    else
-        return 0;
-}
 
 /**
  * 

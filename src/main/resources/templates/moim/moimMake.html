@@ -11,7 +11,7 @@
 /* 카메라 이미지스타일 */
 .upload-club-img {
     height: 240px;
-    background-color: #f4f4f4;
+    background-color: white; /* #f4f4f4 */
     border-radius: 4px;
     border: 1px solid #d8d8d8;
     position: relative;
@@ -21,15 +21,31 @@
 }
 .img-box.upload-club-img label {
     position: absolute;
-    width: 56px;
-    height: 56px; 
-    background-image: url(images/smallcameraimg.jpg);
+    width: 110px;
+    height: 90px; 
+    background-image: url(images/camera_image.jpg);
     cursor: pointer;
-    left: 50%;
-    top: 50%;
+    left: 46%;
+    top: 46%;
     margin-top: -28px;
     margin-left: -28px;
 } 
+
+  #moimMake_btn {
+  	margin-top: 20px;
+  }
+  
+  #preview_img {
+    position: absolute;
+  	width: 300px; 
+  	height: 200px;
+  	object-fit: ; original
+  }
+   
+   #del_img {
+  	float: right;
+  	vertical-align: bottom;
+  } 
 </style>
 
 <div class="site-wrap">
@@ -44,13 +60,13 @@
 
 
     <div class="site-cover site-cover-sm same-height overlay single-page"
-         style="background-image: url('images/img_4.jpg');">
+         style="background-image: url('images/img_5.jpg');">
         <div class="container">
             <div class="row same-height justify-content-center">
                 <div class="col-md-12 col-lg-10">
                     <div class="post-entry text-center">
-                        <h1 class="">나만의 모임을 만들어보세요!</h1>
-                        <p class="lead mb-4 text-white">관심 분야의 모임을 만들어보면 어떨까요?</p>
+                        <h2 class="">나만의 모임 만들기</h2>
+                        <p class="lead mb-4 text-white">관심 분야의 모임을 만들어 여러 사람들과 함께 도전해보는건 어떨까요</p>
                     </div>
                 </div>
             </div>
@@ -69,41 +85,48 @@
                       
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <label class="text-black">모임 이름 </label> <input
+                                <label class="text-black">모임 이름 (필수) </label> <input
                                     type="text" name="title" id="title" placeholder="모임이름을 입력하세요" class="form-control">
                             </div>
 
                         </div>
                         <div class="row form-group">
                             <div class="col-md-6">
-                                <label class="text-black">모임 인원수</label> 
+                                <label class="text-black">모임 인원수 (필수)</label> 
                                 <input
                                     type="number" name="peopleLimit" id="peopleLimit" class="form-control"
-                                    placeholder="2~999 입력"  min="0" max="40" step="1" >
+                                    placeholder="2~999 입력"  min="0" max="999" step="1" >
                             </div>
                         </div>
 
                         <div class="row form-group">
-
                             <div class="col-md-12">
-                                <label class="text-black">모임 주제 </label>
+                                <label class="text-black">모임 주제 (필수) </label>
                                 <select name="category" id="categorybox" class="form-control">
-                                    <option value="">필수 선택</option>
+                                    <option value="선택" selected="selected">필수 선택</option>
                                 </select>
                             </div>
                         </div>
-                        
+                       
                         <div class="row form-group">
                             <div class="col-md-6">
-                         		<label class="text-black">활동 지역 </label>
+                         		<label class="text-black">활동 지역 (필수) </label>
 		                        <select name="sido_code" id="sido_code" class="form-control">
-									<option>선택</option>
+									<option value="">선택</option>
 								</select> 
 								<select name="sigoon_code" id="sigoon_code" class="form-control">
-									<option>선택</option>
+									<option value="">선택</option>
 								</select>
 							</div>
 						</div>
+						
+						<div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="text-black">모임원 구성 방법</label><br>
+								<input type="radio" name="chk_info" value="HTML" che checked="checked">누구나(승인없이 모임 가입)      
+								<input type="radio" name="chk_info" value="CSS">승인필수(운영진의 승인 후 가입)
+                            </div>
+                        </div>
 						
                         <div class="row form-group">
                             <div class="col-md-12">
@@ -114,16 +137,18 @@
                             </div>
                         </div>
 
-                        <label class="text-black">모임대표사진 </label> <input type="file" id="moim_image_file" name="file"/>
+                        <label class="text-black">대표사진 </label> 
+                        <input type="file" id="moim_image_file" name="file"  hidden="true"/>
+                        <input type="button"  id="del_img" value="사진 삭제" onclick="deletePreImage();">
                         <div class="img-box upload-club-img mrgb48">
-                        	<label for="id_club_images" class="club_camera"></label>
-                        	<input type="file" name="moim_image">
-                        	<img id="preview" onerror="" alt="">
+                        	<label onclick="" for="id_club_images" class="club_camera"></label>
+<!--                          	<input type="file" id="moim_image_file" name="file" hidden="true">  -->
+                        	<img id="preview_img" onerror="" alt="">
                         </div>
                         
                         <div id="moimMake_btn" class="row form-group">
                             <div class="col-md-12">
-                                <div class="btn btn-primary py-2 px-4 text-white">모임만들기</div>
+                                <div class="btn btn-primary py-2 px-4 text-white" >모임만들기</div>
                             </div>
                         </div>
 
