@@ -1,7 +1,6 @@
 package us.flower.dayary.domain;
 
 import lombok.Data;
-import org.apache.ibatis.annotations.Many;
 import us.flower.dayary.domain.common.DateAudit;
 import javax.persistence.*;
 import java.util.List;
@@ -11,8 +10,23 @@ import java.util.List;
 @Table(name="COMMUNITY_BOARD_REPLY")
 public class CommunityBoardReply extends DateAudit {
 
-    @EmbeddedId
-    private CommunityBoardReplyId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="ID")
+    private long id;
+
+//    @EmbeddedId
+//    private CommunityBoardReplyId id;
+
+    @Column(name="PEOPLE_ID")
+    private long peopleId;
+
+    @ManyToOne
+    @JoinColumn(name = "COMMUNITY_BOARD_ID")
+    private CommunityBoard communityBoard;
+
+    @Column(name="BOARD_GROUP_ID")
+    private  long boardGroupId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
     private List<CommunityBoardReply> child;

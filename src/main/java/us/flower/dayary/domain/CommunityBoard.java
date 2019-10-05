@@ -6,10 +6,7 @@ import us.flower.dayary.domain.common.DateAudit;
 
 import java.util.List;
 
-/**
- * 커뮤니티게시판
- *   by choiseongjun
- */
+
 @Entity
 @Table(name="COMMUNITY_BOARD")
 @Data
@@ -38,7 +35,7 @@ public class CommunityBoard extends DateAudit{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard")
 	private List<File> files;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.communityBoard")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard")
 	private List<CommunityBoardReply> communityBoardReplies;
 
 	@Column(name="DELETE_FLAG" ,nullable=false, columnDefinition = "char(1) default 'N'")

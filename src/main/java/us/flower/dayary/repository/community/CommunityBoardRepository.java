@@ -12,8 +12,12 @@ import us.flower.dayary.domain.People;
 
 import java.util.List;
 
-public interface CommunityBoardRepository extends JpaRepository<CommunityBoard,Long>{
 
+/**
+ * 리포지토리 작명규칙
+ * FIND / SAVE / REMOVE / UPDATE
+ */
+public interface CommunityBoardRepository extends JpaRepository<CommunityBoard,Long>{
 
     // 게시글 목록 + 페이징
     Page<CommunityBoard> findAllByBoardGroupAndDeleteFlag(BoardGroup boardGroup, char deleteFlag, Pageable pageable);

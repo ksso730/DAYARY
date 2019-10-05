@@ -7,19 +7,15 @@
 <link th:href="@{/css/community/sidemenu.css}" rel="stylesheet" />
 <!-- 사이드메뉴css -->
 <div th:replace="layout/header::header" />
-<style>
-body {
-  padding-top: 70px;
-  padding-bottom: 30px;
-}
-
-
-</style>
 <script src="/ckeditor/ckeditor.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <div th:replace="community/sidemenu::sidemenu" />
-
+<style>
+	li{
+		list-style-type: none;
+	}
+</style>
 </head>
 
 <body>
@@ -31,15 +27,15 @@ body {
 			<!--<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">-->
 				<div class="mb-3">
 					<label for="title">제목</label>
-					<input type="text" class="form-control" name="title" id="title" readonly="true" th:value="${board.title}">
+					<input type="text" class="form-control" name="title" id="title" readonly="true" style="background-color: whitesmoke;" th:value="${board.title}">
 				</div>
 				<div class="mb-3">
 					<label for="writer_name">작성자</label>
-					<input type="text" class="form-control" name="writer_name" id="writer_name" readonly="true" th:value="${board.people.name}">
+					<input type="text" class="form-control" name="writer_name" id="writer_name" readonly="true"  style="background-color: whitesmoke;" th:value="${board.people.name}">
 				</div>
 				<div class="mb-3">
 					<label for="content">내용</label>
-					<textarea class="form-control" rows="20" name="content" id="content" readonly="true" th:inline="text">[[${board.memo}]]</textarea>
+					<textarea class="form-control" rows="20" name="content" id="content" readonly="true"  style="background-color: whitesmoke;"th:inline="text">[[${board.memo}]]</textarea>
 				</div>
 <!--				<div class="mb-3">-->
 <!--					<label for="tag">TAG</label>-->
@@ -54,6 +50,19 @@ body {
 					<button type="button" class="btn btn-sm btn-primary" id="community_list_btn" style="display: none;">목록</button>
 				</a>
 			</div>
+			<li style="margin: 50px 0px 100px 0px;">
+				<!-- end timeline-icon -->
+				<!-- begin timeline-body -->
+				<div class="timeline-body">
+					<div class="timeline-content">
+						<textarea class="form-control" id="borad_reply" rows="3" placeholder="댓글"></textarea>
+					</div>
+					<button class="btn btn-primary f-s-12 rounded-corner" id="board_reply_save_btn" type="button">저장</button>
+					<!--              <a th:href="@{'/community/communityList/findwrittenView/' + ${boardGroupId}}">-->
+				</div>
+				<!-- end timeline-body -->
+			</li>
+
 		</div>
 	</article>
 <script>

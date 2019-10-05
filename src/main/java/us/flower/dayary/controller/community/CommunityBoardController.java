@@ -23,6 +23,12 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
 
+
+/**
+ * 컨틀롤러 작명규칙
+ * GET / POST / DELETE / PUT
+ */
+
 @Controller
 public class CommunityBoardController {
 
@@ -72,7 +78,7 @@ public class CommunityBoardController {
 	 * @return
 	 */
 	@GetMapping("/community/board/{boardGroup}")
-	public String studyList(@PathVariable("boardGroup") String boardGroup, Model model,
+	public String getBoardList(@PathVariable("boardGroup") String boardGroup, Model model,
 							@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable, HttpSession session) {
 
 		// get board group id
@@ -105,7 +111,7 @@ public class CommunityBoardController {
 	 * @return
 	 */
 	@GetMapping("/community/timeLine")
-	public String CommunityView(Model model) {
+	public String getTimeLineList(Model model) {
 
 		// service
 		List<CommunityBoard> timeLineList = communityBoardService.getCommunityBoardList(1L);
@@ -125,7 +131,7 @@ public class CommunityBoardController {
 	 * @author choiseongjun
 	 */
 	@GetMapping("/community/timeLine/my")
-	public String CommunityfindwrittenView(Model model,HttpSession session) {
+	public String getTimeLineListSelf(Model model,HttpSession session) {
 
 		// session check
 		long peopleId = (long) session.getAttribute("peopleId");
@@ -148,7 +154,7 @@ public class CommunityBoardController {
 	 */
 	@ResponseBody
 	@DeleteMapping("/community/board/delete/{boardId}")
-	public Map<String, Object> sutdyDelete(@PathVariable("boardId") long boardId,
+	public Map<String, Object> deleteBoard(@PathVariable("boardId") long boardId,
 							  HttpSession session){
 
 		// return message
@@ -190,7 +196,7 @@ public class CommunityBoardController {
 	 */
 	@ResponseBody
 	@PostMapping("/community/board/{boardGroup}/like/{boardId}")
-	public Map<String, Object> studyLike( @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+	public Map<String, Object> addLike( @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
 							HttpSession session) {
 
 		// return value
@@ -227,7 +233,7 @@ public class CommunityBoardController {
 	 */
 	@ResponseBody
 	@PostMapping("/community/board/{boardGroup}/unLike/{boardId}")
-	public Map<String, Object> studyUnLike( @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+	public Map<String, Object> removeLike( @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
 										  HttpSession session) {
 
 		// return value
@@ -264,7 +270,7 @@ public class CommunityBoardController {
 	 * @return
 	 */
 	@GetMapping("/community/board/{boardGroup}/detail/{boardId}")
-	public String studyDetail(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+	public String getBoardDetail(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
 							  HttpSession session, Model model) {
 
 		// board group (게시판 그룹)
@@ -300,6 +306,41 @@ public class CommunityBoardController {
 		model.addAttribute("page", session.getAttribute("page"));
 
 		return "community/boardDetail";
+	}
+
+	/**
+	 * 게시글 댓글저장
+	 * @param boardGroup
+	 * @param boardId
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("/community/board/{boardGroup}/reply/{boardId}")
+	public HashMap<String, Object> postBoardReply(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+												  @RequestBody CommunityBoardReply reply, HttpSession session, Model model){
+		HashMap<String, Object> returnData = new HashMap<>();
+
+		if (reply.getMemo().equals(null) || reply.getMemo().equals("")) {
+			returnData.put("code", "0");
+			returnData.put("message", "내용을 입력해주세요");
+			return returnData;
+		}
+
+		Long peopleId = (Long) session.getAttribute("peopleId");//사용자세션정보 들고오기
+		Long boardGroupId = getBoargdGroupId(boardGroup);
+
+		try {
+			//communityBoardService.addBoardReply(peopleId,boardGroupId,boardId);
+			returnData.put("code", "1");
+			returnData.put("message", "저장되었습니다");
+
+		} catch (Exception e) {
+			returnData.put("code", "E3290");
+			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+		}
+
+		return returnData;
 	}
 
 

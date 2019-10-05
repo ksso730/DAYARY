@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.BoardLike;
 import us.flower.dayary.domain.CommunityBoard;
+import us.flower.dayary.domain.CommunityBoardReply;
 
 public interface CommunityBoardService {
 
@@ -46,4 +47,7 @@ public interface CommunityBoardService {
 
 	// 게시글 추천 삭제
 	void removeBoardLike(long peopleId, long boardId, long BoardGroupId);
+
+	// 게시글 댓글 저장
+	//void addBoardReply(CommunityBoardReply reply, long)
 }

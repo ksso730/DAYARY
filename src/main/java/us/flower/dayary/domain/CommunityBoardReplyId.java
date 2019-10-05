@@ -1,6 +1,7 @@
 package us.flower.dayary.domain;
 
 import lombok.Data;
+import us.flower.dayary.domain.common.DateAudit;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
