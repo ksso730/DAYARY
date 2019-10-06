@@ -61,17 +61,6 @@ public class InsertData {
     CommunityBoardRepository communityBoardRepository;
 	@Test
 	public void insertTest() {
-	    for(int i=0; i<17; i++){
-
-            CommunityBoard cb = new CommunityBoard();
-            cb.setMemo("test");
-            cb.setTitle("test");
-            cb.setDeleteFlag('N');
-            People p = new People();
-            p.setId(4L);
-            cb.setPeople(p);
-            communityBoardRepository.save(cb);
-
-        }
+	   communityBoardRepository.findById(119L);
 	}
 }

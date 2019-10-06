@@ -305,6 +305,12 @@ public class CommunityBoardController {
 		// set session page number (이전페이지 돌아갈때 사용)
 		model.addAttribute("page", session.getAttribute("page"));
 
+		// 댓글
+		model.addAttribute("replies", communityBoard.getCommunityBoardReplies());
+
+		// 사용자 id (댓글 삭제용)
+		model.addAttribute("id", peopleId);
+
 		return "community/boardDetail";
 	}
 
@@ -334,11 +340,12 @@ public class CommunityBoardController {
 		Long boardGroupId = getBoargdGroupId(boardGroup);
 
 		try {
-			communityBoardService.addBoardReply(reply, peopleId, boardId, boardGroupId);
+			reply = communityBoardService.addBoardReply(reply, peopleId, boardId, boardGroupId);
 			returnData.put("code", "1");
 			returnData.put("message", "저장되었습니다");
-			// 저장된 댓글
-			//model.addAttribute("reply", reply);
+			// 저장된 댓글 번호
+			returnData.put("id", reply.getId());
+			returnData.put("memo", reply.getMemo());
 
 		} catch (Exception e) {
 			returnData.put("code", "E3290");

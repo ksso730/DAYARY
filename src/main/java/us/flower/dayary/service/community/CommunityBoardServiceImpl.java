@@ -47,7 +47,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		communityBoard.setMemo(communityBoard.getMemo());
 		communityBoard.setBoardGroup(boardGroup);
 		communityBoard.setPeople(people);
-		communityBoard.setDeleteFlag('N');
+		communityBoard.setDeleteFlag("N");
 		communityBoardRepository.save(communityBoard);
 
 	}
@@ -100,7 +100,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		BoardGroup boardGroup = new BoardGroup();
 		boardGroup.setId(boardGroupId);
 
-		Page<CommunityBoard> communityBoardList = communityBoardRepository.findAllByBoardGroupAndDeleteFlag(boardGroup, 'N',pageable);
+		Page<CommunityBoard> communityBoardList = communityBoardRepository.findAllByBoardGroupAndDeleteFlag(boardGroup, "N" ,pageable);
 
 		return communityBoardList;
 	}
@@ -116,7 +116,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		BoardGroup boardGroup = new BoardGroup();
 		boardGroup.setId(boardGroupId);
 
-		List<CommunityBoard> timeLineList = communityBoardRepository.findAllByBoardGroupAndDeleteFlag(boardGroup, 'N');
+		List<CommunityBoard> timeLineList = communityBoardRepository.findAllByBoardGroupAndDeleteFlag(boardGroup, "N");
 
 		return timeLineList;
 	}
@@ -136,7 +136,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		People people = new People();
 		people.setId(peopleId);
 
-		List<CommunityBoard> timeLineList = communityBoardRepository.findAllByBoardGroupAndDeleteFlagAndPeople(boardGroup, 'N', people);
+		List<CommunityBoard> timeLineList = communityBoardRepository.findAllByBoardGroupAndDeleteFlagAndPeople(boardGroup, "N", people);
 
 		return timeLineList;
 	}
@@ -172,7 +172,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	@Override
 	public void deleteBoard(long boardId) {
 		CommunityBoard communityBoard = communityBoardRepository.getOne(boardId);
-		communityBoard.setDeleteFlag('Y');
+		communityBoard.setDeleteFlag("Y");
 		communityBoardRepository.save(communityBoard);
 	}
 
@@ -264,7 +264,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	 * @param boardGroupId
 	 */
 	@Override
-	public void addBoardReply(CommunityBoardReply reply, long peopleId, long boardId, long boardGroupId) {
+	public CommunityBoardReply addBoardReply(CommunityBoardReply reply, long peopleId, long boardId, long boardGroupId) {
 
 		reply.setPeopleId(peopleId);
 		CommunityBoard board = communityBoardRepository.getOne(boardId);
@@ -275,7 +275,8 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		boardReplyRepository.save(reply);
 
 		// update board
-		//board.getCommunityBoardReplies().add(reply);
+		board.getCommunityBoardReplies().add(reply);
 
+		return reply;
 	}
 }

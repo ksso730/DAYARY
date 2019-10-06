@@ -1,9 +1,11 @@
 package us.flower.dayary.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import us.flower.dayary.domain.common.DateAudit;
 import javax.persistence.*;
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.List;
 @Data
 @Table(name="COMMUNITY_BOARD_REPLY")
 @ToString(exclude = "communityBoard")
+@DynamicInsert
+@DynamicUpdate
 public class CommunityBoardReply extends DateAudit {
 
     @Id
@@ -48,6 +52,7 @@ public class CommunityBoardReply extends DateAudit {
     private CommunityBoardReply parent;
 
 
-    @Column(name="DELETE_FLAG" ,nullable=false, columnDefinition = "char(1) default 'N'")
-    private char deleteFlag;
+    @Column(name="DELETE_FLAG" ,nullable=false)
+    @ColumnDefault("'N'")
+    private String deleteFlag;
 }

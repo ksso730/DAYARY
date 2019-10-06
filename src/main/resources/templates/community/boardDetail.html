@@ -50,7 +50,7 @@
 					<button type="button" class="btn btn-sm btn-primary" id="community_list_btn" style="display: none;">목록</button>
 				</a>
 			</div>
-			<li style="margin: 50px 0px 100px 0px;">
+			<li style="margin: 50px 0px 50px 0px;" id="reply_content">
 				<!-- end timeline-icon -->
 				<!-- begin timeline-body -->
 				<div class="timeline-body">
@@ -61,8 +61,13 @@
 					<!--              <a th:href="@{'/community/communityList/findwrittenView/' + ${boardGroupId}}">-->
 				</div>
 				<!-- end timeline-body -->
+				<div class="timeline-body" th:each="reply : ${replies}">
+					<div class="timeline-content">
+						<textarea class="form-control" th:id="${reply.id}" rows="3" readonly="true" placeholder="댓글" th:inline="text">[[${reply.memo}]]</textarea>
+						<button th:if="${id.equals(reply.peopleId)}" class="btn btn-danger f-s-12 rounded-corner" th:value="${reply.id}" id="board_reply_delete_btn" type="button">삭제</button>
+					</div>
+				</div>
 			</li>
-
 		</div>
 	</article>
 <script>
@@ -102,6 +107,13 @@
 			// 댓글 저장
 			$('#board_reply_save_btn').off().on('click', function(){
 
+				// check title data input
+				if($('#borad_reply').val()==''||$('#borad_reply').val()=='undefined'||$('#borad_reply').val()==null){
+					alert('댓글 내용을 입력하세요');
+					$('#borad_reply').focus();
+					return;
+				}
+
 				let communityBoardReply = {
 					"memo" : $('#borad_reply').val()
 				};
@@ -115,6 +127,15 @@
 					success: function(data){
 						if(data.code==1){
 							alert(data.message);
+
+							let re = "<div class='timeline-body'>";
+							    re += "<div class='timeline-content'>";
+								re += "<textarea class='form-control' id=" + data.id + " rows='3' readonly='true' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
+								re += "<button class='btn btn-danger f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' type='button'>삭제</button>";
+								re += "</div>";
+								re += "</div>";
+
+								$('#reply_content').append(re);
 						}else{
 							alert(data.message)
 						}
