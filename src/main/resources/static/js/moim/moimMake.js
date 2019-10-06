@@ -1,5 +1,6 @@
 $(document).ready(function(){
-	
+	//로딩화면 스타트
+	isLoading.start();
 	$("#moim_image_file").on("change", handleImgFileSelect);
 	$('#preview_img').hide();
 });
@@ -46,7 +47,7 @@ function deletePreImage(){
 
 
 function initMoimMake(opt){
-   
+	
    $.ajax({
       
       url:'/getMoimCategory',
@@ -74,7 +75,8 @@ function initMoimMake(opt){
          
       }
    });
-   
+ //로딩화면 스탑
+   isLoading.stop();
 }
 
 $('#moimMake_btn').off().on('click', function () {
