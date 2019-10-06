@@ -205,12 +205,18 @@ form.example::after {
 						
 				<h2>모임 검색하기</h2>
 
-				<form class="example" action="">
-					<input type="text" placeholder="Search.." name="search">
-					<button type="submit">
+			<!-- 	<form action="/moimlistView" class="form-inline">
+			        <div class="form-group mb-2">
+			         <input type="text" class="form-control" name="title" placeholder="Search User" />
+			         <input type="submit" value="Search"  class="btn btn-primary"/>
+			        </div>
+			     </form> -->
+				 <form id="form1" name="form1"  method="get" class="example">
+					<input type="text" placeholder="Search.." name="title">
+					<button type="submit" onclick="fn_formSubmit()">
 						<i class="fa fa-search"></i>
 					</button>
-				</form>
+				</form> 
 			</div>
 		</div>
 	</div>

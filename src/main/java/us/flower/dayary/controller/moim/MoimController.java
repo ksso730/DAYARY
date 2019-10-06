@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,7 +51,13 @@ public class MoimController {
 	ToDoWriteRepository toDowriteRepository;
     
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
- 
+//    @GetMapping("/searchTitle")
+//	public String listUsers(Model model, @RequestParam(defaultValue="")  String name) {
+//		
+//    	System.out.println(name);
+//    	model.addAttribute("moimsearchList", moimService.findByTitle(name));
+//		return "moim/moimList";
+//	}
     /**
      * 모임 삭제
      *
@@ -101,7 +108,6 @@ public class MoimController {
     	Map<String, Object> categoryList = new HashMap<String, Object>();
     	try {
     		categoryList =  moimService.getMoimCategory();
-    		System.out.println(categoryList);
     	}catch (Exception e) {
 		}
     	return categoryList;
@@ -212,17 +218,26 @@ public class MoimController {
 	 * @author choiseongjun
 	 */
 	@GetMapping("/moimlistView") 
-	public String moimListView(@PageableDefault Pageable pageable,HttpSession session,Model model) {
+	public String moimListView(@PageableDefault Pageable pageable,HttpSession session,Model model,@RequestParam(required = false) String title) {
 
 		 int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
 	        pageable = PageRequest.of(page, 9,Sort.Direction.DESC,"id");//내림차순으로 정렬한다 
 	        
-	    Page<Moim> moimList= moimService.selectListAll(pageable);//모임리스트 출력한다
-		long moimListcount=moimRepository.count();
-	    model.addAttribute("moimList",moimList);
+	        
+	    
+	    if(title!=null) {
+	    	Page<Moim> moimList= moimService.selecttitleList(pageable,title);//타이틀을 검색한 모임리스트 출력한다	
+	    	model.addAttribute("moimList",moimList);
+	    }else{
+	    	Page<Moim> moimList= moimService.selectListAll(pageable);//모든 모임리스트 출력한다	
+	    	model.addAttribute("moimList",moimList);	    	
+	    }
+	    long moimListcount=moimRepository.count();
+	    
 		model.addAttribute("moimListcount",moimListcount);
-	
 		
+    	List<Moim> searchList=moimService.findByTitle(title);
+    	 model.addAttribute("moimsearchList", searchList);
 		return "moim/moimList"; 
 	}
 	

@@ -134,14 +134,32 @@ public class MoimServiceImpl implements moimService{
 	}
 
 
-	@Override
-	public Page<Moim> selectListAll(Pageable pageable) {
-		return moimRepository.findAll(pageable);
-	}
+//	@Override
+//	public Page<Moim> selectListAll(Pageable pageable) {
+//		return moimRepository.findAll(pageable);
+//	}
 
 	@Override
 	public String findMoimPeopleNoOne(long peopleId, long no) {
 		return peopleRepository.findMoimPeopleNoOne(peopleId,no);
+	}
+
+	@Override
+	public List<Moim> findByTitle(String name) {
+		return  moimRepository.findByTitleLike("%"+name+"%");
+	}
+
+	
+
+	@Override
+	public Page<Moim> selectListAll(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return moimRepository.findAll(pageable);
+	}
+
+	@Override
+	public Page<Moim> selecttitleList(Pageable pageable, String title) {
+		return moimRepository.findAllByTitleLike(pageable,"%"+title+"%");
 	}
 	
 

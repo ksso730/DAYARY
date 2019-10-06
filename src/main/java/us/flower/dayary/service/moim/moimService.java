@@ -34,6 +34,10 @@ public interface moimService {
 
 	Page<Moim> selectListAll(Pageable pageable);
 
+	List<Moim> findByTitle(String name);
+
+	Page<Moim> selecttitleList(Pageable pageable, String title);
+
 
 
 }
