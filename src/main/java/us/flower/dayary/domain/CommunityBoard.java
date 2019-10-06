@@ -1,15 +1,18 @@
 package us.flower.dayary.domain;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import us.flower.dayary.domain.common.DateAudit;
-
 import java.util.List;
 
 
 @Entity
 @Table(name="COMMUNITY_BOARD")
 @Data
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class CommunityBoard extends DateAudit{
 
 	@Id
@@ -32,10 +35,10 @@ public class CommunityBoard extends DateAudit{
 	@Lob
 	private String memo;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard")
-	private List<File> files;
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard")
+//	private List<File> files;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard", cascade = CascadeType.ALL)
 	private List<CommunityBoardReply> communityBoardReplies;
 
 	@Column(name="DELETE_FLAG" ,nullable=false, columnDefinition = "char(1) default 'N'")

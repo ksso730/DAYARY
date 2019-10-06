@@ -316,9 +316,12 @@ public class CommunityBoardController {
 	 * @param model
 	 * @return
 	 */
+	@ResponseBody
 	@PostMapping("/community/board/{boardGroup}/reply/{boardId}")
 	public HashMap<String, Object> postBoardReply(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
 												  @RequestBody CommunityBoardReply reply, HttpSession session, Model model){
+		// RequestBody : CommunityBoard / reply ??
+
 		HashMap<String, Object> returnData = new HashMap<>();
 
 		if (reply.getMemo().equals(null) || reply.getMemo().equals("")) {
@@ -331,9 +334,11 @@ public class CommunityBoardController {
 		Long boardGroupId = getBoargdGroupId(boardGroup);
 
 		try {
-			//communityBoardService.addBoardReply(peopleId,boardGroupId,boardId);
+			communityBoardService.addBoardReply(reply, peopleId, boardId, boardGroupId);
 			returnData.put("code", "1");
 			returnData.put("message", "저장되었습니다");
+			// 저장된 댓글
+			//model.addAttribute("reply", reply);
 
 		} catch (Exception e) {
 			returnData.put("code", "E3290");

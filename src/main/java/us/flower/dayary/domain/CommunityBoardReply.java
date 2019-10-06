@@ -1,6 +1,9 @@
 package us.flower.dayary.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import lombok.ToString;
 import us.flower.dayary.domain.common.DateAudit;
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name="COMMUNITY_BOARD_REPLY")
+@ToString(exclude = "communityBoard")
 public class CommunityBoardReply extends DateAudit {
 
     @Id
@@ -21,12 +25,12 @@ public class CommunityBoardReply extends DateAudit {
     @Column(name="PEOPLE_ID")
     private long peopleId;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "COMMUNITY_BOARD_ID")
     private CommunityBoard communityBoard;
 
     @Column(name="BOARD_GROUP_ID")
-    private  long boardGroupId;
+    private long boardGroupId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
     private List<CommunityBoardReply> child;
@@ -40,7 +44,7 @@ public class CommunityBoardReply extends DateAudit {
 //            @JoinColumn(name="COMMUNITY_BOARD_ID", referencedColumnName = "COMMUNITY_BOARD_ID", insertable = false, updatable = false),
 //            @JoinColumn(name="BOARD_GROUP_ID", referencedColumnName = "BOARD_GROUP_ID", insertable = false, updatable = false),
 //    })
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private CommunityBoardReply parent;
 
 

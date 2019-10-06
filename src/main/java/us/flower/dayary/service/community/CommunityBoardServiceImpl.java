@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import us.flower.dayary.domain.*;
 import us.flower.dayary.repository.community.BoardLikeRepository;
+import us.flower.dayary.repository.community.BoardReplyRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 
 import java.util.List;
@@ -23,6 +24,9 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 
 	@Autowired
 	BoardLikeRepository boardLikeRepository;
+
+	@Autowired
+	BoardReplyRepository boardReplyRepository;
 
 	/**
 	 *  게시글 작성
@@ -250,5 +254,28 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		CommunityBoard communityBoard = communityBoardRepository.getOne(boardId);
 		communityBoard.setHeart(communityBoard.getHeart()-1);
 		communityBoardRepository.save(communityBoard);
+	}
+
+	/**
+	 * 댓글 저장
+	 * @param reply
+	 * @param peopleId
+	 * @param boardId
+	 * @param boardGroupId
+	 */
+	@Override
+	public void addBoardReply(CommunityBoardReply reply, long peopleId, long boardId, long boardGroupId) {
+
+		reply.setPeopleId(peopleId);
+		CommunityBoard board = communityBoardRepository.getOne(boardId);
+		reply.setCommunityBoard(board);
+		reply.setBoardGroupId(boardGroupId);
+
+		// save reply
+		boardReplyRepository.save(reply);
+
+		// update board
+		//board.getCommunityBoardReplies().add(reply);
+
 	}
 }

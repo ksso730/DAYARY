@@ -49,5 +49,5 @@ public interface CommunityBoardService {
 	void removeBoardLike(long peopleId, long boardId, long BoardGroupId);
 
 	// 게시글 댓글 저장
-	//void addBoardReply(CommunityBoardReply reply, long)
+	void addBoardReply(CommunityBoardReply reply, long peopleId, long boardId, long boardGroupId);
 }
