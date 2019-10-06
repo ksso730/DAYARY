@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Moim;
 
 public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificationExecutor<Moim>{
@@ -22,6 +23,12 @@ public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificat
 
 
 	Page<Moim> findAllByTitleLike(Pageable pageable, String title);
+ 
+
+	Page<Moim> findAllByTitleLikeAndCategory(Pageable pageable, String string, Common common);
+
+
+	Page<Moim> findAllByTitleLikeOrCategory(Pageable pageable, String string, Common common);
 
 
 

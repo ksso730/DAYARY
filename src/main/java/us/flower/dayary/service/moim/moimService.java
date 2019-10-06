@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
@@ -36,7 +37,7 @@ public interface moimService {
 
 	List<Moim> findByTitle(String name);
 
-	Page<Moim> selecttitleList(Pageable pageable, String title);
+	Page<Moim> selecttitleList(Pageable pageable, String title, Common common);
 
 
 

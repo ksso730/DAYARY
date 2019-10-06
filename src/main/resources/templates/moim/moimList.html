@@ -187,14 +187,23 @@ form.example::after {
 							onclick="filterSelection('all')">모든 주제 보기</button>
 
 					</div> -->
-					<h2>주제<form >
+					
+
+			<!-- 	<form action="/moimlistView" class="form-inline">
+			        <div class="form-group mb-2">
+			         <input type="text" class="form-control" name="title" placeholder="Search User" />
+			         <input type="submit" value="Search"  class="btn btn-primary"/>
+			        </div>
+			     </form> -->
+				 <form id="form1" name="form1"  method="get" class="example">
+				 <h2>주제
 						<div >
 							<select name="category" id="categorybox" class="form-control">
 								<option value="">필수 선택</option>
 							</select>
 						</div>
 						
-					</form></h2>
+					</h2>
                      <label class="text-black">활동 지역 </label>
 	                   	   <select name="sido_code" id="sido_code" class="form-control">
 							<option>선택</option>
@@ -204,14 +213,6 @@ form.example::after {
 						</select>
 						
 				<h2>모임 검색하기</h2>
-
-			<!-- 	<form action="/moimlistView" class="form-inline">
-			        <div class="form-group mb-2">
-			         <input type="text" class="form-control" name="title" placeholder="Search User" />
-			         <input type="submit" value="Search"  class="btn btn-primary"/>
-			        </div>
-			     </form> -->
-				 <form id="form1" name="form1"  method="get" class="example">
 					<input type="text" placeholder="Search.." name="title">
 					<button type="submit" onclick="fn_formSubmit()">
 						<i class="fa fa-search"></i>

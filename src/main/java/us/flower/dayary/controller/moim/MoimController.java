@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
@@ -218,26 +219,31 @@ public class MoimController {
 	 * @author choiseongjun
 	 */
 	@GetMapping("/moimlistView") 
-	public String moimListView(@PageableDefault Pageable pageable,HttpSession session,Model model,@RequestParam(required = false) String title) {
+	public String moimListView(@PageableDefault Pageable pageable,HttpSession session
+			,Model model,@RequestParam(required = false) String title
+			,@RequestParam(required = false) String category) {
 
 		 int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
 	        pageable = PageRequest.of(page, 9,Sort.Direction.DESC,"id");//내림차순으로 정렬한다 
 	        
 	        
+	        Common common=new Common();
+	        common.setCommCode(category);//검색조건 해올때 필요하다 by choiseongjun 2019-10-06
 	    
-	    if(title!=null) {
-	    	Page<Moim> moimList= moimService.selecttitleList(pageable,title);//타이틀을 검색한 모임리스트 출력한다	
+	    if(title!=null||category!=null) {
+	    	Page<Moim> moimList= moimService.selecttitleList(pageable,title,common);//타이틀을 검색한 모임리스트 출력한다	
 	    	model.addAttribute("moimList",moimList);
+	    	long moimListcount=moimList.getTotalElements();//각각 카운트를 센다 
+	    	model.addAttribute("moimListcount",moimListcount);
 	    }else{
 	    	Page<Moim> moimList= moimService.selectListAll(pageable);//모든 모임리스트 출력한다	
 	    	model.addAttribute("moimList",moimList);	    	
+	    	long moimListcount=moimList.getTotalElements();
+	    	model.addAttribute("moimListcount",moimListcount);
 	    }
-	    long moimListcount=moimRepository.count();
 	    
-		model.addAttribute("moimListcount",moimListcount);
+	
 		
-    	List<Moim> searchList=moimService.findByTitle(title);
-    	 model.addAttribute("moimsearchList", searchList);
 		return "moim/moimList"; 
 	}
 	

@@ -157,9 +157,15 @@ public class MoimServiceImpl implements moimService{
 		return moimRepository.findAll(pageable);
 	}
 
+//	@Override
+//	public Page<Moim> selecttitleList(Pageable pageable, String title) {
+//		return moimRepository.findAllByTitleLike(pageable,"%"+title+"%");
+//	}
+
 	@Override
-	public Page<Moim> selecttitleList(Pageable pageable, String title) {
-		return moimRepository.findAllByTitleLike(pageable,"%"+title+"%");
+	public Page<Moim> selecttitleList(Pageable pageable, String title, Common common) {
+		// TODO Auto-generated method stub
+		return moimRepository.findAllByTitleLikeAndCategory(pageable,"%"+title+"%",common);
 	}
 	
 
