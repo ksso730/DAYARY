@@ -289,9 +289,10 @@ body {
                         <a href="#">
                            <div class="inbox-item" >
                               <div class="inbox-item-img">
-                                 <img
-									th:src="${moimpeopleList.imageName!=null} ? ${'/getMoimImage/'moimpeopleList.imageName'.'+moimpeopleList.imageExtension} : '/images/default_people.png'"
-									 	class="rounded-circle" alt="">  
+					        <img th:src="${moimpeopleList.imageName!=null} ?${'/getMoimImage/'+moimpeopleList.imageName+'.'+moimpeopleList.imageExtension} : '/images/default_people.png'"
+								class="rounded-circle" alt=""
+								> 
+                        
                               </div>
                               
                               <p class="inbox-item-author"> 
