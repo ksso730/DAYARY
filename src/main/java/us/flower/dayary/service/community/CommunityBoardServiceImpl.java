@@ -88,6 +88,27 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		}
 	}
 
+
+	/**
+	 * 사용자와 댓글 작성자 동일한지 확인
+	 * @param peopleId
+	 * @param replyId
+	 * @return
+	 */
+	@Override
+	public boolean checkReplyWriter(Long peopleId, long replyId) {
+
+		CommunityBoardReply reply = boardReplyRepository.getOne(replyId);
+
+		// 댓글 사용자와 작성자가 같을때
+		if(peopleId.longValue()==reply.getPeopleId()){
+			deleteReply(reply);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	/**
 	 * 게시글 목록
 	 * @param boardGroupId
@@ -104,6 +125,8 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 
 		return communityBoardList;
 	}
+
+
 
 	/**
 	 * 게시글 목록 (타임라인)
@@ -141,6 +164,17 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		return timeLineList;
 	}
 
+	@Override
+	public List<CommunityBoardReply> getCommunityReplyList(long boardId) {
+
+		CommunityBoard board =  getCommunityBoard(boardId);
+
+		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.findAllByCommunityBoardAndDeleteFlag(board, "N");
+
+		return communityBoardReplies;
+
+	}
+
 
 	/**
 	 * 게시글 Detail 조회
@@ -155,7 +189,10 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		return communityBoard;
 	}
 
-	// 조회수 +1
+	/**
+	 * 게시글 조회수 +!
+	 * @param communityBoard
+	 */
 	@Override
 	public void addViewCount(CommunityBoard communityBoard) {
 
@@ -174,6 +211,16 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		CommunityBoard communityBoard = communityBoardRepository.getOne(boardId);
 		communityBoard.setDeleteFlag("Y");
 		communityBoardRepository.save(communityBoard);
+	}
+
+	/**
+	 * 댓글 삭제
+	 * @param reply
+	 */
+	@Override
+	public void deleteReply(CommunityBoardReply reply) {
+		reply.setDeleteFlag("Y");
+		boardReplyRepository.save(reply);
 	}
 
 	/**

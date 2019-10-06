@@ -112,7 +112,7 @@ $(document).ready(function(){
               <td th:utext="${#strings.replace(board.createdAt,'T',' ')}"></td>
               <td th:text="${board.viewCount}"></td>
               <td th:text="${board.heart}"></td>
-              <td>7</td>
+              <td th:text="${board.communityBoardReplies.size()}"></td>
           </tr>
         </tbody>
       </table>

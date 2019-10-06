@@ -21,6 +21,9 @@ public interface CommunityBoardService {
 	// 게시글 작성자와 사용자 아이디 같은지 확인
 	boolean checkWriter(Long peopleId, CommunityBoard communityBoard);
 
+	// 게시글 댓글 작성자와 사용자 아이디 같은지 확인
+	boolean checkReplyWriter(Long peopleId, long replyId);
+
 	// 게시판 작성글 리스트
 	Page<CommunityBoard> getCommunityBoardList(long boardGroupId, Pageable pageable);
 
@@ -30,6 +33,9 @@ public interface CommunityBoardService {
 	// 타임라인 본인글 리스트
 	List<CommunityBoard> getCommunityBoardList(long boardGroupId, long peopleId);
 
+	// 댓글 리스트
+	List<CommunityBoardReply> getCommunityReplyList(long boardId);
+
 	// 게시글 Detail
 	CommunityBoard getCommunityBoard(long boardId);
 
@@ -38,6 +44,9 @@ public interface CommunityBoardService {
 
 	// 게시글 삭제
 	void deleteBoard(long boardId);
+
+	// 댓글 삭제
+	void deleteReply(CommunityBoardReply reply);
 
 	// 이미 추천한 게시글인지 확인
 	boolean checkBoardLike(long peopleId, long boardId, long boardGroupId);

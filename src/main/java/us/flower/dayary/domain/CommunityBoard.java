@@ -5,6 +5,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import lombok.ToString;
 import us.flower.dayary.domain.common.DateAudit;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Table(name="COMMUNITY_BOARD")
 @Data
+@ToString(exclude = "communityBoardReplies")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class CommunityBoard extends DateAudit{
 

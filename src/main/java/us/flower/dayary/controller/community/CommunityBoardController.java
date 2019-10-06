@@ -305,8 +305,8 @@ public class CommunityBoardController {
 		// set session page number (이전페이지 돌아갈때 사용)
 		model.addAttribute("page", session.getAttribute("page"));
 
-		// 댓글
-		model.addAttribute("replies", communityBoard.getCommunityBoardReplies());
+		// 댓글 (전체)
+		model.addAttribute("replies", communityBoardService.getCommunityReplyList(boardId));
 
 		// 사용자 id (댓글 삭제용)
 		model.addAttribute("id", peopleId);
@@ -314,46 +314,6 @@ public class CommunityBoardController {
 		return "community/boardDetail";
 	}
 
-	/**
-	 * 게시글 댓글저장
-	 * @param boardGroup
-	 * @param boardId
-	 * @param session
-	 * @param model
-	 * @return
-	 */
-	@ResponseBody
-	@PostMapping("/community/board/{boardGroup}/reply/{boardId}")
-	public HashMap<String, Object> postBoardReply(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
-												  @RequestBody CommunityBoardReply reply, HttpSession session, Model model){
-		// RequestBody : CommunityBoard / reply ??
-
-		HashMap<String, Object> returnData = new HashMap<>();
-
-		if (reply.getMemo().equals(null) || reply.getMemo().equals("")) {
-			returnData.put("code", "0");
-			returnData.put("message", "내용을 입력해주세요");
-			return returnData;
-		}
-
-		Long peopleId = (Long) session.getAttribute("peopleId");//사용자세션정보 들고오기
-		Long boardGroupId = getBoargdGroupId(boardGroup);
-
-		try {
-			reply = communityBoardService.addBoardReply(reply, peopleId, boardId, boardGroupId);
-			returnData.put("code", "1");
-			returnData.put("message", "저장되었습니다");
-			// 저장된 댓글 번호
-			returnData.put("id", reply.getId());
-			returnData.put("memo", reply.getMemo());
-
-		} catch (Exception e) {
-			returnData.put("code", "E3290");
-			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
-		}
-
-		return returnData;
-	}
 
 
 	/**
@@ -517,5 +477,84 @@ public class CommunityBoardController {
 		return returnData;
 	}
 
+
+	/**
+	 *  댓글 삭제
+	 * @param replyId
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@DeleteMapping("/community/board/reply/delete/{replyId}")
+	public Map<String, Object> deleteReply(@PathVariable("replyId") long replyId,
+										   HttpSession session){
+
+		// return message
+		Map<String, Object> returnData = new HashMap<>();
+
+		// session user id
+		Long peopleId = (Long) session.getAttribute("peopleId");
+
+		// 댓글 작성자와 현재 세션의 사용자 같은지
+		boolean check = communityBoardService.checkReplyWriter(peopleId, replyId);
+
+		// 댓글 작성자가 본인이라면
+		if(check){
+			try {
+				returnData.put("code", "1");
+				returnData.put("message", "삭제되었습니다");
+
+			} catch (Exception e) {
+				returnData.put("code", "E3290");
+				returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+			}
+		}else {
+			returnData.put("code", "E3290");
+			returnData.put("message", "게시글 작성자만 삭제할 수 있습니다.");
+		}
+
+		return returnData;
+	}
+
+	/**
+	 * 게시글 댓글저장
+	 * @param boardGroup
+	 * @param boardId
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/community/board/{boardGroup}/reply/{boardId}")
+	public HashMap<String, Object> postBoardReply(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+												  @RequestBody CommunityBoardReply reply, HttpSession session, Model model){
+		// RequestBody : CommunityBoard / reply ??
+
+		HashMap<String, Object> returnData = new HashMap<>();
+
+		if (reply.getMemo().equals(null) || reply.getMemo().equals("")) {
+			returnData.put("code", "0");
+			returnData.put("message", "내용을 입력해주세요");
+			return returnData;
+		}
+
+		Long peopleId = (Long) session.getAttribute("peopleId");//사용자세션정보 들고오기
+		Long boardGroupId = getBoargdGroupId(boardGroup);
+
+		try {
+			reply = communityBoardService.addBoardReply(reply, peopleId, boardId, boardGroupId);
+			returnData.put("code", "1");
+			returnData.put("message", "저장되었습니다");
+			// 저장된 댓글 번호
+			returnData.put("id", reply.getId());
+			returnData.put("memo", reply.getMemo());
+
+		} catch (Exception e) {
+			returnData.put("code", "E3290");
+			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+		}
+
+		return returnData;
+	}
 
 }

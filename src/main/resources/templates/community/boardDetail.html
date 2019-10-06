@@ -61,16 +61,44 @@
 					<!--              <a th:href="@{'/community/communityList/findwrittenView/' + ${boardGroupId}}">-->
 				</div>
 				<!-- end timeline-body -->
-				<div class="timeline-body" th:each="reply : ${replies}">
+				<div class="timeline-body" th:each="reply:${replies}" th:id="${reply.id}">
 					<div class="timeline-content">
-						<textarea class="form-control" th:id="${reply.id}" rows="3" readonly="true" placeholder="댓글" th:inline="text">[[${reply.memo}]]</textarea>
-						<button th:if="${id.equals(reply.peopleId)}" class="btn btn-danger f-s-12 rounded-corner" th:value="${reply.id}" id="board_reply_delete_btn" type="button">삭제</button>
+						<textarea class="form-control" rows="3" readonly="true" placeholder="댓글" th:inline="text">[[${reply.memo}]]</textarea>
+						<button th:if="${id.equals(reply.peopleId)}" class="btn btn-danger f-s-12 rounded-corner" th:value="${reply.id}" onclick="removeReply(this.value)" type="button">삭제</button>
 					</div>
 				</div>
 			</li>
 		</div>
 	</article>
 <script>
+		function removeReply(val){
+
+				const replyId = val;
+				if(confirm('정말 삭제하시겠습니까?')){
+
+
+					$.ajax({
+						url:'/community/board/reply/delete/' + replyId,
+						type:'DELETE',
+						contentType: 'application/json; charset=UTF-8',
+						dataType:'json',
+						data: {},
+						success:function(data){
+							if(data.code==1){
+								alert(data.message);
+								// 화면에서 제거
+								$('#' + replyId).remove();
+							}else{
+								alert(data.message)
+							}
+						},
+						error:function(xhr,error){
+
+						}
+					});
+				}
+		};
+
 		$(document).ready(function(){
 			let baseTitle;
 			let baseContent;
@@ -128,10 +156,11 @@
 						if(data.code==1){
 							alert(data.message);
 
-							let re = "<div class='timeline-body'>";
+							// 댓글 div
+							let re = "<div class='timeline-body' id=" + data.id + ">";
 							    re += "<div class='timeline-content'>";
-								re += "<textarea class='form-control' id=" + data.id + " rows='3' readonly='true' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
-								re += "<button class='btn btn-danger f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' type='button'>삭제</button>";
+								re += "<textarea class='form-control' rows='3' readonly='true' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
+								re += "<button class='btn btn-danger f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' onclick='removeReply(this.value)' type='button'>삭제</button>";
 								re += "</div>";
 								re += "</div>";
 
@@ -297,6 +326,8 @@
 					});
 				}
 			});
+
+
 		});
 </script>
 </body>
