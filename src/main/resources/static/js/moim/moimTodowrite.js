@@ -48,25 +48,16 @@ function newElement() {
 }
 
 
- $(document).ready(function () {
 
      $("#from_date, #to_date ").datepicker({
-         showOn: 'both'
-             , buttonImageOnly: true
-             , dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'] // 요일의 한글 형식.
-             , monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
-             , monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
-             , dateFormat: "yy-mm-dd"
-             , buttonText: "달력"
+        
      });
- });  
 
-출처: https://plogds.tistory.com/309 [플로그]
 //날짜범위체크 종료일이 시작일보다 늦을경우 
- let d=new Date();
+var d=new Date();
 function check2(){
-	var from =$( "#from_date" ).val();
-	var to=$( "#to_date" ).val();
+	var from =new Date($( "#from_date" ).val());
+	var to=new Date($( "#to_date" ).val());
  if(from>to){
 	 alert("잘못된 날짜 범위입니다.");
 	 $( "#to_date" ).val("");
@@ -74,10 +65,14 @@ function check2(){
 }
 //시작일이 지난날짜인경우
 function check1(){
-	var from =$( "#from_date" ).val();
-	if(from>d){
-		alert("잘못된 날짜 범위입니다.");
+	var from =new Date($( "#from_date" ).val());
+	var to=new Date($( "#to_date" ).val());
+	if(from<d){
+		alert("이미 지난 날짜입니다.");
 		$( "#from_date" ).val("");
+	}
+	if(to!=''){
+		check2();
 	}
 }
 //엔터시 리스트에 추가
@@ -100,8 +95,8 @@ function onKeyDown(){
 	let toDoWrite={};
 	let moim={};
 	toDoWrite.plan_title=$("#title").val();
-	toDoWrite.from_date=$("#from_date").val();
-	toDoWrite.to_date=$("#to_date").val();
+	toDoWrite.from_date=new Date($("#from_date").val());
+	toDoWrite.to_date=new Date($("#to_date").val());
 	moim.id= $('#moimNo').attr("data-moimNo");
 	let toDoWriteList={};
 	toDoWriteList.toDoWrite=toDoWrite;

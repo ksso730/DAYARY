@@ -43,10 +43,9 @@ public class ToDoWrite extends DateAudit{
 	@Column(name="PLAN_TITLE")
 	private String plan_title;
 	
-	@JsonFormat(pattern="mm/DD/yyyy")
 	@Column(name="FROM_DATE")
 	private Date from_date;
-	@JsonFormat(pattern="mm/DD/yyyy")
+	
 	@Column(name="TO_DATE")
 	private Date to_date;
 	
