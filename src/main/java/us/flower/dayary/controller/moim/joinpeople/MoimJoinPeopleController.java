@@ -40,7 +40,7 @@ public class MoimJoinPeopleController {
 	 * @return returnData
 	 * @throws Exception
 	 * @author choiseongjun
-	 * @story TempDataDTO로 임시데이터를 받음 
+	 * @story TempData로 임시데이터를 받음 
 	 * @date 2019-10-07
 	 */
    
