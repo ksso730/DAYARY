@@ -47,21 +47,33 @@ function newElement() {
   }
 }
 
- $( "#from_date" ).datepicker({
-	    dateFormat: 'yymmdd',
- });
- $( "#to_date" ).datepicker({
-	 dateFormat: 'yymmdd'
-});
-//날짜범위체크
-function check(){
-	let d=new Date();
-	var from =$( "#from_date" ).val();
-	var to=$( "#to_date" ).val();
+
+
+     $("#from_date, #to_date ").datepicker({
+        
+     });
+
+//날짜범위체크 종료일이 시작일보다 늦을경우 
+var d=new Date();
+function check2(){
+	var from =new Date($( "#from_date" ).val());
+	var to=new Date($( "#to_date" ).val());
  if(from>to){
 	 alert("잘못된 날짜 범위입니다.");
 	 $( "#to_date" ).val("");
  }
+}
+//시작일이 지난날짜인경우
+function check1(){
+	var from =new Date($( "#from_date" ).val());
+	var to=new Date($( "#to_date" ).val());
+	if(from<d){
+		alert("이미 지난 날짜입니다.");
+		$( "#from_date" ).val("");
+	}
+	if(to!=''){
+		check2();
+	}
 }
 //엔터시 리스트에 추가
 function onKeyDown(){
@@ -83,8 +95,8 @@ function onKeyDown(){
 	let toDoWrite={};
 	let moim={};
 	toDoWrite.plan_title=$("#title").val();
-	toDoWrite.from_date=$("#from_date").val();
-	toDoWrite.to_date=$("#to_date").val();
+	toDoWrite.from_date=new Date($("#from_date").val());
+	toDoWrite.to_date=new Date($("#to_date").val());
 	moim.id= $('#moimNo').attr("data-moimNo");
 	let toDoWriteList={};
 	toDoWriteList.toDoWrite=toDoWrite;
@@ -97,7 +109,7 @@ function onKeyDown(){
 	        contentType: "application/json; charset=utf-8",
 	        success:function(data){
 	        	 if(data.code==1){
-	                 location.href='/moimDetail/moimTodoList/moimtodostatus/'+ $('#moimNo').attr("data-moimNo");
+	                 location.href='/moimDetail/moimTodoList/'+ $('#moimNo').attr("data-moimNo");
 	             }else{
 	                 alert(data.message);
 	             }

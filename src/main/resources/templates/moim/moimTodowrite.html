@@ -28,8 +28,8 @@
 		<input type="text" name="title" id="title"
 			placeholder="일정이름을 입력하세요 ex)공부계획" class="form-control">
 		<div class="col-md-10 col-md-offset-1">
-			시작일=<input type="text" name="from_date" id="from_date" />
-			종료일=<input type="text" name="to_date" id="to_date" onchange="check();" />
+			시작일=<input type="text" name="from_date" id="from_date" onchange="check1();" />
+			종료일=<input type="text" name="to_date" id="to_date" onchange="check2();" />
 		
 			   <div class="todolist not-done" id="myDIV" >
 					<h2 style="margin: 5px">My To Do List</h2>
@@ -42,7 +42,7 @@
 			<div align="center">
 				<button type="button" class="btn btn-sm btn-primary btn-create" onclick="post_send();">
 				일정계획 완료</button>
-				<a href="/moimDetail/moimTodoList/moimtodostatus">
+				<a th:href="@{'/moimDetail/moimTodoList/'+${no}}">
 					<button type="button" class="btn btn-light waves-effect">목록으로
 						가기</button>
 				</a>
