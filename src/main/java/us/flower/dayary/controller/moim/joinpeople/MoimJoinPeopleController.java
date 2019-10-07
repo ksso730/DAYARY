@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
-import us.flower.dayary.domain.DTO.TempDataDTO;
+import us.flower.dayary.domain.DTO.TempData;
 import us.flower.dayary.service.moim.moimService;
 import us.flower.dayary.service.moim.joinpeople.MoimJoinPeopleService;
 
@@ -28,7 +28,39 @@ public class MoimJoinPeopleController {
     private moimService moimService;
     @Autowired
     MoimJoinPeopleService moimjoinPeopleService;
-    
+    /**
+	 * 일반회원 모임가입 승인(모임장)
+	 *
+	 * @param locale
+	 * @param Moim
+	 * @return returnData
+	 * @throws Exception
+	 * @author choiseongjun
+	 * @story TempDataDTO로 임시데이터를 받음 
+	 * @date 2019-10-07
+	 */
+   
+	@ResponseBody
+	@PostMapping("/moimParticipant/moimgrantjoinPeople")
+	public Map<String, Object> moimgrantjoinPeople(@Valid @RequestBody TempData tempdata,HttpSession session) {
+	
+		
+		System.out.println(tempdata.getNo1());
+			
+			
+		  Map<String,Object> returnData = new HashMap<String,Object>();
+		  
+		   
+		 try { 
+			 //	moimjoinPeopleService.banMoimpeople(people,moim);
+			 	returnData.put("code","1"); 
+			 	returnData.put("message","가입 승인:)");
+		  }catch(Exception e) { returnData.put("code", "E3290");
+		  		returnData.put("message", "데이터 확인 후 다시 시도해주세요."); 
+		  }
+		 
+		return returnData;
+	}
   
 	/**
 	 * 일반회원 모임 강퇴(모임장)
@@ -43,7 +75,7 @@ public class MoimJoinPeopleController {
    
 	@ResponseBody
 	@PostMapping("/moimParticipant/banjoinedPeople")
-	public Map<String, Object> moimbanjoinedPeople(@Valid @RequestBody TempDataDTO tempdata,HttpSession session) {
+	public Map<String, Object> moimbanjoinedPeople(@Valid @RequestBody TempData tempdata,HttpSession session) {
 	
 		
 			People people=new People();

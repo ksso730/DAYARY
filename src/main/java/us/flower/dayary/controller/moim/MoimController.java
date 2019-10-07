@@ -190,8 +190,6 @@ public class MoimController {
         	long joinedpeople=joinedpeoplelist.get(i).getId();
         	   model.addAttribute("joinedpeople",joinedpeople);
         }
-        System.out.println("ㅎㅎㅎㅎㅎㅎㅎㅎㅎ");
-        System.out.println(joinedpeoplelist);
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
 
@@ -207,7 +205,6 @@ public class MoimController {
         model.addAttribute("todoCount",toDowriteRepository.countByMoim_id(no));
         model.addAttribute("totalPeople",totalPeople);//해당하는 모임의 총회원수 뽑기
         model.addAttribute("joinedpeoplelist",joinedpeoplelist);//모임피플관련 리스트뽑기
-        System.out.println("로그찍기"); 
         return "moim/moimDetail";  
     }
  

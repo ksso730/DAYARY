@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import lombok.Data;
 
 @Data
-public class TempDataDTO {
+public class TempData {
 
 	private long no1;
 	private long no2;
