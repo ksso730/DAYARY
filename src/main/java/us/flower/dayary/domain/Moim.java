@@ -99,6 +99,8 @@ public class Moim extends DateAudit{
                inverseJoinColumns = @JoinColumn(name = "PEOPLE_ID"))
     private List<People> peopleList;
 	   
-
+	//가입조건  N은 누구나 Y는 승인해야함
+	@Column(name="JOIN_CONDITION" ,nullable=false, columnDefinition = "char(1) default 'N'")
+	private char joinCondition;
 
 }
