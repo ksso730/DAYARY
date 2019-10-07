@@ -83,10 +83,7 @@ $('#moimMake_btn').off().on('click', function () {
 
     var cate = document.getElementById('categorybox');
     var si = document.getElementById('sido_code');
-    	alert($('#sido_code').val());
-    	alert($('#sigoon_code').val());
     var goon = document.getElementById('sigoon_code');
-    
     
     let moim = {};
     moim.title = $('#title').val();
@@ -94,6 +91,7 @@ $('#moimMake_btn').off().on('click', function () {
     moim.intro = $('#intro').val();
     moim.sido_code = si.options[si.selectedIndex].text;
     moim.sigoon_code = goon.options[goon.selectedIndex].text;
+    moim.joinCondition = $(":input:radio[name=chk_info]:checked").val();
     
     let category = {};
     category.commName = cate.options[cate.selectedIndex].text;

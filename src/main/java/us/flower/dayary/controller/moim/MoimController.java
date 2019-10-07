@@ -163,7 +163,7 @@ public class MoimController {
         }
         return returnData;
     }
-
+ 
     /**
      * 모임 디테일 출력
      *
@@ -183,14 +183,13 @@ public class MoimController {
         session.setAttribute("peopleId", peopleId);
  
         String moimPeopleNo=moimService.findMoimPeopleNoOne(peopleId,no);//참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에 넣어준다)
-        List<MoimPeople> joinedpeoplelist=moimpeopleRepository.findByMoim_idAndPeople_id(no,peopleId);
+        List<MoimPeople> joinedpeoplelist=moimpeopleRepository.findByMoim_idAndPeople_id(no,peopleId);//현재 접속한 유저 리스트를 들고옴
         
-        
+        List<MoimPeople> joinedmoimpeopleList=moimpeopleRepository.findByMoim_id(no);//이건 모임내 전체사람조회
         for(int i=0;i<joinedpeoplelist.size();i++) {
         	long joinedpeople=joinedpeoplelist.get(i).getId();
         	   model.addAttribute("joinedpeople",joinedpeople);
         }
-        
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
 
@@ -205,7 +204,8 @@ public class MoimController {
         model.addAttribute("moimpeopleList",moimpeopleList);
         model.addAttribute("todoCount",toDowriteRepository.countByMoim_id(no));
         model.addAttribute("totalPeople",totalPeople);//해당하는 모임의 총회원수 뽑기
-        System.out.println("로그찍기"); 
+        model.addAttribute("joinedpeoplelist",joinedpeoplelist);//현재 접속한 유저(모임피플) 정보.
+        model.addAttribute("joinedmoimpeopleList",joinedmoimpeopleList);//모임가입된사람전체조회
         return "moim/moimDetail";  
     }
  
