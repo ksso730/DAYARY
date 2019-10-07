@@ -32,7 +32,7 @@ $('[name="banpeople_btn"]').on('click', function () {//회원 강퇴하기 by ch
 $('#signup_btn').off().on('click', function () {//스터디 가입하기 by choiseongjun 2019-09-20
 
     var moimNo = $('#moimNo').attr("data-moimNo");
-    console.log(moimNo);
+    var joinCondition = $('#joinCondition').attr("data-joinCondition");
     $.ajax({
        url : '/moimParticipant/'+moimNo, 
        type : "post",   
@@ -46,6 +46,31 @@ $('#signup_btn').off().on('click', function () {//스터디 가입하기 by choi
               console.log("success callback data");
                alert(data.message);
                  location.href='/moimlistView/moimdetailView/'+moimNo;
+         }else{
+            alert(data.message);
+         }
+        },
+        error:function(e){
+
+        }
+    });
+});
+$('#signup_btnY').off().on('click', function () {//스터디 가입하기 by choiseongjun 2019-09-20
+
+    var moimNo = $('#moimNo').attr("data-moimNo");
+    $.ajax({
+       url : '/moimParticipantY/'+moimNo, 
+       type : "post",   
+       processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+        contentType: false,
+       contentType: 'application/json; charset=UTF-8',
+       dataType   : 'json',  
+       data      : JSON.stringify(moimNo),
+        success:function(data){
+           if(data.code==1){
+              console.log("success callback data");
+               alert(data.message);
+               //location.href='/moimlistView/moimdetailView/'+moimNo;
          }else{
             alert(data.message);
          }

@@ -149,7 +149,8 @@ body {
 <body onload="myPeopleCount()"><!-- 인원수 세는것 by choiseongjun -->
    <div id="moimNo" th:data-moimNo="${moimDetail.id}"></div><!-- 모임번호 -->
    <div id="moimPeopleNo" th:data-moimPeopleNo="${moimPeopleNo}"></div><!-- 모임피플테이블번호 -->
-      
+     <div id="joinCondition" th:data-joinCondition="${moimDetail.joinCondition}"></div><!-- 모임가입승인조건 유무 -->
+    
    <link rel="stylesheet" href="/css/friendList.css">
    <div class="content">
       <div class="container">
@@ -209,14 +210,29 @@ body {
                               class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
                         </span>
                      </span>
-                     <span th:if="${joinedpeople}==null">   
-                        <span
-                           th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople>=moimDetail.peopleLimit) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
-                           <!-- 미가입자와 운영자가 아닌경우 -->
-                           <button type="button" id="signup_btn"
-                              class="btn btn-primary btn-xs">스터디 가입하기</button>
-                        </span> 
-                     </span>
+                       <!--  <td th:text="${moimDetail.joinCondition}" /> -->    
+                      <span th:if="${moimDetail.joinCondition}=='N'">   <!-- 누구나 가입하는 경우  by choinseognjun 2019-10-07-->
+	                       <span th:if="${joinedpeople}==null">   
+	                        <span
+	                           th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople>=moimDetail.peopleLimit) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
+	                           <!-- 미가입자와 운영자가 아닌경우 -->
+	                           <button type="button" id="signup_btn"
+	                              class="btn btn-primary btn-xs">스터디 가입하기</button>
+	                        </span> 
+	                     </span>
+                      </span>
+                       <span th:if="${moimDetail.joinCondition}=='Y'">    <!-- 가입 승인조건을 받아야 하는  경우 -->
+                      	 <span th:if="${joinedpeople}==null">   
+	                        <span
+	                           th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople>=moimDetail.peopleLimit) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
+	                           <!-- 미가입자와 운영자가 아닌경우 -->
+	                       
+	                           <button type="button" id="signup_btnY"
+	                              class="btn btn-primary btn-xs">스터디 가입하기</button>
+	                        </span> 
+	                     </span>
+                      </span>
+                    
                      <hr>
                      <div class="text-left">
                         <p class="text-muted font-13">
