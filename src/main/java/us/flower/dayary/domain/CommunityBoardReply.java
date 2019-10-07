@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name="COMMUNITY_BOARD_REPLY")
-@ToString(exclude = "communityBoard")
+@ToString(exclude = "communityBoard, parent")
 @DynamicInsert
 @DynamicUpdate
 public class CommunityBoardReply extends DateAudit {

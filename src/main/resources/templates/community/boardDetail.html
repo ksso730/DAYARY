@@ -58,13 +58,13 @@
 						<textarea class="form-control" id="borad_reply" rows="3" placeholder="댓글"></textarea>
 					</div>
 					<button class="btn btn-primary f-s-12 rounded-corner" id="board_reply_save_btn" type="button">저장</button>
-					<!--              <a th:href="@{'/community/communityList/findwrittenView/' + ${boardGroupId}}">-->
 				</div>
 				<!-- end timeline-body -->
-				<div class="timeline-body" th:each="reply:${replies}" th:id="${reply.id}">
-					<div class="timeline-content">
-						<textarea class="form-control" rows="3" readonly="true" placeholder="댓글" th:inline="text">[[${reply.memo}]]</textarea>
-						<button th:if="${id.equals(reply.peopleId)}" class="btn btn-danger f-s-12 rounded-corner" th:value="${reply.id}" onclick="removeReply(this.value)" type="button">삭제</button>
+				<div class="timeline-body" th:id="'body'+ ${reply.id}" th:each="reply:${replies}" >
+					<div class="timeline-content" th:id="'content' + ${reply.id}">
+						<textarea class="form-control" rows="3" readonly="true" placeholder="댓글"  th:id="${reply.id}" th:inline="text">[[${reply.memo}]]</textarea>
+						<button th:if="${id.equals(reply.peopleId)}" class="btn btn-dark f-s-12 rounded-corner" th:value="${reply.id}" onclick="removeReply(this.value)" type="button">삭제</button>
+						<button class="btn btn-warning f-s-12 rounded-corner" th:value="${reply.id}" onclick="addReply(this.value)" type="button">답변</button>
 					</div>
 				</div>
 			</li>
@@ -87,7 +87,7 @@
 							if(data.code==1){
 								alert(data.message);
 								// 화면에서 제거
-								$('#' + replyId).remove();
+								$('#content' + replyId).remove();
 							}else{
 								alert(data.message)
 							}
@@ -97,6 +97,81 @@
 						}
 					});
 				}
+		};
+
+		// 댓글저장 + 대댓글저장 합쳐야됨
+		function saveReply(val){
+			// check title data input
+			if($('#reply'+ val).val()==''||$('#reply'+ val).val()=='undefined'||$('#reply'+ val).val()==null){
+				alert('대댓글 내용을 입력하세요');
+				$('#reply'+ val).focus();
+				return;
+			}
+
+			let communityBoardReply = {
+				"parent" :
+						{
+							"id" : val
+						},
+				"memo" : $('#reply'+ val).val()
+			};
+
+			$.ajax({
+				url:'/community/board/[[${boardGroup}]]/reply/'  + [[${boardId}]],
+				type: 'POST',
+				contentType: 'application/json; charset=UTF-8',
+				dataType: 'json',
+				data: JSON.stringify(communityBoardReply),
+				success: function(data){
+					if(data.code==1){
+						alert(data.message);
+
+						// 댓글 div
+						let re = "<div class='timeline-content' id='content" + data.id  + "'>";
+						re += "<textarea class='form-control' rows='3' style='background-color: red;' id='"+ data.id +"' readonly='true' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
+						re += "<button class='btn btn-danger f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' onclick='removeReply(" + data.id  + ")' type='button'>삭제</button>";
+						re += "</div>";
+
+						$('#body' + val).append(re);
+
+						// 작성 삭제
+						$('#reply').remove();
+					}else{
+						alert(data.message)
+					}
+				},
+				error: function(xhr, error){
+
+				}
+			});
+		}
+
+
+		// 대댓글
+		let flag = 'true';
+		function addReply(val){
+
+			if(flag==='true'){
+				let re  = "<div class='timeline-content' id='reply'>";
+				re  += "<textarea class='form-control' id='reply" + val + "' rows='3' placeholder='댓글'></textarea>";
+				re  += "<button class='btn btn-primary f-s-12 rounded-corner' id='board_reply_save_btn' onclick='saveReply(" + val + ")'  type='button'>저장</button>";
+				re  += "</div>";
+
+				$('#body' + val).append(re);
+
+				// 작성중 대댓글 존재
+				flag = 'false';
+			}else{
+				if(confirm("이미 작성중인 대댓글이 있습니다. 삭제하시겠습니까?")){
+					$('#reply').remove();
+					flag = 'true';
+					addReply(val);
+
+				}else{
+					return;
+				}
+			}
+
 		};
 
 		$(document).ready(function(){
@@ -161,6 +236,7 @@
 							    re += "<div class='timeline-content'>";
 								re += "<textarea class='form-control' rows='3' readonly='true' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
 								re += "<button class='btn btn-danger f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' onclick='removeReply(this.value)' type='button'>삭제</button>";
+								re += "<button class='btn btn-warning f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_modify_btn' onclick='addReply(this.value)' type='button'>답변</button>";
 								re += "</div>";
 								re += "</div>";
 

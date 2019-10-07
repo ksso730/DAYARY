@@ -313,6 +313,14 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	@Override
 	public CommunityBoardReply addBoardReply(CommunityBoardReply reply, long peopleId, long boardId, long boardGroupId) {
 
+		// parent가 존재하면
+		if(reply.getParent()!=null){
+			long parentId = reply.getParent().getId();
+			CommunityBoardReply parent =  boardReplyRepository.getOne(parentId);
+
+			reply.setParent(parent);
+		}
+
 		reply.setPeopleId(peopleId);
 		CommunityBoard board = communityBoardRepository.getOne(boardId);
 		reply.setCommunityBoard(board);

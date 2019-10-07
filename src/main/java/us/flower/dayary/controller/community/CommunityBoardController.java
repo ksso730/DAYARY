@@ -142,7 +142,6 @@ public class CommunityBoardController {
 		// contents list
 		model.addAttribute("timeLineList",timeLineList);
 
-
 		return "community/timeLineList";
 	}
 
