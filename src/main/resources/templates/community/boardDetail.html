@@ -66,6 +66,11 @@
 						<button th:if="${id.equals(reply.peopleId)}" class="btn btn-dark f-s-12 rounded-corner" th:value="${reply.id}" onclick="removeReply(this.value)" type="button">삭제</button>
 						<button class="btn btn-warning f-s-12 rounded-corner" th:value="${reply.id}" onclick="addReply(this.value)" type="button">답변</button>
 					</div>
+					<div class="timeline-content" th:each="child: ${reply.getChild()}">
+						<textarea class="form-control" rows="3" readonly="true" placeholder="댓글"  th:id="${child.id}" style="background-color: red;" th:inline="text">[[${child.memo}]]</textarea>
+						<button th:if="${id.equals(child.peopleId)}" class="btn btn-dark f-s-12 rounded-corner" th:value="${child.id}" onclick="removeReply(this.value)" type="button">삭제</button>
+						<button class="btn btn-warning f-s-12 rounded-corner" th:value="${child.id}" onclick="addReply(this.value)" type="button">답변</button>
+					</div>
 				</div>
 			</li>
 		</div>
@@ -136,6 +141,7 @@
 
 						// 작성 삭제
 						$('#reply').remove();
+						flag = 'true';
 					}else{
 						alert(data.message)
 					}

@@ -169,7 +169,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 
 		CommunityBoard board =  getCommunityBoard(boardId);
 
-		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.findAllByCommunityBoardAndDeleteFlag(board, "N");
+		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.findAllByCommunityBoardAndDeleteFlagAndParentIsNull(board, "N");
 
 		return communityBoardReplies;
 

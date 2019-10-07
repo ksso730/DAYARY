@@ -11,5 +11,5 @@ import java.util.List;
 
 
 public interface BoardReplyRepository extends JpaRepository<CommunityBoardReply,Long> {
-    List<CommunityBoardReply> findAllByCommunityBoardAndDeleteFlag(CommunityBoard communityBoard, String deleteFlag);
+    List<CommunityBoardReply> findAllByCommunityBoardAndDeleteFlagAndParentIsNull(CommunityBoard communityBoard, String deleteFlag);
 }
