@@ -47,21 +47,38 @@ function newElement() {
   }
 }
 
- $( "#from_date" ).datepicker({
-	    dateFormat: 'yymmdd',
- });
- $( "#to_date" ).datepicker({
-	 dateFormat: 'yymmdd'
-});
-//날짜범위체크
-function check(){
-	let d=new Date();
+
+ $(document).ready(function () {
+
+     $("#from_date, #to_date ").datepicker({
+         showOn: 'both'
+             , buttonImageOnly: true
+             , dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'] // 요일의 한글 형식.
+             , monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
+             , monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
+             , dateFormat: "yy-mm-dd"
+             , buttonText: "달력"
+     });
+ });  
+
+출처: https://plogds.tistory.com/309 [플로그]
+//날짜범위체크 종료일이 시작일보다 늦을경우 
+ let d=new Date();
+function check2(){
 	var from =$( "#from_date" ).val();
 	var to=$( "#to_date" ).val();
  if(from>to){
 	 alert("잘못된 날짜 범위입니다.");
 	 $( "#to_date" ).val("");
  }
+}
+//시작일이 지난날짜인경우
+function check1(){
+	var from =$( "#from_date" ).val();
+	if(from>d){
+		alert("잘못된 날짜 범위입니다.");
+		$( "#from_date" ).val("");
+	}
 }
 //엔터시 리스트에 추가
 function onKeyDown(){
@@ -97,7 +114,7 @@ function onKeyDown(){
 	        contentType: "application/json; charset=utf-8",
 	        success:function(data){
 	        	 if(data.code==1){
-	                 location.href='/moimDetail/moimTodoList/moimtodostatus/'+ $('#moimNo').attr("data-moimNo");
+	                 location.href='/moimDetail/moimTodoList/'+ $('#moimNo').attr("data-moimNo");
 	             }else{
 	                 alert(data.message);
 	             }

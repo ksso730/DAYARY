@@ -44,7 +44,8 @@
                 <div class="small mb-3">Projects</div>
                 <ul class="nav flex-column nav-pills">
                     <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimTodoListcompleted/' + ${no}}" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>완료된것들<span class="ml-auto align-self-center badge badge-secondary badge-pill">12</span></a></li>
-                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/' + ${no}}" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>현재 진행상태(목록)<span class="ml-auto align-self-center badge badge-secondary badge-pill">4</span></a></li>
+                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimtodoListNew/' + ${no}}" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>새로운 일정<span class="ml-auto align-self-center badge badge-secondary badge-pill">4</span></a></li>
+                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/' + ${no}}" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>진행중인 일정<span class="ml-auto align-self-center badge badge-secondary badge-pill">4</span></a></li>
                     <li class="nav-item"><a href="#" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>미완료 목록<span class="ml-auto align-self-center badge badge-secondary badge-pill">9</span></a></li>
                     <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimTodowrite/' + ${no}}" class="nav-link"><i class="fa fa-fw fa-plus mr-2"></i>일정 관리 세우기</a></li>
                 </ul>
@@ -84,7 +85,7 @@
                       		<td class="align-middle">
                                     <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div>
                                 </td>
-                      		<td><div><a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/'+${no}}"><span  th:text="${list.plan_title}"></span></a></div>
+                      		<td><div><a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/'+${list.id}}"><span  th:text="${list.plan_title}"></span></a></div>
                       		   Edited by: <div th:text="${list.people.name}"></div><div th:text="${list.create_date}"></div></td>  
                                  <td class="align-middle">
                                  <span th:if="${list.status eq 'New'}" ><span class="badge badge-light badge-pill" th:text="${list.status}"></span></span>
