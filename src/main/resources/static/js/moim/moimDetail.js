@@ -6,6 +6,7 @@ $('[name="grantpeople_btn"]').on('click', function () {//가입승인 대기중�
 		 var moimNo = $('#moimNo').attr("data-moimNo");
 	     let tempdata = {};
 	     tempdata.no1= $(this).val();
+	     tempdata.no2= $('#moimNo').attr("data-moimNo");
 	    
 	     console.log($(this).val())
 	     

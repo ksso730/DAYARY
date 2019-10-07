@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.DTO.TempData;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.service.moim.moimService;
 import us.flower.dayary.service.moim.joinpeople.MoimJoinPeopleService;
 
@@ -28,6 +30,8 @@ public class MoimJoinPeopleController {
     private moimService moimService;
     @Autowired
     MoimJoinPeopleService moimjoinPeopleService;
+    @Autowired
+    MoimPeopleRepository moimpeopleRepository;
     /**
 	 * 일반회원 모임가입 승인(모임장)
 	 *
@@ -45,16 +49,29 @@ public class MoimJoinPeopleController {
 	public Map<String, Object> moimgrantjoinPeople(@Valid @RequestBody TempData tempdata,HttpSession session) {
 	
 		
-		System.out.println(tempdata.getNo1());
-			
+		System.out.println(tempdata.getData1());
+		
 			
 		  Map<String,Object> returnData = new HashMap<String,Object>();
+		  People people=new People();
+			people.setId(tempdata.getNo1());
+			
+			
+			Moim moim=new Moim();
+			moim.setId(tempdata.getNo2());
 		  
+			long peopleId=tempdata.getNo1();
+			long moimId=tempdata.getNo2();
 		   
-		 try { 
-			 //	moimjoinPeopleService.banMoimpeople(people,moim);
-			 	returnData.put("code","1"); 
-			 	returnData.put("message","가입 승인:)");
+			
+			 
+		 try {
+			 		moimpeopleRepository.updateMoimPeoplejoinCondition(people,moim);
+
+				 	returnData.put("code","1"); 
+				 	returnData.put("message","가입 승인:)");
+			 
+			
 		  }catch(Exception e) { returnData.put("code", "E3290");
 		  		returnData.put("message", "데이터 확인 후 다시 시도해주세요."); 
 		  }

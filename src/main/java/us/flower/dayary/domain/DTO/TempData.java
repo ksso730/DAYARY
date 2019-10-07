@@ -10,10 +10,11 @@ public class TempData {
 
 	private long no1;
 	private long no2;
+	private char data1;
 }
 /**
  * 일반회원 모임 강퇴(모임장) 임시로 데이터 담기위해서 넘었다
- *
+ * +++또한 모임승인 데이터 담기위함
  * @param locale
  * @param Moim
  * @return returnData
