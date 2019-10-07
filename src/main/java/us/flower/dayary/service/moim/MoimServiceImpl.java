@@ -107,7 +107,7 @@ public class MoimServiceImpl implements moimService{
         return fileManager.getByteArray(moimImagePath+"/"+imageName);
     }
 
-	public MoimPeople moimParticipant(long peopleId, long moimId) {
+	public MoimPeople moimParticipant(long peopleId, long moimId,char joinCondition) {
 		Moim moim=new Moim();
 		moim.setId(moimId);
 		
@@ -118,7 +118,7 @@ public class MoimServiceImpl implements moimService{
 		moimPeople.setMoim(moim);
 		moimPeople.setPeople(people);
 		moimPeople.setJoinrole("study"); 
-		
+		moimPeople.setJoinCondition(joinCondition);
 		return moimpeopleRepository.save(moimPeople);
 	}
 
@@ -167,7 +167,7 @@ public class MoimServiceImpl implements moimService{
 		// TODO Auto-generated method stub
 		return moimRepository.findAllByTitleLikeAndCategory(pageable,"%"+title+"%",common);
 	}
-	
+
 
 
 

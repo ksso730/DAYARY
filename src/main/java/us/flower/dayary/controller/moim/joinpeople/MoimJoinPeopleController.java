@@ -82,11 +82,11 @@ public class MoimJoinPeopleController {
 		Long peopleId = (Long) session.getAttribute("peopleId");
 	
 		
-		
+		char joinCondition='N';//참가자 승인전 N
 		Map<String,Object> returnData = new HashMap<String,Object>();
 	
 		try {	
-				//moimService.moimParticipant(peopleId,moimNo);
+				moimService.moimParticipant(peopleId,moimNo,joinCondition);
 				returnData.put("code","1");
 				returnData.put("message","모임장의 승인을 받아야합니다:)");
 		}catch(Exception e) {
@@ -109,11 +109,11 @@ public class MoimJoinPeopleController {
 	public Map<String, Object> moimParticipant(@PathVariable("moimNo") long moimNo,HttpSession session) {
 		Long peopleId = (Long) session.getAttribute("peopleId");
 	
-		
+		char joinCondition='Y';//참가자 승인후 Y
 		Map<String,Object> returnData = new HashMap<String,Object>();
 	
 		try {	
-				//moimService.moimParticipant(peopleId,moimNo);
+				moimService.moimParticipant(peopleId,moimNo,joinCondition);
 				returnData.put("code","1");  
 				returnData.put("message","모임가입완료:)");
 		}catch(Exception e) {

@@ -70,7 +70,7 @@ $('#signup_btnY').off().on('click', function () {//스터디 가입하기 by cho
            if(data.code==1){
               console.log("success callback data");
                alert(data.message);
-               //location.href='/moimlistView/moimdetailView/'+moimNo;
+               location.href='/moimlistView/moimdetailView/'+moimNo;
          }else{
             alert(data.message);
          }
