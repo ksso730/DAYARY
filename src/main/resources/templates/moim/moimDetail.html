@@ -396,34 +396,26 @@ body {
                <!-- end row -->
                <div class="card-box">
                   <h4 class="header-title mt-0 mb-3">
-                     오프라인모임활동
-                     <td th:text="${no}"></td>
+                    	 오프라인모임
                   </h4>
+                 <tr th:each="meetupList : ${meetupList}">
+                
                   <div class="">
                      <div class="">
-                        <h5 class="text-custom">자바 및 스프링 스터디</h5>
-                        <p class="mb-0">강남 스터디하자카페 (주소:서울시 강남대로 28)</p>
-                        <p>
-                           <b>2019-09-10-19:20</b>
+                        <h5 class="text-custom"> <td th:text="${meetupList.title}" /> </h5>
+                      
+                        <p class="mb-0"> <td th:text="${meetupList.intro}" />  <td th:text="${meetupList.detailAddress}" /></p>
+                        <p> 
+                           <b><td th:text="${meetupList.meetDate}" /></b>
                         </p>
                         <button type="button" class="btn btn-primary btn-xs">참여
                            하기</button>
                         <br />
                         <button id="myBtn" class="btn btn-info btn-xs">참여자 보기</button>
                      </div>
-                     <hr>
-                     <div class="">
-                        <h5 class="text-custom">Senior Graphic Designer</h5>
-                        <p class="mb-0">coderthemes.com</p>
-                        <p>
-                           <b>2007-2009</b>
-                        <p class="text-muted font-13 mb-0">Lorem Ipsum is simply
-                           dummy text of the printing and typesetting industry. Lorem
-                           Ipsum has been the industry's standard dummy text ever since
-                           the 1500s, when an unknown printer took a galley of type and
-                           scrambled it to make a type specimen book.</p>
-                     </div>
+                     
                   </div>
+               	</tr>
                </div>
 
 

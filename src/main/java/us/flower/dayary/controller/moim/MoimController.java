@@ -27,11 +27,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import us.flower.dayary.domain.Common;
+import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
+import us.flower.dayary.repository.moim.meetup.MoimMeetUpRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
 import us.flower.dayary.service.moim.moimService;
 
@@ -50,6 +52,8 @@ public class MoimController {
 	
 	@Autowired
 	ToDoWriteRepository toDowriteRepository;
+	@Autowired
+	MoimMeetUpRepository moimmeetupRepository;
     
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
 //    @GetMapping("/searchTitle")
@@ -174,7 +178,7 @@ public class MoimController {
      * @author choiseongjun
      */
     @GetMapping("/moimlistView/moimdetailView/{no}")
-    public String moimDetailView(@PathVariable("no") long no, Model model,HttpSession session) {
+    public String moimDetailView(@PathVariable("no") long no, Model model,HttpSession session,Sort sort) {
       
     	
     	
@@ -192,7 +196,9 @@ public class MoimController {
         }
         Optional<Moim> moimOne=moimRepository.findById(no);
         List<People> moimpeopleList=moimOne.get().getPeopleList();
-
+        
+        sort = sort.and(new Sort(Sort.Direction.DESC, "id"));
+        List<Meetup> meetupList=moimmeetupRepository.findByMoim_id(no,sort);//오프라인 모임 내림차순정렬로 가져옴
         
         long totalPeople = 0;
         for(int i=0;i<=moimpeopleList.size();i++) {//데이터 값 들고온것을 size만큼 반복해서 뽑기 모임리스트까지 <=한 이유는 모임장이 제외됬기때문에 +1해야한다
@@ -206,6 +212,7 @@ public class MoimController {
         model.addAttribute("totalPeople",totalPeople);//해당하는 모임의 총회원수 뽑기
         model.addAttribute("joinedpeoplelist",joinedpeoplelist);//현재 접속한 유저(모임피플) 정보.
         model.addAttribute("joinedmoimpeopleList",joinedmoimpeopleList);//모임가입된사람전체조회
+        model.addAttribute("meetupList",meetupList);
         return "moim/moimDetail";  
     }
  
