@@ -64,11 +64,11 @@ public class MoimTodoListController {
      * @author jy
      */
     @ResponseBody
-    @PostMapping("/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail")
-    public Map<String, Object> todostatusdetailpost(@RequestBody Map<String,String> param) {
+    @PostMapping("/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/{no}")
+    public Map<String, Object> todostatusdetailpost(@PathVariable("no") long no,@RequestBody Map<String,String> param) {
     	Map<String, Object> returnData = new HashMap<String, Object>();
     		  try {
-    			  service.updateList(param.get("list"));
+    			  service.updateList(param.get("list"),no,Integer.parseInt(param.get("count")));
     	            returnData.put("code", "1");
     	            returnData.put("message", "저장되었습니다");
 
@@ -88,20 +88,51 @@ public class MoimTodoListController {
      * @author choiseongjun
      */
     @GetMapping("/moimDetail/moimTodoList/moimTodoListcompleted/{no}")
-    public String moimTodoListcompleted(@PathVariable("no") long no) {
-    	 
+    public String moimTodoListcompleted(@PathVariable("no") long no,Model model) {
+    	model.addAttribute("list",service.findByMoim_idAndStatus(no, "End"));
     	return "moim/moimTodoListcompleted";
     }
     /**
-     * 모임 일정관리(ToDoList) 완료된것만 보기
+     * 모임 일정관리(ToDoList) 새로운것만 보기
      *
      * @param 
      * @return
      * @throws 
-     * @author choiseongjun
+     * @author jy
      */
     @GetMapping("/moimDetail/moimTodoList/moimTodoListNew/{no}")
-    public String moimTodoListNew(@PathVariable("no") long no) {
+    public String moimTodoListNew(@PathVariable("no") long no,Model model) {
+    	model.addAttribute("list",service.findByMoim_idAndStatus(no,"New"));
+    	
+    	return "moim/moimTodoListcompleted";
+    }
+    /**
+     * 모임 일정관리(ToDoList) 진행중인것만 보기
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author jy
+     */
+    @GetMapping("/moimDetail/moimTodoList/moimTodoListProgress/{no}")
+    public String moimTodoListProgress(@PathVariable("no") long no,Model model) {
+    	model.addAttribute("list",service.findByMoim_idAndStatus(no,"In Progress"));
+    	
+    	
+    	return "moim/moimTodoListcompleted";
+    }
+    /**
+     * 모임 일정관리(ToDoList) 미완료된것만 보기
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author jy
+     */
+    @GetMapping("/moimDetail/moimTodoList/moimTodoListSuspend/{no}")
+    public String moimTodoListSuspend(@PathVariable("no") long no,Model model) {
+    	model.addAttribute("list",service.findByMoim_idAndStatus(no,"Suspend"));
+    	
     	
     	return "moim/moimTodoListcompleted";
     }

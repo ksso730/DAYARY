@@ -51,9 +51,9 @@ public class ToDoWrite extends DateAudit{
 	
 	@Column(name="CREATE_DATE")
 	private Date create_date;
-	
+	@Column
 	private String count;
-	
+	@Column
 	private double progress;
 	
 	@Column(name="STATUS",  columnDefinition = "String default 'New'")
