@@ -18,5 +18,5 @@ public interface ToDoWriteRepository extends JpaRepository<ToDoWrite, Long> {
 	Page<ToDoWrite> findByMoim_id(Pageable page,long id);
 	int countByMoim_id(long id);
 	ToDoWrite findById(long id);
-	
+	List<ToDoWrite> findByMoim_idAndStatus(long id, String status);
 }

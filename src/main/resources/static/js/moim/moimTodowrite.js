@@ -67,7 +67,7 @@ function check2(){
 function check1(){
 	var from =new Date($( "#from_date" ).val());
 	var to=new Date($( "#to_date" ).val());
-	if(from<d){
+	if(from<=d){
 		alert("이미 지난 날짜입니다.");
 		$( "#from_date" ).val("");
 	}
