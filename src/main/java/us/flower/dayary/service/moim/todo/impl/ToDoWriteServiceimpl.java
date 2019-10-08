@@ -46,9 +46,11 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
          //모임 설정
          Optional<Moim> moimOne=moimRepository.findById(list.getMoim().getId());
          list.getToDoWrite().setMoim(moimOne.get());
-         //todowrite 저장하고 객체 반환
-          ToDoWrite t =toDowriteRepository.save(list.getToDoWrite());
          String[] todo=list.getPlan_list().split(",");
+         String count="0/"+todo.length;
+        		 list.getToDoWrite().setCount(count);
+         //todowrite 저장하고 객체 반환
+         ToDoWrite t =toDowriteRepository.save(list.getToDoWrite());
          //todo계획에 있는 목록들인 list를 하나씩 목록에 빼서 넣어주기
         for(String i: todo) {
            //각각 저장을 위해 객체 생성
@@ -92,7 +94,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
       String[] id=list.split(",");
       ToDoWrite todo=toDowriteRepository.findById(no);
        int total=toDowriteListRepository.countByToDoWrite_id(no);
-       int done= id.length-1+count;
+       int done= id.length+count;
        String x=Integer.toString(done)+"/"+Integer.toString(total);
        todo.setCount(x);
        
