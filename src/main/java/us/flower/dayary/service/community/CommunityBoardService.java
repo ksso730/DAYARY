@@ -59,4 +59,7 @@ public interface CommunityBoardService {
 
 	// 게시글 댓글 저장
 	CommunityBoardReply addBoardReply(CommunityBoardReply reply, long peopleId, long boardId, long boardGroupId);
+
+	// 게시글 댓글 전체 목록 (Delete flag = 'N' 인 목록만)
+	List<CommunityBoardReply> getAllReplyNotDeleted();
 }

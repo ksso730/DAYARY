@@ -10,6 +10,6 @@ import us.flower.dayary.domain.CommunityBoardReply;
 import java.util.List;
 
 
-public interface BoardReplyRepository extends JpaRepository<CommunityBoardReply,Long> {
+public interface BoardReplyRepository extends JpaRepository<CommunityBoardReply,Long>, BoardReplyRepositoryCustom {
     List<CommunityBoardReply> findAllByCommunityBoardAndDeleteFlagAndParentIsNull(CommunityBoard communityBoard, String deleteFlag);
 }

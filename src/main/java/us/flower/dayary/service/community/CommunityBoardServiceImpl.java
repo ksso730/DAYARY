@@ -334,4 +334,12 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 
 		return reply;
 	}
+
+	@Override
+	public List<CommunityBoardReply> getAllReplyNotDeleted() {
+
+		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.findAllReply();
+
+		return communityBoardReplies;
+	}
 }
