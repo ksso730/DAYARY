@@ -9,11 +9,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import us.flower.dayary.domain.*;
+import us.flower.dayary.domain.DTO.BoardReplyDTO;
 import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.BoardReplyRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.zip.CheckedOutputStream;
 
 @Service
@@ -164,14 +167,29 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		return timeLineList;
 	}
 
+	/**
+	 * 게시글 댓글 전체 리스트
+	 * @param boardId
+	 * @return
+	 */
 	@Override
-	public List<CommunityBoardReply> getCommunityReplyList(long boardId) {
+	public List<BoardReplyDTO> getCommunityReplyList(long boardId) {
 
 		CommunityBoard board =  getCommunityBoard(boardId);
 
-		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.findAllByCommunityBoardAndDeleteFlagAndParentIsNull(board, "N");
+		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.getAllByCommunityBoardAndDeleteFlagAndParentIsNull(board, "N");
 
-		return communityBoardReplies;
+		List<BoardReplyDTO> replies = new ArrayList<>();
+		for(CommunityBoardReply reply : communityBoardReplies){
+
+			// 삭제된 댓글 제외한 리스트
+			List<CommunityBoardReply> filteredReply = reply.getChild().stream().filter(child -> child.getDeleteFlag().equals("N")).collect(Collectors.toList());
+
+			BoardReplyDTO replyDTO = new BoardReplyDTO(reply, filteredReply);
+			replies.add(replyDTO);
+		}
+
+		return replies;
 
 	}
 
@@ -335,11 +353,4 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		return reply;
 	}
 
-	@Override
-	public List<CommunityBoardReply> getAllReplyNotDeleted() {
-
-		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.findAllReply();
-
-		return communityBoardReplies;
-	}
 }

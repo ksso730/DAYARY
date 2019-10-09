@@ -9,6 +9,7 @@ import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.BoardLike;
 import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.CommunityBoardReply;
+import us.flower.dayary.domain.DTO.BoardReplyDTO;
 
 public interface CommunityBoardService {
 
@@ -33,8 +34,8 @@ public interface CommunityBoardService {
 	// 타임라인 본인글 리스트
 	List<CommunityBoard> getCommunityBoardList(long boardGroupId, long peopleId);
 
-	// 댓글 리스트
-	List<CommunityBoardReply> getCommunityReplyList(long boardId);
+	// 댓글 리스트 (대댓글은 DeleteFlag가 "N"인 경우만)
+	List<BoardReplyDTO> getCommunityReplyList(long boardId);
 
 	// 게시글 Detail
 	CommunityBoard getCommunityBoard(long boardId);
@@ -60,6 +61,4 @@ public interface CommunityBoardService {
 	// 게시글 댓글 저장
 	CommunityBoardReply addBoardReply(CommunityBoardReply reply, long peopleId, long boardId, long boardGroupId);
 
-	// 게시글 댓글 전체 목록 (Delete flag = 'N' 인 목록만)
-	List<CommunityBoardReply> getAllReplyNotDeleted();
 }

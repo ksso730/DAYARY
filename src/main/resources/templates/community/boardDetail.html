@@ -60,13 +60,13 @@
 					<button class="btn btn-primary f-s-12 rounded-corner" id="board_reply_save_btn" type="button">저장</button>
 				</div>
 				<!-- end timeline-body -->
-				<div class="timeline-body" th:id="'body'+ ${reply.id}" th:each="reply:${replies}" >
-					<div class="timeline-content" th:id="'content' + ${reply.id}">
-						<textarea class="form-control" rows="3" readonly="true" placeholder="댓글"  th:id="${reply.id}" th:inline="text">[[${reply.memo}]]</textarea>
-						<button th:if="${id.equals(reply.peopleId)}" class="btn btn-dark f-s-12 rounded-corner" th:value="${reply.id}" onclick="removeReply(this.value)" type="button">삭제</button>
-						<button class="btn btn-warning f-s-12 rounded-corner" th:value="${reply.id}" onclick="addReply(this.value)" type="button">답변</button>
+				<div class="timeline-body" th:id="'body'+ ${reply.getParent().id}" th:each="reply:${replies}" >
+					<div class="timeline-content" th:id="'content' + ${reply.getParent().id}">
+						<textarea class="form-control" rows="3" readonly="true" placeholder="댓글"  th:id="${reply.getParent().id}" th:inline="text">[[${reply.getParent().memo}]]</textarea>
+						<button th:if="${id.equals(reply.getParent().peopleId)}" class="btn btn-dark f-s-12 rounded-corner" th:value="${reply.getParent().id}" onclick="removeReply(this.value)" type="button">삭제</button>
+						<button class="btn btn-warning f-s-12 rounded-corner" th:value="${reply.getParent().id}" onclick="addReply(this.value)" type="button">답변</button>
 					</div>
-					<div class="timeline-content" th:each="child: ${reply.getChild()}">
+					<div class="timeline-content" th:each="child: ${reply.getChildren()}">
 						<textarea class="form-control" rows="3" readonly="true" placeholder="댓글"  th:id="${child.id}" style="background-color: red;" th:inline="text">[[${child.memo}]]</textarea>
 						<button th:if="${id.equals(child.peopleId)}" class="btn btn-dark f-s-12 rounded-corner" th:value="${child.id}" onclick="removeReply(this.value)" type="button">삭제</button>
 						<button class="btn btn-warning f-s-12 rounded-corner" th:value="${child.id}" onclick="addReply(this.value)" type="button">답변</button>
