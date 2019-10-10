@@ -6,14 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import us.flower.dayary.domain.BoardGroup;
-import us.flower.dayary.domain.Common;
-import us.flower.dayary.domain.CommunityBoard;
-import us.flower.dayary.domain.People;
-import us.flower.dayary.repository.BoardGroupRepository;
-import us.flower.dayary.repository.CommonRepository;
+import org.springframework.transaction.annotation.Transactional;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
-import us.flower.dayary.repository.people.PeopleRepository;
+import us.flower.dayary.service.community.CommunityBoardService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -59,19 +54,12 @@ public class InsertData {
 
     @Autowired
     CommunityBoardRepository communityBoardRepository;
+
+    @Autowired
+	CommunityBoardService communityBoardService;
 	@Test
+    @Transactional
 	public void insertTest() {
-	    for(int i=0; i<17; i++){
-
-            CommunityBoard cb = new CommunityBoard();
-            cb.setMemo("test");
-            cb.setTitle("test");
-            cb.setDeleteFlag('N');
-            People p = new People();
-            p.setId(4L);
-            cb.setPeople(p);
-            communityBoardRepository.save(cb);
-
-        }
+	   communityBoardService.getCommunityReplyList(119L);
 	}
 }

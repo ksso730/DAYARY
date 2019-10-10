@@ -8,10 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import us.flower.dayary.domain.BoardGroup;
-import us.flower.dayary.domain.BoardLike;
-import us.flower.dayary.domain.CommunityBoard;
-import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.*;
 import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
@@ -25,6 +22,12 @@ import java.util.Map;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
+
+
+/**
+ * 컨틀롤러 작명규칙
+ * GET / POST / DELETE / PUT
+ */
 
 @Controller
 public class CommunityBoardController {
@@ -75,7 +78,7 @@ public class CommunityBoardController {
 	 * @return
 	 */
 	@GetMapping("/community/board/{boardGroup}")
-	public String studyList(@PathVariable("boardGroup") String boardGroup, Model model,
+	public String getBoardList(@PathVariable("boardGroup") String boardGroup, Model model,
 							@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable, HttpSession session) {
 
 		// get board group id
@@ -108,7 +111,7 @@ public class CommunityBoardController {
 	 * @return
 	 */
 	@GetMapping("/community/timeLine")
-	public String CommunityView(Model model) {
+	public String getTimeLineList(Model model) {
 
 		// service
 		List<CommunityBoard> timeLineList = communityBoardService.getCommunityBoardList(1L);
@@ -128,7 +131,7 @@ public class CommunityBoardController {
 	 * @author choiseongjun
 	 */
 	@GetMapping("/community/timeLine/my")
-	public String CommunityfindwrittenView(Model model,HttpSession session) {
+	public String getTimeLineListSelf(Model model,HttpSession session) {
 
 		// session check
 		long peopleId = (long) session.getAttribute("peopleId");
@@ -138,7 +141,6 @@ public class CommunityBoardController {
 
 		// contents list
 		model.addAttribute("timeLineList",timeLineList);
-
 
 		return "community/timeLineList";
 	}
@@ -151,7 +153,7 @@ public class CommunityBoardController {
 	 */
 	@ResponseBody
 	@DeleteMapping("/community/board/delete/{boardId}")
-	public Map<String, Object> sutdyDelete(@PathVariable("boardId") long boardId,
+	public Map<String, Object> deleteBoard(@PathVariable("boardId") long boardId,
 							  HttpSession session){
 
 		// return message
@@ -185,41 +187,74 @@ public class CommunityBoardController {
 
 
 	/**
-	 * 좋아요 기능 (작업중)
-	 * @param board_id
-	 * @param board_group_id
+	 *  게시글 추천
+	 * @param boardId
+	 * @param boardGroup
 	 * @param session
 	 * @return
 	 */
 	@ResponseBody
-	@PostMapping("/community/communityList/studyLike/{board_group_id}/{board_id}")
-	public Map<String, Object> studyLike(@PathVariable("board_id") long board_id, @PathVariable("board_group_id") long board_group_id,
+	@PostMapping("/community/board/{boardGroup}/like/{boardId}")
+	public Map<String, Object> addLike( @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
 							HttpSession session) {
 
+		// return value
 		Map<String, Object> returnData = new HashMap<>();
 
-		CommunityBoard communityBoard = new CommunityBoard();
-		communityBoard.setId(board_id);
-
-		People people = new People();
+		// people id
 		Long peopleId = (Long) session.getAttribute("peopleId");
-		people.setId(peopleId);
 
-		// 이전 추천했는지 확인
-		BoardLike boardLike = boardLikeRepository.findBoardLikeByBoardAndPeople(communityBoard, people);
-		if(boardLike==null){
-			boardLike = new BoardLike();
-			boardLike.setBoard(communityBoard);
-			boardLike.setPeople(people);
+		// boardGroupId
+		Long boardGroupId = getBoargdGroupId(boardGroup);
 
-			BoardGroup boardGroup = new BoardGroup();
-			boardGroup.setId(board_group_id);
-			boardLike.setBoardGroup(boardGroup);
-			boardLikeRepository.save(boardLike);
+		// 이전 추천했는지 확인 (TRUE 이면 기존 추천글)
+		boolean boardLike = communityBoardService.checkBoardLike(peopleId, boardId, boardGroupId);
 
+		// 추천하지 않았던 게시글이면
+		if(!boardLike){
+			// 추천이력 등록
+			communityBoardService.addBoardLike(peopleId, boardId, boardGroupId);
+			returnData.put("code", "1");
 		}else{
 			returnData.put("code", "2");
 			returnData.put("message", "이미 추천한 게시글 입니다");
+		}
+
+		return returnData;
+	}
+
+	/**
+	 *  게시글 추천 해제
+	 * @param boardId
+	 * @param boardGroup
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/community/board/{boardGroup}/unLike/{boardId}")
+	public Map<String, Object> removeLike( @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+										  HttpSession session) {
+
+		// return value
+		Map<String, Object> returnData = new HashMap<>();
+
+		// people id
+		Long peopleId = (Long) session.getAttribute("peopleId");
+
+		// boardGroupId
+		Long boardGroupId = getBoargdGroupId(boardGroup);
+
+		// 이전 추천했는지 확인 (TRUE 이면 기존 추천글)
+		boolean boardLike = communityBoardService.checkBoardLike(peopleId, boardId, boardGroupId);
+
+		// 추천했던 게시글이면
+		if(boardLike){
+			// 추천이력 제거
+			communityBoardService.removeBoardLike(peopleId, boardId, boardGroupId);
+			returnData.put("code", "1");
+		}else{
+			returnData.put("code", "2");
+			returnData.put("message", "추천하지않은 게시글 입니다");
 		}
 
 		return returnData;
@@ -234,7 +269,7 @@ public class CommunityBoardController {
 	 * @return
 	 */
 	@GetMapping("/community/board/{boardGroup}/detail/{boardId}")
-	public String studyDetail(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+	public String getBoardDetail(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
 							  HttpSession session, Model model) {
 
 		// board group (게시판 그룹)
@@ -249,20 +284,35 @@ public class CommunityBoardController {
 
 		// 게시글 작성자와 현재 세션의 사용자 같은지
 		Long peopleId = (Long) session.getAttribute("peopleId");
-		boolean check = communityBoardService.checkWriter(peopleId, communityBoard);
+		boolean writer = communityBoardService.checkWriter(peopleId, communityBoard);
 
 		// 게시글 작성자가 본인이라면
-		if(check){
+		if(writer){
 			model.addAttribute("writerFlag", TRUE);
 		}else{
 			model.addAttribute("writerFlag", FALSE);
 		}
 
+		// TRUE 면 기존에 추천한 게시글
+		boolean boardLike = communityBoardService.checkBoardLike(peopleId, boardId, getBoargdGroupId(boardGroup));
+		if(boardLike){
+			model.addAttribute("boardLike", TRUE);
+		}else{
+			model.addAttribute("boardLike", FALSE);
+		}
+
 		// set session page number (이전페이지 돌아갈때 사용)
 		model.addAttribute("page", session.getAttribute("page"));
 
+		// 댓글 (전체)
+		model.addAttribute("replies", communityBoardService.getCommunityReplyList(boardId));
+
+		// 사용자 id (댓글 삭제용)
+		model.addAttribute("id", peopleId);
+
 		return "community/boardDetail";
 	}
+
 
 
 	/**
@@ -427,32 +477,83 @@ public class CommunityBoardController {
 	}
 
 
+	/**
+	 *  댓글 삭제
+	 * @param replyId
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@DeleteMapping("/community/board/reply/delete/{replyId}")
+	public Map<String, Object> deleteReply(@PathVariable("replyId") long replyId,
+										   HttpSession session){
 
-//
-//	 /**
-//     * 커뮤니티 StudyCafeList 조회
-//     *
-//     * @param
-//     * @return
-//     * @throws
-//     * @author choiseongjun
-//     */
-//	@GetMapping("/community/studycafeList/{board_group_no}")
-//	public String studcafeList(@PathVariable("board_group_no") long board_group_no) {
-//
-//		return "community/studycafeList";
-//	}
-//	 /**
-//     * 커뮤니티 StudyCafeDetail 조회
-//     *
-//     * @param
-//     * @return
-//     * @throws
-//     * @author choiseongjun
-//     */
-//	@GetMapping("/community/studycafeDetail")
-//	public String studycafeDetail() {
-//
-//		return "community/studycafeDetail";
-//	}
+		// return message
+		Map<String, Object> returnData = new HashMap<>();
+
+		// session user id
+		Long peopleId = (Long) session.getAttribute("peopleId");
+
+		// 댓글 작성자와 현재 세션의 사용자 같은지
+		boolean check = communityBoardService.checkReplyWriter(peopleId, replyId);
+
+		// 댓글 작성자가 본인이라면
+		if(check){
+			try {
+				returnData.put("code", "1");
+				returnData.put("message", "삭제되었습니다");
+
+			} catch (Exception e) {
+				returnData.put("code", "E3290");
+				returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+			}
+		}else {
+			returnData.put("code", "E3290");
+			returnData.put("message", "게시글 작성자만 삭제할 수 있습니다.");
+		}
+
+		return returnData;
+	}
+
+	/**
+	 * 게시글 댓글저장
+	 * @param boardGroup
+	 * @param boardId
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/community/board/{boardGroup}/reply/{boardId}")
+	public HashMap<String, Object> postBoardReply(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+												  @RequestBody CommunityBoardReply reply, HttpSession session, Model model){
+		// RequestBody : CommunityBoard / reply ??
+
+		HashMap<String, Object> returnData = new HashMap<>();
+
+		if (reply.getMemo().equals(null) || reply.getMemo().equals("")) {
+			returnData.put("code", "0");
+			returnData.put("message", "내용을 입력해주세요");
+			return returnData;
+		}
+
+		Long peopleId = (Long) session.getAttribute("peopleId");//사용자세션정보 들고오기
+		Long boardGroupId = getBoargdGroupId(boardGroup);
+
+		try {
+			reply = communityBoardService.addBoardReply(reply, peopleId, boardId, boardGroupId);
+			returnData.put("code", "1");
+			returnData.put("message", "저장되었습니다");
+			// 저장된 댓글 번호
+			returnData.put("id", reply.getId());
+			returnData.put("memo", reply.getMemo());
+
+		} catch (Exception e) {
+			returnData.put("code", "E3290");
+			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+		}
+
+		return returnData;
+	}
+
 }

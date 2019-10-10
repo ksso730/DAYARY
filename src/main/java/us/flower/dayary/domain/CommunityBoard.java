@@ -1,49 +1,54 @@
 package us.flower.dayary.domain;
 
 import javax.persistence.*;
-import lombok.Data;
-import us.flower.dayary.domain.common.DateAudit;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Data;
+import lombok.ToString;
+import us.flower.dayary.domain.common.DateAudit;
 import java.util.List;
 
-/**
- * 커뮤니티게시판
- *   by choiseongjun
- */
+
 @Entity
 @Table(name="COMMUNITY_BOARD")
 @Data
+@ToString(exclude = "communityBoardReplies")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class CommunityBoard extends DateAudit{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID")
 	private long id;
+
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = People.class)
+	@JoinColumn(name = "PEOPLE_ID", nullable = false)
+	private People people;
+
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = BoardGroup.class)
+	@JoinColumn(name = "BOARD_GROUP_ID", nullable = false)
+	private BoardGroup boardGroup;
+
 	@Column(name="TITLE")
 	private String title;
 
-	@Column(name="MEMO")
+	@Column(name="MEMO", nullable = false)
 	@Lob
 	private String memo;
-	@Column(name="DELETEFLAG" ,nullable=false, columnDefinition = "char(1) default 'N'")
-	private char deleteFlag;
-	@Column(name="HEART")
-	private long heart;
-	
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = BoardGroup.class)
-    @JoinColumn(name = "BOARD_GROUP_ID")
-    private BoardGroup boardGroup;
-	
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = People.class)
-    @JoinColumn(name = "PEOPLE_ID")
-    private People people;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard")
-	private List<File> files;
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard")
+//	private List<File> files;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard", cascade = CascadeType.ALL)
+	private List<CommunityBoardReply> communityBoardReplies;
+
+	@Column(name="DELETE_FLAG" ,nullable=false, columnDefinition = "VARCHAR(1) default 'N'")
+	private String deleteFlag;
 
 	@Column(name="VIEW_COUNT")
 	private long viewCount;
 
-	@Column(name="LIKE_COUNT")
-	private long likeCount;
+	@Column(name="HEART")
+	private long heart;
 }

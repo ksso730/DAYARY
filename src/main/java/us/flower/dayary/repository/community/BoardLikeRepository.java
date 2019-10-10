@@ -3,10 +3,12 @@ package us.flower.dayary.repository.community;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import us.flower.dayary.domain.BoardLike;
-import us.flower.dayary.domain.CommunityBoard;
-import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.BoardLikeId;
+
 
 public interface BoardLikeRepository extends JpaRepository<BoardLike,Long> {
 
-    BoardLike findBoardLikeByBoardAndPeople(CommunityBoard communityBoard, People people);
+    // 좋아요 이력 조회
+    BoardLike findBoardLikeById(BoardLikeId boardLikeId);
+
 }
