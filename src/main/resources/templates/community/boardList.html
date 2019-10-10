@@ -80,9 +80,9 @@ $(document).ready(function(){
       <!-- jstl의 if문은 else가 없어서 따로 검증해야함. -->
     </div>
    
-    <div id="list">
+<!--    <div id="list">
       <b th:inline="text" id="boardListCount">게시판 (전체 글: [[${boardListCount}]])</b>
-    </div>
+    </div>-->
      
     <div id="write">
       <a th:href="@{'/community/board/' + ${boardGroup} + '/write'}">
@@ -103,16 +103,16 @@ $(document).ready(function(){
         </thead>
         <tbody>
           <tr th:each="board : ${boardList}">
-              <td th:text ="${board.id}"></td>
+              <td th:text ="${board.boardId}"></td>
               <td id="title">
-                  <a th:href="@{'/community/board/' + ${boardGroup} + '/detail/' + ${board.id}}"><span th:text = "${board.title}"></span></a>
+                  <a th:href="@{'/community/board/' + ${boardGroup} + '/detail/' + ${board.boardId}}"><span th:text = "${board.boardTitle}"></span></a>
                   <span class="hit">hit!</span>
               </td>
-              <td th:text="${board.people.email}"></td>
+              <td th:text="${board.peopleName}"></td>
               <td th:utext="${#strings.replace(board.createdAt,'T',' ')}"></td>
               <td th:text="${board.viewCount}"></td>
               <td th:text="${board.heart}"></td>
-              <td th:text="${board.communityBoardReplies.size()}"></td>
+              <td th:text="${board.replyCount}"></td>
           </tr>
         </tbody>
       </table>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import us.flower.dayary.domain.*;
+import us.flower.dayary.domain.DTO.BoardListDTO;
 import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
@@ -91,7 +92,7 @@ public class CommunityBoardController {
 		session.setAttribute("page", pageable.getPageNumber());
 
 		// service
-		Page<CommunityBoard> communityBoardList = communityBoardService.getCommunityBoardList(boardGroupId, pageable);
+		Page<BoardListDTO> communityBoardList = communityBoardService.getCommunityBoardList(boardGroupId, pageable);
 
 		// contents list
 		model.addAttribute("boardList", communityBoardList.getContent());

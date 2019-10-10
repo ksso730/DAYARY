@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import us.flower.dayary.domain.*;
+import us.flower.dayary.domain.DTO.BoardListDTO;
 import us.flower.dayary.domain.DTO.BoardReplyDTO;
 import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.BoardReplyRepository;
@@ -17,7 +18,7 @@ import us.flower.dayary.repository.community.CommunityBoardRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.zip.CheckedOutputStream;
+
 
 @Service
 public class CommunityBoardServiceImpl implements CommunityBoardService{
@@ -119,12 +120,13 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	 * @return
 	 */
 	@Override
-	public Page<CommunityBoard> getCommunityBoardList(long boardGroupId, Pageable pageable) {
+	public Page<BoardListDTO> getCommunityBoardList(long boardGroupId, Pageable pageable) {
 
 		BoardGroup boardGroup = new BoardGroup();
 		boardGroup.setId(boardGroupId);
 
-		Page<CommunityBoard> communityBoardList = communityBoardRepository.findAllByBoardGroupAndDeleteFlag(boardGroup, "N" ,pageable);
+		/*Page<CommunityBoard> communityBoardList = communityBoardRepository.findAllByBoardGroupAndDeleteFlag(boardGroup, "N" ,pageable);*/
+		Page<BoardListDTO> communityBoardList = communityBoardRepository.findAllByBoardGroupAndDeleteFlagAndReply(boardGroup, "N" ,pageable);
 
 		return communityBoardList;
 	}
