@@ -8,5 +8,6 @@ public class Message {
 	private long peopleId;
 	private long moimNo;
 	private String msg;
+	private String peopleEmail;
 	
 }

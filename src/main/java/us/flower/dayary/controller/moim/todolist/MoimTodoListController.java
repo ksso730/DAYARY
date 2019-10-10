@@ -1,6 +1,6 @@
 package us.flower.dayary.controller.moim.todolist;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,11 +64,11 @@ public class MoimTodoListController {
      * @author jy
      */
     @ResponseBody
-    @PostMapping("/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail")
-    public Map<String, Object> todostatusdetailpost(@RequestBody Map<String,String> param) {
+    @PostMapping("/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/{no}")
+    public Map<String, Object> todostatusdetailpost(@PathVariable("no") long no,@RequestBody Map<String,String> param) {
     	Map<String, Object> returnData = new HashMap<String, Object>();
     		  try {
-    			  service.updateList(param.get("list"));
+    			  service.updateList(param.get("list"),no,Integer.parseInt(param.get("count")));
     	            returnData.put("code", "1");
     	            returnData.put("message", "저장되었습니다");
 
@@ -87,8 +88,52 @@ public class MoimTodoListController {
      * @author choiseongjun
      */
     @GetMapping("/moimDetail/moimTodoList/moimTodoListcompleted/{no}")
-    public String moimTodoListcompleted(@PathVariable("no") long no) {
-    	 
+    public String moimTodoListcompleted(@PathVariable("no") long no,Model model) {
+    	model.addAttribute("list",service.findByMoim_idAndStatus(no, "End"));
+    	return "moim/moimTodoListcompleted";
+    }
+    /**
+     * 모임 일정관리(ToDoList) 새로운것만 보기
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author jy
+     */
+    @GetMapping("/moimDetail/moimTodoList/moimTodoListNew/{no}")
+    public String moimTodoListNew(@PathVariable("no") long no,Model model) {
+    	model.addAttribute("list",service.findByMoim_idAndStatus(no,"New"));
+    	
+    	return "moim/moimTodoListcompleted";
+    }
+    /**
+     * 모임 일정관리(ToDoList) 진행중인것만 보기
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author jy
+     */
+    @GetMapping("/moimDetail/moimTodoList/moimTodoListProgress/{no}")
+    public String moimTodoListProgress(@PathVariable("no") long no,Model model) {
+    	model.addAttribute("list",service.findByMoim_idAndStatus(no,"In Progress"));
+    	
+    	
+    	return "moim/moimTodoListcompleted";
+    }
+    /**
+     * 모임 일정관리(ToDoList) 미완료된것만 보기
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author jy
+     */
+    @GetMapping("/moimDetail/moimTodoList/moimTodoListSuspend/{no}")
+    public String moimTodoListSuspend(@PathVariable("no") long no,Model model) {
+    	model.addAttribute("list",service.findByMoim_idAndStatus(no,"Suspend"));
+    	
+    	
     	return "moim/moimTodoListcompleted";
     }
     /**
@@ -154,10 +199,12 @@ public class MoimTodoListController {
      * @throws 
      * @author JY
      */
-    @GetMapping("/moimDetail/moimTodoList/status/{no}/{date}")
-    public void status(@PathVariable("no")long no,@PathVariable("date")Date date) {
-    	System.out.println(no);
-    	System.out.println(date);
+    @GetMapping("/moimDetail/moimTodoList/status/{no}")
+    public Map<String,Object> status(@PathVariable("no")long no) {
+    	  Map<String, Object> returnData = new HashMap<String, Object>();
+    	Date date=new java.sql.Date(System.currentTimeMillis());
+	    	service.updateById(no, date);
+	    	return returnData;
     }
     /**
      * 모임 해야할일(ToDoList) 현재목록  조회
@@ -194,4 +241,32 @@ public class MoimTodoListController {
     	model.addAttribute("moimPeople",Boolean.toString(moim));
     	return "moim/moimTodoList";
     }
+    /**
+     * todo 삭제
+    *
+    * @param 
+    * @return
+    * @throws 
+    * @author JY
+    * @date 2019-10-04
+    */
+   @ResponseBody
+   @DeleteMapping("/moimDetail/moimTodoList/delete/{no}")
+   public Map<String, Object> MoimDeleteOne(@PathVariable("no") long no) {
+   
+      Map<String, Object> returnData = new HashMap<String, Object>();
+      
+      try {
+    	  service.deleteById(no);
+           returnData.put("code", "1");
+           returnData.put("message", "삭제되었습니다");
+
+       } catch (Exception e) {
+           returnData.put("code", "E3290");
+           returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+       }
+
+
+      return returnData;
+   }
 }

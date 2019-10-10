@@ -149,7 +149,8 @@ body {
 <body onload="myPeopleCount()"><!-- 인원수 세는것 by choiseongjun -->
    <div id="moimNo" th:data-moimNo="${moimDetail.id}"></div><!-- 모임번호 -->
    <div id="moimPeopleNo" th:data-moimPeopleNo="${moimPeopleNo}"></div><!-- 모임피플테이블번호 -->
-      
+     <div id="joinCondition" th:data-joinCondition="${moimDetail.joinCondition}"></div><!-- 모임가입승인조건 유무 -->
+    
    <link rel="stylesheet" href="/css/friendList.css">
    <div class="content">
       <div class="container">
@@ -202,21 +203,49 @@ body {
                      <p class="text-muted font-13">
                      <td th:text="${moimDetail.intro}" />
                      </p>
-                        
-                     <span th:if="${joinedpeople}!=null">   
-                        <span th:if="${!(session.peopleId==moimDetail.people.id)}">
-                           <button type="button" id="withdraw_btn"
-                              class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
-                        </span>
-                     </span>
-                     <span th:if="${joinedpeople}==null">   
-                        <span
-                           th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople>=moimDetail.peopleLimit) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
-                           <!-- 미가입자와 운영자가 아닌경우 -->
-                           <button type="button" id="signup_btn"
-                              class="btn btn-primary btn-xs">스터디 가입하기</button>
-                        </span> 
-                     </span>
+                    
+                     <tr th:each="joinedpeoplelist : ${joinedpeoplelist}">
+                           <span th:if="${joinedpeoplelist.joinCondition}=='N'">   
+                           	 <span th:if="${joinedpeople}!=null">   
+		                        <span th:if="${!(session.peopleId==moimDetail.people.id)}">
+		                           <button type="button" id="withdraw_btn"
+		                              class="btn btn-primary btn-xs">스터디 승인대기중...</button>
+		                        </span>
+		                      </span>
+                           </span>
+                           <span th:if="${joinedpeoplelist.joinCondition}=='Y'">   
+		                     <span th:if="${joinedpeople}!=null">   
+		                        <span th:if="${!(session.peopleId==moimDetail.people.id)}">
+		                           <button type="button" id="withdraw_btn"
+		                              class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
+		                        </span>
+		                      </span>
+		                    </span>
+		                     
+                       </tr>
+                       <!--  <td th:text="${moimDetail.joinCondition}" /> -->    
+                      <span th:if="${moimDetail.joinCondition}=='N'">   <!-- 누구나 가입하는 경우  by choinseognjun 2019-10-07-->
+	                       <span th:if="${joinedpeople}==null">   
+	                        <span
+	                           th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople>=moimDetail.peopleLimit) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
+	                           <!-- 미가입자와 운영자가 아닌경우 -->
+	                           <button type="button" id="signup_btn"
+	                              class="btn btn-primary btn-xs">스터디 가입하기</button>
+	                        </span> 
+	                     </span>
+                      </span>
+                       <span th:if="${moimDetail.joinCondition}=='Y'">    <!-- 가입 승인조건을 받아야 하는  경우 -->
+                      	 <span th:if="${joinedpeople}==null">   
+	                        <span
+	                           th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople>=moimDetail.peopleLimit) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
+	                           <!-- 미가입자와 운영자가 아닌경우 -->
+	                       
+	                           <button type="button" id="signup_btnY"
+	                              class="btn btn-primary btn-xs">스터디 가입하기</button>
+	                        </span> 
+	                     </span>
+                      </span>
+                    
                      <hr>
                      <div class="text-left">
                         <p class="text-muted font-13">
@@ -284,24 +313,29 @@ body {
                         <p class="inbox-item-date"></p>
                      </div>
                      <!-- 운영자 랜더링 End by choiseongjun -->
-                     <tr th:each="moimpeopleList : ${moimpeopleList}">
+                     <tr th:each="joinedmoimpeopleList : ${joinedmoimpeopleList}">
                      
-                        <a href="#">
+                        <a href="#">	
                            <div class="inbox-item" >
                               <div class="inbox-item-img">
-                                 <img
-									th:src="${moimpeopleList.imageName!=null} ? ${'/getMoimImage/'moimpeopleList.imageName'.'+moimpeopleList.imageExtension} : '/images/default_people.png'"
-									 	class="rounded-circle" alt="">  
+					        <img th:src="${joinedmoimpeopleList.people.imageName!=null} ?${'/getMoimImage/'+joinedmoimpeopleList.people.imageName+'.'+joinedmoimpeopleList.people.imageExtension} : '/images/default_people.png'"
+								class="rounded-circle" alt=""
+								> 
+                        
                               </div>
                               
                               <p class="inbox-item-author"> 
                                  
-                                 <td th:text="${moimpeopleList.name}"/>
+                                 <td th:text="${joinedmoimpeopleList.people.name}"/>
                               <span th:if="${session.peopleId==moimDetail.people.id}">
+	                               <span th:if="${joinedmoimpeopleList.joinCondition}=='N'">
+											<button type="button" name="grantpeople_btn"  th:value="${joinedmoimpeopleList.people.id}"
+		                                       class="btn btn-icon btn-sm waves-effect waves-light btn-success">가입승인하기</button>
+		                            </span>
                                     <button type="button"
                                        class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
                                     
-                                    <button type="button"  name="banpeople_btn"  th:value="${moimpeopleList.id}"
+                                    <button type="button"  name="banpeople_btn"  th:value="${joinedmoimpeopleList.people.id}"
                                        class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
                                  </span>
                               </p>
@@ -362,34 +396,26 @@ body {
                <!-- end row -->
                <div class="card-box">
                   <h4 class="header-title mt-0 mb-3">
-                     오프라인모임활동
-                     <td th:text="${no}"></td>
+                    	 오프라인모임
                   </h4>
+                 <tr th:each="meetupList : ${meetupList}">
+                
                   <div class="">
                      <div class="">
-                        <h5 class="text-custom">자바 및 스프링 스터디</h5>
-                        <p class="mb-0">강남 스터디하자카페 (주소:서울시 강남대로 28)</p>
-                        <p>
-                           <b>2019-09-10-19:20</b>
+                        <h5 class="text-custom"> <td th:text="${meetupList.title}" /> </h5>
+                      
+                        <p class="mb-0"> <td th:text="${meetupList.intro}" />  <td th:text="${meetupList.detailAddress}" /></p>
+                        <p> 
+                           <b><td th:text="${meetupList.meetDate}" /></b>
                         </p>
                         <button type="button" class="btn btn-primary btn-xs">참여
                            하기</button>
                         <br />
                         <button id="myBtn" class="btn btn-info btn-xs">참여자 보기</button>
                      </div>
-                     <hr>
-                     <div class="">
-                        <h5 class="text-custom">Senior Graphic Designer</h5>
-                        <p class="mb-0">coderthemes.com</p>
-                        <p>
-                           <b>2007-2009</b>
-                        <p class="text-muted font-13 mb-0">Lorem Ipsum is simply
-                           dummy text of the printing and typesetting industry. Lorem
-                           Ipsum has been the industry's standard dummy text ever since
-                           the 1500s, when an unknown printer took a galley of type and
-                           scrambled it to make a type specimen book.</p>
-                     </div>
+                     
                   </div>
+               	</tr>
                </div>
 
 

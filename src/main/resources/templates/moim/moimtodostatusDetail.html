@@ -25,22 +25,23 @@
                             <h5 class="media-heading mb-0 mt-0">작성자</h5><span class="badge badge-danger" th:text=${todo.people.name}></span></div>
                     </div>
                     <div id="moimNo" th:data-moimNo="${todo.moim.id}"></div><!-- 모임번호 -->
+                    <div id="todoNo" th:data-todoNo="${todo.id}"></div><!-- 모임번호 -->
                     <h2 class="m-b-20">게획 제목</h4>
                     <h4 class="m-b-20">계획내용</h4>
                   
-                  	<ul id="myUL">
-					<li th:each="l:${list}" th:if="${l.checkConfirm}=='N'" th:value="${l.id}"> <span th:text="${l.plan_list}"></span>
-						  <button type="button" id="myBtn"  aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-link">
-						  <i class="fa fa-search" >
-						  </i>
-						  </button></li>
-					
-					</ul>
-						<ul id="DoneUL">
-						<li th:each="l:${list}" th:if="${l.checkConfirm}=='Y'" class="checked">
-						 <span th:text="${l.plan_list}" ></span>
-						</li>
-						</ul>
+                     <ul id="myUL">
+               <li th:each="l:${list}" th:if="${l.checkConfirm}=='N'" th:value="${l.id}"> <span th:text="${l.plan_list}"></span>
+                    <button type="button" id="myBtn"  aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-link">
+                    <i class="fa fa-search" >
+                    </i>
+                    </button></li>
+               
+               </ul>
+                  <ul id="DoneUL">
+                  <li th:each="l:${list}" th:if="${l.checkConfirm}=='Y'" class="checked">
+                   <span th:text="${l.plan_list}" ></span>
+                  </li>
+                  </ul>
                     <ul class="list-inline task-dates m-b-0 mt-5">
                         <li>
                             <h5 class="m-b-5">시작 일자</h5>
@@ -48,7 +49,7 @@
                         </li>
                         <li>
                             <h5 class="m-b-5">종료 일자</h5>
-                            <p th:text="${todo.to_date}"></p>
+                            <p th:text="${todo.to_date}" id="to_date" th:data="${todo.to_date}"></p>
                         </li>
                     </ul>
                     <div class="attached-files mt-4">
@@ -72,11 +73,13 @@
                             <div class="col-sm-12">
                                 <div class="text-right mt-4">
                                 <span th:if="${todo.people.email eq session.peopleEmail}">
-                                    <button type="button" class="btn btn-success waves-effect waves-light" onclick="post_send();">완료하기</button>
+                                    <button type="button" class="btn btn-success waves-effect waves-light" onclick="post_send();" id="sendBtn">완료하기</button>
+                                    <button type="button" class="btn btn-danger waves-effect waves-light" onclick="delete_send();">삭제하기</button>
+                                   
                                  </span>   
-                                    <a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/'+${todo.id}}">
-                                    	<button type="button" class="btn btn-light waves-effect">목록으로 가기</button>
-                                    </a>
+                                   
+                                       <button type="button" class="btn btn-light waves-effect" onclick="back();">목록으로 가기</button>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -161,7 +164,77 @@ list.addEventListener('click', function(ev) {
     ev.target.classList.toggle('checked');
   }
 }, false);
+//todo삭제기능
+function delete_send(){
+   alert("")
+    var moimNo = $('#moimNo').attr("data-moimNo");
+    var todoNo = $('#todoNo').attr("data-todoNo");
+   
+   $.ajax({
+         url : '/moimDetail/moimTodoList/delete/'+todoNo, 
+         type : "DELETE",   
+         processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+          contentType: false,
+          success:function(data){
+             if(data.code==1){
+                 alert(data.message);
+                 location.href='/moimDetail/moimTodoList/'+moimNo;
+           }else{
+              alert(data.message);
+           }
+          },
+          error:function(e){
 
+          }
+      });
+}
+  
+ 
+
+//체크저장기능
+function post_send() {
+	var temp = document.getElementById("myUL").getElementsByTagName("LI");
+	var count=document.getElementById("DoneUL").getElementsByTagName("LI");
+	var list="";
+	var now =new Date();
+	 var to=new Date($('#to_date').attr("data"));
+	 if(now>to){
+		alert("기한이 지나 수정이 불가능합니다.");
+		document.getElementById("sendBtn").style.display="none";
+		return ;
+	 }
+	if(temp.length!=0){
+	for (var i in temp) {
+		if(temp[i].className=="checked"){
+			list+=temp[i].value+",";
+		}
+	}
+	var param={
+			"list":list,
+			"count":count.length
+	}
+	   $.ajax({
+	      url:'/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/'+$('#todoNo').attr("data-todoNo"),
+	        type:'post',
+	        data: JSON.stringify(param) ,
+	        contentType: "application/json; charset=utf-8",
+	        success:function(data){
+	        	 if(data.code==1){
+	                 location.href='/moimDetail/moimTodoList/'+ $('#moimNo').attr("data-moimNo");
+	             }else{
+	                 alert(data.message);
+	             }
+	        }, error:function(e){
+
+	        }
+	    });
+	}else
+		alert("변경사항이 없습니다.")
+}
+
+ function back(){
+	 history.back();
+ }
 </script>
  <script src="/js/moim/moimtodostatusModal.js"></script>
 

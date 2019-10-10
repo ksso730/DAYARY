@@ -14,6 +14,7 @@
 		rel="stylesheet">
 	<div class="container">
 <div id="peopleId" th:data-peopleId="${session.peopleId}"></div>
+<div id="email" th:data-email="${session.peopleEmail}"></div>
 <div id="moimNo" th:data-moimNo="${no}"></div>
 		<!-- Page header start -->
 		<div class="page-title">
@@ -109,7 +110,7 @@
 													alt="Retail Admin">
 												<div class="chat-name" th:text="${moimchatList.people.email}"></div>
 											</div>
-											<div class="chat-text" th:text="${moimchatList.chatMemo}">
+											<div class="chat-text" th:text="${moimchatList.chatMemo}" id="chatList">
 											</div>
 											<div class="chat-hour" th:text="${moimchatList.createDate}">
 												<span class="fa fa-check-circle"></span>
@@ -117,19 +118,16 @@
 										</li>
 									</tr>
 										<li class="chat-right">
-											<div class="chat-hour">
+										<!-- 	<div class="chat-hour">
 												08:56 <span class="fa fa-check-circle"></span>
-											</div>
-											<div class="chat-text">
-												Hi, Russell <br> I need more information about
-												Developer Plan.
-											</div>
-											<div class="chat-avatar">
+											</div> -->
+											
+											<!-- <div class="chat-avatar">
 												<img
 													src="https://www.bootdey.com/img/Content/avatar/avatar3.png"
 													alt="Retail Admin">
 												<div class="chat-name">Sam</div>
-											</div>
+											</div> -->
 										</li>
 										
 									</ul>
@@ -164,9 +162,10 @@
 		let peopleId=$('#peopleId').attr("data-peopleId");
 		let msg=$('#inputmsg').val();
 		let moimNo=$('#moimNo').attr("data-moimNo");
+		let peopleEmail=$('#email').attr("data-email");
 		console.log("mmmmmmmmmmmmm>>",msg)
 		if(isStomp)
-			socket.send('/moimchat',{},JSON.stringify({ peopleId: peopleId, msg: msg,moimNo: moimNo}));
+			socket.send('/moimchat',{},JSON.stringify({ peopleId: peopleId, msg: msg,moimNo: moimNo,peopleEmail: peopleEmail}));
 		else
 			socket.send(msg);
 	})
@@ -184,11 +183,57 @@ function connectStomp() {
         console.log("Connected stompTest!");
         // Controller's MessageMapping, header, message(자유형식)
 
-        // 해당 토픽을 구독한다!
+       /*  // 해당 토픽을 구독한다!
         client.subscribe('/topic/message', function (event) {
-            console.log("!!!!!!!!!!!!event>>", event)
-        });
+            console.log("!!!!!!!!!!!!event>>", event);
+            console.log("!!!!!!!!!!!!event>>", event.body.msg)
+        }); */
+        // 해당 토픽을 구독한다!
+        client.subscribe('/topic/message', onMessageReceived);
+        
     });
+
+}
+
+function onMessageReceived(payload) {
+	var message = JSON.parse(payload.body);
+	console.log('ㅎㅎㅎㅎㅎㅎㅎ')
+	console.log(message.peopleId)
+	
+	
+	/* var messageElement = document.createElement('li');
+
+	
+	messageElement.classList.add('message-data');
+
+	var element = document.createElement('i');
+	//var text = document.createTextNode(message.sender[0]);
+	//element.appendChild(text);
+
+	messageElement.appendChild(element);
+
+	var usernameElement = document.createElement('span');
+	var usernameText = document.createTextNode(message.msg);
+	usernameElement.appendChild(usernameText);
+	messageElement.appendChild(usernameElement);
+	
+
+	var textElement = document.createElement('p');
+	var messageText = document.createTextNode(message.content);
+	textElement.appendChild(messageText);
+
+	messageElement.appendChild(textElement); */
+	
+	if($('#peopleId').attr("data-peopleId")==message.peopleId){
+		$('.chat-box').append('<li class="chat-right"><div class="chat-hour">08:56<span class="fa fa-check-circle"></span></div><div class="chat-text">'+message.msg+'</div><div class="chat-avatar"><img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin"><div class="chat-name">'+message.peopleEmail+'</div></div></li>');
+	}else{
+		$('.chat-box').append('<li class="chat-left"><div class="chat-avatar"><img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin"><div class="chat-name">'+message.peopleEmail+'</div></div><div class="chat-text" id="chatList">'+message.msg+'</div><div class="chat-hour">2019-10-04 00:00:00.0</div></li>');
+	}
+	
+	
+	document.querySelector('#chatList').appendChild(messageElement);
+	document.querySelector('#chatList').scrollTop = document
+			.querySelector('#chatList').scrollHeight;
 
 }
 

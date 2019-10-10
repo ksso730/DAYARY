@@ -1,21 +1,41 @@
 package us.flower.dayary.repository.moim;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Moim;
-import us.flower.dayary.domain.MoimPeople;
 
-public interface MoimRepository extends JpaRepository<Moim, Long>{
+public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificationExecutor<Moim>{
 
     boolean existsByImageName(String imageName);
 
     
     boolean existsByIdAndPeople_id(long id,long peopleId);
+
+
+	List<Moim> findByTitleLike(String title);
+
+
+
+	Page<Moim> findAllByTitleLike(Pageable pageable, String title);
+ 
+
+	Page<Moim> findAllByTitleLikeAndCategory(Pageable pageable, String string, Common common);
+
+
+	Page<Moim> findAllByTitleLikeOrCategory(Pageable pageable, String string, Common common);
+
+
+
+
+
+
+	
   
 
 

@@ -48,5 +48,8 @@ public class MoimPeople extends DateAudit{
 	 
 	@Column(name="JOINROLE")
 	private String joinrole;
+	//참가자 Y은 승인된 사람 N은 비승인자
+	@Column(name="JOIN_CONDITION" ,nullable=false, columnDefinition = "char(1) default 'Y'")
+	private char joinCondition;
 
 }

@@ -107,7 +107,7 @@ public class MoimServiceImpl implements moimService{
         return fileManager.getByteArray(moimImagePath+"/"+imageName);
     }
 
-	public MoimPeople moimParticipant(long peopleId, long moimId) {
+	public MoimPeople moimParticipant(long peopleId, long moimId,char joinCondition) {
 		Moim moim=new Moim();
 		moim.setId(moimId);
 		
@@ -118,7 +118,7 @@ public class MoimServiceImpl implements moimService{
 		moimPeople.setMoim(moim);
 		moimPeople.setPeople(people);
 		moimPeople.setJoinrole("study"); 
-		
+		moimPeople.setJoinCondition(joinCondition);
 		return moimpeopleRepository.save(moimPeople);
 	}
 
@@ -134,16 +134,40 @@ public class MoimServiceImpl implements moimService{
 	}
 
 
-	@Override
-	public Page<Moim> selectListAll(Pageable pageable) {
-		return moimRepository.findAll(pageable);
-	}
+//	@Override
+//	public Page<Moim> selectListAll(Pageable pageable) {
+//		return moimRepository.findAll(pageable);
+//	}
 
 	@Override
 	public String findMoimPeopleNoOne(long peopleId, long no) {
 		return peopleRepository.findMoimPeopleNoOne(peopleId,no);
 	}
+
+	@Override
+	public List<Moim> findByTitle(String name) {
+		return  moimRepository.findByTitleLike("%"+name+"%");
+	}
+
 	
+
+	@Override
+	public Page<Moim> selectListAll(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return moimRepository.findAll(pageable);
+	}
+
+//	@Override
+//	public Page<Moim> selecttitleList(Pageable pageable, String title) {
+//		return moimRepository.findAllByTitleLike(pageable,"%"+title+"%");
+//	}
+
+	@Override
+	public Page<Moim> selecttitleList(Pageable pageable, String title, Common common) {
+		// TODO Auto-generated method stub
+		return moimRepository.findAllByTitleLikeAndCategory(pageable,"%"+title+"%",common);
+	}
+
 
 
 

@@ -3,6 +3,7 @@ package us.flower.dayary.service.moim.todo;
 
 
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,9 @@ public interface ToDoWriteService {
 	public List<ToDoWrite> findByMoim_id(long id); 
 	public List<ToDoWriteList> findByToDoWrite_id(long id);
 	public ToDoWrite findById(long id);
-	public void updateList(String list);
+	public void updateList(String list,long no,int count);
 	public boolean existByMoim_idAndPeople_id(long id,long peopleId);
+	public void updateById(long id,Date date);
+	public void deleteById(long id);
+	 public List<ToDoWrite> findByMoim_idAndStatus(long id, String status);
 }
