@@ -404,11 +404,13 @@ body {
                   </h4>
                 
                  <tr th:each="meetupList : ${meetupList}">
-                
                   <div class="">
                      <div class="">
-                        <h5 class="text-custom"> <a th:href="@{'/moimlistView/moimdetailView/moimmeetupDetailView/' +${no}+'/'+ ${meetupList.id}}"><td th:text="${meetupList.title}" /></a> </h5>
-                      
+                        <h5 class="text-custom"> 
+                        	<a th:href="@{'/moimlistView/moimdetailView/moimmeetupDetailView/' +${no}+'/'+ ${meetupList.id}}">
+                        		<td th:text="${meetupList.title}" />
+                        	</a> 
+                        </h5>
                         <p class="mb-0"> <td th:text="${meetupList.intro}" />  <td th:text="${meetupList.detailAddress}" /></p>
                         <p> 
                            <b><td th:text="${meetupList.meetDate}" /></b>

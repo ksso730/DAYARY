@@ -1,9 +1,13 @@
 package us.flower.dayary.controller.moim.meetup;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -22,8 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.MeetupPeople;
 import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.DTO.TempData;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.meetup.MeetupPeopleRepository;
 import us.flower.dayary.repository.moim.meetup.MoimMeetUpRepository;
@@ -44,6 +50,8 @@ public class MoimMeetUpController {
 	MoimMeetUpRepository moimmeetupRepository;
 	@Autowired
 	MoimRepository moimRepository;
+	@Autowired
+	MoimPeopleRepository moimpeopleRepository;
 	
 	/**
 	 * 모임 오프라인모임 탈퇴하기
@@ -52,13 +60,19 @@ public class MoimMeetUpController {
 	 * @return
 	 * @throws Exception
 	 * @author choiseongjun
+	 * @throws IOException 
 	 */
 	@ResponseBody
 	@DeleteMapping("/moimlistView/moimdetailView/moimmeetupDetailView/offmoimWithdraw/{no}/{meetupList.id}")
 	public Map<String,Object> moimoffmoimWithdraw(@PathVariable("no") long no,@PathVariable("meetupList.id") long meetupListId
-									  ,Model model,Meetup meetUp,HttpSession session) {
+									  ,Model model,Meetup meetUp,HttpSession session) throws IOException {
 		Map<String,Object> returnData = new HashMap<String,Object>();
 	
+		
+
+
+
+		
 		long peopleId = (long) session.getAttribute("peopleId");//현재 접속중인 일반회원 번호를 던져준다
 	
 			
@@ -177,17 +191,25 @@ public class MoimMeetUpController {
 	public Map<String, Object> moimgrantjoinPeople(@Valid @RequestBody TempData tempdata,HttpSession session) {
 	
 		long peopleId = (long) session.getAttribute("peopleId");//현재 접속중인 일반회원 번호를 던져준다
+		long meetupId = tempdata.getNo1();
+		long moimId = tempdata.getNo2();
 		Map<String,Object> returnData = new HashMap<String,Object>();
 		People people=new People();
 		people.setId(peopleId);
 	
 		Moim moim=new Moim();
-		moim.setId(tempdata.getNo2());
+		moim.setId(moimId);
   
 		Meetup meetup=new Meetup();
-		meetup.setId(tempdata.getNo1());//오프모임키
+		meetup.setId(meetupId);//오프모임키
 		
-  
+		List<MoimPeople> moimPeopleInfo=moimpeopleRepository.findByMoim_idAndPeople_id(moimId, peopleId);
+		long moimPeopleCount=0;
+		for(int i=0;i<moimPeopleInfo.size();i++) {
+			moimPeopleCount=moimPeopleInfo.get(i).getId();
+		}
+		System.out.println(moimPeopleCount);
+		
 		MeetupPeople meetupPeople=new MeetupPeople();
 		meetupPeople.setMoim(moim);
 		meetupPeople.setPeople(people);
@@ -197,12 +219,15 @@ public class MoimMeetUpController {
 			
 			 
 		 try {
-			 meetuppeopleRepository.save(meetupPeople);
-			 		//moimpeopleRepository.updateMoimPeoplejoinCondition(people,moim);
+			 if(moimPeopleCount==0) {
+				 returnData.put("code","2"); 
+				 returnData.put("message","모임 가입한 사람만 참여할수 있습니다.");
+			 }else {
+				 meetuppeopleRepository.save(meetupPeople);
 
-				 	returnData.put("code","1"); 
-				 	returnData.put("message","참여 완료:)");
-			 
+				 returnData.put("code","1"); 
+				 returnData.put("message","참여 완료:)");
+			 }
 			
 		  }catch(Exception e) { returnData.put("code", "E3290");
 		  		returnData.put("message", "데이터 확인 후 다시 시도해주세요."); 
@@ -267,8 +292,15 @@ public class MoimMeetUpController {
 	 */
 	@GetMapping("/moimlistView/moimdetailView/moimmeetupDetailView/{no}/{meetupList.id}")
 	public String moimmeetupDetailView(@PathVariable("meetupList.id") long meetupListId,@PathVariable("no") long no
-										,Model model,Meetup meetUp,Sort sort,HttpSession session) {
+										,Model model,Meetup meetUp,Sort sort,HttpSession session
+										, HttpServletRequest request
+							            , HttpServletResponse response) {
 		   
+		
+
+		
+
+		
 		 long peoplemeetupNo=0;
 		long peopleId = (long) session.getAttribute("peopleId");//현재 접속중인 일반회원 번호를 던져준다
 		
@@ -287,12 +319,7 @@ public class MoimMeetUpController {
 		model.addAttribute("meetupPeopleList",meetupPeopleList);
 		model.addAttribute("meetupListId",meetupListId);
 		model.addAttribute("meetupPeopleCheck",meetupPeopleCheck); 
-//		sort = sort.and(new Sort(Sort.Direction.DESC, "id"));
-//		List<Meetup> meetupList=moimmeetupRepository.findByMoim_id(no,sort);//오프라인 모임 내림차순정렬로 가져옴
-//			
-//		
-//		model.addAttribute("meetupList",meetupList);
-//		model.addAttribute("no",no);
+
 		return "moim/meetup/moimmeetupDetail";
 	}
 	/**

@@ -27,9 +27,10 @@ $('[name="offmoimWithdraw_btn"]').on('click', function () {//가입승인 대기
       });
 });
 
-$('[name="offmoimJoin_btn"]').on('click', function () {//가입승인 대기중인사람 승인하기 by choiseongjun 2019-10-07
-	 var moimNo = $('#moimNo').attr("data-moimNo");
-	 var meetupNo=$(this).val();
+$('[name="offmoimJoin_btn"]').on('click', function () {//오프라인(meetup)모임 참가하기by choiseongjun 2019-10-12
+	 
+	var moimNo = $('#moimNo').attr("data-moimNo");
+	var meetupNo=$(this).val();
     let tempdata = {};
     tempdata.no1= $(this).val();
     tempdata.no2= $('#moimNo').attr("data-moimNo");
@@ -45,6 +46,8 @@ $('[name="offmoimJoin_btn"]').on('click', function () {//가입승인 대기중�
 			if(data.code==1){
 				alert(data.message);
 				  location.href='/moimlistView/moimdetailView/moimmeetupDetailView/'+moimNo+'/'+meetupNo;
+			}else if(data.code==2){
+				alert(data.message);
 			}else{
 				alert(data.message);
 			}
