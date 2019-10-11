@@ -178,7 +178,8 @@ public class MoimController {
      * @author choiseongjun
      */
     @GetMapping("/moimlistView/moimdetailView/{no}")
-    public String moimDetailView(@PathVariable("no") long no, Model model,HttpSession session,Sort sort) {
+    public String moimDetailView(@PathVariable("no") long no, Model model,
+    							HttpSession session,Sort sort,@PageableDefault Pageable pageable) {
       
     	
     	
@@ -186,6 +187,10 @@ public class MoimController {
         long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.참가를 위해 
         session.setAttribute("peopleId", peopleId);
  
+        
+	   	int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+	    pageable = PageRequest.of(page, 2,Sort.Direction.DESC,"id");//내림차순으로 정렬한다 
+	    
         String moimPeopleNo=moimService.findMoimPeopleNoOne(peopleId,no);//참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에 넣어준다)
         List<MoimPeople> joinedpeoplelist=moimpeopleRepository.findByMoim_idAndPeople_id(no,peopleId);//현재 접속한 유저 리스트를 들고옴
         
@@ -198,7 +203,9 @@ public class MoimController {
         List<People> moimpeopleList=moimOne.get().getPeopleList();
         
         sort = sort.and(new Sort(Sort.Direction.DESC, "id"));
-        List<Meetup> meetupList=moimmeetupRepository.findByMoim_id(no,sort);//오프라인 모임 내림차순정렬로 가져옴
+        List<Meetup> meetupList=moimmeetupRepository.findByMoim_id(no,pageable);//오프라인 모임 내림차순정렬로 가져옴
+        
+        
         
         long totalPeople = 0;
         for(int i=0;i<=moimpeopleList.size();i++) {//데이터 값 들고온것을 size만큼 반복해서 뽑기 모임리스트까지 <=한 이유는 모임장이 제외됬기때문에 +1해야한다

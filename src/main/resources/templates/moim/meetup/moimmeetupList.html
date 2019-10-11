@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<css th:replace="layout/header::headerCss" />
+<div th:replace="layout/header::header" />
+<link th:href="@{/css/moim/moimDetail.css}" rel="stylesheet" />
+<style>
+.add-new-plus {
+   height: 32px;
+   text-align: center;
+   width: 32px;
+   line-height: 32px;
+   color: #98a6ad;
+   font-weight: 700;
+   background-color: #e3eaef;
+   border-radius: 50%
+}
+/* Tab list start */
+body {
+   font-family: Arial;
+}
+/* Style the tab */
+.tab {
+   overflow: hidden;
+   border: 1px solid #ccc;
+   background-color: #f1f1f1;
+}
+/* Style the buttons inside the tab */
+.tab button {
+   background-color: inherit;
+   float: left;
+   border: none;
+   outline: none;
+   cursor: pointer;
+   padding: 14px 16px;
+   transition: 0.3s;
+   font-size: 17px;
+}
+/* Change background color of buttons on hover */
+.tab button:hover {
+   background-color: #ddd;
+}
+/* Create an active/current tablink class */
+.tab button.active {
+   background-color: #ccc;
+}
+/* Style the tab content */
+.tabcontent {
+   display: none;
+   padding: 6px 12px;
+   border: 1px solid #ccc;
+   border-top: none;
+}
+/*참여자보기 모달 시작 */
+body {
+   font-family: Arial, Helvetica, sans-serif;
+}
+/* The Modal (background) */
+.modal {
+   display: none; /* Hidden by default */
+   position: fixed; /* Stay in place */
+   z-index: 1; /* Sit on top */
+   padding-top: 100px; /* Location of the box */
+   left: 0;
+   top: 0;
+   width: 100%; /* Full width */
+   height: 100%; /* Full height */
+   overflow: auto; /* Enable scroll if needed */
+   background-color: rgb(0, 0, 0); /* Fallback color */
+   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+/* Modal Content */
+.modal-content {
+   background-color: #fefefe;
+   margin: auto;
+   padding: 20px;
+   border: 1px solid #888;
+   width: 80%;
+}
+/* The Close Button */
+.close {
+   color: #aaaaaa;
+   float: right;
+   font-size: 28px;
+   font-weight: bold;
+}
+.close:hover, .close:focus {
+   color: #000;
+   text-decoration: none;
+   cursor: pointer;
+}
+/*참여자 보기 모달 끝*/
+/*모임가입자 시작 */
+body {
+   font-family: 'Lato', sans-serif;
+}
+.overlay {
+   height: 100%;
+   width: 0;
+   position: fixed;
+   z-index: 1;
+   top: 0;
+   left: 0;
+   background-color: rgb(255, 255, 255);
+   background-color: rgb(255, 255, 255);
+   overflow-x: hidden;
+   transition: 0.5s;
+}
+.overlay-content {
+   position: relative;
+   top: 5%;
+   width: 100%;
+   text-align: center;
+   margin-top: 30px;
+}
+.overlay a {
+   padding: 8px;
+   text-decoration: none;
+   font-size: 36px;
+   color: #818181;
+   display: block;
+   transition: 0.3s;
+}
+.overlay a:hover, .overlay a:focus {
+   color: #f1f1f1;
+}
+.overlay .closebtn {
+   position: absolute;
+   top: 20px;
+   right: 45px;
+   font-size: 60px;
+}
+@media screen and (max-height: 450px) {
+   .overlay a {
+      font-size: 20px
+   }
+   .overlay .closebtn {
+      font-size: 40px;
+      top: 15px;
+      right: 35px;
+   }
+}
+/*모임가입자 스타일 끝 */
+</style>
+</head>
+<body>
+ <div id="moimNo" th:data-moimNo="${no}"></div><!-- 모임번호 -->
+<center>
+  <div class="card-box">
+                  <h4 class="header-title mt-0 mb-3">
+                    	 오프라인모임
+                  </h4>
+                 <tr th:each="meetupList : ${meetupList}">
+                  <div class="">
+                     <div class="">
+                        <h5 class="text-custom"><a th:href="@{'/moimlistView/moimdetailView/moimmeetupDetailView/' +${no}+'/'+ ${meetupList.id}}"> <td th:text="${meetupList.title}" /> </a></h5>
+                      
+                        <p class="mb-0"> <td th:text="${meetupList.intro}" />  <td th:text="${meetupList.detailAddress}" /></p>
+                        <p> 
+                           <b><td th:text="${meetupList.meetDate}" /></b>
+                        </p>
+                     </div>
+                     
+                  </div>
+               	</tr>
+               </div> 
+               <!-- 참여자보기 모달 시작 -->
+   <!-- The Modal -->
+   <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+         <span class="close">&times;</span>
+           <tr th:each="meetupList : ${meetupList}">
+       
+         <div class="inbox-widget">
+
+            <a href="#">
+               <div class="inbox-item">
+                  <div class="inbox-item-img">
+                     <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                        class="rounded-circle" alt="">
+                  </div>
+                  <p class="inbox-item-author"><td th:text="${meetupList.people}" /></p>
+                  <p class="inbox-item-text">I've finished it! See you so...</p>
+                  <p class="inbox-item-date"></p>
+               </div>
+            </a> 
+         </div>
+        </tr> 
+      </div>
+
+   </div>
+
+   <!-- 참여자보기 모달 끝 -->
+ </center>
+         <!-- 스터디가입자 모달 끝 -->
+         <script>
+            function openCity(evt, cityName) {
+               var i, tabcontent, tablinks;
+               tabcontent = document.getElementsByClassName("tabcontent");
+               for (i = 0; i < tabcontent.length; i++) {
+                  tabcontent[i].style.display = "none";
+               }
+               tablinks = document.getElementsByClassName("tablinks");
+               for (i = 0; i < tablinks.length; i++) {
+                  tablinks[i].className = tablinks[i].className.replace(
+                        " active", "");
+               }
+               document.getElementById(cityName).style.display = "block";
+               evt.currentTarget.className += " active";
+            }
+            //참여자보기 모달 스크립트 시작 
+            // Get the modal
+            var modal = document.getElementById("myModal");
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+               modal.style.display = "block";
+            }
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+               modal.style.display = "none";
+            }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+               if (event.target == modal) {
+                  modal.style.display = "none";
+               }
+            }
+            //참여자 보기 모달 스크립트 끝
+            //모임가입자 보기
+            function openNav() {
+               document.getElementById("myNav").style.width = "100%";
+            }
+            function closeNav() {
+               document.getElementById("myNav").style.width = "0%";
+            }
+            //모임가입자 보기 끝
+            //오프라인모임 팝업창 시작
+            $('#moim_offMoim_btn').click(function(event){  //버튼을 클릭 했을시 popupOpen 함수 출력 
+                 console.log('click');
+                 popupOpen();   //Popup Open 함수
+             });
+              
+            function popupOpen(){
+            	 var moimNo = $('#moimNo').attr("data-moimNo");
+            	
+                 var scWidth = screen.availWidth;
+                 var scHeight = screen.availHeight;
+    
+                var left = (parseInt(scWidth)-650)/2;   // 창의 왼쪽 간격을
+                var top = (parseInt(scHeight)-900)/2; //창의 높이를
+               
+                var url= "/moimoffMakeView/"+moimNo;    //팝업창 페이지 URL
+                var win = window.open(url , 'test_popup', 'width=1030, height=695, top='+top+', left='+left);
+                win.focus();
+            }
+            //오프라인모임 팝업창 끝
+         </script>
+           <script src="/js/moim/moimDetail.js"></script>
+         <script src="/js/moim/meetup/moimmeetupDetail.js"></script>
+</body>
+</html>
