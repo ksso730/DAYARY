@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,9 +36,11 @@ public class ToDoWrite extends DateAudit{
 	private long id;
 	
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name="MOIM_ID")
 	private Moim moim;
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "PEOPLE_ID")
 	private People people;
 	

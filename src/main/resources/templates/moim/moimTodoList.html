@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <css th:replace="layout/header::headerCss"/>
+     <link th:href="@{/css/moim/moimtodostatusDetail.css}" rel="stylesheet" /><!--할일목록체크박스리스트  -->
     <style>
  body{
     margin-top:20px;
@@ -12,6 +13,43 @@
 .avatar--md .avatar__content img{
     width:40px;
     height:40px;
+}
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  right: 0;
+  background-color: #CFCBCB; 
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+/* The navigation menu links */
+.sidenav li {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+/* When you mouse over the navigation links, change their color */
+.sidenav li:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  color:#f1f1f1;
+}
+.checked{
+	 color:#f1f1f1;
 }
     </style>
 
@@ -52,6 +90,8 @@
             </div>
            
         </div>
+        <div id="detail"  class="sidenav"><div id="detail-body"></div></div>
+
         <div class="col-lg-9">
             <div class="d-flex flex-column flex-md-row mb-3 mb-md-0">
                 <nav class="mr-auto d-flex align-items-center" aria-label="breadcrumb">
@@ -85,7 +125,7 @@
                       		<td class="align-middle">
                                     <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div>
                                 </td>
-                      		<td><div><a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/'+${list.id}}"><span  th:text="${list.plan_title}"></span></a></div>
+                      		<td><div><a href="#" onclick="get_detail($(this).attr('id'));"  th:id="${list.id}"><span  th:text="${list.plan_title}"></span></a></div>
                       		   Edited by: <div th:text="${list.people.name}"></div><div th:text="${list.create_date}"></div></td>  
                                  <td class="align-middle">
                                  <span th:if="${list.status eq 'New'}" ><span class="badge badge-light badge-pill" th:text="${list.status}"></span></span>
@@ -169,12 +209,12 @@
 </body>
 <script>
 $(document).ready(function(){
+	 document.getElementById("detail").style.display="none";
  	if($('#moimPeople').attr("data-No")=='false'){
- 		window.onclick=function(){
- 		    alert("모임에 가입하셔야 
+ 		window.onclick=function(){ 
  		    alert("모임에 가입하셔야 이용하실 수 있습니다");
  		   location.href='/moimlistView/moimdetailView/'+$('#moimNo').attr("data-moimNo")
- 		});
+ 		};
  	}
  	 $.ajax({
  	     url:'/moimDetail/moimTodoList/status/'+$('#moimNo').attr("data-moimNo"),
@@ -187,6 +227,126 @@ $(document).ready(function(){
  	   });
 
    });
+
+function close_detail(){
+	 document.getElementById("detail").style.width = "0";
+}
+function get_detail(id) {
+
+	
+	
+	   $.ajax({
+	      url:'/moimDetail/moimTodoList/detail/'+id,
+	        contentType: "application/json; charset=utf-8",
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        success:function(data){
+	        	 if(data.code==1){
+	        		 var todo = data.todo;
+	        		 var list= data.list;
+	        			var html='<div id="detail-body">  <a href="javascript:void(0)" class="closebtn" onclick="close_detail()">&times;</a>  ';
+	        			   html+='<h1><span> '+todo.plan_title+' </span> </h1><ul id="myUL" >';
+	        			var html2= '<ul id="DoneUL" >';
+	        			
+	        			   for(var i in list){
+	        				   if(list[i].checkConfirm=='N'){
+	        					   html+='<li onclick="uncheck($(this))" value="'+list[i].id+'">'+list[i].plan_list+'</li>';
+	        					   
+	        				   }
+	        				   else
+	        					   html2+='<li class="checked">'+list[i].plan_list+'</li>';;
+	        			   }
+	        			 
+	                   		html+='</ul>';
+	                   		html2+='</ul></div><span>시작일자:'+todo.from_date+' 종료일자:'+todo.to_date+"</span>";
+							html2+='<hr><button type="button" onclick="post_send('+todo.id+')">저장하기</button>'
+	                   		html=html+html2;
+							console.log(html);
+	                   		$("#detail-body").html(html);
+	                   	 document.getElementById("detail").style.display="block";
+	                   	 document.getElementById("detail").style.width = "500px";
+	             }else{
+	                 alert(data.message);
+	             }
+	        }, error:function(e){
+				alert(e)
+	        }
+	    });
+
+ }
+//할일목록에서 체크된거 ---표시하는것
+function uncheck(t){
+	if(t.attr('class')){
+		t.removeClass();
+	}else
+		t.addClass('checked');
+}
+//todo삭제기능
+function delete_send(){
+   alert("")
+    var moimNo = $('#moimNo').attr("data-moimNo");
+    var todoNo = $('#todoNo').attr("data-todoNo");
+   
+   $.ajax({
+         url : '/moimDetail/moimTodoList/delete/'+todoNo, 
+         type : "DELETE",   
+         processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+          contentType: false,
+          success:function(data){
+             if(data.code==1){
+                 alert(data.message);
+                 location.href='/moimDetail/moimTodoList/'+moimNo;
+           }else{
+              alert(data.message);
+           }
+          },
+          error:function(e){
+
+          }
+      });
+}
+  
+ 
+
+//체크저장기능
+function post_send(id) {
+	var temp = document.getElementById("myUL").getElementsByTagName("LI");
+	var count=document.getElementById("DoneUL").getElementsByTagName("LI");
+	var list="";
+	var now =new Date();
+	 var to=new Date($('#to_date').attr("data"));
+	 if(now>to){
+		alert("기한이 지나 수정이 불가능합니다.");
+		document.getElementById("sendBtn").style.display="none";
+		return ;
+	 }
+	if(temp.length!=0){
+	for (var i in temp) {
+		if(temp[i].className=="checked"){
+			list+=temp[i].value+",";
+		}
+	}
+	var param={
+			"list":list,
+			"count":count.length
+	}
+	   $.ajax({
+	      url:'/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/'+id,
+	        type:'post',
+	        data: JSON.stringify(param) ,
+	        contentType: "application/json; charset=utf-8",
+	        success:function(data){
+	        	 if(data.code==1){
+	                 location.href='/moimDetail/moimTodoList/'+ $('#moimNo').attr("data-moimNo");
+	             }else{
+	                 alert(data.message);
+	             }
+	        }, error:function(e){
+
+	        }
+	    });
+	}else
+		alert("변경사항이 없습니다.")
+}
 
 </script>
 </html>
