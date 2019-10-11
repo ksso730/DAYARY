@@ -11,4 +11,5 @@ public interface MoimMeetUpRepository extends JpaRepository<Meetup, Long>{
 
 	List<Meetup> findByMoim_id(long no, Sort sort);
 
+ 
 }
