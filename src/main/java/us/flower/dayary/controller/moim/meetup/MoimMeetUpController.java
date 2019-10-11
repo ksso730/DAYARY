@@ -41,6 +41,8 @@ public class MoimMeetUpController {
 	MoimMeetUpRepository moimmeetupRepository;
 	@Autowired
 	MoimRepository moimRepository;
+	
+	
 	/**
 	 * 오프라인모임 참여자 조회
 	 *
@@ -245,12 +247,10 @@ public class MoimMeetUpController {
 		   
 		System.out.println(meetupListId);//모임밋업고유아이디
 		 
-		Optional<Meetup> meetupList=moimmeetupRepository.findById(meetupListId);
 		List<MeetupPeople> meetupPeopleList=meetuppeopleRepository.findByMeetup_id(meetupListId);
 	
+		moimMeetupService.findmeetupMoimone(meetupListId).ifPresent(meetupList -> model.addAttribute("meetupList", meetupList));
 		
-		
-		model.addAttribute("meetupList",meetupList);
 		model.addAttribute("meetupPeopleList",meetupPeopleList);
 		model.addAttribute("meetupListId",meetupListId);
 		

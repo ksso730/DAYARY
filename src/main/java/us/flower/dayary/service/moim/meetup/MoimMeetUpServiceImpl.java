@@ -1,5 +1,7 @@
 package us.flower.dayary.service.moim.meetup;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,12 @@ public class MoimMeetUpServiceImpl implements MoimMeetUpService{
 		meetUp.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
 		
 		meetUpRepository.save(meetUp);
+	}
+
+
+	@Override
+	public Optional<Meetup> findmeetupMoimone(long meetupListId) {
+		return meetUpRepository.findById(meetupListId);
 	}
 
 
