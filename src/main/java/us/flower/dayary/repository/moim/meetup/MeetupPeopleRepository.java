@@ -12,4 +12,6 @@ public interface MeetupPeopleRepository extends JpaRepository<MeetupPeople,Long>
 
 	List<MeetupPeople> findByMeetup_id(long no1);
 
+	void deleteByMeetup_idAndPeople_id(long meetupListId, long peopleId);
+
 }

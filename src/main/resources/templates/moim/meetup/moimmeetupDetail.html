@@ -581,17 +581,21 @@ color:#fff;
         <div class="card-offset">
           <div class="card-offset-item text-right">
             <button type="button"  class="btn-raised btn btn-warning btn-circle btn-lg"><em class="fa fa-edit"></em></button>
-               <button type="button" name="offmoimJoin_btn" id="offmoimJoin_btn" th:value="${meetupListId}" class="btn btn-primary btn-xs">참여하기</button>
+             
+              	
+               	  <span th:if="${peoplemeetupNo!=0}">
+               	    	<button type="button" name="offmoimWithdraw_btn" id="offmoimWithdraw_btn" th:value="${meetupListId}" class="btn btn-primary btn-xs">참여 취소하기</button>
+               	  </span>
+               	  <span th:if="${peoplemeetupNo==0}">
+               	    	<button type="button" name="offmoimJoin_btn" id="offmoimJoin_btn" th:value="${meetupListId}" class="btn btn-primary btn-xs">참여하기</button>
+         		  </span>
           </div>
         </div>
         <h5 class="card-heading pb0">Contact Information</h5>
         <div class="card-body">
           <table class="table table-striped">
             <tbody>
-              <tr th:each="meetupPeopleList : ${meetupPeopleList}">
-                <td><em class="ion-document-text icon-fw mr"></em>Area</td>
-                <td class="ng-binding"><td th:text="${meetupPeopleList.meetup.title}" /></td>
-              </tr>
+              
               <tr>
                 <td><em class="ion-egg icon-fw mr"></em>Birthday</td>
                 <td><span class="ng-scope ng-binding editable">10/11/2000</span></td>
@@ -626,7 +630,7 @@ color:#fff;
     <div class="col-md-5 col-lg-4">
       <div class="card">
         <h5 class="card-heading">
-            Contacts
+            	참여자
         </h5>
         <div class="mda-list">
           <tr th:each="meetupPeopleList : ${meetupPeopleList}">

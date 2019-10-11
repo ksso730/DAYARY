@@ -3,37 +3,7 @@ function meetupPeoplejoinCheck() {
 
 }
 
-$('[name="offmoimJoin_btn"]').on('click', function () {//가입승인 대기중인사람 승인하기 by choiseongjun 2019-10-07
-	 var moimNo = $('#moimNo').attr("data-moimNo");
-    let tempdata = {};
-    tempdata.no1= $(this).val();
-    tempdata.no2= $('#moimNo').attr("data-moimNo");
-   
-    console.log($(this).val())
-    console.log(moimNo);
 
-   $.ajax({
-         url : '/moimmeetupJoin', 
-         type : "post",   
-         contentType: 'application/json; charset=UTF-8',
- 		  dataType:'json',
- 		  data: JSON.stringify(tempdata),
-		  success:function(data){
-			if(data.code==1){
-				alert(data.message);
-					
-						$("#offmoimJoin_btn").hide();
-					
-				 // location.href='/moimlistView/moimdetailView/'+moimNo;
-			}else{
-				alert(data.message);
-			}
-		},
-          error:function(e){
-
-          }
-      });
-});
 $('[name="grantpeople_btn"]').on('click', function () {//가입승인 대기중인사람 승인하기 by choiseongjun 2019-10-07
 		 var moimNo = $('#moimNo').attr("data-moimNo");
 	     let tempdata = {};

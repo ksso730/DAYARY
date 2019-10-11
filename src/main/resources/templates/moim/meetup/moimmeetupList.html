@@ -153,18 +153,14 @@ body {
                     	 오프라인모임
                   </h4>
                  <tr th:each="meetupList : ${meetupList}">
-                 <td th:text="${meetupList.id}" />
                   <div class="">
                      <div class="">
-                        <h5 class="text-custom"> <td th:text="${meetupList.title}" /> </h5>
+                        <h5 class="text-custom"><a th:href="@{'/moimlistView/moimdetailView/moimmeetupDetailView/' +${no}+'/'+ ${meetupList.id}}"> <td th:text="${meetupList.title}" /> </a></h5>
                       
                         <p class="mb-0"> <td th:text="${meetupList.intro}" />  <td th:text="${meetupList.detailAddress}" /></p>
                         <p> 
                            <b><td th:text="${meetupList.meetDate}" /></b>
                         </p>
-                        <button type="button" name="offmoimJoin_btn" th:value="${meetupList.id}" class="btn btn-primary btn-xs">참여 하기</button>
-                        <br />
-                        <button id="myBtn"  name="meetuppeopleList_btn"  th:value="${meetupList.id}" class="btn btn-info btn-xs">참여자 보기</button>
                      </div>
                      
                   </div>
