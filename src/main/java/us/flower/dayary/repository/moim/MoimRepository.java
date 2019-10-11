@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -29,6 +30,11 @@ public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificat
 
 
 	Page<Moim> findAllByTitleLikeOrCategory(Pageable pageable, String string, Common common);
+
+
+	List<Moim> findById(long no, Sort sort);
+
+
 
 
 

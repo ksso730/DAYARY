@@ -245,8 +245,7 @@ public class MoimMeetUpController {
 		   
 		sort = sort.and(new Sort(Sort.Direction.DESC, "id"));
 		List<Meetup> meetupList=moimmeetupRepository.findByMoim_id(no,sort);//오프라인 모임 내림차순정렬로 가져옴
-		 
-		Optional<Moim> moimList=moimRepository.findById(no);
+			
 		
 		model.addAttribute("meetupList",meetupList);
 		model.addAttribute("no",no);

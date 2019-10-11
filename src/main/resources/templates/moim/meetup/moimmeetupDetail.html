@@ -153,6 +153,7 @@ body {
                     	 오프라인모임
                   </h4>
                  <tr th:each="meetupList : ${meetupList}">
+                 <td th:text="${meetupList}" />
                   <div class="">
                      <div class="">
                         <h5 class="text-custom"> <td th:text="${meetupList.title}" /> </h5>
@@ -161,7 +162,7 @@ body {
                         <p> 
                            <b><td th:text="${meetupList.meetDate}" /></b>
                         </p>
-                        <button type="button" class="btn btn-primary btn-xs">참여 하기</button>
+                        <button type="button" name="offmoimJoin_btn" th:value="${meetupList.id}" class="btn btn-primary btn-xs">참여 하기</button>
                         <br />
                         <button id="myBtn"  name="meetuppeopleList_btn"  th:value="${meetupList.id}" class="btn btn-info btn-xs">참여자 보기</button>
                      </div>
@@ -266,6 +267,7 @@ body {
             }
             //오프라인모임 팝업창 끝
          </script>
+           <script src="/js/moim/moimDetail.js"></script>
          <script src="/js/moim/meetup/moimmeetupDetail.js"></script>
 </body>
 </html>

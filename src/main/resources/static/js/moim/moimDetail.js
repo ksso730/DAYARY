@@ -21,6 +21,9 @@ $('[name="offmoimJoin_btn"]').on('click', function () {//가입승인 대기중�
 		  success:function(data){
 			if(data.code==1){
 				alert(data.message);
+					
+						$("#offmoimJoin_btn").hide();
+					
 				 // location.href='/moimlistView/moimdetailView/'+moimNo;
 			}else{
 				alert(data.message);
