@@ -7,266 +7,703 @@
 <div th:replace="layout/header::header" />
 <link th:href="@{/css/moim/moimDetail.css}" rel="stylesheet" />
 <style>
-.add-new-plus {
-   height: 32px;
-   text-align: center;
-   width: 32px;
-   line-height: 32px;
-   color: #98a6ad;
-   font-weight: 700;
-   background-color: #e3eaef;
-   border-radius: 50%
+.text-white{
+color:#fff;    
 }
-/* Tab list start */
-body {
-   font-family: Arial;
+.bg-blue-500 {
+    background-color: #2196f3;
 }
-/* Style the tab */
-.tab {
-   overflow: hidden;
-   border: 1px solid #ccc;
-   background-color: #f1f1f1;
+.container-overlap {
+    position: relative;
+    padding: 32px 16px 64px;
 }
-/* Style the buttons inside the tab */
-.tab button {
-   background-color: inherit;
-   float: left;
-   border: none;
-   outline: none;
-   cursor: pointer;
-   padding: 14px 16px;
-   transition: 0.3s;
-   font-size: 17px;
+.card .card-divider {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0,0,0,.12);
 }
-/* Change background color of buttons on hover */
-.tab button:hover {
-   background-color: #ddd;
+.image-list>a {
+    margin-left: -8px;
 }
-/* Create an active/current tablink class */
-.tab button.active {
-   background-color: #ccc;
+.image-list>a:first-child {
+    margin-left: 0;
 }
-/* Style the tab content */
-.tabcontent {
-   display: none;
-   padding: 6px 12px;
-   border: 1px solid #ccc;
-   border-top: none;
+.thumb32 {
+    width: 32px!important;
+    height: 32px!important;
 }
-/*참여자보기 모달 시작 */
-body {
-   font-family: Arial, Helvetica, sans-serif;
+.text-white{
+    color:#fff;    
 }
-/* The Modal (background) */
-.modal {
-   display: none; /* Hidden by default */
-   position: fixed; /* Stay in place */
-   z-index: 1; /* Sit on top */
-   padding-top: 100px; /* Location of the box */
-   left: 0;
-   top: 0;
-   width: 100%; /* Full width */
-   height: 100%; /* Full height */
-   overflow: auto; /* Enable scroll if needed */
-   background-color: rgb(0, 0, 0); /* Fallback color */
-   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xs {
+    padding: 8px;
+    width: auto
 }
-/* Modal Content */
-.modal-content {
-   background-color: #fefefe;
-   margin: auto;
-   padding: 20px;
-   border: 1px solid #888;
-   width: 80%;
+
+@media only screen and (min-width:480px) {
+    .container-fluid,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xs {
+        padding: 16px
+    }
 }
-/* The Close Button */
-.close {
-   color: #aaaaaa;
-   float: right;
-   font-size: 28px;
-   font-weight: bold;
+
+@media only screen and (min-width:992px) {
+    .container-fluid,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xs {
+        padding: 24px
+    }
 }
-.close:hover, .close:focus {
-   color: #000;
-   text-decoration: none;
-   cursor: pointer;
+
+.container-lg {
+    max-width: 1200px
 }
-/*참여자 보기 모달 끝*/
-/*모임가입자 시작 */
-body {
-   font-family: 'Lato', sans-serif;
+
+.container-md {
+    max-width: 992px
 }
-.overlay {
-   height: 100%;
-   width: 0;
-   position: fixed;
-   z-index: 1;
-   top: 0;
-   left: 0;
-   background-color: rgb(255, 255, 255);
-   background-color: rgb(255, 255, 255);
-   overflow-x: hidden;
-   transition: 0.5s;
+
+.container-sm {
+    max-width: 768px
 }
-.overlay-content {
-   position: relative;
-   top: 5%;
-   width: 100%;
-   text-align: center;
-   margin-top: 30px;
+
+.container-xs {
+    max-width: 480px
 }
-.overlay a {
-   padding: 8px;
-   text-decoration: none;
-   font-size: 36px;
-   color: #818181;
-   display: block;
-   transition: 0.3s;
+
+@media only screen and (max-width:1199px) {
+    input[type=text],
+    input[type=email],
+    input[type=search],
+    input[type=password] {
+        -webkit-appearance: none
+    }
+    .container-unwrap {
+        padding: 0
+    }
+    .container-unwrap>.row {
+        margin: 0
+    }
+    .container-unwrap>.row>[class*=col-] {
+        padding-left: 0;
+        padding-right: 0
+    }
+    .container-unwrap .card {
+        margin-bottom: 0
+    }
 }
-.overlay a:hover, .overlay a:focus {
-   color: #f1f1f1;
+
+.container-overlap {
+    position: relative;
+    padding: 32px 16px 64px
 }
-.overlay .closebtn {
-   position: absolute;
-   top: 20px;
-   right: 45px;
-   font-size: 60px;
+
+.container-overlap+.container-fluid,
+.container-overlap+.container-lg,
+.container-overlap+.container-md,
+.container-overlap+.container-sm,
+.container-overlap+.container-xs {
+    padding-top: 0;
+    margin-top: -32px
 }
-@media screen and (max-height: 450px) {
-   .overlay a {
-      font-size: 20px
-   }
-   .overlay .closebtn {
-      font-size: 40px;
-      top: 15px;
-      right: 35px;
-   }
+
+.container-overlap+.container-fluid .push-down,
+.container-overlap+.container-lg .push-down,
+.container-overlap+.container-md .push-down,
+.container-overlap+.container-sm .push-down,
+.container-overlap+.container-xs .push-down {
+    display: block;
+    height: 48px
+}
+.bg-indigo-500 {
+    background-color: #3f51b5;
+}
+.container-overlap {
+    position: relative;
+    padding: 32px 16px 64px;
+}
+.fw {
+    width: 100%!important;
+}
+.thumb64 {
+    width: 64px!important;
+    height: 64px!important;
+}
+.thumb48 {
+    width: 48px!important;
+    height: 48px!important;
+}
+
+.card {
+    position: relative;
+    border-radius: 3px;
+    background-color: #fff;
+    color: #4F5256;
+    border: 1px solid rgba(0, 0, 0, .12);
+    margin-bottom: 8px
+}
+
+@media only screen and (min-width:480px) {
+    .card {
+        margin-bottom: 16px
+    }
+}
+
+@media only screen and (min-width:992px) {
+    .card {
+        margin-bottom: 24px
+    }
+}
+
+.card .card-heading {
+    padding: 16px;
+    margin: 0
+}
+
+.card .card-heading>.card-title {
+    margin: 0;
+    font-size: 18px
+}
+
+.card .card-heading>.card-icon {
+    float: right;
+    color: rgba(255, 255, 255, .87);
+    font-size: 20px
+}
+
+.card .card-heading>small {
+    color: rgba(162, 162, 162, .92);
+    letter-spacing: .01em
+}
+
+.card .card-body {
+    position: relative;
+    padding: 16px
+}
+
+.card .card-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(162, 162, 162, .12)
+}
+
+.card .card-item {
+    position: relative;
+    display: block;
+    min-height: 120px
+}
+
+.card .card-item>.card-item-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .35);
+    margin: 0;
+    color: #fff;
+    padding: 8px
+}
+
+.card .card-item>.card-item-text a {
+    color: inherit
+}
+
+.card .card-item>.card-item-image {
+    display: block;
+    width: 100%;
+    height: 190px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover
+}
+
+.card .card-item.card-media {
+    min-height: 280px;
+    background-repeat: repeat;
+    background-position: 50% 50%;
+    background-attachment: scroll;
+    background-origin: padding-box
+}
+
+.card .card-item.card-media .card-media-quote {
+    padding: 16px;
+    font-size: 35px
+}
+
+@media only screen and (min-width:768px) {
+    .card .card-item.card-media .card-media-quote {
+        font-size: 45px
+    }
+}
+
+.card .card-item.card-media .card-media-quote>a {
+    color: inherit;
+    text-decoration: none
+}
+
+.card .card-item.card-media .card-media-quote:before {
+    content: '“';
+    display: block;
+    font-size: 2em;
+    line-height: 1;
+    margin-top: .25em
+}
+
+.btn-label:after,
+.c-radio span:before,
+.container-overlap:before,
+.note-area.note-area-margin:after,
+.switch span:after {
+    content: ""
+}
+
+.card.card-transparent {
+    background-color: transparent;
+    border: 0;
+    -webkit-box-shadow: 0 0 0 #000;
+    box-shadow: 0 0 0 #000
+}
+
+.card .card-offset {
+    position: relative;
+    padding-bottom: 36px;
+    z-index: 10
+}
+
+.card .card-offset>.card-offset-item {
+    position: absolute;
+    top: -24px;
+    left: 15px;
+    right: 15px
+}
+
+.card .card-toolbar {
+    position: relative;
+    width: 100%;
+    min-height: 64px;
+    font-size: 18px;
+    line-height: 64px;
+    padding-left: 22px;
+    z-index: 2
+}
+
+.card .card-subheader {
+    padding: 16px 0 16px 16px;
+    line-height: .75em;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .01em;
+    color: rgba(0, 0, 0, .54)
+}
+
+.card .card-subheader+.mda-list>.mda-list-item:first-child>.mda-list-item-text,
+.card>.btn {
+    padding-top: 16px
+}
+
+.card .card-subheader+.mda-list>.mda-list-item:first-child>.mda-list-item-icon,
+.card .card-subheader+.mda-list>.mda-list-item:first-child>.mda-list-item-img,
+.card .card-subheader+.mda-list>.mda-list-item:first-child>.mda-list-item-initial {
+    margin-top: 10px
+}
+
+.card .card-divider {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0, 0, 0, .12)
+}
+
+.card .card-divider+.card-offset {
+    margin-top: -10px
+}
+
+.card>.ui-datepicker,
+.card>.ui-datepicker-responsive>.ui-datepicker {
+    width: 100%;
+    -webkit-box-shadow: 0 0 0 #000;
+    box-shadow: 0 0 0 #000;
+    margin: 0
+}
+
+.card .editable-wrap,
+.card>.ui-datepicker-responsive>.ui-datepicker>table,
+.card>.ui-datepicker>table {
+    width: 100%
+}
+
+.card>.list-group>.list-group-item {
+    border-left: 0;
+    border-right: 0
+}
+
+.card>.list-group>.list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0
+}
+
+.card>.list-group>.list-group-item:last-child {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom: 0
+}
+
+.card>.table,
+.card>.table-responsive>.table {
+    margin-bottom: 0
+}
+
+.card>.table-responsive {
+    border: 0
+}
+
+.card>.btn {
+    border-radius: 0;
+    width: 100%;
+    padding-bottom: 16px;
+    text-align: center
+}
+
+.card>.btn:last-child {
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px
+}
+
+.card.card-map {
+    min-height: 280px
+}
+
+.modal.modal-left .modal-dialog>.modal-content,
+.modal.modal-right .modal-dialog>.modal-content {
+    min-height: 100%
+}
+
+.card.card-map .card-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 0;
+    background-color: transparent
+}
+
+
+.mda-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0
+}
+
+.mda-list>.mda-list-item {
+    padding: 0 22px
+}
+
+.mda-list>.mda-list-item:after,
+.mda-list>.mda-list-item:before {
+    content: " ";
+    display: table
+}
+
+.mda-list>.mda-list-item>.mda-list-item-icon,
+.mda-list>.mda-list-item>.mda-list-item-img,
+.mda-list>.mda-list-item>.mda-list-item-initial {
+    float: left;
+    width: 48px;
+    height: 48px;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    margin-right: 20px;
+    border-radius: 50%
+}
+
+.mda-list>.mda-list-item>.mda-list-item-icon {
+    line-height: 42px;
+    text-align: center
+}
+
+.mda-list>.mda-list-item>.mda-list-item-icon>em,
+.mda-list>.mda-list-item>.mda-list-item-icon>i {
+    line-height: inherit
+}
+
+.mda-list>.mda-list-item>.mda-list-item-initial {
+    line-height: 50px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 300
+}
+
+.mda-list>.mda-list-item>.mda-list-item-text {
+    float: left;
+    padding: 20px 0
+}
+
+.mda-list>.mda-list-item>.mda-list-item-text.mda-2-line {
+    padding-top: 26px
+}
+
+.mda-list>.mda-list-item>.mda-list-item-text h3 {
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: .01em;
+    margin: 0 0 6px;
+    line-height: .75em
+}
+
+.mda-list>.mda-list-item>.mda-list-item-text h4 {
+    font-size: 14px;
+    letter-spacing: .01em;
+    font-weight: 400;
+    margin: 10px 0 5px;
+    line-height: .75em
+}
+
+.mda-list>.mda-list-item>.mda-list-item-text p {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.6em
+}
+
+.mda-list>.mda-list-item>.mda-list-item-img+.mda-list-item-text,
+.mda-list>.mda-list-item>.mda-list-item-initial+.mda-list-item-text {
+    width: calc(100% - 68px)
+}
+
+.mda-list.mda-list-bordered>.mda-list-item {
+    border-bottom: 1px solid rgba(162, 162, 162, .16)
+}
+
+.card>.mda-list-bordered>.mda-list-item:last-child {
+    border-bottom: 0
+}
+
+.media {
+    margin-top: 15px
+}
+
+.media:first-child {
+    margin-top: 0
+}
+
+.media,
+.media-body {
+    overflow: hidden;
+    zoom: 1
+}
+
+.media-body {
+    width: 10000px
+}
+
+.media-object.img-thumbnail {
+    max-width: none
+}
+.container-overlap+.container-lg, .container-overlap+.container-md, .container-overlap+.container-sm, .container-overlap+.container-xs {
+    padding-top: 0;
+    margin-top: -32px;
+}
+.media-right,
+.media>.pull-right {
+    padding-left: 10px
+}
+
+.media-left,
+.media>.pull-left {
+    padding-right: 10px
+}
+
+.media-body,
+.media-left,
+.media-right {
+    display: table-cell;
+    vertical-align: top
+}
+
+.media-middle {
+    vertical-align: middle
+}
+
+.media-bottom {
+    vertical-align: bottom
+}
+
+.media-heading {
+    margin-top: 0;
+    margin-bottom: 5px
+}
+
+.media-list {
+    padding-left: 0;
+    list-style: none
 }
 /*모임가입자 스타일 끝 */
 </style>
 </head>
 <body>
  <div id="moimNo" th:data-moimNo="${no}"></div><!-- 모임번호 -->
-<center>
-  <div class="card-box">
-                  <h4 class="header-title mt-0 mb-3">
-                    	 오프라인모임
-                  </h4>
-                 <tr th:each="meetupList : ${meetupList}">
-                 <td th:text="${meetupList}" />
-                  <div class="">
-                     <div class="">
-                        <h5 class="text-custom"> <td th:text="${meetupList.title}" /> </h5>
-                      
-                        <p class="mb-0"> <td th:text="${meetupList.intro}" />  <td th:text="${meetupList.detailAddress}" /></p>
-                        <p> 
-                           <b><td th:text="${meetupList.meetDate}" /></b>
-                        </p>
-                        <button type="button" name="offmoimJoin_btn" th:value="${meetupList.id}" class="btn btn-primary btn-xs">참여 하기</button>
-                        <br />
-                        <button id="myBtn"  name="meetuppeopleList_btn"  th:value="${meetupList.id}" class="btn btn-info btn-xs">참여자 보기</button>
-                     </div>
-                     
-                  </div>
-               	</tr>
-               </div> 
-               <!-- 참여자보기 모달 시작 -->
-   <!-- The Modal -->
-   <div id="myModal" class="modal">
-
-      <!-- Modal content -->
-      <div class="modal-content">
-         <span class="close">&times;</span>
-           <tr th:each="meetupList : ${meetupList}">
-       
-         <div class="inbox-widget">
-
-            <a href="#">
-               <div class="inbox-item">
-                  <div class="inbox-item-img">
-                     <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                        class="rounded-circle" alt="">
-                  </div>
-                  <p class="inbox-item-author"><td th:text="${meetupList.people}" /></p>
-                  <p class="inbox-item-text">I've finished it! See you so...</p>
-                  <p class="inbox-item-date"></p>
-               </div>
-            </a> 
-         </div>
-        </tr> 
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<section class="container ng-scope ng-fadeInLeftShort" style="">
+<!-- uiView:  --><div class="ng-fadeInLeftShort ng-scope" style="">
+<div class="container-overlap bg-blue-500 ng-scope">
+  <div class="media m0 pv">
+    <div class="media-left"><a href="#"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User" class="media-object img-circle thumb64"></a></div>
+    <div class="media-body media-middle">
+	   <tr th:each="meetupList : ${meetupList}">
+	      <h4 class="media-heading text-white"><td th:text="${meetupList}" /></h4>
+       </tr>
+      <span class="text-white">Sed eget lacus quis diam molestie mollis.</span>
+    </div>
+  </div>
+</div>
+<div class="container-fluid ng-scope">
+  <div class="row">
+    <!-- Left column-->
+    <div class="col-md-7 col-lg-8">
+      <form class="card ng-pristine ng-valid">
+        <h5 class="card-heading pb0">
+            About
+        </h5>
+        <div class="card-body">
+          <p class="ng-scope ng-binding editable">Pellentesque porta tincidunt justo, non fringilla erat iaculis in. Sed nisi erat, ornare eu pellentesque quis, pellentesque non nulla. Proin rutrum, est pellentesque commodo mattis, sem justo porttitor odio, id aliquet lacus augue nec nisl.</p>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-offset">
+          <div class="card-offset-item text-right">
+            <button type="button"  class="btn-raised btn btn-warning btn-circle btn-lg"><em class="fa fa-edit"></em></button>
+               <button type="button" name="offmoimJoin_btn" id="offmoimJoin_btn" th:value="${meetupListId}" class="btn btn-primary btn-xs">참여하기</button>
+          </div>
+        </div>
+        <h5 class="card-heading pb0">Contact Information</h5>
+        <div class="card-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr th:each="meetupPeopleList : ${meetupPeopleList}">
+                <td><em class="ion-document-text icon-fw mr"></em>Area</td>
+                <td class="ng-binding"><td th:text="${meetupPeopleList.meetup.title}" /></td>
+              </tr>
+              <tr>
+                <td><em class="ion-egg icon-fw mr"></em>Birthday</td>
+                <td><span class="ng-scope ng-binding editable">10/11/2000</span></td>
+              </tr>
+              <tr>
+                <td><em class="ion-ios-body icon-fw mr"></em>Member since</td>
+                <td><span class="ng-scope ng-binding editable">05/11/2015</span></td>
+              </tr>
+              <tr>
+                <td><em class="ion-man icon-fw mr"></em>Gender</td>
+                <td><span class="ng-scope ng-binding editable">Female</span></td>
+              </tr>
+              <tr>
+                <td><em class="ion-android-home icon-fw mr"></em>Address</td>
+                <td><span class="ng-scope ng-binding editable">Some street, 123</span></td>
+              </tr>
+              <tr>
+                <td><em class="ion-email icon-fw mr"></em>Email</td>
+                <td><span class="ng-scope editable"><a href="" class="ng-binding">user@mail.com</a></span></td>
+              </tr>
+              <tr>
+                <td><em class="ion-ios-telephone icon-fw mr"></em>Contact phone</td>
+                <td><span class="ng-scope ng-binding editable">13-123-46578</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-divider"></div>
+      </form>
+    </div>
+    <!-- Right column-->
+    <div class="col-md-5 col-lg-4">
+      <div class="card">
+        <h5 class="card-heading">
+            Contacts
+        </h5>
+        <div class="mda-list">
+          <tr th:each="meetupPeopleList : ${meetupPeopleList}">
+	          <div class="mda-list-item"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="List user" class="mda-list-item-img">
+	            <div class="mda-list-item-text mda-2-line">
+	              <h3><a href="#">  <td th:text="${meetupPeopleList.people.name}" /></a></h3>
+	              <div class="text-muted text-ellipsis">Ut ac nisi id mauris</div>
+	            </div> 
+	          </div>
+          </tr>
+          
+          
+        </div>
+        <div class="card-body pv0 text-right"><a href="" class="btn btn-flat btn-info">View all</a></div>
+        <div class="card-divider"></div>
+        <h5 class="card-heading">Activity</h5>
+        <div class="card-body pb0">
+          <p class="pull-left mr"><em class="ion-record text-info"></em></p>
+          <div class="oh">
+            <p><strong class="mr-sm">Added</strong><span class="mr-sm">a new issue</span><a href="">#5478</a></p>
+            <div class="clearfix">
+              <div class="pull-left text-muted"><em class="ion-android-time mr-sm"></em><span>an hour ago</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pb0">
+          <p class="pull-left mr"><em class="ion-record text-danger"></em></p>
+          <div class="oh">
+            <p><strong class="mr-sm">Commented</strong><span class="mr-sm"> on the project</span><a href="">Material</a></p>
+            <p class="bl pl"><i>That's awesome!</i></p>
+            <div class="clearfix">
+              <div class="pull-left text-muted"><em class="ion-android-time mr-sm"></em><span>2 hours ago</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pb0">
+          <p class="pull-left mr"><em class="ion-record text-success"></em></p>
+          <div class="oh">
+            <p><strong class="mr-sm">Completed</strong><span> all tasks asigned this week</span></p>
+            <div class="clearfix">
+              <div class="pull-left text-muted"><em class="ion-android-time mr-sm"></em><span>3 hours ago</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pb0">
+          <p class="pull-left mr"><em class="ion-record text-info"></em></p>
+          <div class="oh">
+            <p><strong class="mr-sm">Published</strong><span class="mr-sm"> new photos on the album</span><a href="">WorldTrip</a></p>
+            <p><a href=""><img src="https://lorempixel.com/200/200/nature/1" alt="Pic" class="mr-sm thumb48"></a>
+            <a href=""><img src="https://lorempixel.com/200/200/nature/2" alt="Pic" class="mr-sm thumb48"></a>
+            <a href=""><img src="https://lorempixel.com/200/200/nature/3" alt="Pic" class="mr-sm thumb48"></a></p>
+            <div class="clearfix">
+              <div class="pull-left text-muted"><em class="ion-android-time mr-sm"></em><span>4 hours ago</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="clearfix">
+            <p class="pull-left mr"><em class="ion-record text-primary"></em></p>
+            <div class="oh">
+              <p><strong class="mr-sm">Following</strong><span class="mr-sm">Jane Kuhn</span></p>
+              <p><span class="image-list"><a href=""><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User" class="img-circle thumb32"></a>
+              <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="User" class="img-circle thumb32"></a>
+              <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="User" class="img-circle thumb32"></a>
+              <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="User" class="img-circle thumb32"></a>
+              <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="User" class="img-circle thumb32"></a><strong><a href="" class="ml-sm link-unstyled">+200</a></strong></span></p>
+              <div class="clearfix">
+                <div class="pull-left text-muted"><em class="ion-android-time mr-sm"></em><span>yesterday</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-   </div>
-
-   <!-- 참여자보기 모달 끝 -->
- </center>
-         <!-- 스터디가입자 모달 끝 -->
-         <script>
-            function openCity(evt, cityName) {
-               var i, tabcontent, tablinks;
-               tabcontent = document.getElementsByClassName("tabcontent");
-               for (i = 0; i < tabcontent.length; i++) {
-                  tabcontent[i].style.display = "none";
-               }
-               tablinks = document.getElementsByClassName("tablinks");
-               for (i = 0; i < tablinks.length; i++) {
-                  tablinks[i].className = tablinks[i].className.replace(
-                        " active", "");
-               }
-               document.getElementById(cityName).style.display = "block";
-               evt.currentTarget.className += " active";
-            }
-            //참여자보기 모달 스크립트 시작 
-            // Get the modal
-            var modal = document.getElementById("myModal");
-            // Get the button that opens the modal
-            var btn = document.getElementById("myBtn");
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-            // When the user clicks the button, open the modal 
-            btn.onclick = function() {
-               modal.style.display = "block";
-            }
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function() {
-               modal.style.display = "none";
-            }
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-               if (event.target == modal) {
-                  modal.style.display = "none";
-               }
-            }
-            //참여자 보기 모달 스크립트 끝
-            //모임가입자 보기
-            function openNav() {
-               document.getElementById("myNav").style.width = "100%";
-            }
-            function closeNav() {
-               document.getElementById("myNav").style.width = "0%";
-            }
-            //모임가입자 보기 끝
-            //오프라인모임 팝업창 시작
-            $('#moim_offMoim_btn').click(function(event){  //버튼을 클릭 했을시 popupOpen 함수 출력 
-                 console.log('click');
-                 popupOpen();   //Popup Open 함수
-             });
-              
-            function popupOpen(){
-            	 var moimNo = $('#moimNo').attr("data-moimNo");
-            	
-                 var scWidth = screen.availWidth;
-                 var scHeight = screen.availHeight;
-    
-                var left = (parseInt(scWidth)-650)/2;   // 창의 왼쪽 간격을
-                var top = (parseInt(scHeight)-900)/2; //창의 높이를
-               
-                var url= "/moimoffMakeView/"+moimNo;    //팝업창 페이지 URL
-                var win = window.open(url , 'test_popup', 'width=1030, height=695, top='+top+', left='+left);
-                win.focus();
-            }
-            //오프라인모임 팝업창 끝
-         </script>
+    </div>
+  </div>
+</div></div></section>
+        
            <script src="/js/moim/moimDetail.js"></script>
          <script src="/js/moim/meetup/moimmeetupDetail.js"></script>
 </body>

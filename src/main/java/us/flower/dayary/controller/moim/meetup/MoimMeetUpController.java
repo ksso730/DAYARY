@@ -240,6 +240,36 @@ public class MoimMeetUpController {
 	 * @throws Exception
 	 * @author choiseongjun
 	 */
+	@GetMapping("/moimlistView/moimdetailView/moimmeetupDetailView/{no}/{meetupList.id}")
+	public String moimmeetupDetailView(@PathVariable("meetupList.id") long meetupListId,@PathVariable("no") long no,Model model,Meetup meetUp,Sort sort) {
+		   
+		System.out.println(meetupListId);//모임밋업고유아이디
+		 
+		Optional<Meetup> meetupList=moimmeetupRepository.findById(meetupListId);
+		List<MeetupPeople> meetupPeopleList=meetuppeopleRepository.findByMeetup_id(meetupListId);
+	
+		
+		
+		model.addAttribute("meetupList",meetupList);
+		model.addAttribute("meetupPeopleList",meetupPeopleList);
+		model.addAttribute("meetupListId",meetupListId);
+		
+//		sort = sort.and(new Sort(Sort.Direction.DESC, "id"));
+//		List<Meetup> meetupList=moimmeetupRepository.findByMoim_id(no,sort);//오프라인 모임 내림차순정렬로 가져옴
+//			
+//		
+//		model.addAttribute("meetupList",meetupList);
+//		model.addAttribute("no",no);
+		return "moim/meetup/moimmeetupDetail";
+	}
+	/**
+	 * 모임 오프라인모임리스트 화면으로
+	 *
+	 * @param
+	 * @return
+	 * @throws Exception
+	 * @author choiseongjun
+	 */
 	@GetMapping("/moimlistView/moimdetailView/moimmeetupDetail/{no}")
 	public String moimmeetupDetail(@PathVariable("no") long no,Model model,Meetup meetUp,Sort sort) {
 		   
@@ -249,6 +279,6 @@ public class MoimMeetUpController {
 		
 		model.addAttribute("meetupList",meetupList);
 		model.addAttribute("no",no);
-		return "moim/meetup/moimmeetupDetail";
+		return "moim/meetup/moimmeetupList";
 	}
 }
