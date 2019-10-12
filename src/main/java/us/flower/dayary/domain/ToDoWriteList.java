@@ -15,6 +15,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import antlr.collections.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,9 +36,11 @@ public class ToDoWriteList extends DateAudit {
 	
 	@ManyToOne
 	@JoinColumn(name="MOIM_ID")
+	@JsonIgnore
 	private Moim moim;
 	@ManyToOne
 	@JoinColumn(name = "PEOPLE_ID")
+	@JsonIgnore
 	private People people;
 	
 	@ManyToOne
