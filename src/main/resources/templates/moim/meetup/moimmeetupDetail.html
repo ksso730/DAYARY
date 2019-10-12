@@ -634,10 +634,15 @@ color:#fff;
         </h5>
         <div class="mda-list">
           <tr th:each="meetupPeopleList : ${meetupPeopleList}">
-	          <div class="mda-list-item"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="List user" class="mda-list-item-img">
+          <!-- 	<span th:if="${meetupPeopleList!=0}"> -->
+	          <div class="mda-list-item">
+	          <img
+											th:src="${meetupPeopleList.people.imageName!=null} ? ${'/getMoimImage/'+meetupPeopleList.people.imageName+'.'+meetupPeopleList.people.imageExtension} : '/images/default_people.png'"
+											alt="List user" class="mda-list-item-img"
+											style="height: 50px; width: 40px">
 	            <div class="mda-list-item-text mda-2-line">
-	              <h3><a href="#">  <td th:text="${meetupPeopleList.people.name}" /></a></h3>
-	              <div class="text-muted text-ellipsis">Ut ac nisi id mauris</div>
+	              <h3><a href="#">  </a></h3>
+	              <div class="text-muted text-ellipsis"><td th:text="${meetupPeopleList.people.name}" /></div>
 	            </div> 
 	          </div>
           </tr>
