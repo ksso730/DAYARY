@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.util.List;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
@@ -78,6 +80,33 @@ public class MoimTodoListController {
     	        }
     	      
     	  return returnData;
+    }
+    /**
+     * 모임  해야할일(ToDoList)  저장
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author jy
+     */
+    @ResponseBody
+    @GetMapping("/moimDetail/moimTodoList/detail/{no}")
+    public Map<String,Object>  todostatdetail(@PathVariable("no") long no) {
+    	
+    	Map<String,Object> data=new HashMap<String,Object>();
+    	try {
+    		data.put("list",service.findByToDoWrite_id(no));
+    		data.put("todo",service.findById(no));
+    		data.put("code", "1");
+    		data.put("message", "저장되었습니다");
+
+	        } catch (Exception e) {
+	        	data.put("code", "E3290");
+	        	data.put("message", "데이터 확인 후 다시 시도해주세요.");
+	        }
+    	
+    	
+    	return data;
     }
     /**
      * 모임 일정관리(ToDoList) 완료된것만 보기

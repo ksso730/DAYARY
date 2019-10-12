@@ -1,7 +1,9 @@
-function myPeopleCount() {
+function meetupPeoplejoinCheck() {
   console.log("페이지 로딩 완료");
 
 }
+
+
 $('[name="grantpeople_btn"]').on('click', function () {//가입승인 대기중인사람 승인하기 by choiseongjun 2019-10-07
 		 var moimNo = $('#moimNo').attr("data-moimNo");
 	     let tempdata = {};

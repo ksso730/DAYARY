@@ -146,7 +146,7 @@ body {
 </style>
 </head>
 <body>
-<body onload="myPeopleCount()"><!-- 인원수 세는것 by choiseongjun -->
+<body onload="meetupPeoplejoinCheck()"><!-- 인원수 세는것 by choiseongjun -->
    <div id="moimNo" th:data-moimNo="${moimDetail.id}"></div><!-- 모임번호 -->
    <div id="moimPeopleNo" th:data-moimPeopleNo="${moimPeopleNo}"></div><!-- 모임피플테이블번호 -->
      <div id="joinCondition" th:data-joinCondition="${moimDetail.joinCondition}"></div><!-- 모임가입승인조건 유무 -->
@@ -167,8 +167,8 @@ body {
                            <h4 class="mt-1 mb-1 font-18">
                               <td th:text="${moimDetail.title}" />
                            </h4>
-                           <p class="text-light mb-0">회원 수:<td th:text="${totalPeople}" /> 회원제한수:<td
-                              th:text="${moimDetail.peopleLimit}" /> </p>
+                           <p class="text-light mb-0">회원 수:<td th:text="${totalPeople}-1" /> 회원제한수:<td
+                              th:text="${moimDetail.peopleLimit}-1" /> </p>
                         </div>
                      </div>
                      <div class="col-sm-6">
@@ -227,7 +227,7 @@ body {
                       <span th:if="${moimDetail.joinCondition}=='N'">   <!-- 누구나 가입하는 경우  by choinseognjun 2019-10-07-->
 	                       <span th:if="${joinedpeople}==null">   
 	                        <span
-	                           th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople>=moimDetail.peopleLimit) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
+	                           th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople-1>=moimDetail.peopleLimit-1) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
 	                           <!-- 미가입자와 운영자가 아닌경우 -->
 	                           <button type="button" id="signup_btn"
 	                              class="btn btn-primary btn-xs">스터디 가입하기</button>
@@ -397,25 +397,31 @@ body {
                <div class="card-box">
                   <h4 class="header-title mt-0 mb-3">
                     	 오프라인모임
+                    	 <button type="button"
+                           class="btn btn-icon btn-sm waves-effect waves-light btn-success">
+                           <a th:href="@{'/moimlistView/moimdetailView/moimmeetupDetail/' + ${no}}"> 더 보기</a>
+                        </button>
                   </h4>
-                 <tr th:each="meetupList : ${meetupList}">
                 
+                 <tr th:each="meetupList : ${meetupList}">
                   <div class="">
                      <div class="">
-                        <h5 class="text-custom"> <td th:text="${meetupList.title}" /> </h5>
-                      
+                        <h5 class="text-custom"> 
+                        	<a th:href="@{'/moimlistView/moimdetailView/moimmeetupDetailView/' +${no}+'/'+ ${meetupList.id}}">
+                        		<td th:text="${meetupList.title}" />
+                        	</a> 
+                        </h5>
                         <p class="mb-0"> <td th:text="${meetupList.intro}" />  <td th:text="${meetupList.detailAddress}" /></p>
                         <p> 
                            <b><td th:text="${meetupList.meetDate}" /></b>
                         </p>
-                        <button type="button" class="btn btn-primary btn-xs">참여
-                           하기</button>
                         <br />
-                        <button id="myBtn" class="btn btn-info btn-xs">참여자 보기</button>
                      </div>
                      
                   </div>
                	</tr>
+               	
+           
                </div>
 
 
@@ -507,95 +513,17 @@ body {
       <!-- Modal content -->
       <div class="modal-content">
          <span class="close">&times;</span>
-         <div class="inbox-widget">
+            
+        	 <div class="inbox-widget">
 
-            <a href="#">
-               <div class="inbox-item">
+            	<a href="#">
                   <div class="inbox-item-img">
                      <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
                         class="rounded-circle" alt="">
                   </div>
-                  <p class="inbox-item-author">TomaslaASDASDASDu</p>
+                  <p class="inbox-item-author"></p>
                   <p class="inbox-item-text">I've finished it! See you so...</p>
                   <p class="inbox-item-date"></p>
-               </div>
-            </a> <a href="#">
-               <div class="inbox-item">
-                  <div class="inbox-item-img">
-                     <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                        class="rounded-circle" alt="">
-                  </div>
-                  <p class="inbox-item-author">Stillnotdavid</p>
-                  <p class="inbox-item-text">This theme is awesome!</p>
-                  <p class="inbox-item-date">
-                     <button type="button"
-                        class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-                  </p>
-               </div>
-            </a> <a href="#">
-               <div class="inbox-item">
-                  <div class="inbox-item-img">
-                     <img src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                        class="rounded-circle" alt="">
-                  </div>
-                  <p class="inbox-item-author">Kurafire</p>
-                  <p class="inbox-item-text">Nice to meet you</p>
-                  <p class="inbox-item-date">
-                     <button type="button"
-                        class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-                  </p>
-               </div>
-            </a> <a href="#">
-               <div class="inbox-item">
-                  <div class="inbox-item-img">
-                     <img src="https://bootdey.com/img/Content/avatar/avatar5.png"
-                        class="rounded-circle" alt="">
-                  </div>
-                  <p class="inbox-item-author">Shahedk</p>
-                  <p class="inbox-item-text">Hey! there I'm available...</p>
-                  <p class="inbox-item-date">
-                     <button type="button"
-                        class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-                  </p>
-               </div>
-            </a> <a href="#">
-               <div class="inbox-item">
-                  <div class="inbox-item-img">
-                     <img src="https://bootdey.com/img/Content/avatar/avatar6.png"
-                        class="rounded-circle" alt="">
-                  </div>
-                  <p class="inbox-item-author">Adhamdannaway</p>
-                  <p class="inbox-item-text">This theme is awesome!</p>
-                  <p class="inbox-item-date">
-                     <button type="button"
-                        class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-                  </p>
-               </div>
-            </a> <a href="#">
-               <div class="inbox-item">
-                  <div class="inbox-item-img">
-                     <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                        class="rounded-circle" alt="">
-                  </div>
-                  <p class="inbox-item-author">더보기Tomaslau</p>
-                  <p class="inbox-item-text">I've finished it! See you so...</p>
-                  <p class="inbox-item-date">
-                     <button type="button"
-                        class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-                  </p>
-               </div>
-            </a> <a href="#">
-               <div class="inbox-item">
-                  <div class="inbox-item-img">
-                     <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                        class="rounded-circle" alt="">
-                  </div>
-                  <p class="inbox-item-author">Stillnotdavid</p>
-                  <p class="inbox-item-text">This theme is awesome!</p>
-                  <p class="inbox-item-date">
-                     <button type="button"
-                        class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-                  </p>
                </div>
             </a>
          </div>
