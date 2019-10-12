@@ -315,7 +315,7 @@ public class MoimMeetUpController {
 		moimMeetupService.findmeetupMoimone(meetupListId)
 						 .ifPresent(meetupList -> model.addAttribute("meetupList", meetupList));
 		
-		model.addAttribute("peoplemeetupNo",peoplemeetupNo);//밋업피플 넘버를 넘겨줘서 참가여부를 분기처리한다  
+		model.addAttribute("peoplemeetupNo",peoplemeetupNo);//밋업피플 넘버를 넘겨줘서 참가버튼 참여/참여 취소 여부를 분기처리한다  
 		model.addAttribute("meetupPeopleList",meetupPeopleList);
 		model.addAttribute("meetupListId",meetupListId);
 		model.addAttribute("meetupPeopleCheck",meetupPeopleCheck); 
