@@ -375,3 +375,65 @@ ul {
     margin-bottom: 2rem;
     box-shadow: none;
 }
+
+#inputmsg.form-control{
+	width: 90%;
+	float: left;
+	resize: none;
+}
+
+.sendButton{
+	width: 10%;
+	float: right;
+    height: auto;
+	
+}
+
+.chatContainerScroll{
+	width: 100%;
+	float: right;
+    height: 500px;
+/*     overflow:auto */
+	overflow: hidden;
+    overflow-y: scroll;
+}
+
+#menu_scroll_down {
+  width: 100%;
+  height: 50px;
+  z-index: 1;
+  top: 200px;
+  position: fixed;
+  background-color: #3591FE;
+  border-bottom: 1px solid rgba(150, 150, 150, 0.2);
+  box-sizing: border-box;
+  transition: All 0.2s ease;
+  -webkit-transition: All 0.2s ease;
+  -moz-transition: All 0.2s ease;
+  -o-transition: All 0.2s ease;
+  text-align: center;
+}
+
+#btn_scroll_down {
+  background-color: #3591FE;
+  border: none;
+  padding-top: 5px;
+  color: white;
+  text-align: center;
+  font-family: 'consolas';
+  display: inline-block;
+  font-size: 25px;
+  width: 100%;
+  height: 100%;
+}
+
+#menu_hide {
+  width: 100%;
+  height: 60px;
+  z-index: 2;
+  /* menu_scroll_down보다 크게 해줘야 함 */
+  top: 200px;
+  position: fixed;
+  background-color: #FFFFFF;
+  box-sizing: border-box;
+}
