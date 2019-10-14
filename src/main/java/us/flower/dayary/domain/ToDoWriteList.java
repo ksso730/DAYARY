@@ -44,7 +44,7 @@ public class ToDoWriteList extends DateAudit {
 	private People people;
 	
 	@ManyToOne
-	@JoinColumn(name="MOIM_TO_DO_WRITE_ID")
+	@JoinColumn(name="MOIM_TODO_WRITE_ID")
 	private ToDoWrite toDoWrite;
 	
 	@Column(name="PLAN_LIST")
