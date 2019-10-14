@@ -8,6 +8,6 @@ import us.flower.dayary.domain.DTO.BoardListDTO;
 public interface CommunityBoardRepositoryCustom {
 
     // 게시글 목록 + 페이징 + 삭제된 댓글 제외
-    Page<BoardListDTO> findAllByBoardGroupAndDeleteFlagAndReply(BoardGroup boardGroup, String deleteFlag, Pageable pageable);
+    Page<BoardListDTO> findAllByBoardGroupAndDeleteFlagAndReply(BoardGroup boardGroup, String deleteFlag, Pageable pageable, String search);
 
 }

@@ -64,8 +64,26 @@
 </style>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
+let searched = false;
+
+    function searchText(search){
+        if(search==''){
+            alert('검색어를 입력하세요');
+            $('#search').focus();
+            return;
+        }
+
+        searched = true;
+        window.location = window.location + '?search=' + search;
+    }
+
+
+    function orderby(val){
+
+    }
+
 $(document).ready(function(){
-    //console.log($('#communityStudyListCount').val());
+
 });
 </script>
 </head>
@@ -91,13 +109,14 @@ $(document).ready(function(){
     <div>
         <div class="categories">
             <ul class="list-sort pull-left">
-                <li class="post-category"><a th:href="@{'/community/board/' + ${boardGroup}(sort='createdAt,desc')}">최신순</a></li>
-                <li class="post-category"><a th:href="@{'/community/board/' + ${boardGroup}(sort='heart,desc')}">추천순</a></li>
-                <li class="post-category"><a th:href="@{'/community/board/' + ${boardGroup}(sort='replyCount,desc')}">댓글순</a></li>
-                <li class="post-category"><a th:href="@{'/community/board/' + ${boardGroup}(sort='viewCount,desc')}">조회순</a></li>
+                <li class="post-category"><a  onclick='orderby(1)'>최신순</a></li>
+                <!--<li class="post-category"><a th:href="@{'/community/board/' + ${boardGroup}(sort='heart,desc')}">추천순</a></li>-->
+                <li class="post-category"><a onclick='orderby(2)'>추천순</a></li>
+                <li class="post-category"><a onclick='orderby(3)'>댓글순</a></li>
+                <li class="post-category"><a onclick='orderby(4)'>조회순</a></li>
                 <div class="input-group input-group-sm post-category" style="width: 200px;">
-                    <input class="form-control" placeholder="검색어">
-                    <button>검색</button>
+                    <input class="form-control" id="search" placeholder="검색어">
+                    <button onclick="searchText($('#search').val())">검색</button>
                 </div>
             </ul>
         </div>

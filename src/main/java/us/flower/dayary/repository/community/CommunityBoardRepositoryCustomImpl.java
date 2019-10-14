@@ -26,7 +26,7 @@ public class CommunityBoardRepositoryCustomImpl extends QuerydslRepositorySuppor
 
 
     @Override
-    public Page<BoardListDTO> findAllByBoardGroupAndDeleteFlagAndReply(BoardGroup boardGroup, String deleteFlag, Pageable pageable) {
+    public Page<BoardListDTO> findAllByBoardGroupAndDeleteFlagAndReply(final BoardGroup boardGroup, final String deleteFlag, final Pageable pageable, final String search) {
 
       /*  QueryResults<BoardListDTO> results = jpaQueryFactory
                                         .select(Projections.constructor(BoardListDTO.class,
@@ -60,9 +60,12 @@ public class CommunityBoardRepositoryCustomImpl extends QuerydslRepositorySuppor
                                         .from(communityBoard, communityBoardReply)
                                         .leftJoin(communityBoard.communityBoardReplies, communityBoardReply)
                                         .where(communityBoard.boardGroup.eq(boardGroup).and(communityBoard.deleteFlag.eq(deleteFlag)).and(communityBoardReply.deleteFlag.eq(deleteFlag))
-                                                .or(communityBoard.boardGroup.eq(boardGroup).and(communityBoard.deleteFlag.eq(deleteFlag)).and(communityBoardReply.deleteFlag.isNull())))
-                                        .groupBy(communityBoard);
-
+                                                .or(communityBoard.boardGroup.eq(boardGroup).and(communityBoard.deleteFlag.eq(deleteFlag)).and(communityBoardReply.deleteFlag.isNull())));
+                                        // search text
+                                        if(!search.equals("")){
+                                            query.where(communityBoard.title.contains(search).or(communityBoard.memo.contains(search)));
+                                        }
+                                        query.groupBy(communityBoard);
 
    /*     Map<Integer, List<CommunityBoardReply>> results = jpaQueryFactory.from(communityBoard, communityBoardReply)
                 .leftJoin(communityBoard.communityBoardReplies, communityBoardReply)
@@ -70,7 +73,6 @@ public class CommunityBoardRepositoryCustomImpl extends QuerydslRepositorySuppor
                         communityBoard.deleteFlag.eq(deleteFlag),
                         communityBoardReply.deleteFlag.eq(deleteFlag))
                 .transform(groupBy(communityBoard.id).as(list(comment)));*/
-
 
         final QueryResults<BoardListDTO> results = getQuerydsl().applyPagination(pageable, query).fetchResults();
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());

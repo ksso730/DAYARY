@@ -120,13 +120,13 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	 * @return
 	 */
 	@Override
-	public Page<BoardListDTO> getCommunityBoardList(long boardGroupId, Pageable pageable) {
+	public Page<BoardListDTO> getCommunityBoardList(long boardGroupId, Pageable pageable, String search) {
 
 		BoardGroup boardGroup = new BoardGroup();
 		boardGroup.setId(boardGroupId);
 
 		/*Page<CommunityBoard> communityBoardList = communityBoardRepository.findAllByBoardGroupAndDeleteFlag(boardGroup, "N" ,pageable);*/
-		Page<BoardListDTO> communityBoardList = communityBoardRepository.findAllByBoardGroupAndDeleteFlagAndReply(boardGroup, "N" ,pageable);
+		Page<BoardListDTO> communityBoardList = communityBoardRepository.findAllByBoardGroupAndDeleteFlagAndReply(boardGroup, "N" ,pageable, search);
 
 		return communityBoardList;
 	}

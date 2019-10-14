@@ -24,7 +24,7 @@ public interface CommunityBoardService {
 	boolean checkReplyWriter(Long peopleId, long replyId);
 
 	// 게시판 작성글 리스트
-	Page<BoardListDTO> getCommunityBoardList(long boardGroupId, Pageable pageable);
+	Page<BoardListDTO> getCommunityBoardList(long boardGroupId, Pageable pageable, String search);
 
 	// 타임라인 작성글 리스트
 	List<CommunityBoard> getCommunityBoardList(long boardGroupId);

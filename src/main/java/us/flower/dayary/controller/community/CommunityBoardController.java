@@ -8,8 +8,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import us.flower.dayary.domain.*;
+import us.flower.dayary.domain.CommunityBoard;
+import us.flower.dayary.domain.CommunityBoardReply;
 import us.flower.dayary.domain.DTO.BoardListDTO;
+import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
@@ -80,7 +82,7 @@ public class CommunityBoardController {
 	 */
 	@GetMapping("/community/board/{boardGroup}")
 	public String getBoardList(@PathVariable("boardGroup") String boardGroup, Model model,
-							@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable, HttpSession session) {
+							@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(name = "search", defaultValue = "") String search, HttpSession session) {
 
 		// get board group id
 		Long boardGroupId  = getBoargdGroupId(boardGroup);
@@ -92,7 +94,7 @@ public class CommunityBoardController {
 		session.setAttribute("page", pageable.getPageNumber());
 
 		// service
-		Page<BoardListDTO> communityBoardList = communityBoardService.getCommunityBoardList(boardGroupId, pageable);
+		Page<BoardListDTO> communityBoardList = communityBoardService.getCommunityBoardList(boardGroupId, pageable, search);
 
 		// contents list
 		model.addAttribute("boardList", communityBoardList.getContent());
