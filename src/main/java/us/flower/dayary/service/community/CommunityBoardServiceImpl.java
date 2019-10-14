@@ -215,11 +215,10 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	 */
 	@Override
 	public void addViewCount(CommunityBoard communityBoard) {
-
 		communityBoard.setViewCount(communityBoard.getViewCount()+1);
 		communityBoardRepository.save(communityBoard);
-
 	}
+
 
 
 	/**
@@ -351,8 +350,9 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 
 		// update board
 		board.getCommunityBoardReplies().add(reply);
+		board.setReplyCount(board.getReplyCount()+1);
+		communityBoardRepository.save(board);
 
 		return reply;
 	}
-
 }
