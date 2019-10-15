@@ -17,10 +17,48 @@ body {
 </style>
 <script src="/ckeditor/ckeditor.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- include libraries(jQuery, bootstrap) -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+<!-- include summernote css/js-->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
 <script>
 $(document).ready(function(){
-	// 작성자 이름 제외 (2019-09-28)
-	//$('#writer_name').val([[${name}]]);
+	$('#content').summernote({
+		height: 600,
+		minHeight: null,
+		maxHeight: null,
+		focus: true,
+		callbacks: {
+			onImageUpload: function(files, editor, welEditable) {
+				for (let i = files.length - 1; i >= 0; i--) {
+					sendFile(files[i], this);
+				}
+			}
+		}
+	});
+
+	$('#content').summernote('reset');
+
+	function sendFile(file, el) {
+		let form_data = new FormData();
+		form_data.append('file', file);
+		$.ajax({
+			data: form_data,
+			type: "POST",
+			url: '/image',
+			cache: false,
+			contentType: false,
+			enctype: 'multipart/form-data',
+			processData: false,
+			success: function(url) {
+				$(el).summernote('editor.insertImage', url);
+				$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+			}
+		});
+	}
 
 	$('#community_write_btn').on('click', function () {
 
@@ -32,9 +70,8 @@ $(document).ready(function(){
 		}
 
 		// ck editior defualt length == 1
-		if($('#content').val()==''||$('#content').val()=='undefined'||$('#content').val()==null){
+		if($($("#content").summernote("code")).text()==''||$($("#content").summernote("code")).text()=='undefined'||$($("#content").summernote("code")).text()==null){
 			alert('내용을 입력하세요');
-			$('#content').focus();
 			return;
 		}
 
@@ -42,7 +79,7 @@ $(document).ready(function(){
 		let communityBoard = {};
 
 		communityBoard.title = $('#title').val();
-		communityBoard.memo= $('#content').val();
+		communityBoard.memo= $($("#content").summernote("code")).text();
 
 
 		$.ajax({
@@ -92,7 +129,9 @@ $(document).ready(function(){
 <!--				</div>-->
 				<div class="mb-3">
 					<label for="content">내용</label>
-					<textarea class="form-control" rows="20" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
+					<textarea class="form-control" rows="20" name="content" id="content" placeholder="내용을 입력해 주세요" >
+
+					</textarea>
 				</div>
 <!--				<div class="mb-3">-->
 <!--					<label for="tag">TAG</label>-->

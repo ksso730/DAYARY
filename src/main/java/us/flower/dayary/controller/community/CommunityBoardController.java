@@ -82,7 +82,7 @@ public class CommunityBoardController {
 	 */
 	@GetMapping("/community/board/{boardGroup}")
 	public String getBoardList(@PathVariable("boardGroup") String boardGroup, Model model,
-							@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(name = "search", defaultValue = "") String search, HttpSession session) {
+							@PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=25) Pageable pageable, @RequestParam(name = "search", defaultValue = "") String search, HttpSession session) {
 
 		// get board group id
 		Long boardGroupId  = getBoargdGroupId(boardGroup);
