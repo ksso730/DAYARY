@@ -180,7 +180,7 @@ $(document).ready(function(){
 		<div class="row text-center pt-5 border-top">
 		<div class="col-md-12">
 			<div >
-                <ul class="pagination align-content-center">
+                <ul class="pagination align-content-center" th:if="${pageNumber} > 0">
                     <li style="list-style-type: none;" class="page-item" th:each="i: ${#numbers.sequence(0, pageNumber - 1)}">
                         <a  th:href="@{'/community/board/' + ${boardGroup}(page=${i})}">[[${i}+1]]</a>
                     </li>
