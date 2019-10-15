@@ -105,6 +105,14 @@ public class CommunityBoardController {
 		// page number
 		model.addAttribute("pageNumber", communityBoardList.getTotalPages());
 
+		// search text
+		if(search.equals("")){
+			model.addAttribute("search", 0);
+		}else{
+			model.addAttribute("search", search);
+		}
+
+
 		return "community/boardList";
 	}
 

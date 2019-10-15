@@ -74,16 +74,42 @@ let searched = false;
         }
 
         searched = true;
-        window.location = window.location + '?search=' + search;
+        window.location.href = '/community/board/[[${boardGroup}]]' + '?search=' + search;
     }
 
 
-    function orderby(val){
-
+    function orderBy(val){
+        const search = '[[${search}]]';
+        // check search text is exist
+        if(search==0){
+            if(val==1){
+                window.location.href = '/community/board/[[${boardGroup}]]?sort=createdAt,desc';
+            }else if(val==2){
+                window.location.href = '/community/board/[[${boardGroup}]]?sort=heart,desc';
+            }else if(val==3){
+                window.location.href = '/community/board/[[${boardGroup}]]?sort=replyCount,desc';
+            }else if(val==4) {
+                window.location.href = '/community/board/[[${boardGroup}]]?sort=viewCount,desc';
+            }
+        }else{
+            if(val==1){
+                window.location.href = '/community/board/[[${boardGroup}]]?search=[[${search}]]&sort=createdAt,desc';
+            }else if(val==2){
+                window.location.href = '/community/board/[[${boardGroup}]]?search=[[${search}]]&sort=heart,desc';
+            }else if(val==3){
+                window.location.href = '/community/board/[[${boardGroup}]]?search=[[${search}]]&sort=replyCount,desc';
+            }else if(val==4) {
+                window.location.href = '/community/board/[[${boardGroup}]]?search=[[${search}]]&sort=viewCount,desc';
+            }
+        }
     }
 
 $(document).ready(function(){
-
+    // search text
+    const search = '[[${search}]]';
+    if(search!=0){
+        $('#search').val('[[${search}]]');
+    }
 });
 </script>
 </head>
@@ -109,11 +135,11 @@ $(document).ready(function(){
     <div>
         <div class="categories">
             <ul class="list-sort pull-left">
-                <li class="post-category"><a  onclick='orderby(1)'>최신순</a></li>
+                <li class="post-category"><a onclick="orderBy(1)" >최신순</a></li>
                 <!--<li class="post-category"><a th:href="@{'/community/board/' + ${boardGroup}(sort='heart,desc')}">추천순</a></li>-->
-                <li class="post-category"><a onclick='orderby(2)'>추천순</a></li>
-                <li class="post-category"><a onclick='orderby(3)'>댓글순</a></li>
-                <li class="post-category"><a onclick='orderby(4)'>조회순</a></li>
+                <li class="post-category"><a onclick="orderBy(2)" >추천순</a></li>
+                <li class="post-category"><a onclick="orderBy(3)" >댓글순</a></li>
+                <li class="post-category"><a onclick="orderBy(4)" >조회순</a></li>
                 <div class="input-group input-group-sm post-category" style="width: 200px;">
                     <input class="form-control" id="search" placeholder="검색어">
                     <button onclick="searchText($('#search').val())">검색</button>
