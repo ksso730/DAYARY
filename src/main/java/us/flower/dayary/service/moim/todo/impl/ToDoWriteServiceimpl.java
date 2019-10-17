@@ -132,6 +132,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
       // TODO Auto-generated method stub
       List<ToDoWrite> list=toDowriteRepository.findByMoim_id(id);
       //현재시간이 todo시작 날짜보다 지나고 100% 완료되지 않은경우 미완료로 상태변경
+      System.out.print("status update");
       for(int i=0;i< list.size();i++) {
          ToDoWrite todo=list.get(i);
          if(date.compareTo(todo.getTo_date())>0&&todo.getProgress()!=100) {

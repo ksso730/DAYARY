@@ -82,7 +82,7 @@ public class MoimTodoListController {
     	  return returnData;
     }
     /**
-     * 모임  해야할일(ToDoList)  저장
+     * 모임  해야할일(ToDoList) 불러와서 조회하기
      *
      * @param 
      * @return
@@ -110,63 +110,29 @@ public class MoimTodoListController {
     	
     	return data;
     }
+
     /**
-     * 모임 일정관리(ToDoList) 완료된것만 보기
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author choiseongjun
-     */
-    @GetMapping("/moimDetail/moimTodoList/moimTodoListcompleted/{no}")
-    public String moimTodoListcompleted(@PathVariable("no") long no,Model model) {
-    	model.addAttribute("list",service.findByMoim_idAndStatus(no, "End"));
-    	return "moim/moimTodoListcompleted";
-    }
-    /**
-     * 모임 일정관리(ToDoList) 새로운것만 보기
+     * 모임 일정관리(ToDoList) status로 조회하기
      *
      * @param 
      * @return
      * @throws 
      * @author jy
      */
-    @GetMapping("/moimDetail/moimTodoList/moimTodoListNew/{no}")
-    public String moimTodoListNew(@PathVariable("no") long no,Model model) {
-    	model.addAttribute("list",service.findByMoim_idAndStatus(no,"New"));
+    @ResponseBody
+    @GetMapping("/moimDetail/moimTodoList/{no}/{status}")
+    public Map<String, Object>  moimTodoListNew(@PathVariable("no") long no,@PathVariable("status") String status,@PageableDefault Pageable pageable ){
+    	Map<String, Object> returnData = new HashMap<String, Object>();
     	
-    	return "moim/moimTodoListcompleted";
+         try {
+	         returnData.put("todolist",service.findByMoim_idAndStatus(no,status));
+	         returnData.put("code", "1");
+         }catch(Exception e) {
+        		returnData.put("message", e.getCause()+e.getMessage());
+         }
+	  return returnData;
     }
-    /**
-     * 모임 일정관리(ToDoList) 진행중인것만 보기
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author jy
-     */
-    @GetMapping("/moimDetail/moimTodoList/moimTodoListProgress/{no}")
-    public String moimTodoListProgress(@PathVariable("no") long no,Model model) {
-    	model.addAttribute("list",service.findByMoim_idAndStatus(no,"In Progress"));
-    	
-    	
-    	return "moim/moimTodoListcompleted";
-    }
-    /**
-     * 모임 일정관리(ToDoList) 미완료된것만 보기
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author jy
-     */
-    @GetMapping("/moimDetail/moimTodoList/moimTodoListSuspend/{no}")
-    public String moimTodoListSuspend(@PathVariable("no") long no,Model model) {
-    	model.addAttribute("list",service.findByMoim_idAndStatus(no,"Suspend"));
-    	
-    	
-    	return "moim/moimTodoListcompleted";
-    }
+  
     /**
      * 모임 일정관리(ToDoList) 작성하기
      *
@@ -220,21 +186,6 @@ public class MoimTodoListController {
     public String moimcalender() {
     	
     	return "moim/moimCalender";
-    }
-    /**
-     * 모임 해야할일(ToDoList) 현재시간 통해 상태 update
-     *
-     * @param 
-     * @return
-     * @throws 
-     * @author JY
-     */
-    @GetMapping("/moimDetail/moimTodoList/status/{no}")
-    public Map<String,Object> status(@PathVariable("no")long no) {
-    	  Map<String, Object> returnData = new HashMap<String, Object>();
-    	Date date=new java.sql.Date(System.currentTimeMillis());
-	    	service.updateById(no, date);
-	    	return returnData;
     }
     /**
      * 모임 해야할일(ToDoList) 현재목록  조회
@@ -299,5 +250,20 @@ public class MoimTodoListController {
 
 
       return returnData;
+   }
+   
+   /**
+    * 모임 해야할일(ToDoList) 현재시간 통해 상태 update
+    *
+    * @param 
+    * @return
+    * @throws 
+    * @author JY
+    */
+   @ResponseBody
+   @GetMapping("/moimDetail/moimTodoList/status/{no}")
+   public void status(@PathVariable("no")long no) {
+   	Date date=new java.sql.Date(System.currentTimeMillis());
+	 service.updateById(no, date);
    }
 }
