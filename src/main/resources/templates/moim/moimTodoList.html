@@ -20,7 +20,7 @@
   position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
   right: 0;
-  background-color: #CFCBCB; 
+  background-color: #FAFAFA; 
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -63,6 +63,7 @@
             <div class="mb-4">
             	<div id="moimNo" th:data-moimNo="${no}"></div><!-- 모임번호 -->
             	<div id="moimPeople" th:data-No="${moimPeople}"></div><!-- 모임번호 -->
+            	<div id="Login" th:data="${session.peopleEmail}"></div><!-- 모임번호 -->
                 <div class="small mb-3">Search</div>
                 <div class="input-group">
                     <input placeholder="Search for..." type="text" class="form-control">
@@ -74,17 +75,17 @@
             <div class="mb-4">
                 <div class="small mb-3">Favorites</div>
                 <ul class="nav flex-column nav-pills">
-                    <li class="nav-item"><a href="#" class="nav-link active"><i class="fa fa-fw fa-line-chart mr-2"></i>해야 할목록</a></li>
+                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/' + ${no}}" class="nav-link active"><i class="fa fa-fw fa-line-chart mr-2"></i>해야 할목록</a></li>
                     <li class="nav-item"><a href="/moimDetail/moimTodoList/moimcalender" class="nav-link"><i class="fa fa-fw fa-calendar-o mr-2"></i>달력일정 체크하기</a></li>
                 </ul>
             </div>
             <div class="mb-4">
                 <div class="small mb-3">Projects</div>
                 <ul class="nav flex-column nav-pills">
-                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimTodoListcompleted/' + ${no}}" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>완료된것들<span class="ml-auto align-self-center badge badge-secondary badge-pill">12</span></a></li>
-                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimTodoListNew/' + ${no}}" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>새로운 일정<span class="ml-auto align-self-center badge badge-secondary badge-pill">4</span></a></li>
-                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimTodoListProgress/' + ${no}}" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>진행중인 일정<span class="ml-auto align-self-center badge badge-secondary badge-pill">4</span></a></li>
-                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimtodoListSuspend/' + ${no}}" class="d-flex nav-link"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>미완료 목록<span class="ml-auto align-self-center badge badge-secondary badge-pill">9</span></a></li>
+                    <li class="nav-item" onclick="detail_list('New');"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>새로운 일정<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[0]}"></span></li>
+                    <li class="nav-item" onclick="detail_list('In Progress');" ><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>진행중인 일정<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[1]}"></span></li>
+                    <li class="nav-item" onclick="detail_list('End');" ><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>완료된것들<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[2]}"></span></li>
+                    <li class="nav-item" onclick="detail_list('Suspend');" ><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>미완료 목록<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[3]}"></span></li>
                     <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimTodowrite/' + ${no}}" class="nav-link"><i class="fa fa-fw fa-plus mr-2"></i>일정 관리 세우기</a></li>
                 </ul>
             </div>
@@ -92,7 +93,7 @@
         </div>
         <div id="detail"  class="sidenav"><div id="detail-body"></div></div>
 
-        <div class="col-lg-9">
+        <div class="col-lg-8">
             <div class="d-flex flex-column flex-md-row mb-3 mb-md-0">
                 <nav class="mr-auto d-flex align-items-center" aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -117,10 +118,10 @@
                                 <th class="align-middle bt-0" width="10">현재 공부 상태</th>
                                 <th class="align-middle bt-0"	width="50">공부 진척도</th>
                                 <th class="align-middle bt-0" width="10">참가자</th>
-                                <th class="align-middle bt-0 text-right" width="5">상세보기</th>
+                             
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="list">
                       		<tr th:each="list : ${todolist}"  >
                       		<td class="align-middle">
                                     <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div>
@@ -146,26 +147,12 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="align-middle text-right">
-                                    <div class="btn-group">
-                                        <a th:href="@{'/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/' + ${list.id}}" class="d-flex nav-link"><i class="fa fa-search"></i></a>
-                                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                                            <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-folder-open mr-2"></i>View</button>
-                                            <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-ticket mr-2"></i>Add Task</button>
-                                            <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-paperclip mr-2"></i>Add Files</button>
-                                            <div tabindex="-1" class="dropdown-divider"></div>
-                                            <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-trash mr-2"></i>Delete</button>
-                                        </div>
-                                    </div>
-                                </td>
+                                
                             </tr>
-                   
-                           
-                      
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex justify-content-center pb-0 card-footer">
+                <div class="d-flex justify-content-center pb-0 card-footer" id="page">
                    	<nav style="text-align: center;">
      <ul class="pagination"
         th:with="start=${T(Math).floor(todolist.number/10)*10 + 1},
@@ -209,22 +196,20 @@
 </body>
 <script>
 $(document).ready(function(){
+	//시간 받아와서 지나면 suspend로 업데이트
+	$.ajax({
+ 	     url:'/moimDetail/moimTodoList/status/'+$('#moimNo').attr("data-moimNo"),
+ 	  
+ 	   });
+
 	 document.getElementById("detail").style.display="none";
  	if($('#moimPeople').attr("data-No")=='false'){
  		window.onclick=function(){ 
  		    alert("모임에 가입하셔야 이용하실 수 있습니다");
- 		   location.href='/moimlistView/moimdetailView/'+$('#moimNo').attr("data-moimNo")
+ 		   location.href='/moimlistView/moimdetailView/'+$('#moimNo').attr("data-moimNo");
+ 		   return;
  		};
  	}
- 	 $.ajax({
- 	     url:'/moimDetail/moimTodoList/status/'+$('#moimNo').attr("data-moimNo"),
- 	       type:'get',
- 	       success:function(data){
-				location.href='/moimDetail/moimTodoList/'+$('#moimNo').attr("data-moimNo")
- 	       }, error:function(e){
-
- 	       }
- 	   });
 
    });
 
@@ -243,6 +228,7 @@ function get_detail(id) {
 	        	 if(data.code==1){
 	        		 var todo = data.todo;
 	        		 var list= data.list;
+	        		 var writer=data.writer;
 	        			var html='<div id="detail-body">  <a href="javascript:void(0)" class="closebtn" onclick="close_detail()">&times;</a>  ';
 	        			   html+='<h1><span> '+todo.plan_title+' </span> </h1><ul id="myUL" >';
 	        			var html2= '<ul id="DoneUL" >';
@@ -258,7 +244,12 @@ function get_detail(id) {
 	        			 
 	                   		html+='</ul>';
 	                   		html2+='</ul></div><span>시작일자:'+todo.from_date+' 종료일자:'+todo.to_date+"</span>";
-							html2+='<hr><button type="button" onclick="post_send('+todo.id+')">저장하기</button>'
+	                   		if(writer==$("#Login").attr("data")){
+								html2+='<hr><button type="button" onclick="post_send('+todo.id+')">저장하기</button>'
+								html2+='<button type="button" onclick="delete_send('+todo.id+')">삭제하기</button>'
+	                   			
+	                   		}
+	         
 	                   		html=html+html2;
 							console.log(html);
 	                   		$("#detail-body").html(html);
@@ -281,20 +272,17 @@ function uncheck(t){
 		t.addClass('checked');
 }
 //todo삭제기능
-function delete_send(){
-   alert("")
-    var moimNo = $('#moimNo').attr("data-moimNo");
-    var todoNo = $('#todoNo').attr("data-todoNo");
-   
+function delete_send(id){
+   alert("삭제됩니다")
    $.ajax({
-         url : '/moimDetail/moimTodoList/delete/'+todoNo, 
+         url : '/moimDetail/moimTodoList/delete/'+id, 
          type : "DELETE",   
          processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
           contentType: false,
           success:function(data){
              if(data.code==1){
                  alert(data.message);
-                 location.href='/moimDetail/moimTodoList/'+moimNo;
+				 location.reload();              
            }else{
               alert(data.message);
            }
@@ -304,7 +292,48 @@ function delete_send(){
           }
       });
 }
-  
+
+function detail_list(status){
+	$.ajax({
+	      url:'/moimDetail/moimTodoList/'+$('#moimNo').attr("data-moimNo")+'/'+status,
+	      contentType: "application/json; charset=utf-8",
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        success:function(data){
+	        	 if(data.code==1){
+	        		//var page=data.todolist.page;
+	        		var list=data.todolist;
+	        		var html=""
+	        			for(var i in list){
+	        				html+='<tr><td class="align-middle"> <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div></td>';
+	        				html+='<td><div><a href="#" onclick="get_detail('+list[i].id+');" ><span>'+list[i].plan_title+'</span></a></div>';
+	        				html+='   Edited by: '+list[i].create_date+'</td>  <td class="align-middle">';
+	        				if(list[i].status=='New')
+		        				html+=' <span class="badge badge-light badge-pill">New</span>';
+		        			else if(list[i].status=='In Progress')
+		        				html+=' <span class="badge badge-success badge-pill">In Progress</span>';
+		        			else if(list[i].status=='End')
+		        				html+=' <span class="badge badge-danger badge-pill">End</span>';
+		        			else if(list[i].status=='Suspend')
+		        				html+=' <span class="badge badge-danger badge-pill">Suspend</span>';
+		        			html+=' <td class="align-middle"> <div class="mb-2 progress" style="height: 5px;">';
+		        			html+='<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:'+list[i].progress+'%;"></div>';
+                            html+= '</div><div>Tasks Completed:'+list[i].count+'</div></td>';
+                            html+='<td class="align-middle">  <div class="avatar-image avatar-image--loaded"> <div class="avatar avatar--md avatar-image__image">'
+	        				html+='  <div class="avatar__content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png"></div> </div>'
+	        				html+='  </div></td> </tr> ';
+	        			}
+	        		
+	        		$("#list").html(html);
+	        		$("#page").hide();
+	        		 
+	        	 }else{
+	                 alert(data.message);
+	             }
+	        }, error:function(e){
+
+	        }
+	});
+}
  
 
 //체크저장기능
@@ -326,8 +355,8 @@ function post_send(id) {
 		}
 	}
 	var param={
-			"list":list,
-			"count":count.length
+			list:list,
+			count:count.length
 	}
 	   $.ajax({
 	      url:'/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/'+id,
