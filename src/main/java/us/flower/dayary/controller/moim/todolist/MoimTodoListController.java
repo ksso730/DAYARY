@@ -96,7 +96,9 @@ public class MoimTodoListController {
     	Map<String,Object> data=new HashMap<String,Object>();
     	try {
     		data.put("list",service.findByToDoWrite_id(no));
-    		data.put("todo",service.findById(no));
+    		ToDoWrite todo=service.findById(no);
+    		data.put("todo",todo);
+    		data.put("writer", todo.getPeople().getEmail());
     		data.put("code", "1");
     		data.put("message", "저장되었습니다");
 
@@ -189,14 +191,13 @@ public class MoimTodoListController {
      * @author JY
      */
 	@ResponseBody
-	@PostMapping("/moimDetail/moimTodoList/moimTodowrite")
-	public Map<String, Object> moimTodowrite(HttpSession session,@RequestBody ToDoWriteList todo ) {
-		  Map<String, Object> returnData = new HashMap<String, Object>();
+	@PostMapping("/moimDetail/moimTodoList/moimTodowrite/{no}")
+	public Map<String, Object> moimTodowrite(HttpSession session,@RequestBody ToDoWriteList todo ,@PathVariable("no") long no) {
+		Map<String, Object> returnData = new HashMap<String, Object>();
 		  String id =  (String) session.getAttribute("peopleEmail");
-		 
 	      
 		  try {
-	    	  	service.saveList(todo,id);
+	    	  	service.saveList(todo,id,no);
 	            returnData.put("code", "1");
 	            returnData.put("message", "저장되었습니다");
 
@@ -268,6 +269,7 @@ public class MoimTodoListController {
     	model.addAttribute("no",no);
     	model.addAttribute("todolist", toDolist);
     	model.addAttribute("moimPeople",Boolean.toString(moim));
+    	model.addAttribute("count",service.countByMoim_idAndStatus(no));
     	return "moim/moimTodoList";
     }
     /**
