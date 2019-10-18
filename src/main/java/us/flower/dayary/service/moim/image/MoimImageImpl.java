@@ -16,7 +16,7 @@ public class MoimImageImpl implements MoimImage{
 	@Autowired 
 	private FileManager fileManager;
 	@Value("${moimImagePath}")
-	private String moimImagePath;
+	private String moimImagePath; 
 	@Autowired
 	private MoimBoardFileRepository mbFileRepository;
 	@Autowired
