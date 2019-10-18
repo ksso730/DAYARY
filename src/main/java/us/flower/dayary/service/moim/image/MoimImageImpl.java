@@ -13,10 +13,10 @@ import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
 @Service
 @Transactional
 public class MoimImageImpl implements MoimImage{
-	@Autowired
+	@Autowired 
 	private FileManager fileManager;
 	@Value("${moimImagePath}")
-	private String moimImagePath;
+	private String moimImagePath; 
 	@Autowired
 	private MoimBoardFileRepository mbFileRepository;
 	@Autowired
