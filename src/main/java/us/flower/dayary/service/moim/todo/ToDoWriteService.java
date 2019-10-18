@@ -15,7 +15,7 @@ import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
 public interface ToDoWriteService {
 
-	public void saveList(ToDoWriteList toDoWriteList,String id);
+	public void saveList(ToDoWriteList toDoWriteList,String id,long no);
 	public Page<ToDoWrite> findByMoim_id(Pageable page,long id); 
 	public List<ToDoWrite> findByMoim_id(long id); 
 	public List<ToDoWriteList> findByToDoWrite_id(long id);
@@ -25,4 +25,5 @@ public interface ToDoWriteService {
 	public void updateById(long id,Date date);
 	public void deleteById(long id);
 	 public List<ToDoWrite> findByMoim_idAndStatus(long id, String status);
+	 public int[] countByMoim_idAndStatus(long id);
 }
