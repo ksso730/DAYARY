@@ -161,7 +161,7 @@ body {
                   <div class="row">
                      <div class="col-sm-6">
                         <span class="float-left mr-3"><img
-                           src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""
+                           th:src="${moimDetail.imageName!=null} ? ${'/getMoimImage/'+moimDetail.imageName+'.'+moimDetail.imageExtension} : '/images/img_4.jpg'" alt=""
                            class="thumb-lg rounded-circle"></span>
                         <div class="media-body text-white">
                            <h4 class="mt-1 mb-1 font-18">
@@ -174,7 +174,7 @@ body {
                      <div class="col-sm-6">
                         <div class="text-right">
                            <span th:if="${session.peopleId==moimDetail.people.id}">
-                              <button type="button" id="moim_offMoim_btn"
+                              <button type="button" id="moim_offMoim_btn" onclick="popupOpen()"
                                  class="btn btn-icon btn-sm waves-effect waves-light btn-success" >오프라인모임만들기</button>
                               <a th:href="@{'/moimUpdateView/' + ${no}}"><button type="button"
                                  class="btn btn-icon btn-sm waves-effect waves-light btn-success">
@@ -617,10 +617,7 @@ body {
             }
             //모임가입자 보기 끝
             //오프라인모임 팝업창 시작
-            $('#moim_offMoim_btn').click(function(event){  //버튼을 클릭 했을시 popupOpen 함수 출력 
-                 console.log('click');
-                 popupOpen();   //Popup Open 함수
-             });
+         
               
             function popupOpen(){
             	 var moimNo = $('#moimNo').attr("data-moimNo");
