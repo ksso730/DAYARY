@@ -7,16 +7,17 @@
 <body>
 	<div th:fragment="moimtodostatusModal">
 		<!-- 여기서부터 돋보기버튼눌렀을때 모달시작 -->
-		<div id="myModal" class="modal">
+		<div id="myModal" class="modal" >
 			<!-- Modal content -->
 			<div class="modal-content">
+			<input type="hidden" id="toDoWriteListId">
 				<span class="close">&times;</span>
-				<p>여기서부터 게시판 시작</p>
 				<div class="col-md-6 gedf-main">
 
 					<!--- \\\\\\\Post-->
 					<div class="card gedf-card">
 						<div class="card-header">
+						<h5 id="title"></h5>
 							<ul class="nav nav-tabs card-header-tabs" id="myTab"
 								role="tablist">
 								<li class="nav-item"><a class="nav-link active"
@@ -56,14 +57,13 @@
 								<li class="clearfix">
 									<div class="float-left">
 										<a href="#"><img
-											src="https://bootdey.com/img/Content/avatar/avatar6.png"
+											src=""
 											alt=""></a>
 									</div>
 									<div class="act-content">
-										<div class="font400">
+										<div class="font400" id="writer">
 
-											<a href="#" class="font600">John Doe</a> Sent you a direct
-											Image
+											
 										</div>
 										<span class="text-small">11 Min Ago</span>
 										<p>내가 한 거 사진
@@ -73,7 +73,7 @@
 
 							<div class="btn-toolbar justify-content-between">
 								<div class="btn-group">
-									<button type="submit" class="btn btn-primary">share</button>
+									<button type="button" id="submit" class="btn btn-primary">share</button>
 								</div>
 								<div class="btn-group">
 									<button id="btnGroupDrop1" type="button"

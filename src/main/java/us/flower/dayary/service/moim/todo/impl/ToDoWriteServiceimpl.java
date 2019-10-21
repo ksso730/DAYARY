@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.Common;
+import us.flower.dayary.domain.CommunityBoard;
+import us.flower.dayary.domain.CommunityFile;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
@@ -163,5 +166,17 @@ public int[] countByMoim_idAndStatus(long id) {
 	l[2]=toDowriteRepository.countBymoim_idAndStatus(id, "End");
 	l[3]=toDowriteRepository.countBymoim_idAndStatus(id, "Suspend");
 	return l;
+}
+@Override
+public void writeBoard(CommunityFile file,Long peopleId) {
+	// TODO Auto-generated method stub
+	CommunityBoard c=new CommunityBoard();
+	People people=new People();
+	people.setId(peopleId);
+	BoardGroup boardGroup=new BoardGroup();
+	boardGroup.setId(8);
+	c.setBoardGroup(boardGroup);
+	
+	
 }
 }

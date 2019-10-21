@@ -50,7 +50,7 @@ public class ToDoWriteList extends DateAudit {
 	@Column(name="PLAN_LIST")
 	private String plan_list;
 	
-	@Column(name="CHECK_CONFIRM",  columnDefinition = "char(1) default 'N'")
+	@Column(name="CHECK_CONFIRM")
 	private char checkConfirm;
 	
 	

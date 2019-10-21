@@ -46,7 +46,6 @@
   right: 25px;
   font-size: 36px;
   margin-left: 50px;
-  color:#f1f1f1;
 }
 .checked{
 	 color:#f1f1f1;
@@ -124,7 +123,7 @@
                         <tbody id="list">
                       		<tr th:each="list : ${todolist}"  >
                       		<td class="align-middle">
-                                    <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div>
+                                    <div class="text-inverse">                                   <a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div>
                                 </td>
                       		<td><div><a href="#" onclick="get_detail($(this).attr('id'));"  th:id="${list.id}"><span  th:text="${list.plan_title}"></span></a></div>
                       		   Edited by: <div th:text="${list.people.name}"></div><div th:text="${list.create_date}"></div></td>  
@@ -192,7 +191,7 @@
         </div>
     </div>
 </div>
-
+<div th:replace="moim/moimtodostatusModal::moimtodostatusModal" />
 </body>
 <script>
 $(document).ready(function(){
@@ -229,13 +228,20 @@ function get_detail(id) {
 	        		 var todo = data.todo;
 	        		 var list= data.list;
 	        		 var writer=data.writer;
+	        			 
 	        			var html='<div id="detail-body">  <a href="javascript:void(0)" class="closebtn" onclick="close_detail()">&times;</a>  ';
-	        			   html+='<h1><span> '+todo.plan_title+' </span> </h1><ul id="myUL" >';
+	        			   html+='<h3><span> '+todo.plan_title+' </span> </h3><ul id="myUL" >';
 	        			var html2= '<ul id="DoneUL" >';
 	        			
 	        			   for(var i in list){
 	        				   if(list[i].checkConfirm=='N'){
-	        					   html+='<li onclick="uncheck($(this))" value="'+list[i].id+'">'+list[i].plan_list+'</li>';
+	        					   html+='<li onclick="uncheck($(this))" value="'+list[i].id+'">'+list[i].plan_list;
+	        					   	html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+	        					   	if(list)
+	        					   		html+='▷' 
+	        					   	else	
+	        					   		html+="▶ㅁ";
+	        					   	html+= '     </button></li>';
 	        					   
 	        				   }
 	        				   else
@@ -243,12 +249,12 @@ function get_detail(id) {
 	        			   }
 	        			 
 	                   		html+='</ul>';
-	                   		html2+='</ul></div><span>시작일자:'+todo.from_date+' 종료일자:'+todo.to_date+"</span>";
+	                   		html2+='</ul></div><div align="right"><span>시작일자:'+todo.from_date+'     종료일자:'+todo.to_date+"</span>";
 	                   		if(writer==$("#Login").attr("data")){
-								html2+='<hr><button type="button" onclick="post_send('+todo.id+')">저장하기</button>'
-								html2+='<button type="button" onclick="delete_send('+todo.id+')">삭제하기</button>'
-	                   			
+								html2+='<hr><button type="button" class="btn btn-outline-success" onclick="post_send('+todo.id+')">저장하기</button>'
+								html2+='<button type="button" class="btn btn-outline-danger" onclick="delete_send('+todo.id+')">삭제하기</button>'
 	                   		}
+	                   			html2+='</div>'
 	         
 	                   		html=html+html2;
 							console.log(html);
@@ -378,4 +384,5 @@ function post_send(id) {
 }
 
 </script>
+<script src="/js/moim/moimtodostatusModal.js"></script>
 </html>
