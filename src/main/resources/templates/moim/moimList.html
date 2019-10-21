@@ -106,7 +106,7 @@ form.example::after {
 
 									<figure class="author-figure mb-0 mr-3 float-left">
 									<img
-											th:src="${moimList.imageName!=null} ? ${'/getMoimImage/'+moimList.people.imageName+'.'+moimList.people.imageExtension} : '/images/default_people.png'"
+											th:src="${moimList.people.imageName!=null} ? ${'/getMoimImage/'+moimList.people.imageName+'.'+moimList.people.imageExtension} : '/images/default_people.png'"
 											alt="Image" class="img-fluid rounded"
 											style="height: 30px; width: 30px">
 										
