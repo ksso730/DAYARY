@@ -85,6 +85,10 @@ $('#moimMake_btn').off().on('click', function () {
     var si = document.getElementById('sido_code');
     var goon = document.getElementById('sigoon_code');
     
+    console.log(si.options[si.selectedIndex].value);
+    console.log(goon.options[goon.selectedIndex].value);
+    console.log(si.options[si.selectedIndex].text);
+    console.log(goon.options[goon.selectedIndex].text);
     let moim = {};
     moim.title = $('#title').val();
     moim.peopleLimit = $('#peopleLimit').val();
@@ -92,7 +96,7 @@ $('#moimMake_btn').off().on('click', function () {
     moim.sidocode = si.options[si.selectedIndex].value;
     moim.sigooncode = goon.options[goon.selectedIndex].value;
     moim.sidoname = si.options[si.selectedIndex].text;
-    moim.sigoonname = goon.options[si.selectedIndex].text;
+    moim.sigoonname = goon.options[goon.selectedIndex].text;
     moim.joinCondition = $(":input:radio[name=chk_info]:checked").val();
     
     let category = {};

@@ -237,6 +237,7 @@ public class MoimController {
 			,Model model,@RequestParam(required = false) String title
 			,@RequestParam(required = false) String category
 			,@RequestParam(required = false) String sido_code
+			,@RequestParam(required = false) String sigoon_code
 			) {
 
 		System.out.println(sido_code);
@@ -247,8 +248,8 @@ public class MoimController {
 	        Common common=new Common();
 	        common.setCommCode(category);//검색조건 해올때 필요하다 by choiseongjun 2019-10-06
 	    
-	    if(title!=null||category!=null||sido_code!=null) {
-	    	Page<Moim> moimList= moimService.selecttitleList(pageable,title,common,sido_code);//타이틀을 검색한 모임리스트 출력한다	
+	    if(title!=null||category!=null||sido_code!=null||sigoon_code!=null) {
+	    	Page<Moim> moimList= moimService.selecttitleList(pageable,title,common,sido_code,sigoon_code);//타이틀을 검색한 모임리스트 출력한다	
 	    	model.addAttribute("moimList",moimList);
 	    	long moimListcount=moimList.getTotalElements();//각각 카운트를 센다 
 	    	model.addAttribute("moimListcount",moimListcount);
