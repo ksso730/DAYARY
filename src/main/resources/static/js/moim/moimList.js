@@ -42,7 +42,7 @@ $(function(){
 		async: false,
 		dataType: 'json',
 		success: function(data) {
-			var html = "<option>선택</option>";
+			var html =  "<option value=''>전체</option>";
 			
 			for(var i=0;i<data.admVOList.admVOList.length;i++){ 
 				html +="<option value='"+data.admVOList.admVOList[i].admCode+"'>"+data.admVOList.admVOList[i].lowestAdmCodeNm+"</option>"
@@ -65,7 +65,7 @@ $(function(){
 			async: false,
 			dataType: 'json',
 			success: function(data) {
-				var html = "<option>선택</option>";
+				var html = "<option value=''>선택</option>";
 				
 				for(var i=0;i<data.admVOList.admVOList.length;i++){ 
 					html +="<option value='"+data.admVOList.admVOList[i].admCode+"'>"+data.admVOList.admVOList[i].lowestAdmCodeNm+"</option>"

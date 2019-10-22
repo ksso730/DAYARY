@@ -35,6 +35,15 @@ public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificat
 	List<Moim> findById(long no, Sort sort);
 
 
+	Page<Moim> findAllByTitleLikeAndCategoryAndSidocode(Pageable pageable, String string, Common common,
+			String sido_code);
+
+
+
+
+
+
+
 
 
 
