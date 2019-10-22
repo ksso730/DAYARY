@@ -83,8 +83,8 @@ form.example::after {
 							<div class="excerpt">
 
 								<span class="post-category text-white bg-secondary mb-3">
-									<td th:text="${moimList.sido_code}" />
-									<td th:text="${moimList.sigoon_code}" />
+									<td th:text="${moimList.sidoname}" />
+									<td th:text="${moimList.sigoonname}" />
 								
 								</span>
 								<span class="post-category text-white bg-secondary mb-3">
@@ -106,7 +106,7 @@ form.example::after {
 
 									<figure class="author-figure mb-0 mr-3 float-left">
 									<img
-											th:src="${moimList.people.imageName!=null} ? ${'/getMoimImage/'+moimList.people.imageName+'.'+moimList.people.imageExtension} : '/images/default_people.png'"
+											th:src="${moimList.imageName!=null} ? ${'/getMoimImage/'+moimList.people.imageName+'.'+moimList.people.imageExtension} : '/images/default_people.png'"
 											alt="Image" class="img-fluid rounded"
 											style="height: 30px; width: 30px">
 										
@@ -205,11 +205,11 @@ form.example::after {
 						
 					</h2>
                      <label class="text-black">활동 지역 </label>
-	                   	   <select name="sido_code" id="sido_code" class="form-control">
-							<option>선택</option>
+	                   	   <select name="sido_code" id="sido_code" class="form-control" >
+							<option text="">선택</option>
 						</select> 
 						<select name="sigoon_code" id="sigoon_code" class="form-control">
-							<option>선택</option>
+							<option text=""></option>
 						</select>
 						
 				<h2>모임 검색하기</h2>

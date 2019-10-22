@@ -86,11 +86,17 @@ public class Moim extends DateAudit{
 	
 	//시/도
 	@Column(name = "SIDO_CODE")
-    private String sido_code;
+    private String sidocode;
 	
 	//구
 	@Column(name = "SIGOON_CODE")
-    private String sigoon_code;
+    private String sigooncode;
+	//시/도
+	@Column(name = "SIDO_NAME")
+    private String sidoname;
+	//구
+	@Column(name = "SIGOON_NAME")
+    private String sigoonname;	
     
     // 모임 참여자 
 	@ManyToMany(fetch = FetchType.LAZY)

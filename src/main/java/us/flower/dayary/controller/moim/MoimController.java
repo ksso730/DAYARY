@@ -150,7 +150,7 @@ public class MoimController {
             returnData.put("code", "0");
             returnData.put("message", "모임 주제를 선택해주세요");
             return returnData;
-        } else if (moim.getSido_code() == null || moim.getSido_code().equals("") || moim.getSigoon_code() == null || moim.getSigoon_code().equals("")) {
+        } else if (moim.getSidocode() == null || moim.getSidocode().equals("") || moim.getSigooncode() == null || moim.getSigooncode().equals("")) {
             returnData.put("code", "0");
             returnData.put("message", "활동 지역을 선택해주세요");
             return returnData;
@@ -235,8 +235,12 @@ public class MoimController {
 	@GetMapping("/moimlistView") 
 	public String moimListView(@PageableDefault Pageable pageable,HttpSession session
 			,Model model,@RequestParam(required = false) String title
-			,@RequestParam(required = false) String category) {
+			,@RequestParam(required = false) String category
+			,@RequestParam(required = false) String sido_code
+			,@RequestParam(required = false) String sigoon_code
+			) {
 
+		System.out.println(sido_code);
 		 int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
 	        pageable = PageRequest.of(page, 9,Sort.Direction.DESC,"id");//내림차순으로 정렬한다 
 	        
@@ -244,8 +248,8 @@ public class MoimController {
 	        Common common=new Common();
 	        common.setCommCode(category);//검색조건 해올때 필요하다 by choiseongjun 2019-10-06
 	    
-	    if(title!=null||category!=null) {
-	    	Page<Moim> moimList= moimService.selecttitleList(pageable,title,common);//타이틀을 검색한 모임리스트 출력한다	
+	    if(title!=null||category!=null||sido_code!=null||sigoon_code!=null) {
+	    	Page<Moim> moimList= moimService.selecttitleList(pageable,title,common,sido_code,sigoon_code);//타이틀을 검색한 모임리스트 출력한다	
 	    	model.addAttribute("moimList",moimList);
 	    	long moimListcount=moimList.getTotalElements();//각각 카운트를 센다 
 	    	model.addAttribute("moimListcount",moimListcount);
