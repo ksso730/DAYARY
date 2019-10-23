@@ -351,6 +351,7 @@ body {
 
                         <span style="font-size: 30px; cursor: pointer"
                            onclick="openNav()"> ☰ 더 보기</span>
+                           <button id="myBtn" class="btn btn-info btn-xs">참여자 보기</button>
                      </center>
                   </div>
                </div>
@@ -513,21 +514,38 @@ body {
       <!-- Modal content -->
       <div class="modal-content">
          <span class="close">&times;</span>
-            
-        	 <div class="inbox-widget">
+         <div class="inbox-widget">
 
-            	<a href="#">
+   		<tr th:each="moimpeopleList : ${moimpeopleList}">
+            <a href="#">
+               <div class="inbox-item">
                   <div class="inbox-item-img">
                      <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
                         class="rounded-circle" alt="">
                   </div>
-                  <p class="inbox-item-author"></p>
-                  <p class="inbox-item-text">I've finished it! See you so...</p>
+                  <span style="visibility:hidden;" th:text="${moimpeopleList.id}" id="peopleIdKind" />
+                           <td th:text="${moimpeopleList.name}" />
                   <p class="inbox-item-date"></p>
                </div>
             </a>
+          </tr>
+             <a href="#">
+               <div class="inbox-item">
+                  <div class="inbox-item-img">
+                     <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                        class="rounded-circle" alt="">
+                  </div>
+                  <p class="inbox-item-author">Stillnotdavid</p>
+                  <p class="inbox-item-text">This theme is awesome!</p>
+                  <p class="inbox-item-date">
+                     <button type="button"
+                        class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+                  </p>
+               </div>
+            </a> 
          </div>
       </div>
+
 
    </div>
 
