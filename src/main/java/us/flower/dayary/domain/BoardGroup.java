@@ -56,7 +56,5 @@ public class BoardGroup extends DateAudit{
 //  @OneToMany(mappedBy = "boardGroup",cascade = CascadeType.ALL, orphanRemoval = true)
 //  @JsonIgnore 
 //  private List<CommunityBoard> communityBoard=new ArrayList<>();
-	@ManyToOne
-	@JoinColumn(name = "MOIM_TODO_WRITE_LIST_ID")
-	private ToDoWriteList toDoWriteList;
+	
 }

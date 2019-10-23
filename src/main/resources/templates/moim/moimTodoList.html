@@ -15,14 +15,15 @@
     height:40px;
 }
 .sidenav {
-  height: 100%; /* 100% Full-height */
+
+  height: 70%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
+  z-index:	1; /* Stay on top */
   right: 0;
   background-color: #FAFAFA; 
   overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
+  padding-top: 30px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
 /* The navigation menu links */
@@ -50,8 +51,14 @@
 .checked{
 	 color:#f1f1f1;
 }
+.modal-content{
+	position: absolute;
+	bottom:0px;
+}
     </style>
-
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
 <div th:replace="layout/header::header"/>
@@ -240,7 +247,7 @@ function get_detail(id) {
 	        					   	if(list)
 	        					   		html+='▷' 
 	        					   	else	
-	        					   		html+="▶ㅁ";
+	        					   		html+="▶";
 	        					   	html+= '     </button></li>';
 	        					   
 	        				   }
@@ -249,16 +256,27 @@ function get_detail(id) {
 	        			   }
 	        			 
 	                   		html+='</ul>';
-	                   		html2+='</ul></div><div align="right"><span>시작일자:'+todo.from_date+'     종료일자:'+todo.to_date+"</span>";
+	                   		html2+='</ul></div><div align="right"><pre><span id="to_date"  value="'+todo.to_date+'">시작일자: '+todo.from_date+'   종료일자: '+todo.to_date+"</span>";
+	                   		if(todo.to_date2 ==null||todo.to_date2==''){
+	                   			html2+='<br><div id="change_date" >수정 종료날짜: <select id="to_date2"> <option value="3">+3일</option><option value="5">+5일</option><option value="7">+7일</option></select></div><hr>'	
+	                   		}else{
+	                   			html2+='<br>수정된 종료일자: '+todo.to_date2+"<br>";
+	                   		
+	                   		}
 	                   		if(writer==$("#Login").attr("data")){
-								html2+='<hr><button type="button" class="btn btn-outline-success" onclick="post_send('+todo.id+')">저장하기</button>'
+	                   			//수정햇던 적이 없으면 마감일 1번수정가눙
+	                   			if(todo.to_date2 ==null||todo.to_date2==''){
+									html2+='<button type="button" class="btn btn-outline-info" onclick="change_form('+todo.id+')">수정하기</button>'
+	                   			}
+								html2+='<button type="button" class="btn btn-outline-success" onclick="post_send('+todo.id+')">저장하기</button>'
 								html2+='<button type="button" class="btn btn-outline-danger" onclick="delete_send('+todo.id+')">삭제하기</button>'
 	                   		}
-	                   			html2+='</div>'
+	                   			html2+='</pre></div>'
 	         
 	                   		html=html+html2;
 							console.log(html);
 	                   		$("#detail-body").html(html);
+	                   	$("#change_date").hide();
 	                   	 document.getElementById("detail").style.display="block";
 	                   	 document.getElementById("detail").style.width = "500px";
 	             }else{
@@ -354,12 +372,19 @@ function post_send(id) {
 		document.getElementById("sendBtn").style.display="none";
 		return ;
 	 }
+		 
 	if(temp.length!=0){
-	for (var i in temp) {
-		if(temp[i].className=="checked"){
-			list+=temp[i].value+",";
+		for (var i in temp) {
+			if(temp[i].className=="checked"){
+				list+=temp[i].value+",";
+			}
 		}
 	}
+	if(list.length==0){
+		alert("변경된 사항이 없습니다.")
+		return;
+	} 
+		
 	var param={
 			list:list,
 			count:count.length
@@ -376,11 +401,43 @@ function post_send(id) {
 	                 alert(data.message);
 	             }
 	        }, error:function(e){
-
 	        }
 	    });
-	}else
-		alert("변경사항이 없습니다.")
+	}
+
+
+function change_form(id){
+//종료날짜 수정변경 폼 보여주기
+	 if($("#change_date").attr("style")!=''){
+	 	$("#change_date").show();
+	 }
+	 else{
+		 //기존 종료일에 추가된 날짜 더하기
+		 var date=new Date($("#to_date").attr("value"));
+		 date.setDate(date.getDate()+$("#to_date2").val()*1);
+		 var toDoWrite={};
+		 toDoWrite.to_date2=date;
+		 toDoWrite.id=id;
+		 $.ajax({
+		      url:'/moimDetail/moimTodoList/update_date',
+		        type:'post',
+		        data: JSON.stringify(toDoWrite) ,
+		        contentType: "application/json; charset=utf-8",
+		        success:function(data){
+		        	 if(data.code==1){
+		        		 alert("수정되었습니다.");
+		        		 get_detail(id);
+		             }else{
+		                 alert(data.message);
+		             }
+		        }, error:function(e){
+
+		        }
+		    });
+		 
+	 }
+	 
+	 
 }
 
 </script>

@@ -23,6 +23,7 @@ import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
+import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteListRepository;
@@ -42,6 +43,8 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
    MoimPeopleRepository moimPeopleRepository;
    @Autowired 
    ToDoWriteListRepository toDowriteListRepository;
+   @Autowired 
+   CommunityBoardRepository communityBoardRepository;
 	
 	@Autowired
    private TokenGenerator tokenGenerator;
@@ -182,39 +185,23 @@ public int[] countByMoim_idAndStatus(long id) {
 	return l;
 }
 @Override
-public void writeBoard(MultipartFile file,Long peopleId) {
+public void writeBoard(MultipartFile file,CommunityBoard board,long no,String id) {
 	// TODO Auto-generated method stub
-	CommunityBoard c=new CommunityBoard();
-	People people=new People();
-	people.setId(peopleId);
+	//정보 기준으로 작성자와 todowritelist 설정 
+	  People people = peopleRepository.findByEmail(id);
+	  board.setPeople(people);
+	  Optional<ToDoWriteList> todo=toDowriteListRepository.findById(no);
+	  board.setToDoWriteList(todo.get());
+	
 	BoardGroup boardGroup=new BoardGroup();
 	boardGroup.setId(8);
-	c.setBoardGroup(boardGroup);
-    //사진이있다면
-    if(file!=null) {
-    	CommunityFile cf=new CommunityFile();
-    	//이미지파일이름생성
-        String imageName="";
-		while(true){
-        	imageName=tokenGenerator.getToken();
-			//DB에 파일이름이 존재하지 않으면 file이름 set
-        	if(!moimRepository.existsByImageName(imageName)){
-        		cf.setFileName(imageName);
-				break; 
-			}
-		}
-  
-        String originalFileName = file.getOriginalFilename();
-        cf.setRealName(originalFileName);
-        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
-
-        //파일업로드
-        try { 
-            fileManager.fileUpload(file,"/"+imageName+"."+fileExtension);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-}
+	board.setBoardGroup(boardGroup);
+	
+	board.setDeleteFlag('N');
+	System.out.print(board);
+	communityBoardRepository.save(board);  
+ 
+    
 }
 @Override
 public void changeToDate(ToDoWrite todo) {

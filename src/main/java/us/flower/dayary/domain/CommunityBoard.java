@@ -44,11 +44,15 @@ public class CommunityBoard extends DateAudit{
 	private List<CommunityBoardReply> communityBoardReplies;
 
 	@Column(name="DELETE_FLAG" ,nullable=false, columnDefinition = "VARCHAR(1) default 'N'")
-	private String deleteFlag;
+	private char deleteFlag;
 
 	@Column(name="VIEW_COUNT")
 	private long viewCount;
 
 	@Column(name="HEART")
 	private long heart;
+	
+	@ManyToOne
+	@JoinColumn(name = "MOIM_TODO_WRITE_LIST_ID")
+	private ToDoWriteList toDoWriteList;
 }

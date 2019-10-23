@@ -30,6 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+
+import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
@@ -184,11 +186,12 @@ public class MoimTodoListController {
      * @author JY
      */
 	@ResponseBody
-	@PostMapping("/moimDetail/moimTodoList/detailWrite")
-	public Map<String, Object> detailWrite(@RequestPart(name="file",required=false) MultipartFile file) {
+	@PostMapping("/moimDetail/moimTodoList/detailWrite/{no}")
+	public Map<String, Object> detailWrite(HttpSession session,@RequestPart(name="CommunityFile",required=false) MultipartFile file,@RequestPart(name="communityBoard") CommunityBoard board,@PathVariable("no")long no) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
-	      
+		String id =  (String) session.getAttribute("peopleEmail");
 		  try {
+			  	service.writeBoard(file,board,no,id );
 	            returnData.put("code", "1");
 	            returnData.put("message", "저장되었습니다");
 
