@@ -53,6 +53,8 @@ public class ToDoWrite extends DateAudit{
 	@Column(name="TO_DATE")
 	private Date to_date;
 	
+	@Column(name="To_DATE2")
+	private Date to_date2;
 	@Column(name="CREATE_DATE")
 	private Date create_date;
 	@Column
@@ -62,6 +64,7 @@ public class ToDoWrite extends DateAudit{
 	
 	@Column(name="STATUS")
 	   private String status;
+	
 
 
 }

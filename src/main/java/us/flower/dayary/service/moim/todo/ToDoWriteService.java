@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import us.flower.dayary.domain.CommunityFile;
 import us.flower.dayary.domain.ToDoWrite;
@@ -26,5 +27,6 @@ public interface ToDoWriteService {
 	public void deleteById(long id);
 	 public List<ToDoWrite> findByMoim_idAndStatus(long id, String status);
 	 public int[] countByMoim_idAndStatus(long id);
-	 public void writeBoard(CommunityFile file,Long peopleId);
+	 public void writeBoard(MultipartFile file,Long peopleId);
+	 public void changeToDate(ToDoWrite todo);
 	 }

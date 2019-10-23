@@ -85,6 +85,10 @@ function onKeyDown(){
 }
 
  function post_send() {
+	 if($("#title").val()==""){
+		 alert("제목을 작성해주세요.")
+		 return;
+	 }
 	var temp = document.getElementById("myUL").getElementsByTagName("LI");
 	var list="";
 	for (var i in temp) {

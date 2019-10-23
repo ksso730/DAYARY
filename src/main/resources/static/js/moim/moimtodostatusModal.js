@@ -37,4 +37,43 @@ function submit(){
 	var toDoWriteList;
 	toDoWriteList.id=$("#toDoWriteListId").val();
 	
+	
+	var communityBoard;
+	communityBoard.title=$("#title").val();
+	communityBoard.memo=$("#message").val();
+	communityBoard.people=$("#writer").val(); 
+	
+	let formData = new FormData();
+	if($("#customFile").val()){
+		var communityFile;
+		communityFile.filename=$("#customFile").val();
+		formData.append("file", $('#customFile')[0].files[0]);
+	}
+	formData.append('toDoWriteList', new Blob([JSON.stringify(toDoWriteList)], {
+		type: "application/json; charset=UTF-8"
+	}));
+	formData.append('communityBoard', new Blob([JSON.stringify(communityBoard)], {
+		type: "application/json; charset=UTF-8"
+	}));
+
+	$.ajax({
+	      url:'/moimDetail/moimTodoList/detailWrite/'+$("#toDoWriteListId").val(),
+	      enctype: 'multipart/form-data',
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        contentType: false,
+	        dataType:'json',
+	        cache: false,
+	        mimeType:"multipart/form-data",
+	        success:function(data){
+	        	 if(data.code==1){
+	              
+	             }else{
+	                 alert(data.message);
+	             }
+	        }, error:function(e){
+
+	        }
+	    });
+
+	
 }
