@@ -16,7 +16,7 @@ function myMoimList(){
         				html += '<tbody>'
         				html += '<tr>'
         				html += 	'<td>'
-        				html += 	'<a href="moimlistView/moimdetailView/'+joinedMoimListNo[i]+'">'+joinedMoimList[i]+"/보러가기"+'</a>'
+        				html += 	'<a href="moimlistView/moimdetailView/'+joinedMoimListNo[i]+'">'+joinedMoimList[i]+""+'</a>'
     					html += 	'</td>'
 		   				html += '</tr>'
         				html += '</tbody>'
