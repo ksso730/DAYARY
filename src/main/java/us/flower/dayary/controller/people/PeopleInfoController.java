@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
+import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
 import us.flower.dayary.service.people.PeopleInfoService;
@@ -89,12 +91,41 @@ public class PeopleInfoController {
 	public String myprofileView(HttpSession session,Model model) {
 		long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.
 		
-		peopleRepository.findById(peopleId).ifPresent(peopleinfo->model.addAttribute("peopleinfo",peopleinfo));;
+		peopleRepository.findById(peopleId).ifPresent(peopleinfo->model.addAttribute("peopleinfo",peopleinfo));
 		
 		List<MoimPeople> joinedMoim=moimpeopleRepository.findByPeople_id(peopleId);
 		
 		model.addAttribute("joinedMoim",joinedMoim);
-		System.out.println(joinedMoim.toString());
 		return "people/myprofile";
+	}
+	/**
+	 * 내 정보 조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@ResponseBody
+	@GetMapping("/myprofilemoimView")
+	public Map<String,Object>  myprofilemoimView(HttpSession session,Model model) {
+		long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.
+		People people =new People();
+		people.setId(peopleId);
+		Map<String,Object> data=new HashMap<String,Object>();
+		
+		List<String> joinedMoimListNo=moimpeopleRepository.findMoimNo(people);
+		List<String> joinedMoimList=moimpeopleRepository.findMoimName(people);
+		
+		data.put("joinedMoimListNo",joinedMoimListNo);
+		data.put("joinedMoimList",joinedMoimList);
+		data.put("code", "1"); 	
+		try {
+		
+	
+		}catch(Exception e) {
+			data.put("code", "E3290");
+        	data.put("message", "데이터 확인 후 다시 시도해주세요.");
+		}
+		return data;
 	}
 }

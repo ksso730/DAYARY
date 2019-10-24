@@ -23,8 +23,6 @@ public class VisitCheck extends DateAudit{
 	
 	@Column(name="VISIT_IP")
 	private String visit_ip;
-	@Column(name="VISIT_ACCESS")
-	private String visit_access;
 	@Column(name="VISIT_AGENT")
 	private String visit_agent;
 	@Column(name="VISIT_REFER")
