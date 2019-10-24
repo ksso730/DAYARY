@@ -243,16 +243,30 @@ function get_detail(id) {
 	        			   for(var i in list){
 	        				   if(list[i].checkConfirm=='N'){
 	        					   html+='<li onclick="uncheck($(this))" value="'+list[i].id+'">'+list[i].plan_list;
-	        					   	html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
-	        					   	if(list)
+	        					   //작성한 detail 있는경우 
+	        					   if(list[i].detail=='N'){
+	        					   		html+="<button type='button'onclick='modal_write(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
 	        					   		html+='▷' 
-	        					   	else	
+	        					   	}	else{
+	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
 	        					   		html+="▶";
+	        					   	}	
 	        					   	html+= '     </button></li>';
 	        					   
 	        				   }
-	        				   else
-	        					   html2+='<li class="checked">'+list[i].plan_list+'</li>';;
+	        				   else{
+	        					   
+	        					   html2+='<li class="checked">'+list[i].plan_list;
+	        				   //작성한 detail 있는경우 
+        					   if(list[i].detail=='N'){
+        					   		html2+="<button type='button'onclick='modal_write(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+","+todo.id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+        					   		html2+='▷' 
+        					   	}	else{
+        					   		html2+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+        					   		html2+="▶";
+        					   	}	
+        					   	html2+= '     </button></li>';
+	        				   }
 	        			   }
 	        			 
 	                   		html+='</ul>';

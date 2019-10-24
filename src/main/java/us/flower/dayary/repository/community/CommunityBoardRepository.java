@@ -27,5 +27,6 @@ public interface CommunityBoardRepository extends JpaRepository<CommunityBoard,L
 
     // 본인글 목록 전체 (타임라인)
     List<CommunityBoard> findAllByBoardGroupAndDeleteFlagAndPeople(BoardGroup boardGroup, String deleteFlag, People people);
-
+    
+    CommunityBoard findByToDoWriteList_id(long id);
 }

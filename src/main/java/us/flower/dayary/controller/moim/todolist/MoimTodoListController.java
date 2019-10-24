@@ -177,7 +177,7 @@ public class MoimTodoListController {
     		return "moim/moimTodowrite";
     }
     /**
-     * todowrite에 대한 상세설명 및 사진 작성하기
+     * 모달창 todowrite에 대한 상세설명 및 사진 작성하기
      *
      * @param locale
      * @param 
@@ -186,8 +186,8 @@ public class MoimTodoListController {
      * @author JY
      */
 	@ResponseBody
-	@PostMapping("/moimDetail/moimTodoList/detailWrite/{no}")
-	public Map<String, Object> detailWrite(HttpSession session,@RequestPart(name="CommunityFile",required=false) MultipartFile file,@RequestPart(name="communityBoard") CommunityBoard board,@PathVariable("no")long no) {
+	@PostMapping("/moimDetail/moimTodoList/modalWrite/{no}")
+	public Map<String, Object> modalWrite(HttpSession session,@RequestPart(name="CommunityFile",required=false) MultipartFile file,@RequestPart(name="communityBoard") CommunityBoard board,@PathVariable("no")long no) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		String id =  (String) session.getAttribute("peopleEmail");
 		  try {
@@ -203,6 +203,31 @@ public class MoimTodoListController {
 	  return returnData;
 	}
 	/**
+	 * 모달창 todowrite에 대한 설명조회
+	 *
+	 * @param locale
+	 * @param 
+	 * @return
+	 * @throws 
+	 * @author JY
+	 */
+	@ResponseBody
+	@GetMapping("/moimDetail/moimTodoList/modalView/{no}")
+	public Map<String, Object> modelView(@PathVariable("no")long no) {
+		Map<String, Object> returnData = new HashMap<String, Object>();
+		try {
+			returnData.put("modal",service.findByToDoWriteList_id(no));
+			returnData.put("code", "1");
+			returnData.put("message", "저장되었습니다");
+			
+		} catch (Exception e) {
+			returnData.put("code", "E3290");
+			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+		}
+		
+		return returnData;
+	}
+	/**
 	 * 모임 일정관리(ToDoList) 작성하기
 	 *
 	 * @param locale
@@ -216,8 +241,12 @@ public class MoimTodoListController {
 	public Map<String, Object> moimTodowrite(HttpSession session,@RequestBody ToDoWriteList todo ,@PathVariable("no") long no) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		String id =  (String) session.getAttribute("peopleEmail");
-		
+			
 		try {
+			if(id=="") {
+				returnData.put("message","로그인해주세요");
+				throw new Exception("로그인해주세요");
+			}
 			service.saveList(todo,id,no);
 			returnData.put("code", "1");
 			returnData.put("message", "저장되었습니다");

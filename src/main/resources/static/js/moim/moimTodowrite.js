@@ -93,10 +93,15 @@ function onKeyDown(){
 	var list="";
 	for (var i in temp) {
 		var x=temp[i].innerText;
-		if(x!=null){
+		if(x!=null&&temp[i].style[0]==null){
 			list+=temp[i].innerText.slice(0,-1)+",";
 		}
 	}
+	if(list.length==0){
+		alert("일정을 작성해주세요.")
+		return;
+	}
+		
 	let toDoWrite={};
 	toDoWrite.plan_title=$("#title").val();
 	toDoWrite.from_date=new Date($("#from_date").val());

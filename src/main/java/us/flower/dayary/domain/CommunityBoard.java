@@ -3,6 +3,7 @@ package us.flower.dayary.domain;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.ToString;
@@ -23,10 +24,12 @@ public class CommunityBoard extends DateAudit{
 	private long id;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = People.class)
+	@JsonIgnore
 	@JoinColumn(name = "PEOPLE_ID", nullable = false)
 	private People people;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = BoardGroup.class)
+	@JsonIgnore
 	@JoinColumn(name = "BOARD_GROUP_ID", nullable = false)
 	private BoardGroup boardGroup;
 
@@ -53,6 +56,7 @@ public class CommunityBoard extends DateAudit{
 	private long heart;
 	
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "MOIM_TODO_WRITE_LIST_ID")
 	private ToDoWriteList toDoWriteList;
 }

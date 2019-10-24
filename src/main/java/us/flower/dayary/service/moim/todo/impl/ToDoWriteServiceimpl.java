@@ -75,6 +75,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
            todolist.setPeople(p);
            todolist.setMoim(moimOne.get());
            todolist.setCheckConfirm('N');
+           todolist.setDetail('N');
            toDowriteListRepository.save(todolist);
         }
    }
@@ -200,6 +201,10 @@ public void writeBoard(MultipartFile file,CommunityBoard board,long no,String id
 	board.setDeleteFlag('N');
 	System.out.print(board);
 	communityBoardRepository.save(board);  
+	
+	todo.get().setDetail('Y');
+	toDowriteListRepository.save(todo.get());
+	
  
     
 }
@@ -211,4 +216,9 @@ public void changeToDate(ToDoWrite todo) {
 	todo=toDowriteRepository.findById(todo.getId());
 	todo.setTo_date2(changeDate);
 	toDowriteRepository.save(todo);
+}
+@Override
+public CommunityBoard findByToDoWriteList_id(long id) {
+	// TODO Auto-generated method stub
+	return communityBoardRepository.findByToDoWriteList_id(id);
 }}

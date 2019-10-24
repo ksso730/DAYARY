@@ -30,4 +30,5 @@ public interface ToDoWriteService {
 	 public int[] countByMoim_idAndStatus(long id);
 	 public void writeBoard(MultipartFile file,CommunityBoard board,long no,String id);
 	 public void changeToDate(ToDoWrite todo);
+	 public CommunityBoard findByToDoWriteList_id(long id);
 	 }

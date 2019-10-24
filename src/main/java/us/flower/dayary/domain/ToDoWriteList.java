@@ -52,5 +52,8 @@ public class ToDoWriteList extends DateAudit {
 	@Column(name="CHECK_CONFIRM")
 	private char checkConfirm;
 	
+	@Column(name="Detail")
+	private char detail;
+	
 	
 }
