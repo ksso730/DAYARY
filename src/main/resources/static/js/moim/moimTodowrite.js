@@ -1,4 +1,5 @@
 // Create a "close" button and append it to each list item
+
 var myNodelist = document.getElementById("myUL").getElementsByTagName("LI");
 var i;
 for (i = 0; i < myNodelist.length; i++) {
@@ -50,7 +51,6 @@ function newElement() {
 
 
      $("#from_date, #to_date ").datepicker({
-        
      });
 
 //날짜범위체크 종료일이 시작일보다 늦을경우 
@@ -65,6 +65,7 @@ function check2(){
 }
 //시작일이 지난날짜인경우
 function check1(){
+
 	var from =new Date($( "#from_date" ).val());
 	var to=new Date($( "#to_date" ).val());
 	if(from<=d){
@@ -93,17 +94,14 @@ function onKeyDown(){
 		}
 	}
 	let toDoWrite={};
-	let moim={};
 	toDoWrite.plan_title=$("#title").val();
 	toDoWrite.from_date=new Date($("#from_date").val());
 	toDoWrite.to_date=new Date($("#to_date").val());
-	moim.id= $('#moimNo').attr("data-moimNo");
 	let toDoWriteList={};
 	toDoWriteList.toDoWrite=toDoWrite;
-	toDoWriteList.moim=moim;
 	toDoWriteList.plan_list=list;
 	   $.ajax({
-	      url:'/moimDetail/moimTodoList/moimTodowrite',
+	      url:'/moimDetail/moimTodoList/moimTodowrite/'+$('#moimNo').attr("data-moimNo"),
 	        type:'post',
 	        data: JSON.stringify(toDoWriteList) ,
 	        contentType: "application/json; charset=utf-8",

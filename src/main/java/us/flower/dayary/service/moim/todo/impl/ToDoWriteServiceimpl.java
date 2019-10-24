@@ -36,7 +36,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
    @Autowired 
    ToDoWriteListRepository toDowriteListRepository;
    @Override
-   public void saveList(ToDoWriteList list,String id) {
+   public void saveList(ToDoWriteList list,String id,long no) {
       // TODO Auto-generated method stub
          list.getToDoWrite().setCreate_date(new java.sql.Date(System.currentTimeMillis()));
          list.getToDoWrite().setStatus("New");
@@ -44,7 +44,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
          People p=peopleRepository.findByEmail(id);
          list.getToDoWrite().setPeople(p);
          //모임 설정
-         Optional<Moim> moimOne=moimRepository.findById(list.getMoim().getId());
+         Optional<Moim> moimOne=moimRepository.findById(no);
          list.getToDoWrite().setMoim(moimOne.get());
          String[] todo=list.getPlan_list().split(",");
          String count="0/"+todo.length;
@@ -97,17 +97,16 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
        int done= id.length+count;
        String x=Integer.toString(done)+"/"+Integer.toString(total);
        todo.setCount(x);
-       
        //상태바 
        if(total!=0) {
-          
-         todo.setProgress((double)done/(double)total*100.0);}
+         todo.setProgress((double)done/(double)total*100.0);
+         }
        else
           todo.setProgress(0);
-       if(done>0) {
-    	   todo.setStatus("In Progress");
-       }else if(total==done) {
+       if(total==done) {
     	   todo.setStatus("End");
+       }else if(done>0) {
+    	   todo.setStatus("In Progress");
        }
        toDowriteRepository.save(todo);
        
@@ -133,6 +132,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
       // TODO Auto-generated method stub
       List<ToDoWrite> list=toDowriteRepository.findByMoim_id(id);
       //현재시간이 todo시작 날짜보다 지나고 100% 완료되지 않은경우 미완료로 상태변경
+      System.out.print("status update");
       for(int i=0;i< list.size();i++) {
          ToDoWrite todo=list.get(i);
          if(date.compareTo(todo.getTo_date())>0&&todo.getProgress()!=100) {
@@ -153,5 +153,15 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
       // TODO Auto-generated method stub
       return toDowriteRepository.findByMoim_idAndStatus(id,status) ;
    }
-   
+@Override
+public int[] countByMoim_idAndStatus(long id) {
+	// TODO Auto-generated method stub
+	int[] l=new int[4];
+	//배열에 순서대로 갯수 추가 
+	l[0]=toDowriteRepository.countBymoim_idAndStatus(id, "New");
+	l[1]=toDowriteRepository.countBymoim_idAndStatus(id, "In Progress");
+	l[2]=toDowriteRepository.countBymoim_idAndStatus(id, "End");
+	l[3]=toDowriteRepository.countBymoim_idAndStatus(id, "Suspend");
+	return l;
+}
 }

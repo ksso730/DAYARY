@@ -37,7 +37,7 @@ public interface moimService {
 
 	List<Moim> findByTitle(String name);
 
-	Page<Moim> selecttitleList(Pageable pageable, String title, Common common);
+	Page<Moim> selecttitleList(Pageable pageable, String title, Common common, String sido_code, String sigoon_code);
 
 
 

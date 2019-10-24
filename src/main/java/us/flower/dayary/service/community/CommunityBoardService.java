@@ -1,15 +1,13 @@
 package us.flower.dayary.service.community;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import us.flower.dayary.domain.BoardGroup;
-import us.flower.dayary.domain.BoardLike;
 import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.CommunityBoardReply;
+import us.flower.dayary.domain.DTO.BoardListDTO;
 import us.flower.dayary.domain.DTO.BoardReplyDTO;
+
+import java.util.List;
 
 public interface CommunityBoardService {
 
@@ -26,7 +24,7 @@ public interface CommunityBoardService {
 	boolean checkReplyWriter(Long peopleId, long replyId);
 
 	// 게시판 작성글 리스트
-	Page<CommunityBoard> getCommunityBoardList(long boardGroupId, Pageable pageable);
+	Page<BoardListDTO> getCommunityBoardList(long boardGroupId, Pageable pageable, String search);
 
 	// 타임라인 작성글 리스트
 	List<CommunityBoard> getCommunityBoardList(long boardGroupId);

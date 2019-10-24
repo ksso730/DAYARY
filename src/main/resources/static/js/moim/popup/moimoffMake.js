@@ -115,7 +115,9 @@
 	 		  success:function(data){
 	 			if(data.code==1){
 	 				alert(data.message);
+	 				
 	 				close();
+	 				opener.parent.location.reload();
 	 			}else{
 	 				alert(data.message);
 	 			}

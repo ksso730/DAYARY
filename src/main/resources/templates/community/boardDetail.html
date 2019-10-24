@@ -63,12 +63,12 @@
 				<div class="timeline-body" th:id="'body'+ ${reply.getParent().id}" th:each="reply:${replies}" >
 					<div class="timeline-content" th:id="'content' + ${reply.getParent().id}">
 						<textarea class="form-control" rows="3" readonly="true" placeholder="댓글"  th:id="${reply.getParent().id}" th:inline="text">[[${reply.getParent().memo}]]</textarea>
-						<button th:if="${id.equals(reply.getParent().peopleId)}" class="btn btn-dark f-s-12 rounded-corner" th:value="${reply.getParent().id}" onclick="removeReply(this.value)" type="button">삭제</button>
+						<button th:if="${id.equals(reply.getParent().peopleId)}" class="btn btn-dark f-s-12 rounded-corner" th:value="${reply.getParent().id}" onclick="removeReply(this.value, 1)" type="button">삭제</button>
 						<button class="btn btn-warning f-s-12 rounded-corner" th:value="${reply.getParent().id}" onclick="addReply(this.value)" type="button">답변</button>
 					</div>
 					<div class="timeline-content" th:id="'content' + ${child.id}"  th:each="child: ${reply.getChildren()}">
 						<textarea class="form-control" rows="3" readonly="true" placeholder="댓글"  th:id="${child.id}" style="background-color: red;" th:inline="text">[[${child.memo}]]</textarea>
-						<button th:if="${id.equals(child.peopleId)}" class="btn btn-dark f-s-12 rounded-corner" th:value="${child.id}" onclick="removeReply(this.value)" type="button">삭제</button>
+						<button th:if="${id.equals(child.peopleId)}" class="btn btn-dark f-s-12 rounded-corner" th:value="${child.id}" onclick="removeReply(this.value, 2)" type="button">삭제</button>
 <!--						<button class="btn btn-warning f-s-12 rounded-corner" th:value="${child.id}" onclick="addReply(this.value)" type="button">답변</button>-->
 					</div>
 				</div>
@@ -76,11 +76,17 @@
 		</div>
 	</article>
 <script>
-		function removeReply(val){
-				let parentId = $('#content' + val).parent().attr('id');
-				if($('#'+ parentId + ' > .timeline-content').length > 1){
-					alert('답변이 달린 댓글은 삭제할 수 없습니다.');
-					return;
+
+		// removeReply (1: 댓글, 2: 대댓글)
+		function removeReply(val, flag){
+
+				// 댓글인경우 대댓글이 달렸는지 확인
+				if(flag==1){
+					let parentId = $('#content' + val).parent().attr('id');
+					if($('#'+ parentId + ' > .timeline-content').length > 1){
+						alert('답변이 달린 댓글은 삭제할 수 없습니다.');
+						return;
+					}
 				}
 
 				const replyId = val;
@@ -151,14 +157,18 @@
 				success: function(data){
 					if(data.code==1){
 						alert(data.message);
+						// clear
+						$('#borad_reply').val('');
 
 						// 댓글
 						if(val==0){
 							// 댓글 div
-							let re = "<div class='timeline-content' id='content" + data.id  + "'>";
+							let re = "<div class='timeline-body' id='body" + data.id + "'>";
+							re += "<div class='timeline-content' id='content" + data.id  + "'>";
 							re += "<textarea class='form-control' rows='3' readonly='true' id='reply" +data.id + "' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
-							re += "<button class='btn btn-dark f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' onclick='removeReply(" + data.id + ")' type='button'>삭제</button>";
+							re += "<button class='btn btn-dark f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' onclick='removeReply(" + data.id + ", 1)' type='button'>삭제</button>";
 							re += "<button class='btn btn-warning f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_modify_btn' onclick='addReply(" + data.id + ")' type='button'>답변</button>";
+							re += "</div>";
 							re += "</div>";
 
 							$('#reply_content').append(re);
@@ -171,7 +181,7 @@
 							// 대댓글
 							let re = "<div class='timeline-content' id='content" + data.id  + "'>";
 							re += "<textarea class='form-control' rows='3' style='background-color: red;' id='reply"+ data.id +"' readonly='true' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
-							re += "<button class='btn btn-dark f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' onclick='removeReply(" + data.id + ")' type='button'>삭제</button>";
+							re += "<button class='btn btn-dark f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' onclick='removeReply(" + data.id + ", 2)' type='button'>삭제</button>";
 							re += "</div>";
 
 							$('#body' + val).append(re);
