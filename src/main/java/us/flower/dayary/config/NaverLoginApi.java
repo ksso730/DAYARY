@@ -8,7 +8,7 @@ public class NaverLoginApi extends DefaultApi20{
 		
 	} 
 	
-	private static class InstanceHolder{
+	private static class InstanceHolder{ 
 		private static final NaverLoginApi INSTANCE = new NaverLoginApi();
 	}
 	
@@ -17,7 +17,7 @@ public class NaverLoginApi extends DefaultApi20{
 	}
 	
 	@Override
-	public String getAccessTokenEndpoint() {
+	public String getAccessTokenEndpoint () {
 		return "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code";
 	}
 	
