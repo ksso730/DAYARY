@@ -1,6 +1,7 @@
 package us.flower.dayary.config;
 
 import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -11,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import us.flower.dayary.oauth2.UserArgumentResolver;
 /**
  * 인터셉터 설정 2019-09-23
  *   by 최성준
@@ -22,6 +26,13 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 	 /*
      * 로그인 인증 Interceptor 설정
      * */
+	@Autowired
+	private UserArgumentResolver userArgumentResolver;
+	
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(userArgumentResolver);
+	}
     @Autowired
     CertificationInterceptor certificationInterceptor;
     

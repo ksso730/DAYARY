@@ -1,5 +1,6 @@
 package us.flower.dayary.domain;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -7,6 +8,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,11 +24,13 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import us.flower.dayary.domain.common.DateAudit;
+import us.flower.dayary.oauth2.SocialType;
 
 /**
 *회원
@@ -42,9 +47,9 @@ import us.flower.dayary.domain.common.DateAudit;
                 "email"
             })
     })
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class People extends DateAudit{
  
 
@@ -86,9 +91,31 @@ public class People extends DateAudit{
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private Set<Role> roles = new HashSet<>();
     // 스터디 가입된 회원 참여자 
- 
- 
    
+    @Column
+    private String pincipal;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
+    @Builder
+	public People(long id, String email, String password, String name, String photo, String imagePath, String imageName,
+			String imageExtension, String activation, String pincipal, SocialType socialType) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.photo = photo;
+		this.imagePath = imagePath;
+		this.imageName = imageName;
+		this.imageExtension = imageExtension;
+		this.activation = activation;
+		this.pincipal = pincipal;
+		this.socialType = socialType;
+	}
+
     
     public People(String email,String password,String name,String photo,String activation) {
     	this.email=email;

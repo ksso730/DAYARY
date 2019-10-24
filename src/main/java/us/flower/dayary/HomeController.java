@@ -3,6 +3,7 @@ package us.flower.dayary;
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.VisitCheck;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.visitcheck.VisitCheckRepository;
@@ -45,6 +47,9 @@ public class HomeController {
     public String accessDenied() {
         return "/error/access-denied";
     }
-
+	@GetMapping("/loginSuccess")
+	public String loginSuccess(People people,HttpSession session) {
+		return "main";
+	}
 
 }
