@@ -132,15 +132,14 @@ public class PeopleController {
 	@PostMapping("/signup")
 	@ResponseBody
 	public Map<String, Object> registerUser(@Valid @RequestPart("signUpRequest") SignUpRequest signUpRequest, @RequestPart(name="file",required=false) MultipartFile file) {
-
-		
+ 
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		try {
 			if (!peopleRepository.existsByEmail(signUpRequest.getEmail())) {
 				// Creating user's account
 				People user = new People(signUpRequest.getEmail(), signUpRequest.getPassword(), signUpRequest.getName(),
 						signUpRequest.getPhoto(), signUpRequest.getActivation());
-
+ 
 				user.setPassword(bcrypt.hashpw(user.getPassword()));
 
 				Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
