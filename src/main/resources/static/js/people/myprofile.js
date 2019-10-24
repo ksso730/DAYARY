@@ -1,3 +1,35 @@
+function myMoimList(){
+	console.log("로드");
+	$.ajax({
+	      url:'/myprofilemoimView',
+	        contentType: "application/json; charset=utf-8",
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        success:function(data){
+	        	console.log(data);
+	        	if(data.code==1){
+	        		var joinedMoimListNo=data.joinedMoimListNo;
+	        		var joinedMoimList=data.joinedMoimList;
+	        		console.log("List 시작")
+	        		console.log(list);
+	        		var html=""
+        			for(var i in joinedMoimList){
+        				html += '<tbody>'
+        				html += '<tr>'
+        				html += 	'<td>'
+        				html += 	'<a href="moimlistView/moimdetailView/'+joinedMoimListNo[i]+'">'+joinedMoimList[i]+"/보러가기"+'</a>'
+    					html += 	'</td>'
+		   				html += '</tr>'
+        				html += '</tbody>'
+        			}
+	        		$("#list").html(html);
+	        	}
+	        }, error:function(e){
+				alert(e)
+	        }
+	    });
+}
+
+
 $(document).ready(function(){//회원 탈퇴 by choiseongjun 2019-10-01
 	  $("#people_delete_btn").click(function(){
 		  var peopleId = $('#peopleId').attr("data-peopleId");
@@ -21,3 +53,14 @@ $(document).ready(function(){//회원 탈퇴 by choiseongjun 2019-10-01
 		    });
 	  });
 	});
+
+
+function toMoim(){
+	 var joinedMoimId = $('#joinedMoimId').attr("data-joinedMoimId");
+	console.log('onclick'+joinedMoimId);
+}
+$('[name="joinedMoimId"]').on('click', function () {
+	
+	console.log($(this).val());
+	
+});

@@ -32,6 +32,11 @@ public interface MoimPeopleRepository extends JpaRepository<MoimPeople, Long>{
 	@Query("UPDATE MoimPeople SET joinCondition='Y' WHERE moim=(:moim) and people=(:people)")
 	void updateMoimPeoplejoinCondition(@Param("people") People people,@Param("moim") Moim moim);
 
+	@Query("SELECT a.title FROM Moim a INNER JOIN MoimPeople b ON a.id=b.moim WHERE b.people=(:people)")
+	List<String> findMoimName(@Param("people") People people);
+	@Query("SELECT a.id FROM Moim a INNER JOIN MoimPeople b ON a.id=b.moim WHERE b.people=(:people)")
+	List<String> findMoimNo(@Param("people") People people);
+  
 
 }
  
