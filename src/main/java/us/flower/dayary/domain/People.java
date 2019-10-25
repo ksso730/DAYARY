@@ -29,6 +29,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import us.flower.dayary.domain.common.DateAudit;
 import us.flower.dayary.oauth2.SocialType;
 
@@ -50,6 +51,7 @@ import us.flower.dayary.oauth2.SocialType;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class People extends DateAudit{
  
 

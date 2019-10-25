@@ -3,6 +3,7 @@ package us.flower.dayary.controller.people;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.jdo.annotations.Transactional;
 import javax.servlet.http.HttpServletRequest;
@@ -99,7 +100,7 @@ public class PeopleInfoController {
 		return "people/myprofile";
 	}
 	/**
-	 * 내 정보 조회
+	 * 내가 가입한 모임리스트 조회
 	 *
 	 * @param
 	 * @return
@@ -119,13 +120,91 @@ public class PeopleInfoController {
 		data.put("joinedMoimListNo",joinedMoimListNo);
 		data.put("joinedMoimList",joinedMoimList);
 		data.put("code", "1"); 	
-		try {
-		
 	
-		}catch(Exception e) {
-			data.put("code", "E3290");
-        	data.put("message", "데이터 확인 후 다시 시도해주세요.");
-		}
+		return data;
+	}
+	/**
+	 * 내가 만든 모임리스트 조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@ResponseBody
+	@GetMapping("/myprofilemademoimView")
+	public Map<String,Object>  myprofilemademoimView(HttpSession session,Model model) {
+		long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.
+		People people =new People();
+		people.setId(peopleId);
+		Map<String,Object> data=new HashMap<String,Object>();
+		
+		List<String> madeMoimListNo=moimpeopleRepository.findmadeMoimNo(people);
+		List<String> madeMoimListtitle=moimpeopleRepository.findmadeMoimName(people);
+		
+		data.put("madeMoimListNo",madeMoimListNo);
+		data.put("madeMoimListtitle",madeMoimListtitle);
+		data.put("code", "1"); 	
+	
+		return data;
+	}
+	/**
+	 * 모임에서 회원정보 조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@GetMapping("/moimpeopleInfo/{peopleId}")
+	public String moimpeopleInfo(@PathVariable("peopleId") long peopleId,Model model) {
+		List<MoimPeople> joinedMoim=moimpeopleRepository.findByPeople_id(peopleId);
+		Optional<People> peopleinfo=peopleRepository.findById(peopleId);
+		model.addAttribute("peopleinfo",peopleinfo.get());
+		model.addAttribute("joinedMoim",joinedMoim);
+		
+		return "people/peopleinfo";
+	}
+	/**
+	 * 모임디테일에서 회원 누르면 모임가입한거 리스트조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@ResponseBody
+	@GetMapping("/peopleInfomoimList/{peopleId}")
+	public Map<String,Object>  peopleInfomoimList(@PathVariable("peopleId") long peopleId,Model model) {
+		Map<String,Object> data=new HashMap<String,Object>();
+		People people =new People();
+		people.setId(peopleId);
+		List<String> joinedMoimListNo=moimpeopleRepository.findMoimNo(people);
+		List<String> joinedMoimList=moimpeopleRepository.findMoimName(people);
+		
+		data.put("joinedMoimListNo",joinedMoimListNo);
+		data.put("joinedMoimList",joinedMoimList);
+		data.put("code", "1"); 	
+	
+		return data;
+	}
+	/**
+	 * 모임디테일에서 회원 누르면 모임 만든거 리스트조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@ResponseBody
+	@GetMapping("/peopleInfomademoimList/{peopleId}")
+	public Map<String,Object>  peopleInfomademoimList(@PathVariable("peopleId") long peopleId,Model model) {
+		Map<String,Object> data=new HashMap<String,Object>();
+		People people =new People();
+		people.setId(peopleId);
+		List<String> madeMoimListNo=moimpeopleRepository.findmadeMoimNo(people);
+		List<String> madeMoimListtitle=moimpeopleRepository.findmadeMoimName(people);
+		
+		data.put("madeMoimListNo",madeMoimListNo);
+		data.put("madeMoimListtitle",madeMoimListtitle);
+		data.put("code", "1"); 	
+	
 		return data;
 	}
 }

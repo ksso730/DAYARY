@@ -306,13 +306,13 @@ body {
 									class="rounded-circle" alt="">
                         </div>
                         <p class="inbox-item-author">
-                           <td th:text="${moimDetail.people.name}" />
+                            <a th:href="@{'/moimpeopleInfo/' + ${moimDetail.people.id}}"><td th:text="${moimDetail.people.name}" /></a>
                            <button
                               class="btn btn-icon btn-sm waves-effect waves-light btn-success">스터디장</button>
                         </p>
                         <p class="inbox-item-date"></p>
                      </div>
-                     <!-- 운영자 랜더링 End by choiseongjun -->
+                     <!-- 운영자 랜더링 끝End by choiseongjun -->
                      <tr th:each="joinedmoimpeopleList : ${joinedmoimpeopleList}">
                      
                         <a href="#">	
@@ -325,8 +325,7 @@ body {
                               </div>
                               
                               <p class="inbox-item-author"> 
-                                 
-                                 <td th:text="${joinedmoimpeopleList.people.name}"/>
+                                 <a th:href="@{'/moimpeopleInfo/' + ${joinedmoimpeopleList.people.id}}"><td th:text="${joinedmoimpeopleList.people.name}" /></a>
                               <span th:if="${session.peopleId==moimDetail.people.id}">
 	                               <span th:if="${joinedmoimpeopleList.joinCondition}=='N'">
 											<button type="button" name="grantpeople_btn"  th:value="${joinedmoimpeopleList.people.id}"
