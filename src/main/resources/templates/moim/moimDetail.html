@@ -325,8 +325,7 @@ body {
                               </div>
                               
                               <p class="inbox-item-author"> 
-                                 
-                                 <td th:text="${joinedmoimpeopleList.people.name}"/>
+                                 <a th:href="@{'/moimpeopleInfo/' + ${joinedmoimpeopleList.people.id}}"><td th:text="${joinedmoimpeopleList.people.name}" /></a>
                               <span th:if="${session.peopleId==moimDetail.people.id}">
 	                               <span th:if="${joinedmoimpeopleList.joinCondition}=='N'">
 											<button type="button" name="grantpeople_btn"  th:value="${joinedmoimpeopleList.people.id}"

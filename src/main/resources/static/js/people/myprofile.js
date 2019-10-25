@@ -9,8 +9,6 @@ function myMoimList(){
 	        	if(data.code==1){
 	        		var joinedMoimListNo=data.joinedMoimListNo;
 	        		var joinedMoimList=data.joinedMoimList;
-	        		console.log("List 시작")
-	        		console.log(list);
 	        		var html=""
         			for(var i in joinedMoimList){
         				html += '<tbody>'
@@ -22,6 +20,31 @@ function myMoimList(){
         				html += '</tbody>'
         			}
 	        		$("#list").html(html);
+	        	}
+	        }, error:function(e){
+				alert(e)
+	        }
+	    });
+	$.ajax({
+	      url:'/myprofilemademoimView',
+	        contentType: "application/json; charset=utf-8",
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        success:function(data){
+	        	console.log(data);
+	        	if(data.code==1){
+	        		var madeMoimListNo=data.madeMoimListNo;
+	        		var madeMoimListtitle=data.madeMoimListtitle;
+	        		var html=""
+      			for(var i in madeMoimListNo){
+      				html += '<tbody>'
+      				html += '<tr>'
+      				html += 	'<td>'
+      				html += 	'<a href="moimlistView/moimdetailView/'+madeMoimListNo[i]+'">'+madeMoimListtitle[i]+""+'</a>'
+  					html += 	'</td>'
+		   				html += '</tr>'
+      				html += '</tbody>'
+      			}
+	        		$("#mademoimlist").html(html);
 	        	}
 	        }, error:function(e){
 				alert(e)

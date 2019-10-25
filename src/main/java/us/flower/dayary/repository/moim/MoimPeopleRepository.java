@@ -36,6 +36,11 @@ public interface MoimPeopleRepository extends JpaRepository<MoimPeople, Long>{
 	List<String> findMoimName(@Param("people") People people);
 	@Query("SELECT a.id FROM Moim a INNER JOIN MoimPeople b ON a.id=b.moim WHERE b.people=(:people)")
 	List<String> findMoimNo(@Param("people") People people);
+
+	@Query("SELECT title from Moim WHERE people=(:people)")
+	List<String> findmadeMoimName(@Param("people") People people);
+	@Query("SELECT id from Moim WHERE people=(:people)")
+	List<String> findmadeMoimNo(@Param("people") People people);
   
 
 }
