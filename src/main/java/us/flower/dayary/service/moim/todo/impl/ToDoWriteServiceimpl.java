@@ -1,21 +1,29 @@
 package us.flower.dayary.service.moim.todo.impl;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import us.flower.dayary.common.FileManager;
+import us.flower.dayary.common.TokenGenerator;
+import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.Common;
+import us.flower.dayary.domain.CommunityBoard;
+import us.flower.dayary.domain.CommunityFile;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
+import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteListRepository;
@@ -35,6 +43,13 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
    MoimPeopleRepository moimPeopleRepository;
    @Autowired 
    ToDoWriteListRepository toDowriteListRepository;
+   @Autowired 
+   CommunityBoardRepository communityBoardRepository;
+	
+	@Autowired
+   private TokenGenerator tokenGenerator;
+	@Autowired
+	private FileManager fileManager;
    @Override
    public void saveList(ToDoWriteList list,String id,long no) {
       // TODO Auto-generated method stub
@@ -60,6 +75,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
            todolist.setPeople(p);
            todolist.setMoim(moimOne.get());
            todolist.setCheckConfirm('N');
+           todolist.setDetail('N');
            toDowriteListRepository.save(todolist);
         }
    }
@@ -95,6 +111,19 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
       ToDoWrite todo=toDowriteRepository.findById(no);
        int total=toDowriteListRepository.countByToDoWrite_id(no);
        int done= id.length+count;
+      
+       
+       for(int i=0;i<id.length;i++) {
+    	   if(id[i]=="") {
+    		   done=-1;
+    	   }
+           ToDoWriteList l=new ToDoWriteList();
+           Optional<ToDoWriteList> tlist=toDowriteListRepository.findById(Long.parseLong(id[i]));
+           l=tlist.get();
+           l.setCheckConfirm('Y');
+           toDowriteListRepository.save(l);
+        }
+       
        String x=Integer.toString(done)+"/"+Integer.toString(total);
        todo.setCount(x);
        //상태바 
@@ -109,14 +138,6 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
     	   todo.setStatus("In Progress");
        }
        toDowriteRepository.save(todo);
-       
-       for(int i=0;i<id.length;i++) {
-           ToDoWriteList l=new ToDoWriteList();
-           Optional<ToDoWriteList> tlist=toDowriteListRepository.findById(Long.parseLong(id[i]));
-           l=tlist.get();
-           l.setCheckConfirm('Y');
-           toDowriteListRepository.save(l);
-        }
    }
    @Override
    public boolean existByMoim_idAndPeople_id(long id, long peopleId) {
@@ -164,4 +185,40 @@ public int[] countByMoim_idAndStatus(long id) {
 	l[3]=toDowriteRepository.countBymoim_idAndStatus(id, "Suspend");
 	return l;
 }
+@Override
+public void writeBoard(MultipartFile file,CommunityBoard board,long no,String id) {
+	// TODO Auto-generated method stub
+	//정보 기준으로 작성자와 todowritelist 설정 
+	  People people = peopleRepository.findByEmail(id);
+	  board.setPeople(people);
+	  Optional<ToDoWriteList> todo=toDowriteListRepository.findById(no);
+	  board.setToDoWriteList(todo.get());
+	
+	BoardGroup boardGroup=new BoardGroup();
+	boardGroup.setId(8);
+	board.setBoardGroup(boardGroup);
+	
+	board.setDeleteFlag('N');
+	System.out.print(board);
+	communityBoardRepository.save(board);  
+	
+	todo.get().setDetail('Y');
+	toDowriteListRepository.save(todo.get());
+	
+ 
+    
 }
+@Override
+public void changeToDate(ToDoWrite todo) {
+	// TODO Auto-generated method stub
+	System.out.print(todo);
+	Date changeDate=todo.getTo_date2();
+	todo=toDowriteRepository.findById(todo.getId());
+	todo.setTo_date2(changeDate);
+	toDowriteRepository.save(todo);
+}
+@Override
+public CommunityBoard findByToDoWriteList_id(long id) {
+	// TODO Auto-generated method stub
+	return communityBoardRepository.findByToDoWriteList_id(id);
+}}

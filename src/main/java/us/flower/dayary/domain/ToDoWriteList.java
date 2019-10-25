@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ColumnDefault;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -50,8 +49,11 @@ public class ToDoWriteList extends DateAudit {
 	@Column(name="PLAN_LIST")
 	private String plan_list;
 	
-	@Column(name="CHECK_CONFIRM",  columnDefinition = "char(1) default 'N'")
+	@Column(name="CHECK_CONFIRM")
 	private char checkConfirm;
+	
+	@Column(name="Detail")
+	private char detail;
 	
 	
 }
