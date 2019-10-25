@@ -163,4 +163,48 @@ public class PeopleInfoController {
 		
 		return "people/peopleinfo";
 	}
+	/**
+	 * 모임디테일에서 회원 누르면 모임가입한거 리스트조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@ResponseBody
+	@GetMapping("/peopleInfomoimList/{peopleId}")
+	public Map<String,Object>  peopleInfomoimList(@PathVariable("peopleId") long peopleId,Model model) {
+		Map<String,Object> data=new HashMap<String,Object>();
+		People people =new People();
+		people.setId(peopleId);
+		List<String> joinedMoimListNo=moimpeopleRepository.findMoimNo(people);
+		List<String> joinedMoimList=moimpeopleRepository.findMoimName(people);
+		
+		data.put("joinedMoimListNo",joinedMoimListNo);
+		data.put("joinedMoimList",joinedMoimList);
+		data.put("code", "1"); 	
+	
+		return data;
+	}
+	/**
+	 * 모임디테일에서 회원 누르면 모임 만든거 리스트조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@ResponseBody
+	@GetMapping("/peopleInfomademoimList/{peopleId}")
+	public Map<String,Object>  peopleInfomademoimList(@PathVariable("peopleId") long peopleId,Model model) {
+		Map<String,Object> data=new HashMap<String,Object>();
+		People people =new People();
+		people.setId(peopleId);
+		List<String> madeMoimListNo=moimpeopleRepository.findmadeMoimNo(people);
+		List<String> madeMoimListtitle=moimpeopleRepository.findmadeMoimName(people);
+		
+		data.put("madeMoimListNo",madeMoimListNo);
+		data.put("madeMoimListtitle",madeMoimListtitle);
+		data.put("code", "1"); 	
+	
+		return data;
+	}
 }

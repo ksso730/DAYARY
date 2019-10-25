@@ -95,13 +95,18 @@ body {
 					<p>My Broter Vastal Raviya Has Done BBM & Clear CS (inter) Also Doing LLB</p> -->
                  	<table class="table table-hover table-striped">   	
 	                   	가입한 스터디
-	                   	<tr th:each="joinedMoim : ${joinedMoim}">
-							<td th:text="${joinedMoim.moim.title}" />
-							<td th:text="${joinedMoim.moim.id}" style="visibility:hidden;" />
-						</tr>
+	                   	<tbody id="list">  
+
+						</tbody>
 					</table>
-                    <button class="btn btn-primary" type="button"><i class="fa fa-download"></i> Download BioData</button>
-                    <button class="btn btn-danger" type="button"><i class="fa fa-heart"></i> Express Interest</button>
+					<table class="table table-hover table-striped">   	
+	                   	만든 스터디
+	                   	<tbody id="madelist">  
+
+						</tbody>
+					</table>
+                  <!--   <button class="btn btn-primary" type="button"><i class="fa fa-download"></i> Download BioData</button>
+                    <button class="btn btn-danger" type="button"><i class="fa fa-heart"></i> Express Interest</button> -->
 				</div>
 			</div>
 		</div>	
@@ -111,8 +116,56 @@ body {
 <script>
 function peopleInfo(){
 	 var peopleId = $('#peopleId').attr("data-peopleId");
-	console.log('ffffffffffffffffffffff');
-	console.log(peopleId);
+	$.ajax({
+	      url:'/peopleInfomoimList/'+peopleId,
+	        contentType: "application/json; charset=utf-8",
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        success:function(data){
+	        	console.log(data);
+	        	if(data.code==1){
+	        		var joinedMoimListNo=data.joinedMoimListNo;
+	        		var joinedMoimList=data.joinedMoimList;
+	        		var html=""
+        			for(var i in joinedMoimList){
+        				html += '<tbody>'
+        				html += '<tr>'
+        				html += 	'<td>'
+        				html += 	'<a href="/moimlistView/moimdetailView/'+joinedMoimListNo[i]+'">'+joinedMoimList[i]+""+'</a>'
+    					html += 	'</td>'
+		   				html += '</tr>'
+        				html += '</tbody>'
+        			}
+	        		$("#list").html(html);
+	        	}
+	        }, error:function(e){
+				alert(e)
+	        }
+	    });
+	$.ajax({
+	      url:'/peopleInfomademoimList/'+peopleId,
+	        contentType: "application/json; charset=utf-8",
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        success:function(data){
+	        	console.log(data);
+	        	if(data.code==1){
+	        		var madeMoimListNo=data.madeMoimListNo;
+	        		var madeMoimListtitle=data.madeMoimListtitle;
+	        		var html=""
+    			for(var i in madeMoimListNo){
+    				html += '<tbody>'
+    				html += '<tr>'
+    				html += 	'<td>'
+    				html += 	'<a href="moimlistView/moimdetailView/'+madeMoimListNo[i]+'">'+madeMoimListtitle[i]+""+'</a>'
+					html += 	'</td>'
+		   				html += '</tr>'
+    				html += '</tbody>'
+    			}
+	        		$("#madelist").html(html);
+	        	}
+	        }, error:function(e){
+				alert(e)
+	        }
+	    });
 }
 </script>
 </html>
