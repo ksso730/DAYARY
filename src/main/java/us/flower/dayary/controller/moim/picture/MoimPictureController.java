@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +22,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import us.flower.dayary.repository.moim.picture.MoimBoardFileRepository;
+import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
 import us.flower.dayary.service.moim.image.MoimImageImpl;
 
 @Controller
 public class MoimPictureController {
 	@Autowired 
 	MoimImageImpl moimiamge;
+	
+	@Autowired
+	MoimBoardFileRepository mbfRepository;
+	@Autowired
+	MoimBoardRepository mbRepository;
 	 /**
      * 모임 사진첩 조회
      *
@@ -66,15 +75,18 @@ public class MoimPictureController {
     }  
     @ResponseBody
     @PostMapping("/moimDetail/test")
-    public Map<String,String> testMethod(@RequestPart("file") MultipartFile[] file) {
+    public Map<String,String> testMethod(HttpSession session,@RequestPart("moimId") String moidId,@RequestPart("title") String title,@RequestPart("file") MultipartFile[] file) {
     	Map<String,String> result = new HashMap<>();
+    	long peopleId =  (long) session.getAttribute("peopleId");	
     	String resultStr="";   	
     	boolean check = true;
     	
-    	check = moimiamge.saveFile(file);
+    	check = moimiamge.writePost(peopleId, 8L, Long.parseLong(moidId), title,file);
+    	
     	resultStr = check ? "성공" :"실패";
     	result.put("result", resultStr);
-
+    	
+    	System.out.println(title);
     	return result;
     } 
 }
