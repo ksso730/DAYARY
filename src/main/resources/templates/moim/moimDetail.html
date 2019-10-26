@@ -302,7 +302,7 @@ body {
                      <div class="inbox-item">
                         <div class="inbox-item-img">
                            	<img
-									th:src="${moimDetail!=null} ? ${'/getMoimImage/'+moimDetail.people.imageName+'.'+moimDetail.people.imageExtension} : '/images/default_people.png'"
+									th:src="${moimDetail.people.imageName!=null} ? ${'/getMoimImage/'+moimDetail.people.imageName+'.'+moimDetail.people.imageExtension} : '/images/default_people.png'"
 									class="rounded-circle" alt="">
                         </div>
                         <p class="inbox-item-author">
