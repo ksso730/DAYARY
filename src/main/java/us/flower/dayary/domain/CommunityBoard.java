@@ -49,8 +49,8 @@ public class CommunityBoard extends DateAudit{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard", cascade = CascadeType.ALL)
 	private List<CommunityBoardReply> communityBoardReplies;
 
-	@Column(name="DELETE_FLAG" ,nullable=false, columnDefinition = "VARCHAR(1) default 'N'")
-	private char deleteFlag;
+	@Column(name="DELETE_FLAG" ,nullable=false)
+	private String deleteFlag;
 
 	@Column(name="VIEW_COUNT")
 	private long viewCount;

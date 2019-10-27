@@ -1,28 +1,14 @@
 package us.flower.dayary.service.moim.todo.impl;
 
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import us.flower.dayary.common.FileManager;
 import us.flower.dayary.common.TokenGenerator;
-import us.flower.dayary.domain.BoardGroup;
-import us.flower.dayary.domain.Common;
-import us.flower.dayary.domain.CommunityBoard;
-import us.flower.dayary.domain.CommunityFile;
-import us.flower.dayary.domain.Moim;
-import us.flower.dayary.domain.People;
-import us.flower.dayary.domain.ToDoWrite;
-import us.flower.dayary.domain.ToDoWriteList;
+import us.flower.dayary.domain.*;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
@@ -30,6 +16,10 @@ import us.flower.dayary.repository.moim.todo.ToDoWriteListRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
 import us.flower.dayary.service.moim.todo.ToDoWriteService;
+
+import java.sql.Date;
+import java.util.List;
+import java.util.Optional;
 @Service
 public class ToDoWriteServiceimpl implements ToDoWriteService {
    @Autowired
@@ -198,7 +188,7 @@ public void writeBoard(MultipartFile file,CommunityBoard board,long no,String id
 	boardGroup.setId(8);
 	board.setBoardGroup(boardGroup);
 	
-	board.setDeleteFlag('N');
+	board.setDeleteFlag("N");
 	System.out.print(board);
 	communityBoardRepository.save(board);  
 	
