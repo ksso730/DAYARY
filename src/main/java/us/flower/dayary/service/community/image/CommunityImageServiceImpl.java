@@ -1,26 +1,11 @@
 package us.flower.dayary.service.community.image;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import us.flower.dayary.common.FileManager;
-import us.flower.dayary.domain.UploadFile;
-import us.flower.dayary.repository.community.CommunityBoardFileRepository;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class CommunityImageServiceImpl implements CommunityImageService {
 
-    private final Path rootLocation;
+/*    private final Path rootLocation;
 
     @Value("${communityImagePath}")
     private String uploadPath;
@@ -95,5 +80,5 @@ public class CommunityImageServiceImpl implements CommunityImageService {
         }catch(IOException e){
             throw new Exception("Failed to store file" + file.getOriginalFilename(), e);
         }
-    }
+    }*/
 }
