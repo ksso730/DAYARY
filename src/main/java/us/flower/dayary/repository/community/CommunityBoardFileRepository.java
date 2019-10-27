@@ -6,7 +6,7 @@ import us.flower.dayary.domain.UploadFile;
 
 @Repository
 public interface CommunityBoardFileRepository extends JpaRepository<UploadFile, Long> {
-    public UploadFile findOneByFileName(String fileName);
+ /*   public UploadFile findOneByFileName(String fileName);
 
-    public UploadFile findOne(long fileId);
+    public UploadFile findOne(long fileId);*/
 }

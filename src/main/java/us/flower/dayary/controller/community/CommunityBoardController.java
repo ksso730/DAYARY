@@ -5,16 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.CommunityBoardReply;
 import us.flower.dayary.domain.DTO.BoardListDTO;
 import us.flower.dayary.domain.People;
-import us.flower.dayary.domain.UploadFile;
 import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
@@ -361,7 +358,7 @@ public class CommunityBoardController {
 	 * @param file
 	 * @return
 	 */
-	@ResponseBody
+/*	@ResponseBody
 	@PostMapping("/community/board/{boardGroup}/image")
 	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file){
 		try{
@@ -371,7 +368,7 @@ public class CommunityBoardController {
 			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
-	}
+	}*/
 
 
 
