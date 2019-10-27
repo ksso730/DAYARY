@@ -1,6 +1,8 @@
 package us.flower.dayary.domain;
 
 import java.util.Date;
+import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,11 +15,19 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import us.flower.dayary.domain.common.DateAudit;
+
 @Entity
 @Table(name="Moim_Board")
-public class MoimBoard {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class MoimBoard extends DateAudit{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
 	private long id;
     @ManyToOne
