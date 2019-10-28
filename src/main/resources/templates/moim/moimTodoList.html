@@ -133,7 +133,11 @@
                                     <div class="text-inverse">                                   <a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div>
                                 </td>
                       		<td><div><a href="#" onclick="get_detail($(this).attr('id'));"  th:id="${list.id}"><span  th:text="${list.plan_title}"></span></a></div>
-                      		   Edited by: <div th:text="${list.people.name}"></div><div th:text="${list.create_date}"></div></td>  
+                      		   Edited by: <div th:text="${list.people.name}"></div>
+                      		    <span th:text="${list.from_date}"></span> ~ 
+                      		    <span  th:if="${list.to_date2 eq null}" th:text="${list.to_date}"></span>
+                      		    <span  th:if="${list.to_date2 ne null}" th:text="${list.to_date2}"></span>
+                      		   </td>  
                                  <td class="align-middle">
                                  <span th:if="${list.status eq 'New'}" ><span class="badge badge-light badge-pill" th:text="${list.status}"></span></span>
                                <span  th:if="${list.status eq 'In Progress'}" ><span class="badge badge-success badge-pill"th:text="${list.status}"></span></span> 
@@ -158,8 +162,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex justify-content-center pb-0 card-footer" id="page">
-                   	<nav style="text-align: center;">
+                <div class="d-flex justify-content-center pb-0 card-footer">
+                   	<nav style="text-align: center;" id="page">
      <ul class="pagination"
         th:with="start=${T(Math).floor(todolist.number/10)*10 + 1},
                     last=(${start + 9 < todolist.totalPages ? start + 9 : todolist.totalPages})" th:if="${todolist.totalPages ne 0}" >
@@ -245,10 +249,10 @@ function get_detail(id) {
 	        					   html+='<li onclick="uncheck($(this))" value="'+list[i].id+'">'+list[i].plan_list;
 	        					   //작성한 detail 있는경우 
 	        					   if(list[i].detail=='N'){
-	        					   		html+="<button type='button'onclick='modal_write(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+","+todo.id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
 	        					   		html+='▷' 
 	        					   	}	else{
-	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+","+todo.id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
 	        					   		html+="▶";
 	        					   	}	
 	        					   	html+= '     </button></li>';
@@ -259,10 +263,10 @@ function get_detail(id) {
 	        					   html2+='<li class="checked">'+list[i].plan_list;
 	        				   //작성한 detail 있는경우 
         					   if(list[i].detail=='N'){
-        					   		html2+="<button type='button'onclick='modal_write(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+","+todo.id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+        					   		html2+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+","+todo.id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
         					   		html2+='▷' 
         					   	}	else{
-        					   		html2+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+        					   		html2+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+","+todo.id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
         					   		html2+="▶";
         					   	}	
         					   	html2+= '     </button></li>';
@@ -344,7 +348,12 @@ function detail_list(status){
 	        			for(var i in list){
 	        				html+='<tr><td class="align-middle"> <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div></td>';
 	        				html+='<td><div><a href="#" onclick="get_detail('+list[i].id+');" ><span>'+list[i].plan_title+'</span></a></div>';
-	        				html+='   Edited by: '+list[i].create_date+'</td>  <td class="align-middle">';
+	        				html+='   Edited by: '+list[i].from_date+'~'
+	        					if(list[i].to_date2==null)
+	        						html+=list[i].to_date;
+	        					else
+	        						html+=list[i].to_date2;
+	        				html+='</td>  <td class="align-middle">';
 	        				if(list[i].status=='New')
 		        				html+=' <span class="badge badge-light badge-pill">New</span>';
 		        			else if(list[i].status=='In Progress')

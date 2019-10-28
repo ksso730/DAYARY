@@ -58,8 +58,5 @@ public class CommunityBoard extends DateAudit{
 	@Column(name="HEART")
 	private long heart;
 	
-	@ManyToOne
-	@JsonIgnore
-	@JoinColumn(name = "MOIM_TODO_WRITE_LIST_ID")
-	private ToDoWriteList toDoWriteList;
+	
 }

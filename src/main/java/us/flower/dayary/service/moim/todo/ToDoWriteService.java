@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.CommunityFile;
+import us.flower.dayary.domain.MoimBoard;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
 public interface ToDoWriteService {
@@ -28,7 +29,7 @@ public interface ToDoWriteService {
 	public void deleteById(long id);
 	 public List<ToDoWrite> findByMoim_idAndStatus(long id, String status);
 	 public int[] countByMoim_idAndStatus(long id);
-	 public void writeBoard(MultipartFile file,CommunityBoard board,long no,String id);
+	 public void writeBoard(MultipartFile file,MoimBoard board,long no,String id);
 	 public void changeToDate(ToDoWrite todo);
-	 public CommunityBoard findByToDoWriteList_id(long id);
+	 public List<MoimBoard> findByToDoWriteList_id(long id);
 	 }
