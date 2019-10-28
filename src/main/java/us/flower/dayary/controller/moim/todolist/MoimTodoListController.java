@@ -29,10 +29,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.minidev.json.JSONObject;
+
 import java.util.List;
 
 import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.MoimBoard;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
@@ -150,11 +153,11 @@ public class MoimTodoListController {
      */
     @ResponseBody
     @GetMapping("/moimDetail/moimTodoList/{no}/{status}")
-    public Map<String, Object>  moimTodoListNew(@PathVariable("no") long no,@PathVariable("status") String status,@PageableDefault Pageable pageable ){
-    	Map<String, Object> returnData = new HashMap<String, Object>();
-    	
+    public JSONObject  moimTodoListNew(@PathVariable("no") long no,@PathVariable("status") String status,@PageableDefault Pageable pageable ){
+    	JSONObject returnData = new JSONObject();
          try {
 	         returnData.put("todolist",service.findByMoim_idAndStatus(no,status));
+	         System.out.print(returnData);
 	         returnData.put("code", "1");
          }catch(Exception e) {
         		returnData.put("message", e.getCause()+e.getMessage());
@@ -187,7 +190,7 @@ public class MoimTodoListController {
      */
 	@ResponseBody
 	@PostMapping("/moimDetail/moimTodoList/modalWrite/{no}")
-	public Map<String, Object> modalWrite(HttpSession session,@RequestPart(name="CommunityFile",required=false) MultipartFile file,@RequestPart(name="communityBoard") CommunityBoard board,@PathVariable("no")long no) {
+	public Map<String, Object> modalWrite(HttpSession session,@RequestPart(name="CommunityFile",required=false) MultipartFile file,@RequestPart(name="MoimBoard") MoimBoard board,@PathVariable("no")long no) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		String id =  (String) session.getAttribute("peopleEmail");
 		  try {

@@ -10,22 +10,14 @@ var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal 
-function modal_write(plan,writer,id,parent) {
-  modal.style.display = "block";
-  $("#title").text(plan);
-  $("#writer").text(writer);
-  
-  if(writer!=$("#Login").attr("data"))
-	  $("#myTabContent").style.display="none";
-  $("#toDoWriteListId").val(id);
-  $("#toDoWriteId").val(parent);
-	 
-}
-
-function modal_view(plan,writer,id){
+function modal_view(plan,writer,id,parent){
 	modal.style.display = "block";
 	  $("#title").text(plan);
 	  $("#writer").text(writer);
+	  if(writer!=$("#Login").attr("data"))
+		  $("#myTabContent").style.display="none";
+	  $("#toDoWriteListId").val(id);
+	  $("#toDoWriteId").val(parent);
 	$.ajax({
 	    	url:'/moimDetail/moimTodoList/modalView/'+id,
 	    	contentType: "application/json; charset=utf-8",
@@ -33,8 +25,15 @@ function modal_view(plan,writer,id){
 	        success:function(data){
 	        	 if(data.code==1){
 	               var c=data.modal;
-	               $(".form-group").html(c.memo);
-	               $(".btn-group").toggle();
+	               var html="<div>";
+	               for(var i in c){
+	            	   html+=c[i].memo+"<br>"
+	               }
+	               html+="</div>";
+	            	   
+	              /* $(".form-group").html(c.memo);
+	               $(".btn-group").toggle();*/
+	               $("#modal_content").html(html);
 	        	 }else{
 	                 alert(data.message);
 	             }
@@ -62,9 +61,9 @@ function submit(){
 		alert("내용을 작성하세요");
 		return;
 	}
-	var communityBoard={};
-	communityBoard.title=$("#title")[0].textContent;
-	communityBoard.memo=$("#message").val();
+	var MoimBoard={};
+	MoimBoard.title=$("#title")[0].textContent;
+	MoimBoard.memo=$("#message").val();
 	
 	let formData = new FormData();
 	if($("#customFile").val()){
@@ -73,7 +72,7 @@ function submit(){
 		formData.append("file", $('#customFile')[0].files[0]);
 	}
 
-	formData.append('communityBoard', new Blob([JSON.stringify(communityBoard)], {
+	formData.append('MoimBoard', new Blob([JSON.stringify(MoimBoard)], {
 		type: "application/json; charset=UTF-8"
 	}));
 
@@ -91,6 +90,7 @@ function submit(){
 	        	 if(data.code==1){
 	        		 modal.style.display = "none";
 	        		 get_detail($("#toDoWriteId").val());
+	        		 $("#message").val("");
 	             }else{
 	                 alert(data.message);
 	             }

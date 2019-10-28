@@ -12,6 +12,7 @@ import us.flower.dayary.domain.*;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
+import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteListRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
@@ -34,7 +35,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
    @Autowired 
    ToDoWriteListRepository toDowriteListRepository;
    @Autowired 
-   CommunityBoardRepository communityBoardRepository;
+   MoimBoardRepository moimboard;
 	
 	@Autowired
    private TokenGenerator tokenGenerator;
@@ -156,7 +157,11 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
    @Transactional
    public void deleteById(long id) {
       // TODO Auto-generated method stub
-      toDowriteListRepository.deleteByToDoWrite_id(id);
+	   List<ToDoWriteList> list=toDowriteListRepository.findByToDoWrite_id(id);
+	   for(int i=0;i<list.size();i++) {
+		   moimboard.deleteByToDoWriteList_id(list.get(i).getId());
+	   }
+	   toDowriteListRepository.deleteByToDoWrite_id(id);
       toDowriteRepository.deleteById(id);
    }
    @Override
@@ -176,7 +181,7 @@ public int[] countByMoim_idAndStatus(long id) {
 	return l;
 }
 @Override
-public void writeBoard(MultipartFile file,CommunityBoard board,long no,String id) {
+public void writeBoard(MultipartFile file,MoimBoard board,long no,String id) {
 	// TODO Auto-generated method stub
 	//정보 기준으로 작성자와 todowritelist 설정 
 	  People people = peopleRepository.findByEmail(id);
@@ -188,9 +193,9 @@ public void writeBoard(MultipartFile file,CommunityBoard board,long no,String id
 	boardGroup.setId(8);
 	board.setBoardGroup(boardGroup);
 	
-	board.setDeleteFlag("N");
+
 	System.out.print(board);
-	communityBoardRepository.save(board);  
+	moimboard.save(board);
 	
 	todo.get().setDetail('Y');
 	toDowriteListRepository.save(todo.get());
@@ -208,7 +213,7 @@ public void changeToDate(ToDoWrite todo) {
 	toDowriteRepository.save(todo);
 }
 @Override
-public CommunityBoard findByToDoWriteList_id(long id) {
+public List<MoimBoard> findByToDoWriteList_id(long id) {
 	// TODO Auto-generated method stub
-	return communityBoardRepository.findByToDoWriteList_id(id);
+	return moimboard.findByToDoWriteList_id(id);
 }}
