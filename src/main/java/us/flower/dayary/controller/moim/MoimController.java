@@ -305,7 +305,7 @@ public class MoimController {
     	Map<String, Object> returnData = new HashMap<String, Object>();
         
         String id = (String) session.getAttribute("peopleEmail");
-        String subject = moim.getCategory().getCommName();
+        //String subject = moim.getCategory().getCommName();
         if (id.equals(null) || id.equals("")) {
             returnData.put("code", "0");
             returnData.put("message", "로그인 후 이용해주세요");
@@ -318,14 +318,10 @@ public class MoimController {
             returnData.put("code", "0");
             returnData.put("message", "인원수를 입력해주세요");
             return returnData;
-        } else if (moim.getCategory() == null || moim.getCategory().equals("")) {
-            returnData.put("code", "0");
-            returnData.put("message", "모임 주제를 선택해주세요");
-            return returnData;
-        } 
-      
+        }
+         
         try {
-         	moimService.updateMoim(id, subject, moim, file);       
+        	moimService.updateMoim(id, moim, file);       	
             returnData.put("code", "1");
             returnData.put("message", "수정되었습니다");
 

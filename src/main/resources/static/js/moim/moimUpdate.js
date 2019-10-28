@@ -1,3 +1,48 @@
+$(document).ready(function(){
+	$("#moim_image_file").on("change", handleImgFileSelect);
+	$('#preview_img').hide();
+});
+
+function handleImgFileSelect(e){
+	var files = e.target.files;
+	var filesArr = Array.prototype.slice.call(files);
+	
+	filesArr.forEach(function(f) {
+		if(!f.type.match("image.*")){
+			alert('파일을 확인해주세요.');
+			return;
+		}
+		
+		sel_file = f;
+		
+		var reader = new FileReader();
+		reader.onload = function(e){
+			$('#preview_img').attr("src", e.target.result);
+		}
+		reader.readAsDataURL(f);
+		$('.img-box.upload-club-img label').attr('style',"background-image: none");
+		$('#preview_img').show();
+	});
+}
+
+$(function () {
+
+	$('.club_camera').click(function (e) {
+
+		e.preventDefault();
+	
+		$('#moim_image_file').click();
+
+	});
+
+});
+
+function deletePreImage(){
+	$('#preview_img').hide();
+	$('#moim_image_file').val("");
+	$('.img-box.upload-club-img label').attr('style',"url(images/camera_image.jpg)");
+}
+
 function initMoimMake(opt){
 	
    $.ajax({
@@ -27,11 +72,10 @@ function initMoimMake(opt){
          
       }
    });
- //로딩화면 스탑
 }
 
 $('#moimUpdate_btn').off().on('click', function () {
-    var obj = document.getElementById('categorybox');
+    //var obj = document.getElementById('categorybox');
 
     let moim = {};
     moim.title = $('#title').val();
@@ -39,9 +83,9 @@ $('#moimUpdate_btn').off().on('click', function () {
     moim.intro = $('#intro').val();
     moim.id	= $('#moimNo').attr("data-moimNo");
     moim.joinCondition = $(":input:radio[name=chk_info]:checked").val();
-    let category = {};
-    category.commName = obj.options[obj.selectedIndex].text;
-    moim.category = category;
+    //let category = {};
+    //category.commName = obj.options[obj.selectedIndex].text;
+    //moim.category = category;
 
     let formData = new FormData();
     formData.append("file", $('#moim_image_file')[0].files[0]);
@@ -62,7 +106,7 @@ $('#moimUpdate_btn').off().on('click', function () {
         success:function(data){
             if(data.code==1){
                 alert(data.message);
-                //location.href='/';
+                location.href='/moimlistView/moimdetailView/'+$('#moimNo').attr("data-moimNo");;
             }else{
                 alert(data.message);
             }

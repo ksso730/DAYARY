@@ -23,7 +23,7 @@
     position: absolute;
     width: 110px;
     height: 90px; 
-    background-image: url(images/camera_image.jpg);
+    background-image: url(/images/camera_image.jpg);
     cursor: pointer;
     left: 46%;
     top: 46%;
@@ -31,7 +31,7 @@
     margin-left: -28px;
 } 
 
-  #moimMake_btn {
+  #moimUpdate_btn {
   	margin-top: 20px;
   }
   
@@ -61,7 +61,7 @@
 
 
     <div class="site-cover site-cover-sm same-height overlay single-page"
-         style="background-image: url('images/img_5.jpg');">
+         style="background-image: url('/images/img_5.jpg');">
         <div class="container">
             <div class="row same-height justify-content-center">
                 <div class="col-md-12 col-lg-10">
@@ -101,14 +101,14 @@
                             </div>
                         </div>
 
-                        <div class="row form-group">
+                        <!-- <div class="row form-group">
                             <div class="col-md-12">
                                 <label class="text-black">모임 주제 (필수) </label>
                                 <select name="category" id="categorybox" class="form-control">
                                     <option value="선택" selected="selected"><td th:text="${moimDetail.category.commName}" /></option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                        
                         <!-- <div class="row form-group">
                             <div class="col-md-6">
@@ -125,8 +125,8 @@
 						<div class="row form-group">
                             <div class="col-md-12">
                                 <label class="text-black">모임원 구성 방법</label><br>
-								<input type="radio" name="chk_info" value="N" che checked="checked">누구나(승인없이 모임 가입)      
-								<input type="radio" name="chk_info" value="Y">승인필수(운영진의 승인 후 가입)
+								<input type="radio" name="chk_info" value="N"  checked="checked">누구나(승인없이 모임 가입)      
+								<input type="radio" name="chk_info" value="Y" >승인필수(운영진의 승인 후 가입)
                             </div>
                         </div>
 						
@@ -137,7 +137,7 @@
                                           class="form-control" th:text="${moimDetail.intro}"></textarea>
                             </div>
                         </div>
-
+ 
                         <label class="text-black">대표사진 </label> 
                         <input type="file" id="moim_image_file" name="file"  hidden="true"/>
                         <input type="button"  id="del_img" value="사진 삭제" onclick="deletePreImage();">
@@ -149,7 +149,7 @@
                         
                         <div id="moimUpdate_btn" class="row form-group">
                             <div class="col-md-12">
-                                <div class="btn btn-primary py-2 px-4 text-white" >모임만들기</div>
+                                <div class="btn btn-primary py-2 px-4 text-white" >모임 수정하기</div>
                             </div>
                         </div>
 					  </tr>

@@ -169,9 +169,9 @@ public class MoimServiceImpl implements moimService{
 	}
 
 	@Override
-	public void updateMoim(String email, String subject, Moim moim, MultipartFile file) {
+	public void updateMoim(String email, Moim moim, MultipartFile file) {
 		   People people = peopleRepository.findByEmail(email);
-	        Common category=commonRepository.findBycommName(subject);
+	        //Common category=commonRepository.findBycommName(subject);
 	       
 	        //사진이있다면
 	        if(file!=null) {
@@ -209,10 +209,11 @@ public class MoimServiceImpl implements moimService{
 	        String intro = moim.getIntro();
 	        long peopleLimit = moim.getPeopleLimit();
 	        char joincondition = moim.getJoinCondition();
-	        Common common = new Common();
-	        common.setCommCode(moim.getCategory().getCommCode());
+	        String imageName=moim.getImageName();
+	        String imageExtension=moim.getImageExtension();
 	        
-	        moimRepository.updateMoim(title,intro,peopleLimit,common,joincondition,moimId);
+
+	        moimRepository.updateMoim(title,intro,peopleLimit,joincondition,imageName,imageExtension,moimId);
 		
 	}
 

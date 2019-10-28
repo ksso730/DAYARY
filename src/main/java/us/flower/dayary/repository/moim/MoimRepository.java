@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Moim;
@@ -50,8 +51,9 @@ public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificat
 			Common common, String string2, String string3);
 
 	@Modifying
-	@Query("UPDATE Moim SET Title = (:title),Intro = (:intro),peopleLimit = (:peopleLimit),category = (:common),joinCondition = (:joincondition)  WHERE Id = (:moimId)")
-	void updateMoim(@Param("title") String title,@Param("intro") String intro,@Param("peopleLimit") long peopleLimit,@Param("common") Common common,@Param("joincondition") char joincondition, @Param("moimId") long moimId);
+	@Transactional
+	@Query("UPDATE Moim SET Title = (:title),Intro = (:intro),peopleLimit = (:peopleLimit),joinCondition = (:joincondition),imageName = (:imageName),imageExtension = (:imageExtension)   WHERE Id = (:moimId)")
+	void updateMoim(@Param("title") String title,@Param("intro") String intro,@Param("peopleLimit") long peopleLimit,@Param("joincondition") char joincondition,@Param("imageName") String imageName,@Param("imageExtension") String imageExtension, @Param("moimId") long moimId);
 
 
 
