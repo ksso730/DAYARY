@@ -55,7 +55,7 @@ public class Moim extends DateAudit{
 
     //모임 인원수 제한
     @Column(name = "PEOPLE_LIMIT", length = 3)
-    private int peopleLimit;
+    private long peopleLimit;
 
     //모임 생성일자
     @Column(name = "CREATE_DATE", updatable = false)

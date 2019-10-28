@@ -7,6 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Moim;
@@ -45,6 +48,11 @@ public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificat
 
 	Page<Moim> findAllByTitleLikeAndCategoryAndSidocodeLikeAndSigooncodeLike(Pageable pageable, String string,
 			Common common, String string2, String string3);
+
+	@Modifying
+	@Query("UPDATE Moim SET Title = (:title),Intro = (:intro),peopleLimit = (:peopleLimit),category = (:common),joinCondition = (:joincondition)  WHERE Id = (:moimId)")
+	void updateMoim(@Param("title") String title,@Param("intro") String intro,@Param("peopleLimit") long peopleLimit,@Param("common") Common common,@Param("joincondition") char joincondition, @Param("moimId") long moimId);
+
 
 
 
