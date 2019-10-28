@@ -21,36 +21,37 @@ import lombok.NoArgsConstructor;
 import us.flower.dayary.domain.common.DateAudit;
 
 @Entity
-@Table(name="Moim_Board")
+@Table(name = "Moim_Board")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MoimBoard extends DateAudit{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
+public class MoimBoard extends DateAudit {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ID")
 	private long id;
-    @ManyToOne
+	@ManyToOne
 	@JoinColumn(name = "PEOPLE_ID")
 	private People people;
-    @ManyToOne
+	@ManyToOne
 	@JoinColumn(name = "BOARD_GROUP_ID")
 	private BoardGroup boardGroup;
-    @ManyToOne
+	@ManyToOne
 	@JoinColumn(name = "MOIM_ID")
 	private Moim moim;
-    @Column(name = "TITLE")
+	@Column(name = "TITLE")
 	private String title;
-    @Column(name = "MEMO")
+	@Column(name = "MEMO")
+
 	private String memo;
-    @Column(name = "CREATE_DATE", updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CREATE_DATE", updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date create_date;
-    @Column(name = "UPDATE_DATE", updatable = true)
-    @Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "UPDATE_DATE", updatable = true)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date update_date;
-    @Column(name = "DELETE_FLAG")
+	@Column(name = "DELETE_FLAG")
 	private char delete_flag;
-    @Column(name = "HEART")
-    private long heart;
+	@Column(name = "HEART")
+	private long heart;
 }

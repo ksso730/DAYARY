@@ -47,7 +47,7 @@ public class MoimPictureController {
     public String moimPicture(@PathVariable("no") long no,Model model) {
     	
     	model.addAttribute("no",no);
-    	
+ 
     	return "moim/moimpictureList"; 
     }
     /**

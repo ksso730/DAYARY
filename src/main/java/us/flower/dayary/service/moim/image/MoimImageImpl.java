@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import us.flower.dayary.common.FileManager;
+import us.flower.dayary.common.TokenGenerator;
 import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimBoard;
@@ -37,6 +38,8 @@ public class MoimImageImpl implements MoimImage{
 	private PeopleRepository peopleRepository;
 	@Autowired
 	private MoimRepository moimRepository;
+	@Autowired
+    private TokenGenerator tokenGenerator;
 	
 	
 	@Override
@@ -48,7 +51,17 @@ public class MoimImageImpl implements MoimImage{
 		try {
 			for(int i=0; i<size; i++)
 			{
-				MoimBoardFile mbFile = new MoimBoardFile();
+		        String file_name="";
+		        MoimBoardFile mbFile = new MoimBoardFile();
+				while(true){
+		        	file_name=tokenGenerator.getToken();
+					//DB에 파일이름이 존재하지 않으면 moim domain에 set
+		        	if(!mbFileRepository.existsByFilename(file_name)){
+		        		mbFile.setFilename(file_name);
+						break; 
+					}
+				}
+				
 				//String fileName = file[i].getName();
 				String fileName = file[i].getOriginalFilename();
 				result[i] = fileName;
@@ -58,7 +71,7 @@ public class MoimImageImpl implements MoimImage{
 				
 				mbFile.setMoid_moard(moid_moard);
 				mbFile.setReal_name(fileName);
-				mbFile.setFile_name("");
+
 				mbFile.setFile_size("");
 				mbFile.setFile_locate(moimImagePath+"/"+fileName);
 				

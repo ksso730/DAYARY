@@ -15,8 +15,8 @@ public class MoimBoardFile {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MoimBoard_ID" ,referencedColumnName = "ID") 
 	private MoimBoard moid_moard;
-    @Column(name = "FILE_NAME")
-	private String file_name;
+    @Column(name = "filename")
+	private String filename;
     @Column(name = "REAL_NAME")
 	private String real_name;
     @Column(name = "FILE_SIZE")
