@@ -168,6 +168,55 @@ public class MoimServiceImpl implements moimService{
 		return moimRepository.findAllByTitleLikeAndCategoryAndSidocodeLikeAndSigooncodeLike(pageable,"%"+title+"%",common,"%"+sido_code+"%","%"+sigoon_code+"%");
 	}
 
+	@Override
+	public void updateMoim(String email, Moim moim, MultipartFile file) {
+		   People people = peopleRepository.findByEmail(email);
+	        //Common category=commonRepository.findBycommName(subject);
+	       
+	        //사진이있다면
+	        if(file!=null) {
+	        	
+	        	//이미지파일이름생성
+		        String imageName="";
+				while(true){
+		        	imageName=tokenGenerator.getToken();
+					//DB에 파일이름이 존재하지 않으면 moim domain에 set
+		        	if(!moimRepository.existsByImageName(imageName)){
+						moim.setImageName(imageName);
+						break; 
+					}
+				}
+		  
+		        //이미지파일확장자추출
+		        String originalFileName = file.getOriginalFilename();
+		        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
+		        moim.setImageExtension(fileExtension);
+		
+		        //파일업로드
+		        try { 
+		            fileManager.fileUpload(file, moimImagePath+"/"+imageName+"."+fileExtension);
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+		        
+	    	}
+		        
+	    	
+
+
+	        String title = moim.getTitle();
+	        long moimId = moim.getId();
+	        String intro = moim.getIntro();
+	        long peopleLimit = moim.getPeopleLimit();
+	        char joincondition = moim.getJoinCondition();
+	        String imageName=moim.getImageName();
+	        String imageExtension=moim.getImageExtension();
+	        
+
+	        moimRepository.updateMoim(title,intro,peopleLimit,joincondition,imageName,imageExtension,moimId);
+		
+	}
+
 
 
 

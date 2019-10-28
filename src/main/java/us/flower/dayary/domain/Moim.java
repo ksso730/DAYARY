@@ -3,6 +3,7 @@ package us.flower.dayary.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,7 +41,7 @@ public class Moim extends DateAudit{
     private long id;
     
     //모임 카테고리
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "COMM_CODE")
     private Common category;
     
@@ -55,7 +56,7 @@ public class Moim extends DateAudit{
 
     //모임 인원수 제한
     @Column(name = "PEOPLE_LIMIT", length = 3)
-    private int peopleLimit;
+    private long peopleLimit;
 
     //모임 생성일자
     @Column(name = "CREATE_DATE", updatable = false)

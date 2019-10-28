@@ -39,6 +39,8 @@ public interface moimService {
 
 	Page<Moim> selecttitleList(Pageable pageable, String title, Common common, String sido_code, String sigoon_code);
 
+	void updateMoim(String id, Moim moim, MultipartFile file);
+
 
 
 }

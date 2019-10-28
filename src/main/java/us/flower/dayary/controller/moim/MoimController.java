@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -285,9 +286,51 @@ public class MoimController {
 		
 		 moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));
 		 
+		 model.addAttribute("no",no);
 		 
 	    return "moim/moimUpdate";
 	}
+	/**
+     * 모임 수정하기
+     *
+     * @param locale
+     * @param Moim
+     * @return
+     * @throws 
+     * @author yuna
+     */
+    @ResponseBody
+    @PutMapping("/moimUpdate")
+    public Map<String, Object> moimUpdate(@RequestPart("moim") Moim moim, @RequestPart(name="file",required=false) MultipartFile file, HttpSession session) {
+    	Map<String, Object> returnData = new HashMap<String, Object>();
+        
+        String id = (String) session.getAttribute("peopleEmail");
+        //String subject = moim.getCategory().getCommName();
+        if (id.equals(null) || id.equals("")) {
+            returnData.put("code", "0");
+            returnData.put("message", "로그인 후 이용해주세요");
+            return returnData;
+        } else if (moim.getTitle().equals(null) || moim.getTitle().equals("")) {
+            returnData.put("code", "0");
+            returnData.put("message", "모임 이름을 입력해주세요");
+            return returnData;
+        } else if (moim.getPeopleLimit() == 0) {
+            returnData.put("code", "0");
+            returnData.put("message", "인원수를 입력해주세요");
+            return returnData;
+        }
+         
+        try {
+        	moimService.updateMoim(id, moim, file);       	
+            returnData.put("code", "1");
+            returnData.put("message", "수정되었습니다");
+
+        } catch (Exception e) {
+            returnData.put("code", "E3290");
+            returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+        }
+        return returnData;
+    }
 	 /**
 		 * 모임 만들기 화면으로
 		 *
