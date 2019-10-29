@@ -294,7 +294,7 @@ function get_detail(id) {
 	                   			html2+='<br>수정된 종료일자: '+todo.to_date2+"<br>";
 	                   		
 	                   		}
-	                   		if(writer==$("#Login").attr("data")){
+	                   		if(writer.email==$("#Login").attr("data")){
 	                   			//수정햇던 적이 없으면 마감일 1번수정가눙
 	                   			if(todo.to_date2 ==null||todo.to_date2==''){
 									html2+='<button type="button" class="btn btn-outline-info" onclick="change_form('+todo.id+')">수정하기</button>'
