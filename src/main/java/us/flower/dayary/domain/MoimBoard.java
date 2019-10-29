@@ -20,12 +20,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import us.flower.dayary.domain.common.DateAudit;
 
 @Entity
 @Table(name="Moim_Board")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class MoimBoard extends DateAudit{
