@@ -25,9 +25,9 @@ function modal_view(plan,writer,id,parent,email){
 	        success:function(data){
 	        	 if(data.code==1){
 	               var c=data.modal;
-	               var html="<div class='container'><div class='row'><ul class='cbp_tmtimeline'>";
+	               var html="<div class='container'><div class='row'><ul class='cbp_tmtimeline' style='background-color : white'>";
 	               for(var i in c){
-	            	   html+="<li><time class='cbp_tmtime' datetime="+c[i].create_date+" ><span>"+c[i].create_date.slice(0,10)+"</span></time> "
+	            	   html+="<li><time class='cbp_tmtime' datetime="+c[i].create_date+" ><span>"+c[i].create_date.slice(0,16)+"</span></time> "
 	            	   html+=' <div class="cbp_tmicon bg-info"><i class="zmdi zmdi-label"></i></div><div class="cbp_tmlabel">'
 	            	   html+=' <blockquote><p class="blockquote blockquote-primary">'+c[i].memo+"</p></blockquote></li>"
 	               }

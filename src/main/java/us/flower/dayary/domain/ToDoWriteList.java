@@ -33,7 +33,6 @@ import us.flower.dayary.domain.common.DateAudit;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = "moimboard")
 public class ToDoWriteList extends DateAudit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
