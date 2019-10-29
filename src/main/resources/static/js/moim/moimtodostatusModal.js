@@ -10,14 +10,14 @@ var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal 
-function modal_view(plan,writer,id,parent){
+function modal_view(plan,writer,id,parent,email){
 	modal.style.display = "block";
 	  $("#title").text(plan);
 	  $("#writer").text(writer);
-	  if(writer!=$("#Login").attr("data"))
-		  $("#myTabContent").style.display="none";
+	 
 	  $("#toDoWriteListId").val(id);
 	  $("#toDoWriteId").val(parent);
+	
 	$.ajax({
 	    	url:'/moimDetail/moimTodoList/modalView/'+id,
 	    	contentType: "application/json; charset=utf-8",
@@ -25,15 +25,21 @@ function modal_view(plan,writer,id,parent){
 	        success:function(data){
 	        	 if(data.code==1){
 	               var c=data.modal;
-	               var html="<div>";
+	               var html="<div class='container'><div class='row'><ul class='cbp_tmtimeline'>";
 	               for(var i in c){
-	            	   html+=c[i].memo+"<br>"
+	            	   html+="<li><time class='cbp_tmtime' datetime="+c[i].create_date+" ><span>"+c[i].create_date.slice(0,10)+"</span></time> "
+	            	   html+=' <div class="cbp_tmicon bg-info"><i class="zmdi zmdi-label"></i></div><div class="cbp_tmlabel">'
+	            	   html+=' <blockquote><p class="blockquote blockquote-primary">'+c[i].memo+"</p></blockquote></li>"
 	               }
-	               html+="</div>";
+	               html+="</ul></div></div>";
 	            	   
 	              /* $(".form-group").html(c.memo);
 	               $(".btn-group").toggle();*/
 	               $("#modal_content").html(html);
+	               if($("#Login").attr("data")!=email){
+	         		  $("#modal_write").hide();
+	         	  }else
+	         		 $("#modal_write").show();
 	        	 }else{
 	                 alert(data.message);
 	             }

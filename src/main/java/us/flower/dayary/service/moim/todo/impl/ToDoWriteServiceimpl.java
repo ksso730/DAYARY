@@ -3,6 +3,7 @@ package us.flower.dayary.service.moim.todo.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -167,7 +168,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
    @Override
    public List<ToDoWrite> findByMoim_idAndStatus(long id, String status) {
       // TODO Auto-generated method stub
-      return toDowriteRepository.findByMoim_idAndStatus(id,status) ;
+      return toDowriteRepository.findByMoim_idAndStatus(id,status,Sort.by("id").descending()) ;
    }
 @Override
 public int[] countByMoim_idAndStatus(long id) {
@@ -192,6 +193,7 @@ public void writeBoard(MultipartFile file,MoimBoard board,long no,String id) {
 	BoardGroup boardGroup=new BoardGroup();
 	boardGroup.setId(8);
 	board.setBoardGroup(boardGroup);
+	board.setCreate_date(new java.sql.Date(System.currentTimeMillis()));
 	
 
 	System.out.print(board);
@@ -216,4 +218,9 @@ public void changeToDate(ToDoWrite todo) {
 public List<MoimBoard> findByToDoWriteList_id(long id) {
 	// TODO Auto-generated method stub
 	return moimboard.findByToDoWriteList_id(id);
+}
+@Override
+public Page<ToDoWrite> findByMoim_idAndPeople_id(Pageable page, long id, long people) {
+	// TODO Auto-generated method stub
+	return toDowriteRepository.findByMoim_idAndPeople_id(page, id, people);
 }}
