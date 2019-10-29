@@ -2,6 +2,7 @@ package us.flower.dayary.domain;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -66,7 +67,9 @@ public class ToDoWrite extends DateAudit{
 	
 	@Column(name="STATUS")
 	   private String status;
-	
+	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "toDoWrite")
+	@JsonIgnore
+	private List<ToDoWriteList> todowritelist;
 
 
 }
