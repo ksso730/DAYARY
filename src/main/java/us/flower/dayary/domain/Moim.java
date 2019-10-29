@@ -2,6 +2,7 @@ package us.flower.dayary.domain;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,10 +22,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import us.flower.dayary.domain.common.DateAudit;
 
 /**
@@ -33,7 +37,8 @@ import us.flower.dayary.domain.common.DateAudit;
  */
 @Entity
 @Table(name = "MOIM")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Moim extends DateAudit{
@@ -110,11 +115,9 @@ public class Moim extends DateAudit{
     private List<People> peopleList;
 	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "moim")
 	@JsonIgnore
-	private List<ToDoWrite> todowrite;
-	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "moim")
-	@JsonIgnore
-	private List<ToDoWriteList> todowriteList;
-	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "moim")
+	private Set<ToDoWrite> todowrite;
+
+	@OneToMany(orphanRemoval=true,mappedBy = "moim")
 	@JsonIgnore
 	private List<Meetup> meetup;
 	

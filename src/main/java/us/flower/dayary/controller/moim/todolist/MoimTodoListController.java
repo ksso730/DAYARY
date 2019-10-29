@@ -157,7 +157,6 @@ public class MoimTodoListController {
     	JSONObject returnData = new JSONObject();
          try {
 	         returnData.put("todolist",service.findByMoim_idAndStatus(no,status));
-	         System.out.print(returnData);
 	         returnData.put("code", "1");
          }catch(Exception e) {
         		returnData.put("message", e.getCause()+e.getMessage());
