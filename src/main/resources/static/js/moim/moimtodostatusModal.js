@@ -38,7 +38,8 @@ function modal_view(plan,writer,id,parent,email){
 	               $("#modal_content").html(html);
 	               if($("#Login").attr("data")!=email){
 	         		  $("#modal_write").hide();
-	         	  }
+	         	  }else
+	         		 $("#modal_write").show();
 	        	 }else{
 	                 alert(data.message);
 	             }
