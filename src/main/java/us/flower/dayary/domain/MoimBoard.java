@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -47,6 +48,7 @@ public class MoimBoard extends DateAudit{
 	private Moim moim;
     @Column(name = "TITLE")
 	private String title;
+    @Lob
     @Column(name = "MEMO")
 	private String memo;
     @Column(name = "CREATE_DATE", updatable = false)
