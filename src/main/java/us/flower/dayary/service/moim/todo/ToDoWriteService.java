@@ -20,6 +20,7 @@ public interface ToDoWriteService {
 
 	public void saveList(ToDoWriteList toDoWriteList,String id,long no);
 	public Page<ToDoWrite> findByMoim_id(Pageable page,long id); 
+	public Page<ToDoWrite> findByMoim_idAndPeople_id(Pageable page,long id,long people); 
 	public List<ToDoWrite> findByMoim_id(long id); 
 	public List<ToDoWriteList> findByToDoWrite_id(long id);
 	public ToDoWrite findById(long id);

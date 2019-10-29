@@ -81,8 +81,10 @@
             <div class="mb-4">
                 <div class="small mb-3">Favorites</div>
                 <ul class="nav flex-column nav-pills">
-                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/' + ${no}}" class="nav-link active"><i class="fa fa-fw fa-line-chart mr-2"></i>해야 할목록</a></li>
+                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/' + ${no}}" class="nav-link " id="allList"><i class="fa fa-fw fa-line-chart mr-2"></i>해야 할목록</a></li>
+                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/myList/'+ ${no}}" class="nav-link" id="myList"><i class="fa fa-pencil-square-o mr-2"></i>내가 작성한 목록</a></li>
                     <li class="nav-item"><a href="/moimDetail/moimTodoList/moimcalender" class="nav-link"><i class="fa fa-fw fa-calendar-o mr-2"></i>달력일정 체크하기</a></li>
+                
                 </ul>
             </div>
             <div class="mb-4">
@@ -133,7 +135,7 @@
                                     <div class="text-inverse">                                   <a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div>
                                 </td>
                       		<td><div><a href="#" onclick="get_detail($(this).attr('id'));"  th:id="${list.id}"><span  th:text="${list.plan_title}"></span></a></div>
-                      		   Edited by: <div th:text="${list.people.name}"></div>
+                      		   Edited by: <span th:text="${list.people.name}"></span><br>
                       		    <span th:text="${list.from_date}"></span> ~ 
                       		    <span  th:if="${list.to_date2 eq null}" th:text="${list.to_date}"></span>
                       		    <span  th:if="${list.to_date2 ne null}" th:text="${list.to_date2}"></span>
@@ -221,6 +223,13 @@ $(document).ready(function(){
  		};
  	}
 
+ 	var location=document.location.href;
+ 	if(location.indexOf("myList")>0){
+ 		document.getElementById('myList').setAttribute('class','nav-link active');
+ 	}else
+ 		document.getElementById('allList').setAttribute('class','nav-link active');
+ 		
+ 	
    });
 
 function close_detail(){
@@ -247,12 +256,14 @@ function get_detail(id) {
 	        			   for(var i in list){
 	        				   if(list[i].checkConfirm=='N'){
 	        					   html+='<li onclick="uncheck($(this))" value="'+list[i].id+'">'+list[i].plan_list;
-	        					   //작성한 detail 있는경우 
+	        					   //작성한 detail 없고 체크안된경우
 	        					   if(list[i].detail=='N'){
-	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+","+todo.id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+	        						   if(writer.email==$("#Login").attr("data")){
+	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer.name+"\","+list[i].id+","+todo.id+",\""+writer.email+"\")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
 	        					   		html+='▷' 
+	 								  }				
 	        					   	}	else{
-	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+","+todo.id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer.name+"\","+list[i].id+","+todo.id+",\""+writer.email+"\")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
 	        					   		html+="▶";
 	        					   	}	
 	        					   	html+= '     </button></li>';
@@ -261,12 +272,14 @@ function get_detail(id) {
 	        				   else{
 	        					   
 	        					   html2+='<li class="checked">'+list[i].plan_list;
-	        				   //작성한 detail 있는경우 
+	        				   //작성한 detail 없고 체크된경우
         					   if(list[i].detail=='N'){
-        					   		html2+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+","+todo.id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
-        					   		html2+='▷' 
+        						   if(writer.email==$("#Login").attr("data")){
+	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer.name+"\","+list[i].id+","+todo.id+",\""+writer.email+"\")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+	        					   		html+='▷' 
+	 								  }		
         					   	}	else{
-        					   		html2+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+","+todo.id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+        					   		html2+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer.name+"\","+list[i].id+","+todo.id+",\""+writer.email+"\")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
         					   		html2+="▶";
         					   	}	
         					   	html2+= '     </button></li>';
@@ -348,7 +361,7 @@ function detail_list(status){
 	        			for(var i in list){
 	        				html+='<tr><td class="align-middle"> <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div></td>';
 	        				html+='<td><div><a href="#" onclick="get_detail('+list[i].id+');" ><span>'+list[i].plan_title+'</span></a></div>';
-	        				html+='   Edited by: '+list[i].from_date+'~'
+	        				html+='   Edited by:'+list[i].people.name+'<br>'+list[i].from_date+'~'
 	        					if(list[i].to_date2==null)
 	        						html+=list[i].to_date;
 	        					else

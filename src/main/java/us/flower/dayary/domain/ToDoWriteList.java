@@ -1,6 +1,7 @@
 package us.flower.dayary.domain;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,23 +12,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import antlr.collections.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import us.flower.dayary.domain.common.DateAudit;
 
 @Entity
 @Table(name="MOIM_TODO_WRITE_LIST")
-@NoArgsConstructor
 @AllArgsConstructor
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString(exclude = "moimboard")
 public class ToDoWriteList extends DateAudit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,5 +62,7 @@ public class ToDoWriteList extends DateAudit {
 	@Column(name="Detail")
 	private char detail;
 	
+	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "toDoWriteList")
+	private List<MoimBoard> moimboard; 
 	
 }

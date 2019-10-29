@@ -104,7 +104,7 @@ public class MoimTodoListController {
     		data.put("list",service.findByToDoWrite_id(no));
     		ToDoWrite todo=service.findById(no);
     		data.put("todo",todo);
-    		data.put("writer", todo.getPeople().getEmail());
+    		data.put("writer", todo.getPeople());
     		data.put("code", "1");
     		data.put("message", "저장되었습니다");
 
@@ -309,6 +309,27 @@ public class MoimTodoListController {
     	model.addAttribute("moimPeople",Boolean.toString(moim));
     	model.addAttribute("count",service.countByMoim_idAndStatus(no));
     	return "moim/moimTodoList";
+    }
+    /**
+     * 내가 작성한 해야할일(ToDoList) 목록 조회
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author choiseongjun
+     */
+    @GetMapping("/moimDetail/moimTodoList/myList/{no}")
+    public String myTodoList(@PathVariable("no") long no,Model model,@PageableDefault Pageable pageable,HttpSession session) {
+    	int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+    	pageable = PageRequest.of(page, 9,Sort.by("id").descending());
+    	long people=(long)session.getAttribute("peopleId");
+    	Page<ToDoWrite> toDolist=service.findByMoim_idAndPeople_id(pageable,no,people);
+    	boolean moim=service.existByMoim_idAndPeople_id(no,people);
+    	model.addAttribute("no",no);
+    	model.addAttribute("todolist", toDolist);
+    	model.addAttribute("moimPeople",Boolean.toString(moim));
+    	model.addAttribute("count",service.countByMoim_idAndStatus(no));
+    	return "moim/moimTodoList" ;
     }
     /**
      * todo 삭제

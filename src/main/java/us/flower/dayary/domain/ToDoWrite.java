@@ -43,7 +43,6 @@ public class ToDoWrite extends DateAudit{
 	@JoinColumn(name="MOIM_ID")
 	private Moim moim;
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "PEOPLE_ID")
 	private People people;
 	
