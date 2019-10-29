@@ -15,9 +15,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -105,7 +108,15 @@ public class Moim extends DateAudit{
                joinColumns = @JoinColumn(name = "MOIM_ID"),
                inverseJoinColumns = @JoinColumn(name = "PEOPLE_ID"))
     private List<People> peopleList;
-	   
+	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "moim")
+	@JsonIgnore
+	private List<ToDoWrite> todowrite;
+	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "moim")
+	@JsonIgnore
+	private List<ToDoWriteList> todowriteList;
+	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "moim")
+	@JsonIgnore
+	private List<Meetup> meetup;
 	
 	//가입조건  N은 누구나 Y는 승인해야함
 	@Column(name="JOIN_CONDITION" ,nullable=false, columnDefinition = "char(1) default 'N'")
