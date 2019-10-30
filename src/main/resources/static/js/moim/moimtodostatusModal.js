@@ -25,7 +25,7 @@ function modal_view(plan,writer,id,parent,email){
 	        success:function(data){
 	        	 if(data.code==1){
 	               var c=data.modal;
-	               var html="<div class='container'><div class='row'><ul class='cbp_tmtimeline' style='background-color : white'>";
+	               var html="<div class='container'><div class='row'><ul class='cbp_tmtimeline' style='background-color : white; width:1200px'>";
 	               for(var i in c){
 	            	   html+="<li><time class='cbp_tmtime' datetime="+c[i].create_date+" ><span>"+c[i].create_date.slice(0,16)+"</span></time> "
 	            	   html+=' <div class="cbp_tmicon bg-info"><i class="zmdi zmdi-label"></i></div><div class="cbp_tmlabel">'
@@ -106,4 +106,40 @@ function submit(){
 	    });
 
 	
+}
+function getCmaFileInfo(obj,stype) {
+    var fileObj, pathHeader , pathMiddle, pathEnd, allFilename, fileName, extName;
+    if(obj == "[object HTMLInputElement]") {
+        fileObj = obj.value
+    } else {
+        fileObj = document.getElementById(obj).value;
+    }
+    if (fileObj != "") {
+            pathHeader = fileObj.lastIndexOf("\\");
+            pathMiddle = fileObj.lastIndexOf(".");
+            pathEnd = fileObj.length;
+            fileName = fileObj.substring(pathHeader+1, pathMiddle);
+            extName = fileObj.substring(pathMiddle+1, pathEnd);
+            allFilename = fileName+"."+extName;
+ 
+            if(stype == "all") {
+                    return allFilename; // 확장자 포함 파일명
+            } else if(stype == "name") {
+                    return fileName; // 순수 파일명만(확장자 제외)
+            } else if(stype == "ext") {
+                    return extName; // 확장자
+            } else {
+                    return fileName; // 순수 파일명만(확장자 제외)
+            }
+    } else {
+            alert("파일을 선택해주세요");
+            return false;
+    }
+    // getCmaFileView(this,'name');
+    // getCmaFileView('upFile','all');
+ }
+ 
+function getCmaFileView(obj,stype) {
+    var s = getCmaFileInfo(obj,stype);
+    alert(s);
 }
