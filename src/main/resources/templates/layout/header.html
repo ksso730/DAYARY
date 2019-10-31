@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="col-4 site-logo">
-                            <a href="/" class="text-black h2 mb-0">StudyFind<span th:if="${csj}"></span></a>
+                            <a href="/" class="text-black h2 mb-0">FindTeam</a>
                                
                         </div>
 
@@ -62,13 +62,13 @@
                                         <a href="/">Home</a>
                                     </li>
                                     <li>
-                                        <a href="/moimlistView">스터디모임</a>
+                                        <a href="/moimlistView">팀 찾기</a>
                                     </li>
                                     <li>
                                         <a href="/community/timeLine">커뮤니티</a>
                                     </li>
                                    	<li th:if="${session.peopleEmail!=null}">
-                                        <a href="/moimMakeView">모임 만들기</a>
+                                        <a href="/moimMakeView">팀 만들기</a>
                                     </li>
                                     <li th:if="${session.peopleEmail==null}">
                                         <a href="/signupView">회원가입</a>
