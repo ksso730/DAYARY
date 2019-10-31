@@ -189,9 +189,12 @@ public class MoimTodoListController {
      */
 	@ResponseBody
 	@PostMapping("/moimDetail/moimTodoList/modalWrite/{no}")
-	public Map<String, Object> modalWrite(HttpSession session,@RequestPart(name="CommunityFile",required=false) MultipartFile file,@RequestPart(name="MoimBoard") MoimBoard board,@PathVariable("no")long no) {
+	public Map<String, Object> modalWrite(HttpSession session,@RequestPart(name="File",required=false) MultipartFile file,@RequestPart(name="MoimBoard") MoimBoard board,@PathVariable("no")long no) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		String id =  (String) session.getAttribute("peopleEmail");
+		System.out.println("-------------------"+file.getOriginalFilename());
+		System.out.println(file.toString());
+		
 		  try {
 			  	service.writeBoard(file,board,no,id );
 	            returnData.put("code", "1");
@@ -373,4 +376,5 @@ public class MoimTodoListController {
    	Date date=new java.sql.Date(System.currentTimeMillis());
 	 service.updateById(no, date);
    }
+
 }

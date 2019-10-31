@@ -10,6 +10,4 @@ public interface MoimChatRepository extends JpaRepository<MoimChat, Long>{
 
 	List<MoimChat> findByMoim_id(long no);
 
-	long countByMoim_id(long no);
-
 }

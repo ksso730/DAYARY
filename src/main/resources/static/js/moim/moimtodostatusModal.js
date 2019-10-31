@@ -24,12 +24,17 @@ function modal_view(plan,writer,id,parent,email){
 	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
 	        success:function(data){
 	        	 if(data.code==1){
-	               var c=data.modal;
+	               var m=data.modal;
+	               
 	               var html="<div class='container'><div class='row'><ul class='cbp_tmtimeline' style='background-color : white; width:1200px'>";
-	               for(var i in c){
-	            	   html+="<li><time class='cbp_tmtime' datetime="+c[i].create_date+" ><span>"+c[i].create_date.slice(0,16)+"</span></time> "
+	               for(var i in m){
+	            	   html+="<li><time class='cbp_tmtime' datetime="+m[i].moimBoard.create_date+" ><span>"+m[i].moimBoard.create_date.slice(0,16)+"</span></time> "
 	            	   html+=' <div class="cbp_tmicon bg-info"><i class="zmdi zmdi-label"></i></div><div class="cbp_tmlabel">'
-	            	   html+=' <blockquote><p class="blockquote blockquote-primary">'+c[i].memo+"</p></blockquote></li>"
+	            	   html+=' <blockquote><p class="blockquote blockquote-primary">'+m[i].moimBoard.memo+"</p></blockquote></li>"
+	            	   if(m[i].file_loacate!=''){
+	            		   html+='사진있음';
+	            		   //html+='<span class="float-left mr-3"><img th:src=${\'''/getMoimImage/'+moimDetail.imageName+'.'+moimDetail.imageExtension}"'+m[i].file_locate+'" alt="" class="thumb-lg rounded-circle"></span>'
+	            	   }
 	               }
 	               html+="</ul></div></div>";
 	            	   
@@ -63,7 +68,7 @@ window.onclick = function(event) {
 }
 //글 작성
 function submit(){
-	if($("#message").val()==''){
+	if($("#message").val()==''&&$("#file").val==''){
 		alert("내용을 작성하세요");
 		return;
 	}
@@ -72,10 +77,9 @@ function submit(){
 	MoimBoard.memo=$("#message").val();
 	
 	let formData = new FormData();
-	if($("#customFile").val()){
-		var communityFile;
-		communityFile.filename=$("#customFile").val();
-		formData.append("file", $('#customFile')[0].files[0]);
+	if($("#file").val()){
+		var File;
+		formData.append("File", $('#file')[0].files[0]);
 	}
 
 	formData.append('MoimBoard', new Blob([JSON.stringify(MoimBoard)], {
@@ -97,6 +101,7 @@ function submit(){
 	        		 modal.style.display = "none";
 	        		 get_detail($("#toDoWriteId").val());
 	        		 $("#message").val("");
+	        		 $("#file").val("");
 	             }else{
 	                 alert(data.message);
 	             }
@@ -131,6 +136,8 @@ function getCmaFileInfo(obj,stype) {
             } else {
                     return fileName; // 순수 파일명만(확장자 제외)
             }
+            var file = obj.target.file;
+            
     } else {
             alert("파일을 선택해주세요");
             return false;

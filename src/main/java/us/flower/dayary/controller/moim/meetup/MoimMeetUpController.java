@@ -204,15 +204,12 @@ public class MoimMeetUpController {
 		meetup.setId(meetupId);//오프모임키
 		
 		List<MoimPeople> moimPeopleInfo=moimpeopleRepository.findByMoim_idAndPeople_id(moimId, peopleId);
-		List<Moim> moimKing=moimRepository.findByidAndPeople_id(moimId, peopleId);
 		long moimPeopleCount=0;
-		long moimKingCount=0;
 		for(int i=0;i<moimPeopleInfo.size();i++) {
 			moimPeopleCount=moimPeopleInfo.get(i).getId();
 		}
-		for(int i=0;i<moimKing.size();i++) {
-			moimKingCount=moimKing.get(i).getId();
-		}
+		System.out.println(moimPeopleCount);
+		
 		MeetupPeople meetupPeople=new MeetupPeople();
 		meetupPeople.setMoim(moim);
 		meetupPeople.setPeople(people);
@@ -222,7 +219,7 @@ public class MoimMeetUpController {
 			
 			 
 		 try {
-			 if(moimPeopleCount==0 && moimKingCount==0) {
+			 if(moimPeopleCount==0) {
 				 returnData.put("code","2"); 
 				 returnData.put("message","모임 가입한 사람만 참여할수 있습니다.");
 			 }else {

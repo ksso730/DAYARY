@@ -32,11 +32,9 @@ import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
-import us.flower.dayary.repository.chat.MoimChatRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.meetup.MoimMeetUpRepository;
-import us.flower.dayary.repository.moim.picture.MoimBoardFileRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
 import us.flower.dayary.service.moim.moimService;
 
@@ -57,10 +55,6 @@ public class MoimController {
 	ToDoWriteRepository toDowriteRepository;
 	@Autowired
 	MoimMeetUpRepository moimmeetupRepository;
-    @Autowired
-    MoimChatRepository moimchatRepository;
-    @Autowired
-    MoimBoardFileRepository moimboardfileRepository;
     
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
 //    @GetMapping("/searchTitle")
@@ -201,7 +195,6 @@ public class MoimController {
         String moimPeopleNo=moimService.findMoimPeopleNoOne(peopleId,no);//참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에 넣어준다)
         List<MoimPeople> joinedpeoplelist=moimpeopleRepository.findByMoim_idAndPeople_id(no,peopleId);//현재 접속한 유저 리스트를 들고옴
         
-        
         List<MoimPeople> joinedmoimpeopleList=moimpeopleRepository.findByMoim_id(no);//이건 모임내 전체사람조회
         for(int i=0;i<joinedpeoplelist.size();i++) {
         	long joinedpeople=joinedpeoplelist.get(i).getId();
@@ -213,10 +206,6 @@ public class MoimController {
         sort = sort.and(new Sort(Sort.Direction.DESC, "id"));
         List<Meetup> meetupList=moimmeetupRepository.findByMoim_id(no,pageable);//오프라인 모임 내림차순정렬로 가져옴
         
-        long chatcount=moimchatRepository.countByMoim_id(no);
-        
-        
-        long picturecount = moimboardfileRepository.picturecount(no);
         
         
         long totalPeople = 0;
@@ -232,9 +221,6 @@ public class MoimController {
         model.addAttribute("joinedpeoplelist",joinedpeoplelist);//현재 접속한 유저(모임피플) 정보.
         model.addAttribute("joinedmoimpeopleList",joinedmoimpeopleList);//모임가입된사람전체조회
         model.addAttribute("meetupList",meetupList);
-        model.addAttribute("chatcount",chatcount);
-        model.addAttribute("picturecount",picturecount);
-        
         return "moim/moimDetail";  
     }
  

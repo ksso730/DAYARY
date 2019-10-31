@@ -56,9 +56,6 @@ public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificat
 	void updateMoim(@Param("title") String title,@Param("intro") String intro,@Param("peopleLimit") long peopleLimit,@Param("joincondition") char joincondition,@Param("imageName") String imageName,@Param("imageExtension") String imageExtension, @Param("moimId") long moimId);
 
 
-	List<Moim> findByidAndPeople_id(long moimId, long peopleId);
-
-
 
 
 
