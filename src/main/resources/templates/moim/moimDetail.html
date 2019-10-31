@@ -272,7 +272,7 @@ body {
                         </p>
                         <p class="text-muted font-13">
                            <strong>모임 생성일자 :</strong> <span class="m-l-15"><td
-                              th:text="${moimDetail.createDate}" /></span>
+                              th:text="${#strings.substring(moimDetail.createDate,0,16)}" /></span>
                         </p>
 
                      </div>
@@ -378,7 +378,7 @@ body {
                            <h6 class="text-muted text-uppercase mt-0">사진첩보기</h6>
                         </a>
                         <h3 class="">
-                           <span data-plugin="counterup">46,782장</span>
+                           <span data-plugin="counterup"><td th:text="${picturecount}" />장</span>
                         </h3>
 
                      </div>
