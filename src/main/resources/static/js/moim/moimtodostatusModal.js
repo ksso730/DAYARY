@@ -32,7 +32,7 @@ function modal_view(plan,writer,id,parent,email){
 	            	   html+=' <div class="cbp_tmicon bg-info"><i class="zmdi zmdi-label"></i></div><div class="cbp_tmlabel">'
 	            	   html+=' <blockquote><p class="blockquote blockquote-primary">'+m[i].moimBoard.memo+"</p></blockquote></li>"
 	            	   if(m[i].file_loacate!=''){
-	            		   html+='사진있음';
+	            		   html+="<img src='/getMoimImage/"+m[i].real_name+"' height='400px' width='600px'>";
 	            		   //html+='<span class="float-left mr-3"><img th:src=${\'''/getMoimImage/'+moimDetail.imageName+'.'+moimDetail.imageExtension}"'+m[i].file_locate+'" alt="" class="thumb-lg rounded-circle"></span>'
 	            	   }
 	               }
