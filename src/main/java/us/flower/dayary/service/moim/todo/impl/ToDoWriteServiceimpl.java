@@ -204,19 +204,20 @@ public void writeBoard(MultipartFile file,MoimBoard board,long no,String id) {
 		board.setCreate_date(new java.sql.Date(System.currentTimeMillis()));
 		board=moimboard.save(board);
 		
-
-		if(file.getOriginalFilename()!=""){
-		
-			MoimBoardFile bf=new MoimBoardFile();
-			String fileName=file.getOriginalFilename();
-			fileManager.fileUpload(file, moimImagePath+"/"+fileName);
+		if(file != null) {
+			if(file.getOriginalFilename()!=""){
 			
-			
-			bf.setMoimBoard(board);
-			bf.setReal_name(fileName);
-			bf.setFile_locate(moimImagePath+"/"+fileName);
-			
-			mbRepository.save(bf);
+				MoimBoardFile bf=new MoimBoardFile();
+				String fileName=file.getOriginalFilename();
+				fileManager.fileUpload(file, moimImagePath+"/"+fileName);
+				
+				
+				bf.setMoimBoard(board);
+				bf.setReal_name(fileName);
+				bf.setFile_locate(moimImagePath+"/"+fileName);
+				
+				mbRepository.save(bf);
+			}
 		}
 		if(todo.get().getDetail()=='N') {
 			todo.get().setDetail('Y');

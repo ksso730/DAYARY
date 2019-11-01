@@ -25,14 +25,15 @@ function modal_view(plan,writer,id,parent,email){
 	        success:function(data){
 	        	 if(data.code==1){
 	               var m=data.modal;
-	               
+	               var mfile=data.modalfile;
+	               console.log(m)
 	               var html="<div class='container'><div class='row'><ul class='cbp_tmtimeline' style='background-color : white; width:1200px'>";
 	               for(var i in m){
 	            	   html+="<li><time class='cbp_tmtime' datetime="+m[i].moimBoard.create_date+" ><span>"+m[i].moimBoard.create_date.slice(0,16)+"</span></time> "
 	            	   html+=' <div class="cbp_tmicon bg-info"><i class="zmdi zmdi-label"></i></div><div class="cbp_tmlabel">'
 	            	   html+=' <blockquote><p class="blockquote blockquote-primary">'+m[i].moimBoard.memo+"</p></blockquote></li>"
 	            	   if(m[i].file_loacate!=''){
-	            		   html+='사진있음';
+	            		   html+="<img src='/getMoimImage/"+m[i].real_name+"' height='100px' width='100px'>";
 	            		   //html+='<span class="float-left mr-3"><img th:src=${\'''/getMoimImage/'+moimDetail.imageName+'.'+moimDetail.imageExtension}"'+m[i].file_locate+'" alt="" class="thumb-lg rounded-circle"></span>'
 	            	   }
 	               }
@@ -148,5 +149,5 @@ function getCmaFileInfo(obj,stype) {
  
 function getCmaFileView(obj,stype) {
     var s = getCmaFileInfo(obj,stype);
-    alert(s);
+    
 }

@@ -36,9 +36,12 @@ import java.util.List;
 import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimBoard;
+import us.flower.dayary.domain.MoimBoardFile;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
+import us.flower.dayary.repository.moim.picture.MoimBoardFileRepository;
+import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
 import us.flower.dayary.service.moim.moimService;
 import us.flower.dayary.service.moim.todo.ToDoWriteService;
@@ -192,8 +195,6 @@ public class MoimTodoListController {
 	public Map<String, Object> modalWrite(HttpSession session,@RequestPart(name="File",required=false) MultipartFile file,@RequestPart(name="MoimBoard") MoimBoard board,@PathVariable("no")long no) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		String id =  (String) session.getAttribute("peopleEmail");
-		System.out.println("-------------------"+file.getOriginalFilename());
-		System.out.println(file.toString());
 		
 		  try {
 			  	service.writeBoard(file,board,no,id );
@@ -207,6 +208,10 @@ public class MoimTodoListController {
 	      
 	  return returnData;
 	}
+	@Autowired
+	MoimBoardRepository moimboardRepository;
+	@Autowired
+	MoimBoardFileRepository moimboardfileRepostiory;
 	/**
 	 * 모달창 todowrite에 대한 설명조회
 	 *
