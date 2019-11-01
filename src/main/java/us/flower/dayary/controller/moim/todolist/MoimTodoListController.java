@@ -225,22 +225,8 @@ public class MoimTodoListController {
 	@GetMapping("/moimDetail/moimTodoList/modalView/{no}")
 	public Map<String, Object> modelView(@PathVariable("no")long no) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
-		//List<MoimBoardFile> modalfileview=service.findByToDoWriteList_id(no);
-		List<MoimBoard> list=moimboardRepository.findByToDoWriteList_id(no);
-		List<MoimBoardFile> modalfile = null;
-		for(int i=0;i<list.size();i++) {
-
-			modalfile=moimboardfileRepostiory.findByMoimBoard_id(list.get(i).getId());
-			if(modalfile!=null) {
-				returnData.put("modalfile",modalfile);		
-			}
-		}
-	
-		 
-		returnData.put("modal",list);
-		
 		try {
-			
+			returnData.put("modal",service.findByToDoWriteList_id(no));
 			returnData.put("code", "1");
 			returnData.put("message", "저장되었습니다");
 			

@@ -243,12 +243,12 @@ public List<MoimBoardFile> findByToDoWriteList_id(long id) {
 	
 		List<MoimBoard> list=moimboard.findByToDoWriteList_id(id);
 		List<MoimBoardFile> returnData=new ArrayList<MoimBoardFile>();
-//		for(int i=0;i<list.size();i++) {
-//			MoimBoardFile e=new MoimBoardFile();
-//			e=mbRepository.findByMoimBoard_id(list.get(i).getId());
-//			e.setMoimBoard(list.get(i));
-//			returnData.add(e);
-//		}
+		for(int i=0;i<list.size();i++) {
+			MoimBoardFile e=new MoimBoardFile();
+			e=mbRepository.findByMoimBoard_id(list.get(i).getId());
+			e.setMoimBoard(list.get(i));
+			returnData.add(e);
+		}
 	return returnData;
 }
 @Override
