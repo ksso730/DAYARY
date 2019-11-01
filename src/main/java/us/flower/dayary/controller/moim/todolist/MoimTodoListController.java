@@ -223,10 +223,14 @@ public class MoimTodoListController {
 	 */
 	@ResponseBody
 	@GetMapping("/moimDetail/moimTodoList/modalView/{no}")
-	public Map<String, Object> modelView(@PathVariable("no")long no) {
+	public Map<String, Object> modelView(@PathVariable("no")long no,Sort sort) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
+		sort = sort.and(new Sort(Sort.Direction.DESC, "no"));
+		List<MoimBoard> list=moimboardRepository.findByToDoWriteList_id(no);
+		
+		
 		try {
-			returnData.put("modal",service.findByToDoWriteList_id(no));
+			returnData.put("modal",list);	
 			returnData.put("code", "1");
 			returnData.put("message", "저장되었습니다");
 			
