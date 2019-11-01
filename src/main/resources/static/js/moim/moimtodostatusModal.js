@@ -31,9 +31,9 @@ function modal_view(plan,writer,id,parent,email){
 	               for(var i in m){
 	            	   html+="<li><time class='cbp_tmtime' datetime="+m[i].create_date+" ><span>"+m[i].create_date.slice(0,16)+"</span></time> "
 	            	   html+=' <div class="cbp_tmicon bg-info"><i class="zmdi zmdi-label"></i></div><div class="cbp_tmlabel">'
-	            	   html+=' <blockquote><p class="blockquote blockquote-primary">'+m[i].memo+"</p></blockquote></li>"
+	            	   html+=' <blockquote><p class="blockquote blockquote-primary">'+m[i].memo+m[i].moimBoardfile[i].real_name+"</p></blockquote></li>"
 	            	   if(m[i].moimBoardfile.file_loacate!=''){
-	            		   html+="<img src='/getBoardImage/"+m[i].moimBoardfile.real_name+"' height='100px' width='100px'>";
+	            		   html+="<img src='/getBoardImage/"+m[i].moimBoardfile[i].real_name+"' height='100px' width='100px'>";
 	            		   //html+='<span class="float-left mr-3"><img th:src=${\'''/getMoimImage/'+moimDetail.imageName+'.'+moimDetail.imageExtension}"'+m[i].file_locate+'" alt="" class="thumb-lg rounded-circle"></span>'
 	            	   }
 	               }
