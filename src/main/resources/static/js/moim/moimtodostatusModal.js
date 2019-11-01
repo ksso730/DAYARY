@@ -28,14 +28,13 @@ function modal_view(plan,writer,id,parent,email){
 	               var mfile=data.modalfile;
 	               console.log(m)
 	               var html="<div class='container'><div class='row'><ul class='cbp_tmtimeline' style='background-color : white; width:1200px'>";
-	               for(var i in m){
-	            	   console.log(m[i].moimBoardfile[i])
+	               for(var i=0;i<m.length;i++){
 	            	   html+="<li><time class='cbp_tmtime' datetime="+m[i].createdAt+" ><span>"+m[i].createdAt.slice(0,10)+" "+m[i].createdAt.slice(11,20)+"</span></time> "
 	            	   html+=' <div class="cbp_tmicon bg-info"><i class="zmdi zmdi-label"></i></div><div class="cbp_tmlabel">'
 	            	   html+=' <blockquote><p class="blockquote blockquote-primary">'+m[i].memo+"</p></blockquote></li>"
-	            	   if(typeof  m[i].moimBoardfile[i]!= 'undefined' && m[i].moimBoardfile[i].real_name != 'undefined'){
-	            		   html+="<img src='/getMoimImage/"+m[i].moimBoardfile[i].real_name+"' height='500px' width='700px'>";
-	            		   //html+='<span class="float-left mr-3"><img th:src=${\'''/getMoimImage/'+moimDetail.imageName+'.'+moimDetail.imageExtension}"'+m[i].file_locate+'" alt="" class="thumb-lg rounded-circle"></span>'
+	            	   console.log(i)
+	            	   if(typeof  m[i].moimBoardfile[0]!= 'undefined' && m[i].moimBoardfile[0].real_name != 'undefined'){
+	            		   html+="<img src='/getMoimImage/"+m[i].moimBoardfile[0].real_name+"' height='500px' width='700px'>";
 	            	   }
 	               }
 	               html+="</ul></div></div>";
