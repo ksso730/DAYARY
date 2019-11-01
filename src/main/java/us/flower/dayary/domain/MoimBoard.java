@@ -67,6 +67,5 @@ public class MoimBoard extends DateAudit{
 	private ToDoWriteList toDoWriteList;
     
     @OneToMany(orphanRemoval=true,mappedBy = "moimBoard")
-	@JsonIgnore
 	private List<MoimBoardFile> moimBoardfile;
 }
