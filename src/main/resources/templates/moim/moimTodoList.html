@@ -260,11 +260,11 @@ function get_detail(id) {
 	        					   if(list[i].detail=='N'){
 	        						   if(writer.email==$("#Login").attr("data")){
 	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer.name+"\","+list[i].id+","+todo.id+",\""+writer.email+"\")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
-	        					   		html+='▷' 
+	        					   		html+='' 
 	 								  }				
 	        					   	}	else{
 	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer.name+"\","+list[i].id+","+todo.id+",\""+writer.email+"\")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
-	        					   		html+="▶";
+	        					   		html+="보기";
 	        					   	}	
 	        					   	html+= '     </button></li>';
 	        					   

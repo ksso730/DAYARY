@@ -34,8 +34,7 @@ function modal_view(plan,writer,id,parent,email){
 	            	   html+=' <div class="cbp_tmicon bg-info"><i class="zmdi zmdi-label"></i></div><div class="cbp_tmlabel">'
 	            	   html+=' <blockquote><p class="blockquote blockquote-primary">'+m[i].memo+"</p></blockquote></li>"
 	            	   if(typeof  m[i].moimBoardfile[i]!= 'undefined' && m[i].moimBoardfile[i].real_name != 'undefined'){
-	            		   console.log('gggggggg')
-	            		   html+="<img src='/getMoimImage/"+m[i].moimBoardfile[i].real_name+"' height='500px' width='1200px'>";
+	            		   html+="<img src='/getMoimImage/"+m[i].moimBoardfile[i].real_name+"' height='500px' width='700px'>";
 	            		   //html+='<span class="float-left mr-3"><img th:src=${\'''/getMoimImage/'+moimDetail.imageName+'.'+moimDetail.imageExtension}"'+m[i].file_locate+'" alt="" class="thumb-lg rounded-circle"></span>'
 	            	   }
 	               }
