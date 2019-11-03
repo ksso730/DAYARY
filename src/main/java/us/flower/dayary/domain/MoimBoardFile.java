@@ -23,4 +23,6 @@ public class MoimBoardFile {
 	private String file_size;
     @Column(name = "FILE_LOCATE")
 	private String file_locate;
+    @Column(name="representImage")
+    private long representImage;
 }

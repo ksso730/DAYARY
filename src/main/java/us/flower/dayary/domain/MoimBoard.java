@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,19 +31,18 @@ public class MoimBoard extends DateAudit {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID")
 	private long id;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PEOPLE_ID")
 	private People people;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "BOARD_GROUP_ID")
 	private BoardGroup boardGroup;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MOIM_ID")
 	private Moim moim;
 	@Column(name = "TITLE")
 	private String title;
 	@Column(name = "MEMO")
-
 	private String memo;
 	@Column(name = "CREATE_DATE", updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
