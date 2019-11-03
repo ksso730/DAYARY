@@ -43,4 +43,5 @@ public class MoimBoard {
 	private char delete_flag;
     @Column(name = "HEART")
     private long heart;
+    
 }

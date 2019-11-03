@@ -26,14 +26,17 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.MoimBoard;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.meetup.MoimMeetUpRepository;
+import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
 import us.flower.dayary.service.moim.moimService;
 
@@ -55,6 +58,9 @@ public class MoimController {
 	@Autowired
 	MoimMeetUpRepository moimmeetupRepository;
     
+    @Autowired
+    MoimBoardRepository moimBoardRepository;
+	
     private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
 //    @GetMapping("/searchTitle")
 //	public String listUsers(Model model, @RequestParam(defaultValue="")  String name) {
@@ -211,6 +217,14 @@ public class MoimController {
         for(int i=0;i<=moimpeopleList.size();i++) {//데이터 값 들고온것을 size만큼 반복해서 뽑기 모임리스트까지 <=한 이유는 모임장이 제외됬기때문에 +1해야한다
         	totalPeople++;
         }  
+        
+        //모임 내 공지사항 가져오기 
+        long boardGroupId = 9;
+        
+        BoardGroup boardGroup = new BoardGroup();
+        boardGroup.setId(boardGroupId);
+        List<MoimBoard> moimBoardList = moimBoardRepository.findByMoim_idAndBoardGroup_id(no,boardGroupId);
+        
         model.addAttribute("moimPeopleNo", moimPeopleNo);
         model.addAttribute("no",no);
         model.addAttribute("moimOne",moimOne);
@@ -220,6 +234,7 @@ public class MoimController {
         model.addAttribute("joinedpeoplelist",joinedpeoplelist);//현재 접속한 유저(모임피플) 정보.
         model.addAttribute("joinedmoimpeopleList",joinedmoimpeopleList);//모임가입된사람전체조회
         model.addAttribute("meetupList",meetupList);
+        model.addAttribute("moimBoardList", moimBoardList);
         return "moim/moimDetail";  
     }
  
