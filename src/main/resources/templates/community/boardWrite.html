@@ -48,7 +48,7 @@ $(document).ready(function(){
 		$.ajax({
 			data: form_data,
 			type: "POST",
-			url: '/image',
+			url: '/community/board/[[${boardGroup}]]/image',
 			cache: false,
 			contentType: false,
 			enctype: 'multipart/form-data',
