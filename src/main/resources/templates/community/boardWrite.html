@@ -48,7 +48,7 @@ $(document).ready(function(){
 		$.ajax({
 			data: form_data,
 			type: "POST",
-			url: '/image',
+			url: '/community/board/image',
 			cache: false,
 			contentType: false,
 			enctype: 'multipart/form-data',
@@ -79,8 +79,7 @@ $(document).ready(function(){
 		let communityBoard = {};
 
 		communityBoard.title = $('#title').val();
-		communityBoard.memo= $($("#content").summernote("code")).text();
-
+		communityBoard.memo= $("#content").summernote("code");
 
 		$.ajax({
 			url:'/community/board/[[${boardGroup}]]/write',

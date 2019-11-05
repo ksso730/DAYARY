@@ -1,19 +1,13 @@
 package us.flower.dayary;
 
-import java.io.File;
-import java.util.List;
-import java.util.TimeZone;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.context.annotation.Bean;
 
-import us.flower.dayary.oauth2.UserArgumentResolver;
+import javax.annotation.PostConstruct;
+import java.io.File;
+import java.util.TimeZone;
 
 @SpringBootApplication
 public class DayaryApplication {
@@ -27,6 +21,9 @@ public class DayaryApplication {
     @Value("${moimImagePath}")
     private String moimImagePath;
 
+	@Value("${communityImagePath}")
+    private String communityImagePath;
+
     public static void main(String[] args) {
         SpringApplication.run(DayaryApplication.class, args);
     }
@@ -38,7 +35,17 @@ public class DayaryApplication {
         if(!moimImagePath.exists()){
             moimImagePath.mkdirs();
         }
+
+        // make community image root directory
+        File communityImagePath = new File(this.communityImagePath);
+        if(!communityImagePath.exists()){
+            communityImagePath.mkdirs();
+        }
     }
 
+    @Bean(name="communityImagePath")
+    public String communityImagePath(){
+        return communityImagePath;
+    }
     
 }
