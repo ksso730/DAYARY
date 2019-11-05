@@ -43,7 +43,7 @@ public class FileManager {
         // create file object
         File uploadPathDir = new File(uploadPath);
 
-        // make directory if not exist
+        // make root directory if not exist
         if(!uploadPathDir.exists()){
             uploadPathDir.mkdirs();
         }
