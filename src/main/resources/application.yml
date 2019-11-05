@@ -42,6 +42,9 @@ logging:
 server:
     port: 8080
     servlet:
+      multipart:
+        max-file-size: 50MB
+        max-request-size: 50MB
         cookie:
           http-only: true
         session:

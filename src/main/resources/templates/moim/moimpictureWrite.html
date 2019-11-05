@@ -32,7 +32,7 @@ body {
 	padding: 0; 
 	margin: -1px; 
 	overflow: hidden; 
-	clip:rect(0,0,0,0); border: 0; 
+	clip:rect(0,0,0,0); border: 0;  
 }
 </style>
 <script src="/ckeditor/ckeditor.js"></script>
@@ -56,41 +56,34 @@ body {
 					<label for="content">내용</label>
 					<textarea class="form-control" rows="5" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
 				</div>
-				 -->
+				 
 				<div class ="mb-3">
 					<div class="filebox"> 
 						<label for="ex_file">업로드</label> 
 						<input type="file" id="ex_file" multiple="multiple"> 
 					</div>
 				</div>
+				-->
 			</form>
-			<div class="mb-3" style = " width: 100%;height: 300px;">
-					<div style='width : 50%; height : 100%; background : #0ff;float:left;'>
-						<img id ="image_section"/>
-					</div>
-					<div style ='width : 50%;height : 100%;float:right;'>
-						<div style ="background : #000; height:50%;">
-						</div>
-						<div style ="background : #fff;height:50%;">
-						</div>
-					</div>
-				</div>
-			<div >
-				<button type="button" class="btn btn-sm btn-primary" id="btnSave">저장</button>
-				<button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
-			</div>
+
 			<form id = "fileForm"name="fileForm" action="/moimDetail/test" method="POST" enctype="multipart/form-data">
-				<input type="file" name="file"/>
-				<input type="file" name="file"/>
-				
+				<input type="file" id='file0' name="file"/>			
 				<!-- <input type="submit"  value="저장"/> -->
 			</form>
-			<input type="button" onClick ="saveImage()" value="테스트버튼"/>
+			<!-- 이미지 추가할 div  -->
+			<div id='imgList' style ="margin:1px;">			
+			</div>
+
+			<input type="button" class="btn btn-sm btn-primary" onClick ="saveImage()" value="저장"/>
 		</div>
 	</article>
 
 <script>
-$("#ex_file").on("change",readURL);
+$("#file0").on("change",handleImgFileSelect);
+var count = 0;
+var formData = new FormData();
+var fileList = new Array();
+
 function readURL(input) {
 	var files = input.target.files;
 	var filesArr = Array.prototype.slice.call(files);
@@ -107,16 +100,93 @@ function readURL(input) {
 		reader.readAsDataURL(input.files[0]);
 	}
 }
+/*
+function addButton(idCnt,file)
+{
+	count++;
+	let formId = document.getElementById('fileForm');
+	let imgList = document.getElementById('imgList');
+	let fileName = file.files[0];
+	console.log(fileName);
+	document.getElementById(idCnt).style.display = 'none';
+	imgList.innerHTML += '<img src=" '+ $('#'+idCnt).val()+'"/>';
+	formId.innerHTML += '<input type="file" id= "file' +count+ '" name="file"/>';
+}
+*/
+function handleImgFileSelect(e){
+	let inputId = e.target.id; // 이벤트가 발생된곳 ID
+	let imgId = 'img'+inputId; // 추가되는 이미지 ID
+	var files = e.target.files; // 추가되는 파일
+	var filesArr = Array.prototype.slice.call(files); // ?
+	let formId = document.getElementById('fileForm'); // 파일버튼 가지는 formID
+	let imgList = document.getElementById('imgList'); // 미리보기 div 아이디
+	let newFileButtonId = 'file'+ (count+1);
+	fileList.push(files);
+	console.log(files);
+	
+		
+	count++; // 숫자 추가
 
+
+	
+	filesArr.forEach(function(f) {
+		/*
+		if(!f.type.match("image.*")){
+			alert('파일을 확인해주세요.');
+			return;
+		}
+		*/
+		sel_file = f;
+		
+		var reader = new FileReader();
+		reader.onload = function(e){
+			
+			//imgList.innerHTML += '<img src="'+e.target.result+'" id="'+imgId+'" style ="width:100px;height:50px;margin:3px;" onClick="confirmDel(this.id)"/>'; // div에 미리보기 추가
+			imgList.innerHTML += '<img src="'+e.target.result+'" id="'+imgId+'" style = "width:200px;height:100px; margin=2px;"/>'; // div에 미리보기 추가
+		}
+		reader.readAsDataURL(f);
+	});
+	
+	document.getElementById(inputId).style.display = 'none'; // 이미 추가한 버튼 비활성화
+	var x = document.createElement("INPUT");
+	x.setAttribute("type", "file");
+	x.setAttribute("id",newFileButtonId);
+	
+	x.setAttribute("name","file");
+	//formId += '<input type="file" id= "'+newFileButtonId+'" name="file"/>'; // 버튼 하나 추가
+	formId.appendChild(x);
+	document.getElementById(newFileButtonId).addEventListener('change',handleImgFileSelect); // 체인지시 이벤트할당
+}
+function confirmDel(imgId){
+	var check = confirm("삭제 하시겠습니까?");
+	if(check == true){
+		imgDel(imgId);
+	}
+}
+function imgDel(imgId){
+	let fileElem = document.getElementById(imgId.replace('img',''));
+	let imgElem = document.getElementById(imgId);
+
+	fileElem.parentNode.removeChild(fileElem);
+	imgElem.parentNode.removeChild(imgElem);
+}
 function saveImage()
 {
-    var noId = $('#noId').attr("noId");
+	var noId = $('#noId').attr("noId");
+	var title = document.getElementById('title').value;
+
 	var file = document.getElementsByName('file');
-	var formData = new FormData();
+
+	
 	for (var i = 0; i < file.length; i++) {
-		formData.append('file', document.getElementsByName('file')[i].files[0])
-		console.log(i);
+		formData.append('file',document.getElementsByName('file')[i].files[0]);
+		console.log(i +'  '+document.getElementsByName('file')[i].files[0]);
 	}
+	
+	formData.append('file', formData);
+	formData.append('title',title);
+	formData.append('moimId',noId);
+             
 	$.ajax({
 		url: '/moimDetail/test',
 		type: 'POST',

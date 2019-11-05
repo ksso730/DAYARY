@@ -7,7 +7,7 @@
      <link th:href="@{/css/moim/moimtodostatusDetail.css}" rel="stylesheet" /><!--할일목록체크박스리스트  -->
     <style>
  body{
-    margin-top:20px;
+    margin-top:0px;
     background:#f8f8f8
 }
 .avatar--md .avatar__content img{
@@ -70,19 +70,21 @@
             	<div id="moimNo" th:data-moimNo="${no}"></div><!-- 모임번호 -->
             	<div id="moimPeople" th:data-No="${moimPeople}"></div><!-- 모임번호 -->
             	<div id="Login" th:data="${session.peopleEmail}"></div><!-- 모임번호 -->
-                <div class="small mb-3">Search</div>
+               <!--  <div class="small mb-3">Search</div>
                 <div class="input-group">
                     <input placeholder="Search for..." type="text" class="form-control">
                     <div class="input-group-append">
                         <button type="button"  aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-link"><i class="fa fa-search"></i></button>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="mb-4">
-                <div class="small mb-3">Favorites</div>
+                <!-- <div class="small mb-3">Favorites</div> -->
                 <ul class="nav flex-column nav-pills">
-                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/' + ${no}}" class="nav-link active"><i class="fa fa-fw fa-line-chart mr-2"></i>해야 할목록</a></li>
-                    <li class="nav-item"><a href="/moimDetail/moimTodoList/moimcalender" class="nav-link"><i class="fa fa-fw fa-calendar-o mr-2"></i>달력일정 체크하기</a></li>
+                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/' + ${no}}" class="nav-link " id="allList"><i class="fa fa-fw fa-line-chart mr-2"></i>전체 일정 보기</a></li>
+                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/myList/'+ ${no}}" class="nav-link" id="myList"><i class="fa fa-pencil-square-o mr-2"></i>내가 작성한 목록</a></li>
+                    <!-- <li class="nav-item"><a href="/moimDetail/moimTodoList/moimcalender" class="nav-link"><i class="fa fa-fw fa-calendar-o mr-2"></i>달력일정 체크하기</a></li> -->
+                
                 </ul>
             </div>
             <div class="mb-4">
@@ -104,7 +106,7 @@
                 <nav class="mr-auto d-flex align-items-center" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="active breadcrumb-item" aria-current="page"><a href="/"><i class="fa fa-home"></i></a></li>
-                        <li class="active breadcrumb-item" aria-current="page">공부 일정관리</li>
+                        <li class="active breadcrumb-item" aria-current="page">일정관리</li>
                     </ol>
                 </nav>
                 <div role="toolbar" class="btn-toolbar">
@@ -120,10 +122,10 @@
                         <thead>
                             <tr>
                                 <th class="align-middle bt-0" width="5">Star</th>
-                                <th class="align-middle bt-0" width="100">공부계획</th>
-                                <th class="align-middle bt-0" width="10">현재 공부 상태</th>
-                                <th class="align-middle bt-0"	width="50">공부 진척도</th>
-                                <th class="align-middle bt-0" width="10">참가자</th>
+                                <th class="align-middle bt-0" width="100">계획</th>
+                                <th class="align-middle bt-0" width="5">현재 상태</th>
+                                <th class="align-middle bt-0"	width="150">진행도</th>
+                                <th class="align-middle bt-0" width="10">글쓴이</th>
                              
                             </tr>
                         </thead>
@@ -133,23 +135,27 @@
                                     <div class="text-inverse">                                   <a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div>
                                 </td>
                       		<td><div><a href="#" onclick="get_detail($(this).attr('id'));"  th:id="${list.id}"><span  th:text="${list.plan_title}"></span></a></div>
-                      		   Edited by: <div th:text="${list.people.name}"></div><div th:text="${list.create_date}"></div></td>  
+                      		   Edited by: <span th:text="${list.people.name}"></span><br>
+                      		    <span th:text="${list.from_date}"></span> ~ 
+                      		    <span  th:if="${list.to_date2 eq null}" th:text="${list.to_date}"></span>
+                      		    <span  th:if="${list.to_date2 ne null}" th:text="${list.to_date2}"></span>
+                      		   </td>  
                                  <td class="align-middle">
                                  <span th:if="${list.status eq 'New'}" ><span class="badge badge-light badge-pill" th:text="${list.status}"></span></span>
                                <span  th:if="${list.status eq 'In Progress'}" ><span class="badge badge-success badge-pill"th:text="${list.status}"></span></span> 
                                <span th:if="${list.status eq 'End'}"><span class="badge badge-danger badge-pill"  th:text="${list.status}"></span></span></td>
                                   <td class="align-middle">
-                                    <div class="mb-2 progress" style="height: 5px;">
+                                    <div class="mb-2 progress" style="height: 40px;">
                                         <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" th:style="'width:'+${list.progress}+'%;'"></div>
                                     </div>
-                                    <div>Tasks Completed:<span class="text-inverse"th:text="${list.count}" ></span></div>
+                                    <div>진행량:<span class="text-inverse"th:text="${list.count}" ></span></div>
                                 </td>
                                 
                               
                                 <td class="align-middle">
                                     <div class="avatar-image avatar-image--loaded">
                                         <div class="avatar avatar--md avatar-image__image">
-                                            <div class="avatar__content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png"></div>
+                                            <div class="avatar__content"> <img th:src="${list.people.imageName!=null} ?${'/getMoimImage/'+list.people.imageName+'.'+list.people.imageExtension} : '/images/default_people.png'"> </div>
                                         </div>
                                     </div>
                                 </td>
@@ -158,8 +164,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex justify-content-center pb-0 card-footer" id="page">
-                   	<nav style="text-align: center;">
+                <div class="d-flex justify-content-center pb-0 card-footer">
+                   	<nav style="text-align: center;" id="page">
      <ul class="pagination"
         th:with="start=${T(Math).floor(todolist.number/10)*10 + 1},
                     last=(${start + 9 < todolist.totalPages ? start + 9 : todolist.totalPages})" th:if="${todolist.totalPages ne 0}" >
@@ -217,6 +223,13 @@ $(document).ready(function(){
  		};
  	}
 
+ 	var location=document.location.href;
+ 	if(location.indexOf("myList")>0){
+ 		document.getElementById('myList').setAttribute('class','nav-link active');
+ 	}else
+ 		document.getElementById('allList').setAttribute('class','nav-link active');
+ 		
+ 	
    });
 
 function close_detail(){
@@ -243,13 +256,15 @@ function get_detail(id) {
 	        			   for(var i in list){
 	        				   if(list[i].checkConfirm=='N'){
 	        					   html+='<li onclick="uncheck($(this))" value="'+list[i].id+'">'+list[i].plan_list;
-	        					   //작성한 detail 있는경우 
+	        					   //작성한 detail 없고 체크안된경우
 	        					   if(list[i].detail=='N'){
-	        					   		html+="<button type='button'onclick='modal_write(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
-	        					   		html+='▷' 
+	        						   if(writer.email==$("#Login").attr("data")){
+	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer.name+"\","+list[i].id+","+todo.id+",\""+writer.email+"\")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+	        					   		html+='' 
+	 								  }				
 	        					   	}	else{
-	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
-	        					   		html+="▶";
+	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer.name+"\","+list[i].id+","+todo.id+",\""+writer.email+"\")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+	        					   		html+="보기";
 	        					   	}	
 	        					   	html+= '     </button></li>';
 	        					   
@@ -257,13 +272,15 @@ function get_detail(id) {
 	        				   else{
 	        					   
 	        					   html2+='<li class="checked">'+list[i].plan_list;
-	        				   //작성한 detail 있는경우 
+	        				   //작성한 detail 없고 체크된경우
         					   if(list[i].detail=='N'){
-        					   		html2+="<button type='button'onclick='modal_write(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+","+todo.id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
-        					   		html2+='▷' 
+        						   if(writer.email==$("#Login").attr("data")){
+	        					   		html+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer.name+"\","+list[i].id+","+todo.id+",\""+writer.email+"\")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+	        					   		html+='▷' 
+	 								  }		
         					   	}	else{
-        					   		html2+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer+"\","+list[i].id+")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
-        					   		html2+="▶";
+        					   		html2+="<button type='button'onclick='modal_view(\""+list[i].plan_list.trim()+"\",\""+writer.name+"\","+list[i].id+","+todo.id+",\""+writer.email+"\")'id='myBtn'  aria-haspopup='true' aria-expanded='false' class='dropdown-toggle btn btn-link'>";
+        					   		html2+="보기";
         					   	}	
         					   	html2+= '     </button></li>';
 	        				   }
@@ -277,7 +294,7 @@ function get_detail(id) {
 	                   			html2+='<br>수정된 종료일자: '+todo.to_date2+"<br>";
 	                   		
 	                   		}
-	                   		if(writer==$("#Login").attr("data")){
+	                   		if(writer.email==$("#Login").attr("data")){
 	                   			//수정햇던 적이 없으면 마감일 1번수정가눙
 	                   			if(todo.to_date2 ==null||todo.to_date2==''){
 									html2+='<button type="button" class="btn btn-outline-info" onclick="change_form('+todo.id+')">수정하기</button>'
@@ -344,7 +361,12 @@ function detail_list(status){
 	        			for(var i in list){
 	        				html+='<tr><td class="align-middle"> <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div></td>';
 	        				html+='<td><div><a href="#" onclick="get_detail('+list[i].id+');" ><span>'+list[i].plan_title+'</span></a></div>';
-	        				html+='   Edited by: '+list[i].create_date+'</td>  <td class="align-middle">';
+	        				html+='   Edited by:'+list[i].people.name+'<br>'+list[i].from_date+'~'
+	        					if(list[i].to_date2==null)
+	        						html+=list[i].to_date;
+	        					else
+	        						html+=list[i].to_date2;
+	        				html+='</td>  <td class="align-middle">';
 	        				if(list[i].status=='New')
 		        				html+=' <span class="badge badge-light badge-pill">New</span>';
 		        			else if(list[i].status=='In Progress')
@@ -355,7 +377,7 @@ function detail_list(status){
 		        				html+=' <span class="badge badge-danger badge-pill">Suspend</span>';
 		        			html+=' <td class="align-middle"> <div class="mb-2 progress" style="height: 5px;">';
 		        			html+='<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:'+list[i].progress+'%;"></div>';
-                            html+= '</div><div>Tasks Completed:'+list[i].count+'</div></td>';
+                            html+= '</div><div>진행률:'+list[i].count+'</div></td>';
                             html+='<td class="align-middle">  <div class="avatar-image avatar-image--loaded"> <div class="avatar avatar--md avatar-image__image">'
 	        				html+='  <div class="avatar__content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png"></div> </div>'
 	        				html+='  </div></td> </tr> ';

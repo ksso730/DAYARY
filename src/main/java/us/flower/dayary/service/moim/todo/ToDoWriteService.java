@@ -13,12 +13,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.CommunityFile;
+import us.flower.dayary.domain.MoimBoard;
+import us.flower.dayary.domain.MoimBoardFile;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
 public interface ToDoWriteService {
 
 	public void saveList(ToDoWriteList toDoWriteList,String id,long no);
 	public Page<ToDoWrite> findByMoim_id(Pageable page,long id); 
+	public Page<ToDoWrite> findByMoim_idAndPeople_id(Pageable page,long id,long people); 
 	public List<ToDoWrite> findByMoim_id(long id); 
 	public List<ToDoWriteList> findByToDoWrite_id(long id);
 	public ToDoWrite findById(long id);
@@ -28,7 +31,7 @@ public interface ToDoWriteService {
 	public void deleteById(long id);
 	 public List<ToDoWrite> findByMoim_idAndStatus(long id, String status);
 	 public int[] countByMoim_idAndStatus(long id);
-	 public void writeBoard(MultipartFile file,CommunityBoard board,long no,String id);
+	 public void writeBoard(MultipartFile file,MoimBoard board,long no,String id);
 	 public void changeToDate(ToDoWrite todo);
-	 public CommunityBoard findByToDoWriteList_id(long id);
+	 public List<MoimBoardFile> findByToDoWriteList_id(long id);
 	 }

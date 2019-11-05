@@ -614,8 +614,17 @@ color:#fff;
                 <td><em class="ion-egg icon-fw mr"></em>참가제한 인원</td>
                 <td th:text="${meetupList.peopleLimit}" ><span class="ng-scope ng-binding editable"></span></td>
               </tr>
+              <tr th:each="meetupList : ${meetupList}" hidden="true">
+                <td><em class="ion-egg icon-fw mr"></em>X</td>
+                <td id="locationX" th:text="${meetupList.locationX}" ><span class="ng-scope ng-binding editable"></span></td>
+              </tr>
+              <tr th:each="meetupList : ${meetupList}" hidden="true">
+                <td><em class="ion-egg icon-fw mr"></em>Y</td>
+                <td id="locationY" th:text="${meetupList.locationY}" ><span class="ng-scope ng-binding editable"></span></td>
+              </tr>
             </tbody>
           </table>
+          <div id="map" style="width:100%;height:400px; margin: 0 auto; margin-top: 50px;s"></div>
         </div>
         <div class="card-divider"></div>
       </form>
@@ -699,7 +708,9 @@ color:#fff;
   </div>
 </div></div></section>
         
-           <script src="/js/moim/moimDetail.js"></script>
+         <script src="/js/moim/moimDetail.js"></script>
          <script src="/js/moim/meetup/moimmeetupDetail.js"></script>
+         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=42cfe7e202569ddc17d0382ed4f6a5dd&libraries=services"></script>
+
 </body>
 </html>

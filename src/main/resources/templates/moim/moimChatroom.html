@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+`<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
@@ -58,35 +58,43 @@
 								<div class="chat-container" id="chat-container">
 									<ul class="chat-box chatContainerScroll">
 									<tr th:each="moimchatList : ${moimchatList}">
-										<li class="chat-left">
-										
-					
-											<div class="chat-avatar">
-												<img
-													src="https://www.bootdey.com/img/Content/avatar/avatar3.png"
-													alt="Retail Admin">
-												<div class="chat-name" th:text="${moimchatList.people.email}"></div>
-											</div>
-											<div class="chat-text" th:text="${moimchatList.chatMemo}" id="chatList">
-											</div>
-											<div class="chat-hour" th:text="${moimchatList.createDate}">
-												<span class="fa fa-check-circle"></span>
-											</div>
-										</li>
-									</tr>
-										<li class="chat-right">
-										<!-- 	<div class="chat-hour">
-												08:56 <span class="fa fa-check-circle"></span>
-											</div> -->
+										<span th:if="${session.peopleId}!=${moimchatList.people.id}">
+											<li class="chat-left">
+												<div class="chat-avatar">
+													<img th:src="${moimchatList.people.imageName!=null} ? ${'/getMoimImage/'+moimchatList.people.imageName+'.'+moimchatList.people.imageExtension} : '/images/default_people.png'" alt="Retail Admin">
+													<div class="chat-name" th:text="${moimchatList.people.email}"></div>
+												</div>
+												<div class="chat-text" th:text="${moimchatList.chatMemo}" id="chatList"></div>
+												
+												<div class="chat-hour" th:text="${#strings.substring(moimchatList.createDate,0, 19)}" />
+											</li>
+										</span>
+										<span th:if="${session.peopleId}==${moimchatList.people.id}">
+											<!-- <li class="chat-right">
+												<div class="chat-hour">
+													08:56
+													<span class="fa fa-check-circle"></span>
+												</div>
+												
+												<div class="chat-avatar">
+													<img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
+													<div class="chat-name" th:text="${moimchatList.people.email}"></div>
+												</div>
+											</li> -->
 											
-											<!-- <div class="chat-avatar">
-												<img
-													src="https://www.bootdey.com/img/Content/avatar/avatar3.png"
-													alt="Retail Admin">
-												<div class="chat-name">Sam</div>
-											</div> -->
-										</li>
-										
+											<li class="chat-right">
+												<div class="chat-hour">
+													<div class="chat-hour" th:text="${#strings.substring(moimchatList.createDate,0, 19)}" />
+												</div>
+												<div class="chat-text" th:text="${moimchatList.chatMemo}" id="chatList"></div>
+												<div class="chat-avatar">
+														<img th:src="${moimchatList.people.imageName!=null} ? ${'/getMoimImage/'+moimchatList.people.imageName+'.'+moimchatList.people.imageExtension} : '/images/default_people.png'"
+															alt="Retail Admin">
+													<div class="chat-name" th:text="${moimchatList.people.email}"></div>
+												</div>
+											</li>
+										</span>
+									</tr>							
 									</ul>
 									<div class="form-group mt-3 mb-0">
 										<textarea class="form-control" rows="3" id="inputmsg"  onkeyup="enterkey()"></textarea>   
@@ -113,7 +121,8 @@
 	connectStomp();
 	downFocus();
 	
-	$('#btnSend').on('click',function(evt){
+	
+	$('.sendButton').on('click',function(evt){
 		evt.preventDefault();
 		//textarea 값이 없을 땐 return;
 		//if()
@@ -130,8 +139,6 @@
 			socket.send(msg);
 		}
 		$('#inputmsg').val('');
-		
-		downFocus();
 	})
 	
 })
@@ -186,18 +193,19 @@ function onMessageReceived(payload) {
 	var messageText = document.createTextNode(message.content);
 	textElement.appendChild(messageText);
 
-	messageElement.appendChild(textElement); */
+	messageElement.appendChild(textElement);  */
 	console.log("1" + $('#peopleId').attr("data-peopleId"));
-	console.log("2" + message.peopleId);
+	console.log("2" + message);
 	if($('#peopleId').attr("data-peopleId")==message.peopleId){
-		$('.chat-box').append('<li class="chat-right"><div class="chat-hour">08:56<span class="fa fa-check-circle"></span></div><div class="chat-text">'+message.msg+'</div><div class="chat-avatar"><img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin"><div class="chat-name">'+message.peopleEmail+'</div></div></li>');
+		$('.chat-box').append('<li class="chat-right"></div><div class="chat-text">'+message.msg+'</div><div class="chat-avatar"><img src="/images/default_people.png" alt="Retail Admin"><div class="chat-name">'+message.peopleEmail+'</div></div></li>');
 	}else{
-		$('.chat-box').append('<li class="chat-left"><div class="chat-avatar"><img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin"><div class="chat-name">'+message.peopleEmail+'</div></div><div class="chat-text" id="chatList">'+message.msg+'</div><div class="chat-hour">2019-10-04 00:00:00.0</div></li>');
+		$('.chat-box').append('<li class="chat-left"><div class="chat-avatar"><img src="/images/default_people.png" alt="Retail Admin"><div class="chat-name">'+message.peopleEmail+'</div></div><div class="chat-text" id="chatList">'+message.msg+'</div><div class="chat-hour">2019-10-04 00:00:00.0</div></li>');
 	}
 	
 	
 	//document.querySelector('#chatList').appendChild(messageElement);
-	document.querySelector('#chatList').scrollTop = document.querySelector('#chatList').scrollHeight;
+	//document.querySelector('#chatList').scrollTop = document.querySelector('#chatList').scrollHeight;
+	downFocus();
 
 }
 
@@ -206,6 +214,8 @@ function enterkey() {
 	
 	//ctrl + enter 눌렸을 때 실행할 내용
 	if (window.event.ctrlKey && window.event.keyCode == 13) {
+		
+		
 		  $('#inputmsg').val('\n');
 		  return false;
 	// enter 눌렸을 때 실행할 내용

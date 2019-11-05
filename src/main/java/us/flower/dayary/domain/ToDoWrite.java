@@ -2,10 +2,12 @@ package us.flower.dayary.domain;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.engine.FetchStyle;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -35,12 +39,11 @@ public class ToDoWrite extends DateAudit{
 	@Column(name="ID")
 	private long id;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JsonIgnore
 	@JoinColumn(name="MOIM_ID")
 	private Moim moim;
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "PEOPLE_ID")
 	private People people;
 	
@@ -64,7 +67,9 @@ public class ToDoWrite extends DateAudit{
 	
 	@Column(name="STATUS")
 	   private String status;
-	
+	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "toDoWrite")
+	@JsonIgnore
+	private List<ToDoWriteList> todowritelist;
 
 
 }
