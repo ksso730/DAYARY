@@ -1,6 +1,8 @@
 package us.flower.dayary.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -12,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -54,4 +57,6 @@ public class MoimBoard extends DateAudit {
 	private char delete_flag;
 	@Column(name = "HEART")
 	private long heart;
+	@OneToMany(mappedBy = "moid_moard")
+	private List<MoimBoardFile> moimboardfile = new ArrayList<MoimBoardFile>();
 }

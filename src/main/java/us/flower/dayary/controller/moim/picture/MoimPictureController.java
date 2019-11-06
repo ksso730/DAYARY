@@ -3,6 +3,7 @@ package us.flower.dayary.controller.moim.picture;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import us.flower.dayary.domain.BoardGroup;
+import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimBoard;
+import us.flower.dayary.domain.MoimBoardFile;
 import us.flower.dayary.domain.DTO.MoimBoardImage;
 import us.flower.dayary.domain.DTO.PageMaker;
 import us.flower.dayary.domain.DTO.PageVO;
@@ -56,12 +60,21 @@ public class MoimPictureController {
     @GetMapping("/moimDetail/{no}/moimPicture")
     public String moimPicture(@PathVariable("no") long no,Model model,PageVO vo) {
     	Pageable page = vo.makePageable(0, "id");
-    	//Page<MoimBoard> result = mbRepository.findAll(mbRepository.makePredicate(null, null), page);
-    	Page<MoimBoardImage> test = moimiamge.search(page);
+//    	Page<MoimBoard> result = mbRepository.findAll(mbRepository.makePredicate(null, null), page);
+    	Page<MoimBoard> result;
+//    	BoardGroup boardGroup = new BoardGroup();
+//    	Moim moim = new Moim();
+//    	
+//    	moim.setId(no);
+//    	boardGroup.setId(8);
+//    	
+//    	result = mbRepository.searchRepresent(boardGroup,moim,0,page);
+//    	
+    	result = moimiamge.search(page,no);
     	model.addAttribute("no",no);
-    	model.addAttribute("result",new PageMaker(test));
-    	
-    	System.out.println(new PageMaker(test));
+    	model.addAttribute("result",result);
+//    	
+//    	System.out.println(new PageMaker(test));
     	return "moim/moimpictureList"; 
     }
     /**

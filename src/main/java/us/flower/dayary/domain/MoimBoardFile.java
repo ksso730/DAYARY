@@ -12,7 +12,7 @@ public class MoimBoardFile {
     @Column(name = "ID")
 	private long id;
     //모임 카테고리
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY , cascade={CascadeType.ALL})
     @JoinColumn(name = "MoimBoard_ID" ,referencedColumnName = "ID") 
 	private MoimBoard moid_moard;
     @Column(name = "filename")

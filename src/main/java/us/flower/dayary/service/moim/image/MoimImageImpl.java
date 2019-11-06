@@ -1,5 +1,6 @@
 package us.flower.dayary.service.moim.image;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,18 +63,25 @@ public class MoimImageImpl implements MoimImage {
 	
 	
 
-	public Page<MoimBoardImage> search(final Pageable pageable) {
-	    Page<MoimBoardImage> result =  mbRepository.search(pageable);
-	   
+	public Page<MoimBoard> search(final Pageable page,long no) {
+    	Page<MoimBoard> result;
+    	BoardGroup boardGroup = new BoardGroup();
+    	Moim moim = new Moim();
+    	
+    	moim.setId(no);
+    	boardGroup.setId(8);
+    	
+    	result = mbRepository.searchRepresent(boardGroup,moim,0,page);
+    	
 		return result;
 	}
 	
 	@Override
-	public String[] saveFile(MoimBoard moid_moard,MultipartFile[] file) {
+	public List<MoimBoardFile> saveFile(MoimBoard moid_moard,MultipartFile[] file) {
 		// TODO Auto-generated method stub
 		String[] result = new String[file.length];
 		int size = file.length;
-		
+		List<MoimBoardFile> lists = new ArrayList<MoimBoardFile>();
 		try {
 			for(int i=0; i<size; i++)
 			{
@@ -102,19 +110,20 @@ public class MoimImageImpl implements MoimImage {
 				mbFile.setFile_locate(moimImagePath+"/"+fileName);
 				mbFile.setRepresentImage(i);
 				mbFileRepository.save(mbFile);
+				lists.add(mbFile);
 			}
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 			System.out.println("오류가 났어용");
 		}
-		return result;
+		return lists;
 	}
 	@Override
 	public boolean writePost(long peopleId,long boardId,long moimId, String title,MultipartFile[] file) {
 		boolean result = true;
 		String[] fileName;
-		
+		List<MoimBoardFile> lists = new ArrayList<MoimBoardFile>();
 		try {
 			/*
 				CrudRepository 상속시 findById만 쓰면 Optional<> 형식으로 반환을 해주기 때문에
@@ -137,9 +146,12 @@ public class MoimImageImpl implements MoimImage {
 			moimBoard.setUpdate_date(new java.sql.Date(System.currentTimeMillis()));
 			moimBoard.setDelete_flag(delete_flag);
 			moimBoard.setHeart(0L);
+			lists = saveFile(moimBoard,file);
+			
+			moimBoard.setMoimboardfile(lists);
 			mbRepository.save(moimBoard);
 			
-			fileName = saveFile(moimBoard,file);
+			
 		}catch(Exception e) {
 			
 		}
