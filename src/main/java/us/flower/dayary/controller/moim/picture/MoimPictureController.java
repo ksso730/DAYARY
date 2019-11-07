@@ -61,6 +61,7 @@ public class MoimPictureController {
     	model.addAttribute("resultList",result.getContent());
 		model.addAttribute("resultListCount", result.getTotalElements());
 		model.addAttribute("pageNumber", result.getTotalPages());
+		
     	//model.addAttribute("",);
 //    	
     	//System.out.println(result.getContent());

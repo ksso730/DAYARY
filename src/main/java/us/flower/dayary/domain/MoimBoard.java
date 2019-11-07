@@ -73,7 +73,7 @@ public class MoimBoard extends DateAudit {
 		private ToDoWriteList toDoWriteList;
 	    
 	    @OneToMany(orphanRemoval=true,mappedBy = "moimBoard")
-		private List<MoimBoardFile> moimBoardfile;
+		private List<MoimBoardFile> moimBoardfile = new ArrayList<MoimBoardFile>();
   
 
 }
