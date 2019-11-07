@@ -38,45 +38,42 @@ import us.flower.dayary.domain.common.DateAudit;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MoimBoard extends DateAudit {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
-	private long id;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PEOPLE_ID")
-	private People people;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BOARD_GROUP_ID")
-	private BoardGroup boardGroup;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MOIM_ID")
-	private Moim moim;
-	@Column(name = "TITLE")
-	private String title;
-
-  @Lob
-  @Column(name = "MEMO")
-	private String memo;
-	@Column(name = "CREATE_DATE", updatable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date create_date;
-	@Column(name = "UPDATE_DATE", updatable = true)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date update_date;
-	@Column(name = "DELETE_FLAG")
-	private char delete_flag;
-
-	@OneToMany(orphanRemoval=true,mappedBy = "moid_moard")
-	private List<MoimBoardFile> moimboardfile = new ArrayList<MoimBoardFile>();
-
-    @Column(name = "HEART")
-    private long heart;
-    
-   @ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
-	@JoinColumn(name = "MOIM_TODO_WRITE_LIST_ID",nullable = true)
-	private ToDoWriteList toDoWriteList;
-    
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.AUTO)
+	    @Column(name = "ID")
+		private long id;
+	    @ManyToOne
+		@JoinColumn(name = "PEOPLE_ID")
+		private People people;
+	    @ManyToOne
+		@JoinColumn(name = "BOARD_GROUP_ID")
+		private BoardGroup boardGroup;
+	    @ManyToOne
+		@JoinColumn(name = "MOIM_ID")
+		private Moim moim;
+	    @Column(name = "TITLE")
+		private String title;
+	    @Lob
+	    @Column(name = "MEMO")
+		private String memo;
+	    @Column(name = "CREATE_DATE", updatable = false)
+	    @Temporal(TemporalType.TIMESTAMP)
+		private Date create_date;
+	    @Column(name = "UPDATE_DATE", updatable = true)
+	    @Temporal(TemporalType.TIMESTAMP)
+		private Date update_date;
+	    @Column(name = "DELETE_FLAG")
+		private char delete_flag;
+	    @Column(name = "HEART")
+	    private long heart;
+	    
+	    @ManyToOne(fetch = FetchType.LAZY)
+		@JsonIgnore
+		@JoinColumn(name = "MOIM_TODO_WRITE_LIST_ID",nullable = true)
+		private ToDoWriteList toDoWriteList;
+	    
+	    @OneToMany(orphanRemoval=true,mappedBy = "moimBoard")
+		private List<MoimBoardFile> moimBoardfile;
   
 
 }

@@ -1,6 +1,8 @@
 package us.flower.dayary.repository.moim.picture;
 
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import org.springframework.data.jpa.repository.JpaRepository;

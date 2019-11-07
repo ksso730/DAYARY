@@ -25,14 +25,13 @@ public class MoimBoardFile {
     @Column(name = "ID")
 	private long id;
     //모임 카테고리
-    @ManyToOne(fetch = FetchType.LAZY , cascade={CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MoimBoard_ID" ,referencedColumnName = "ID") 
-
+    @JsonIgnore
+	private MoimBoard moimBoard;
     @Column(name = "filename")
 	private String filename;
 
-    @JsonIgnore
-	private MoimBoard moimBoard;
 
     @Column(name = "REAL_NAME")
 	private String real_name;
