@@ -1,21 +1,30 @@
 package us.flower.dayary.controller.community;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import us.flower.dayary.common.MediaUtils;
 import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.CommunityBoardReply;
 import us.flower.dayary.domain.DTO.BoardListDTO;
 import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.UploadFile;
 import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
 import us.flower.dayary.service.community.CommunityBoardService;
+import us.flower.dayary.service.community.image.CommunityImageService;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -43,7 +52,8 @@ public class CommunityBoardController {
 	PeopleRepository peopleRepository;
 	@Autowired
 	BoardLikeRepository boardLikeRepository;
-
+	@Autowired
+	CommunityImageService communityImageService;
 
 	/**
 	 * board group id 구하기
@@ -348,6 +358,50 @@ public class CommunityBoardController {
         model.addAttribute("page", session.getAttribute("page"));
 
 		return "community/boardWrite";
+	}
+
+
+	/**
+	 * 이미지 저장 (2019-10-23)
+	 * @param file
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/community/board/image")
+	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file){
+		try{
+			UploadFile uploadFile = communityImageService.store(file);
+			return ResponseEntity.ok().body("/community/board/image/" + uploadFile.getId());
+		}catch(Exception e){
+			e.printStackTrace();
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+
+	@GetMapping("/community/board/image/{fileId}")
+	@ResponseBody
+	public ResponseEntity<?> serveFile(@PathVariable long fileId) {
+		try {
+			UploadFile uploadedFile = communityImageService.load(fileId);
+			HttpHeaders headers = new HttpHeaders();
+
+			Resource resource = communityImageService.loadAsResource(uploadedFile.getSaveFileName());
+			String fileName = uploadedFile.getFileName();
+			headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
+
+			if (MediaUtils.containsImageMediaType(uploadedFile.getContentType())) {
+				headers.setContentType(MediaType.valueOf(uploadedFile.getContentType()));
+			} else {
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			}
+
+			return ResponseEntity.ok().headers(headers).body(resource);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.badRequest().build();
+		}
 	}
 
 	/**

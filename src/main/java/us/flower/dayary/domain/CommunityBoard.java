@@ -1,6 +1,7 @@
 package us.flower.dayary.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.ToString;
@@ -23,10 +24,12 @@ public class CommunityBoard extends DateAudit{
 	private long id;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = People.class)
+	@JsonIgnore
 	@JoinColumn(name = "PEOPLE_ID", nullable = false)
 	private People people;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = BoardGroup.class)
+	@JsonIgnore
 	@JoinColumn(name = "BOARD_GROUP_ID", nullable = false)
 	private BoardGroup boardGroup;
 
@@ -46,7 +49,7 @@ public class CommunityBoard extends DateAudit{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "communityBoard", cascade = CascadeType.ALL)
 	private List<CommunityBoardReply> communityBoardReplies;
 
-	@Column(name="DELETE_FLAG" ,nullable=false, columnDefinition = "VARCHAR(1) default 'N'")
+	@Column(name="DELETE_FLAG" ,nullable=false)
 	private String deleteFlag;
 
 	@Column(name="VIEW_COUNT")
@@ -54,4 +57,6 @@ public class CommunityBoard extends DateAudit{
 
 	@Column(name="HEART")
 	private long heart;
+	
+	
 }

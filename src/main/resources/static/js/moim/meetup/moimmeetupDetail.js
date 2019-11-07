@@ -57,3 +57,30 @@ $('[name="offmoimJoin_btn"]').on('click', function () {//오프라인(meetup)모
           }
       });
 });
+
+$(document).ready(function(){
+	var x = $("#locationX").text();
+	var y = $("#locationY").text();
+	var container = document.getElementById('map');
+	var options = {
+		center: new kakao.maps.LatLng(y, x),
+		level: 3
+	};
+
+	var map = new kakao.maps.Map(container, options);
+	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+	var zoomControl = new kakao.maps.ZoomControl();
+	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+	// 마커가 표시될 위치입니다 
+	var markerPosition  = new kakao.maps.LatLng(y, x); 
+
+	// 마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+	    position: markerPosition
+	});
+
+	// 마커가 지도 위에 표시되도록 설정합니다
+	marker.setMap(map);
+});
+

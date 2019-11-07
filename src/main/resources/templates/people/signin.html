@@ -2,38 +2,161 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="	681877465979-hbu3jluica1eddcndkvl52n6h10jq6sf.apps.googleusercontent.com">
     <title>Insert title here</title>
     <css th:replace="layout/header::headerCss"/>
 </head>
+<style>
+	#login{
+		width: 50%;
+		float: left;
+	}
+	
+	#social{
+		width: 50%;
+		float: right;
+		vertical-align: top;
+		margin-top: 35px;
+	}
+		
+	#button{
+		width: 100%;
+		float: right;
+		margin: 0 auto;
+		margin-top: 10px;
+	}
+	
+	#kakao-login-btn{
+		width: 203.5px;
+		height: 44px;
+	}
+	
+	.g-signin2{
+		width: 203.5px;
+		height: 44px;
+	}
+
+	#google_img{
+		width: 203.5px;
+		height: 44px;
+	}
+	
+</style>
 <body>
 <div th:replace="layout/header::header"/>
 <form action="#" class="p-5 bg-white">
-    <div class="row form-group">
 
-        <div class="col-md-12">
-            <label class="text-black">아이디 </label>
-            <input type="subject" id="email" class="form-control">
-        </div>
+	<div id="login">
+	    <div class="row form-group">
+	        <div class="col-md-11">
+	            <label class="text-black">아이디 </label>
+	            <input type="subject" id="email" class="form-control">
+	        </div>
+	    </div>
+
+	    <div class="row form-group">
+	        <div class="col-md-11">
+	            <label class="text-black">비밀번호</label>
+	            <input type="password" id="password" class="form-control">
+	        </div>
+	    </div>
     </div>
+    
+    <div id="social">
+		<div class="row form-group" >
+		 <a href="javascript:;" class="btn_social" data-social="google"><img th:src="@{/images/google.png}" width="40px" height="40px"/></a>
+				<!-- <div class="g-signin2" id="google_btn" data-onsuccess="onSignIn" data-theme="white" ></div> -->
+<!-- 				<div id="google_login" onclick="document.getElementByClass('abcRioButtonContents').click();"><img id="google_img" alt="" src="/images/google_login.png"></div> -->
+		</div>			
+				
+		<div class="row form-group" >
+				<a id="kakao-login-btn"></a>
+				<a href="http://developers.kakao.com/logout"></a>
+		</div>			
+		<div class="row form-group" >		
+ 			<!-- 네이버 로그인 창으로 이동 -->
+<div id="naver_id_login" style="text-align:center"><a th:href="${url}">
+<img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>
+<br>
 
-    <div class="row form-group">
-
-        <div class="col-md-12">
-            <label class="text-black">비밀번호</label>
-            <input type="password" id="password" class="form-control">
-        </div>
+		</div>
     </div>
-
-
-    <div  class="row form-group">
-        <div class="col-md-12">
-            <div type="submit" id="signin_btn" class="btn btn-primary py-2 px-4 text-white">로그인하기</div>
-             <div type="submit" id="findEmail_btn" class="btn btn-primary py-2 px-4 text-white">아이디찾기</div>
-        </div>
+    
+	<div id="button">
+	    <div  class="row form-group">
+	        <div class="col-md-12">
+	            <div type="submit" id="signin_btn" class="btn btn-primary py-2 px-4 text-white">로그인하기</div>
+	             <div type="submit" id="findEmail_btn" class="btn btn-primary py-2 px-4 text-white">아이디찾기</div>
+	        </div>
+	    </div>
     </div>
 </form>
 <script src="/js/people/signin.js"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script>
+
+	/* 구글 */
+	function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+    }
+
+	/* 카카오 */
+	// 사용할 앱의 JavaScript 키를 설정해 주세요.
+	Kakao.init('8eb21286f0a69d0886357dbf7994d836');
+	// 카카오 로그인 버튼을 생성합니다.
+	Kakao.Auth.createLoginButton({
+	  container: '#kakao-login-btn',
+	  success: function(authObj) {
+		  Kakao.API.request({
+
+		       url: '/v1/user/me',
+
+		       success: function(res) {
+		    	   //로그인 성공 알림창 띄우고 메인화면으로 parameter 가지고 넘어가고 db에 id 저장
+
+		             alert(JSON.stringify(res)); //<---- kakao.api.request 에서 불러온 결과값 json형태로 출력
+
+		             alert(JSON.stringify(authObj)); //<----Kakao.Auth.createLoginButton에서 불러온 결과값 json형태로 출력
+
+		             console.log(res.id);//<---- 콘솔 로그에 id 정보 출력(id는 res안에 있기 때문에  res.id 로 불러온다)
+
+		             console.log(res.kaccount_email);//<---- 콘솔 로그에 email 정보 출력 (어딨는지 알겠죠?)
+
+		             console.log(res.properties['nickname']);//<---- 콘솔 로그에 닉네임 출력(properties에 있는 nickname 접근 
+
+		         // res.properties.nickname으로도 접근 가능 )
+
+		             console.log(authObj.access_token);//<---- 콘솔 로그에 토큰값 출력
+
+	           }
+         })
+
+	    alert(JSON.stringify(authObj));
+	  },
+	  fail: function(err) {
+	     alert(JSON.stringify(err));
+	  }
+	});
+	//소셜 로그인
+   $('.btn_social').click(function () {
+          var socialType = $(this).data('social');
+          location.href="/oauth2/authorization/"+socialType;
+      });
 
 </script>
 </body>

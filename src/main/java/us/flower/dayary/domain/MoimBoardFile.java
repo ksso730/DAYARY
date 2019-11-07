@@ -11,6 +11,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Moim_Board_File")
 @Getter
@@ -25,9 +27,13 @@ public class MoimBoardFile {
     //모임 카테고리
     @ManyToOne(fetch = FetchType.LAZY , cascade={CascadeType.ALL})
     @JoinColumn(name = "MoimBoard_ID" ,referencedColumnName = "ID") 
-	private MoimBoard moid_moard;
+
     @Column(name = "filename")
 	private String filename;
+
+    @JsonIgnore
+	private MoimBoard moimBoard;
+
     @Column(name = "REAL_NAME")
 	private String real_name;
     @Column(name = "FILE_SIZE")

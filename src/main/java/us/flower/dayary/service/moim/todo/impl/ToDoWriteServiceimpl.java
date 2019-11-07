@@ -1,27 +1,29 @@
 package us.flower.dayary.service.moim.todo.impl;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import us.flower.dayary.common.FileManager;
+import us.flower.dayary.common.TokenGenerator;
+import us.flower.dayary.domain.*;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
+import us.flower.dayary.repository.moim.MoimRepository;
+import us.flower.dayary.repository.moim.picture.MoimBoardFileRepository;
+import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
+import us.flower.dayary.repository.moim.todo.ToDoWriteListRepository;
+import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
+import us.flower.dayary.repository.people.PeopleRepository;
+import us.flower.dayary.service.moim.todo.ToDoWriteService;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import us.flower.dayary.domain.Common;
-import us.flower.dayary.domain.Moim;
-import us.flower.dayary.domain.People;
-import us.flower.dayary.domain.ToDoWrite;
-import us.flower.dayary.domain.ToDoWriteList;
-import us.flower.dayary.repository.moim.MoimPeopleRepository;
-import us.flower.dayary.repository.moim.MoimRepository;
-import us.flower.dayary.repository.moim.todo.ToDoWriteListRepository;
-import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
-import us.flower.dayary.repository.people.PeopleRepository;
-import us.flower.dayary.service.moim.todo.ToDoWriteService;
 @Service
 public class ToDoWriteServiceimpl implements ToDoWriteService {
    @Autowired
@@ -30,11 +32,23 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
     private MoimRepository moimRepository;
    
    @Autowired 
-   ToDoWriteRepository toDowriteRepository;
+   private ToDoWriteRepository toDowriteRepository;
    @Autowired
-   MoimPeopleRepository moimPeopleRepository;
+   private MoimPeopleRepository moimPeopleRepository;
    @Autowired 
-   ToDoWriteListRepository toDowriteListRepository;
+   private ToDoWriteListRepository toDowriteListRepository;
+   @Autowired 
+   private MoimBoardRepository moimboard;
+   @Autowired
+	private MoimBoardFileRepository mbRepository;
+   
+   @Value("${moimImagePath}")
+	private String moimImagePath; 
+	
+	@Autowired
+   private TokenGenerator tokenGenerator;
+	@Autowired
+	private FileManager fileManager;
    @Override
    public void saveList(ToDoWriteList list,String id,long no) {
       // TODO Auto-generated method stub
@@ -60,6 +74,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
            todolist.setPeople(p);
            todolist.setMoim(moimOne.get());
            todolist.setCheckConfirm('N');
+           todolist.setDetail('N');
            toDowriteListRepository.save(todolist);
         }
    }
@@ -95,6 +110,19 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
       ToDoWrite todo=toDowriteRepository.findById(no);
        int total=toDowriteListRepository.countByToDoWrite_id(no);
        int done= id.length+count;
+      
+       
+       for(int i=0;i<id.length;i++) {
+    	   if(id[i]=="") {
+    		   done=-1;
+    	   }
+           ToDoWriteList l=new ToDoWriteList();
+           Optional<ToDoWriteList> tlist=toDowriteListRepository.findById(Long.parseLong(id[i]));
+           l=tlist.get();
+           l.setCheckConfirm('Y');
+           toDowriteListRepository.save(l);
+        }
+       
        String x=Integer.toString(done)+"/"+Integer.toString(total);
        todo.setCount(x);
        //상태바 
@@ -109,14 +137,6 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
     	   todo.setStatus("In Progress");
        }
        toDowriteRepository.save(todo);
-       
-       for(int i=0;i<id.length;i++) {
-           ToDoWriteList l=new ToDoWriteList();
-           Optional<ToDoWriteList> tlist=toDowriteListRepository.findById(Long.parseLong(id[i]));
-           l=tlist.get();
-           l.setCheckConfirm('Y');
-           toDowriteListRepository.save(l);
-        }
    }
    @Override
    public boolean existByMoim_idAndPeople_id(long id, long peopleId) {
@@ -145,13 +165,17 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
    @Transactional
    public void deleteById(long id) {
       // TODO Auto-generated method stub
-      toDowriteListRepository.deleteByToDoWrite_id(id);
+	   List<ToDoWriteList> list=toDowriteListRepository.findByToDoWrite_id(id);
+	   for(int i=0;i<list.size();i++) {
+		   moimboard.deleteByToDoWriteList_id(list.get(i).getId());
+	   }
+	   toDowriteListRepository.deleteByToDoWrite_id(id);
       toDowriteRepository.deleteById(id);
    }
    @Override
    public List<ToDoWrite> findByMoim_idAndStatus(long id, String status) {
       // TODO Auto-generated method stub
-      return toDowriteRepository.findByMoim_idAndStatus(id,status) ;
+      return toDowriteRepository.findByMoim_idAndStatus(id,status,Sort.by("id").descending()) ;
    }
 @Override
 public int[] countByMoim_idAndStatus(long id) {
@@ -164,4 +188,71 @@ public int[] countByMoim_idAndStatus(long id) {
 	l[3]=toDowriteRepository.countBymoim_idAndStatus(id, "Suspend");
 	return l;
 }
+@Override
+public void writeBoard(MultipartFile file,MoimBoard board,long no,String id) {
+	// TODO Auto-generated method stub
+	//정보 기준으로 작성자와 todowritelist 설정 
+	try {
+		People people = peopleRepository.findByEmail(id);
+		  board.setPeople(people);
+		  Optional<ToDoWriteList> todo=toDowriteListRepository.findById(no);
+		  board.setToDoWriteList(todo.get());
+		
+		BoardGroup boardGroup=new BoardGroup();
+		boardGroup.setId(8);
+		board.setBoardGroup(boardGroup);
+		board.setCreate_date(new java.sql.Date(System.currentTimeMillis()));
+		board=moimboard.save(board);
+		
+		if(file != null) {
+			if(file.getOriginalFilename()!=""){
+			
+				MoimBoardFile bf=new MoimBoardFile();
+				String fileName=file.getOriginalFilename();
+				fileManager.fileUpload(file, moimImagePath+"/"+fileName);
+				
+				
+				bf.setMoimBoard(board);
+				bf.setReal_name(fileName);
+				bf.setFile_locate(moimImagePath+"/"+fileName);
+				
+				mbRepository.save(bf);
+			}
+		}
+		if(todo.get().getDetail()=='N') {
+			todo.get().setDetail('Y');
+			toDowriteListRepository.save(todo.get());
+		}}catch(Exception e) {
+			e.printStackTrace();
+			System.out.print("moimBoardFile 업로드 오류");
+		}
+	}
+	
+@Override
+public void changeToDate(ToDoWrite todo) {
+	// TODO Auto-generated method stub
+	System.out.print(todo);
+	Date changeDate=todo.getTo_date2();
+	todo=toDowriteRepository.findById(todo.getId());
+	todo.setTo_date2(changeDate);
+	toDowriteRepository.save(todo);
 }
+@Override
+public List<MoimBoardFile> findByToDoWriteList_id(long id) {
+	// TODO Auto-generated method stub
+	
+		List<MoimBoard> list=moimboard.findByToDoWriteList_id(id);
+		List<MoimBoardFile> returnData=new ArrayList<MoimBoardFile>();
+		for(int i=0;i<list.size();i++) {
+//			MoimBoardFile e=new MoimBoardFile();
+//			e=mbRepository.findByMoimBoard_id(list.get(i).getId());
+//			e.setMoimBoard(list.get(i));
+//			returnData.add(e);
+		}
+	return returnData;
+}
+@Override
+public Page<ToDoWrite> findByMoim_idAndPeople_id(Pageable page, long id, long people) {
+	// TODO Auto-generated method stub
+	return toDowriteRepository.findByMoim_idAndPeople_id(page, id, people);
+}}

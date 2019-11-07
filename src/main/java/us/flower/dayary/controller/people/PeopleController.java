@@ -1,5 +1,15 @@
 package us.flower.dayary.controller.people;
 
+import java.io.IOException;
+import java.net.URI;
+import java.security.Principal;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +30,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import us.flower.dayary.common.BCRYPT;
 import us.flower.dayary.common.FileManager;
 import us.flower.dayary.common.TokenGenerator;
+import us.flower.dayary.config.NaverLoginBO;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.Role;
 import us.flower.dayary.domain.RoleName;
@@ -31,18 +42,15 @@ import us.flower.dayary.repository.people.PeopleRepository;
 import us.flower.dayary.repository.people.RoleRepository;
 import us.flower.dayary.security.JwtTokenProvider;
 
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
-import java.io.IOException;
-import java.net.URI;
-import java.security.Principal;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 @Controller
 public class PeopleController {
+	/* NaverLoginBO */
+	private  NaverLoginBO naverLoginBO;
+	private String apiResult = null;
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+	this.naverLoginBO = naverLoginBO;
+	}
 
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -124,15 +132,14 @@ public class PeopleController {
 	@PostMapping("/signup")
 	@ResponseBody
 	public Map<String, Object> registerUser(@Valid @RequestPart("signUpRequest") SignUpRequest signUpRequest, @RequestPart(name="file",required=false) MultipartFile file) {
-
-		
+ 
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		try {
 			if (!peopleRepository.existsByEmail(signUpRequest.getEmail())) {
 				// Creating user's account
 				People user = new People(signUpRequest.getEmail(), signUpRequest.getPassword(), signUpRequest.getName(),
 						signUpRequest.getPhoto(), signUpRequest.getActivation());
-
+ 
 				user.setPassword(bcrypt.hashpw(user.getPassword()));
 
 				Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
@@ -203,7 +210,15 @@ public class PeopleController {
 	 * @throws @author choiseongjun
 	 */
 	@GetMapping("/signinView")
-	public String signinView() {
+	public String signinView(Model model, HttpSession session) {
+		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+		//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+		//redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+		System.out.println("네이버:" + naverAuthUrl);
+		//네이버
+		model.addAttribute("url", naverAuthUrl);
+
 		return "people/signin";
 	}
 

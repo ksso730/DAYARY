@@ -8,8 +8,12 @@
 <!-- 사이드메뉴css -->
 <div th:replace="layout/header::header" />
 <script src="/ckeditor/ckeditor.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+	<!-- include summernote css/js-->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
 <div th:replace="community/sidemenu::sidemenu" />
 <style>
 	li{
@@ -35,7 +39,8 @@
 				</div>
 				<div class="mb-3">
 					<label for="content">내용</label>
-					<textarea class="form-control" rows="20" name="content" id="content" readonly="true"  style="background-color: whitesmoke;"th:inline="text">[[${board.memo}]]</textarea>
+					<div class="form-control" rows="20" name="content" id="content"  style="background-color: whitesmoke;" th:utext="${board.memo}"></div>
+<!--					<textarea class="form-control" rows="20" name="content" id="content" readonly="true"  style="background-color: whitesmoke;"></textarea>-->
 				</div>
 <!--				<div class="mb-3">-->
 <!--					<label for="tag">TAG</label>-->
@@ -76,6 +81,14 @@
 		</div>
 	</article>
 <script>
+
+		$('#content').summernote({
+			height: 600,
+			minHeight: null,
+			maxHeight: null
+		});
+
+		$("#content").summernote("disable");
 
 		// removeReply (1: 댓글, 2: 대댓글)
 		function removeReply(val, flag){

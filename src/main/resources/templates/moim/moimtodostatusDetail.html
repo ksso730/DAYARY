@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <css th:replace="layout/header::headerCss"/>
-    <link th:href="@{/css/moim/moimtodostatusModal.css}" rel="stylesheet" />
     <link th:href="@{/css/moim/moimtodostatusDetailtask.css}" rel="stylesheet" />
     <css th:replace="layout/header::moimDetailsubmenu" />
     <link th:href="@{/css/moim/moimtodostatusDetail.css}" rel="stylesheet" /><!--할일목록체크박스리스트  -->
@@ -155,7 +154,6 @@
     <!-- container -->
     
    
-<div th:replace="moim/moimtodostatusModal::moimtodostatusModal" />
 <script>
 //할일목록에서 체크된거 ---표시하는것
 var list = document.querySelector('#myUL');
@@ -236,7 +234,6 @@ function post_send() {
 	 history.back();
  }
 </script>
- <script src="/js/moim/moimtodostatusModal.js"></script>
 
 </body>
 </html>

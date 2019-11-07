@@ -103,7 +103,7 @@ public class MoimImageImpl implements MoimImage {
 				//fileManager.fileUpload(file[i], moimImagePath+"/"+fileName+".jpg");
 				fileManager.fileUpload(file[i], moimImagePath+"/"+fileName);
 				
-				mbFile.setMoid_moard(moid_moard);
+				mbFile.setMoimBoard(moid_moard);
 				mbFile.setReal_name(fileName);
 
 				mbFile.setFile_size("");

@@ -3,8 +3,10 @@ package us.flower.dayary.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import java.util.Optional;
 import java.util.Set;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,14 +15,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
-import lombok.Data;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -48,7 +53,9 @@ public class MoimBoard extends DateAudit {
 	private Moim moim;
 	@Column(name = "TITLE")
 	private String title;
-	@Column(name = "MEMO")
+
+  @Lob
+  @Column(name = "MEMO")
 	private String memo;
 	@Column(name = "CREATE_DATE", updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -58,8 +65,18 @@ public class MoimBoard extends DateAudit {
 	private Date update_date;
 	@Column(name = "DELETE_FLAG")
 	private char delete_flag;
-	@Column(name = "HEART")
-	private long heart;
-	@OneToMany(mappedBy = "moid_moard")
+
+	@OneToMany(orphanRemoval=true,mappedBy = "moid_moard")
 	private List<MoimBoardFile> moimboardfile = new ArrayList<MoimBoardFile>();
+
+    @Column(name = "HEART")
+    private long heart;
+    
+   @ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	@JoinColumn(name = "MOIM_TODO_WRITE_LIST_ID",nullable = true)
+	private ToDoWriteList toDoWriteList;
+    
+  
+
 }

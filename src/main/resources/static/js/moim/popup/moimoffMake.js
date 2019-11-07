@@ -29,7 +29,9 @@
                     if (status === daum.maps.services.Status.OK) {
 
                         var result = results[0]; //첫번째 결과의 값을 활용
-
+                        $('#x_location').val(result.x);
+                        $('#y_location').val(result.y);
+                        
                         // 해당 주소에 대한 좌표를 받아서
                         var coords = new daum.maps.LatLng(result.y, result.x);
                         // 지도를 보여준다.
@@ -115,7 +117,9 @@
 	 		  success:function(data){
 	 			if(data.code==1){
 	 				alert(data.message);
+	 				
 	 				close();
+	 				opener.parent.location.reload();
 	 			}else{
 	 				alert(data.message);
 	 			}

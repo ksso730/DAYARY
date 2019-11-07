@@ -77,7 +77,7 @@ body {
    margin: auto;
    padding: 20px;
    border: 1px solid #888;
-   width: 80%;
+   width: 30%;
 }
 /* The Close Button */
 .close {
@@ -161,7 +161,7 @@ body {
                   <div class="row">
                      <div class="col-sm-6">
                         <span class="float-left mr-3"><img
-                           src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""
+                           th:src="${moimDetail.imageName!=null} ? ${'/getMoimImage/'+moimDetail.imageName+'.'+moimDetail.imageExtension} : '/images/img_4.jpg'" alt=""
                            class="thumb-lg rounded-circle"></span>
                         <div class="media-body text-white">
                            <h4 class="mt-1 mb-1 font-18">
@@ -174,7 +174,7 @@ body {
                      <div class="col-sm-6">
                         <div class="text-right">
                            <span th:if="${session.peopleId==moimDetail.people.id}">
-                              <button type="button" id="moim_offMoim_btn"
+                              <button type="button" id="moim_offMoim_btn" onclick="popupOpen()"
                                  class="btn btn-icon btn-sm waves-effect waves-light btn-success" >오프라인모임만들기</button>
                               <a th:href="@{'/moimUpdateView/' + ${no}}"><button type="button"
                                  class="btn btn-icon btn-sm waves-effect waves-light btn-success">
@@ -272,7 +272,7 @@ body {
                         </p>
                         <p class="text-muted font-13">
                            <strong>모임 생성일자 :</strong> <span class="m-l-15"><td
-                              th:text="${moimDetail.createDate}" /></span>
+                              th:text="${#strings.substring(moimDetail.createDate,0,16)}" /></span>
                         </p>
 
                      </div>
@@ -302,31 +302,33 @@ body {
                      <div class="inbox-item">
                         <div class="inbox-item-img">
                            	<img
-									th:src="${moimDetail!=null} ? ${'/getMoimImage/'+moimDetail.people.imageName+'.'+moimDetail.people.imageExtension} : '/images/default_people.png'"
+									th:src="${moimDetail.people.imageName!=null} ? ${'/getMoimImage/'+moimDetail.people.imageName+'.'+moimDetail.people.imageExtension} : '/images/default_people.png'"
 									class="rounded-circle" alt="">
                         </div>
                         <p class="inbox-item-author">
-                           <td th:text="${moimDetail.people.name}" />
+                            <a th:href="@{'/moimpeopleInfo/' + ${moimDetail.people.id}}"><td th:text="${moimDetail.people.name}" /></a>
                            <button
                               class="btn btn-icon btn-sm waves-effect waves-light btn-success">스터디장</button>
                         </p>
                         <p class="inbox-item-date"></p>
                      </div>
-                     <!-- 운영자 랜더링 End by choiseongjun -->
-                     <tr th:each="joinedmoimpeopleList : ${joinedmoimpeopleList}">
-                     
+                     <!-- 운영자 랜더링 끝End by choiseongjun -->
+                     <!-- 모임원 보는거 시작 -->
+                    <!--  <tr th:each="joinedmoimpeopleList,iterationStatus : ${joinedmoimpeopleList}">
                         <a href="#">	
                            <div class="inbox-item" >
                               <div class="inbox-item-img">
 					        <img th:src="${joinedmoimpeopleList.people.imageName!=null} ?${'/getMoimImage/'+joinedmoimpeopleList.people.imageName+'.'+joinedmoimpeopleList.people.imageExtension} : '/images/default_people.png'"
 								class="rounded-circle" alt=""
 								> 
-                        
                               </div>
                               
                               <p class="inbox-item-author"> 
-                                 
-                                 <td th:text="${joinedmoimpeopleList.people.name}"/>
+                                 <a th:href="@{'/moimpeopleInfo/' + ${joinedmoimpeopleList.people.id}}">
+                                  <td th:text="${iterationStatus.count}"></td>
+	                                	 <td th:text="${joinedmoimpeopleList.people.name}" />
+	                             </a>
+                                	 
                               <span th:if="${session.peopleId==moimDetail.people.id}">
 	                               <span th:if="${joinedmoimpeopleList.joinCondition}=='N'">
 											<button type="button" name="grantpeople_btn"  th:value="${joinedmoimpeopleList.people.id}"
@@ -344,13 +346,12 @@ body {
                               
                               </p>
                            </div>
-
                         </a>
-                     </tr>
+                     </tr> -->
                      <center>
 
                         <span style="font-size: 30px; cursor: pointer"
-                           onclick="openNav()"> ☰ 더 보기</span>
+                           id="myBtn"> ☰ 모임원 보기</span>
                      </center>
                   </div>
                </div>
@@ -376,7 +377,7 @@ body {
                            <h6 class="text-muted text-uppercase mt-0">사진첩보기</h6>
                         </a>
                         <h3 class="">
-                           <span data-plugin="counterup">46,782장</span>
+                           <span data-plugin="counterup"><td th:text="${picturecount}" />장</span>
                         </h3>
 
                      </div>
@@ -388,7 +389,7 @@ body {
                            th:href="@{'/moimDetail/moimChatroom/' + ${no}}"><h6
                               class="text-muted text-uppercase mt-0">단체채팅방 들어가기</h6></a>
                         <h3 class="" data-plugin="counterup">
-                          <td th:text="${totalPeople}" />(명) <span class="badge badge-info">4</span>
+                          <td th:text="${totalPeople}" />(명) <span class="badge badge-info"><td th:text="${chatcount}" /></span>
                      </div>
                   </div>
                   <!-- end col -->
@@ -513,64 +514,53 @@ body {
       <!-- Modal content -->
       <div class="modal-content">
          <span class="close">&times;</span>
-            
-        	 <div class="inbox-widget">
+         <div class="inbox-widget">
+		
+   		<tr th:each="joinedmoimpeopleList,iterationStatus : ${joinedmoimpeopleList}">
+                        <a href="#">	
+                           <div class="inbox-item" >
+                              <div class="inbox-item-img">
+					        <img th:src="${joinedmoimpeopleList.people.imageName!=null} ?${'/getMoimImage/'+joinedmoimpeopleList.people.imageName+'.'+joinedmoimpeopleList.people.imageExtension} : '/images/default_people.png'"
+								class="rounded-circle" alt=""
+								> 
+                              </div>
+                              
+                              <p class="inbox-item-author"> 
+                                 <a th:href="@{'/moimpeopleInfo/' + ${joinedmoimpeopleList.people.id}}">
+                                  <td th:text="${iterationStatus.count}"></td>
+	                                	 <td th:text="${joinedmoimpeopleList.people.name}" />
+	                             </a>
+                                	 
+                              <span th:if="${session.peopleId==moimDetail.people.id}">
+	                               <span th:if="${joinedmoimpeopleList.joinCondition}=='N'">
+											<button type="button" name="grantpeople_btn"  th:value="${joinedmoimpeopleList.people.id}"
+		                                       class="btn btn-icon btn-sm waves-effect waves-light btn-success">가입승인하기</button>
+		                            </span>
+                                    <button type="button"
+                                       class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
+                                    
+                                    <button type="button"  name="banpeople_btn"  th:value="${joinedmoimpeopleList.people.id}"
+                                       class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
+                                 </span>
+                              </p>
+                           
+                              <p class="inbox-item-date">
+                              
+                              </p>
+                           </div>
 
-            	<a href="#">
-                  <div class="inbox-item-img">
-                     <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                        class="rounded-circle" alt="">
-                  </div>
-                  <p class="inbox-item-author"></p>
-                  <p class="inbox-item-text">I've finished it! See you so...</p>
-                  <p class="inbox-item-date"></p>
-               </div>
-            </a>
+                        </a>
+                     </tr>
+            
          </div>
       </div>
+
 
    </div>
 
    <!-- 참여자보기 모달 끝 -->
 
-   <!-- 스터디가입자 모달 시작 -->
-   <div id="myNav" class="overlay">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <div class="overlay-content">
-         <h1>모임가입자 현황</h1>
-         <div class="inbox-widget">
-            <div class="inbox-widget">
-               
-               
-               <tr th:each="moimpeopleList : ${moimpeopleList}">
-                  <a href="#">
-                     
-                     <div class="inbox-item">
-                        <div class="inbox-item-img">
-                           <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                              class="rounded-circle" alt="">
-                        </div>
-                        <p class="inbox-item-author">
-                           <span style="visibility:hidden;" th:text="${moimpeopleList.id}" id="peopleIdKind" />
-                           <td th:text="${moimpeopleList.name}" />
-                           
-                        </p>
-                        <p class="inbox-item-date">
-                           <span th:if="${session.peopleId==moimDetail.people.id}">
-                              <button type="button"
-                                 class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
-                              <button type="button"  
-                                 class="w3-button w3-white w3-border w3-border-blue" name="banpeople_btn" th:value="${moimpeopleList.id}">강퇴하기</button>
-                           </span> 
-                           
-                        </p>
-                     </div>
-
-                  </a>
-               </tr>
-            </div>
-         </div>
-         <!-- 스터디가입자 모달 끝 -->
+   
          <script>
             function openCity(evt, cityName) {
                var i, tabcontent, tablinks;
@@ -608,19 +598,9 @@ body {
                }
             }
             //참여자 보기 모달 스크립트 끝
-            //모임가입자 보기
-            function openNav() {
-               document.getElementById("myNav").style.width = "100%";
-            }
-            function closeNav() {
-               document.getElementById("myNav").style.width = "0%";
-            }
-            //모임가입자 보기 끝
+            
             //오프라인모임 팝업창 시작
-            $('#moim_offMoim_btn').click(function(event){  //버튼을 클릭 했을시 popupOpen 함수 출력 
-                 console.log('click');
-                 popupOpen();   //Popup Open 함수
-             });
+         
               
             function popupOpen(){
             	 var moimNo = $('#moimNo').attr("data-moimNo");

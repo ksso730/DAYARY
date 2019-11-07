@@ -2,7 +2,9 @@ package us.flower.dayary.domain;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,13 +16,19 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import us.flower.dayary.domain.common.DateAudit;
 
 /**
@@ -29,7 +37,8 @@ import us.flower.dayary.domain.common.DateAudit;
  */
 @Entity
 @Table(name = "MOIM")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Moim extends DateAudit{
@@ -40,7 +49,7 @@ public class Moim extends DateAudit{
     private long id;
     
     //모임 카테고리
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "COMM_CODE")
     private Common category;
     
@@ -55,7 +64,7 @@ public class Moim extends DateAudit{
 
     //모임 인원수 제한
     @Column(name = "PEOPLE_LIMIT", length = 3)
-    private int peopleLimit;
+    private long peopleLimit;
 
     //모임 생성일자
     @Column(name = "CREATE_DATE", updatable = false)
@@ -86,11 +95,17 @@ public class Moim extends DateAudit{
 	
 	//시/도
 	@Column(name = "SIDO_CODE")
-    private String sido_code;
+    private String sidocode;
 	
 	//구
 	@Column(name = "SIGOON_CODE")
-    private String sigoon_code;
+    private String sigooncode;
+	//시/도
+	@Column(name = "SIDO_NAME")
+    private String sidoname;
+	//구
+	@Column(name = "SIGOON_NAME")
+    private String sigoonname;	
     
     // 모임 참여자 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -98,7 +113,13 @@ public class Moim extends DateAudit{
                joinColumns = @JoinColumn(name = "MOIM_ID"),
                inverseJoinColumns = @JoinColumn(name = "PEOPLE_ID"))
     private List<People> peopleList;
-	   
+	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "moim")
+	@JsonIgnore
+	private List<ToDoWrite> todowrite;
+
+	@OneToMany(orphanRemoval=true,mappedBy = "moim")
+	@JsonIgnore
+	private List<Meetup> meetup;
 	
 	//가입조건  N은 누구나 Y는 승인해야함
 	@Column(name="JOIN_CONDITION" ,nullable=false, columnDefinition = "char(1) default 'N'")
