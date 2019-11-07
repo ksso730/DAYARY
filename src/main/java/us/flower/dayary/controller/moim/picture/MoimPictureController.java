@@ -72,9 +72,12 @@ public class MoimPictureController {
 //    	
     	result = moimiamge.search(page,no);
     	model.addAttribute("no",no);
-    	model.addAttribute("result",result);
+    	model.addAttribute("resultList",result.getContent());
+		model.addAttribute("resultListCount", result.getTotalElements());
+		model.addAttribute("pageNumber", result.getTotalPages());
+    	//model.addAttribute("",);
 //    	
-//    	System.out.println(new PageMaker(test));
+    	//System.out.println(result.getContent());
     	return "moim/moimpictureList"; 
     }
     /**

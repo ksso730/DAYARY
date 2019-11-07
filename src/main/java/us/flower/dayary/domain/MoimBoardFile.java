@@ -1,11 +1,22 @@
 package us.flower.dayary.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="Moim_Board_File")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MoimBoardFile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
