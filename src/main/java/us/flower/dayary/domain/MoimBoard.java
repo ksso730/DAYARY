@@ -1,7 +1,12 @@
 package us.flower.dayary.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import java.util.Optional;
+import java.util.Set;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,52 +25,58 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import us.flower.dayary.domain.common.DateAudit;
 
 @Entity
-@Table(name="Moim_Board")
+@Table(name = "Moim_Board")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MoimBoard extends DateAudit{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
+public class MoimBoard extends DateAudit {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ID")
 	private long id;
-    @ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PEOPLE_ID")
 	private People people;
-    @ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "BOARD_GROUP_ID")
 	private BoardGroup boardGroup;
-    @ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MOIM_ID")
 	private Moim moim;
-    @Column(name = "TITLE")
+	@Column(name = "TITLE")
 	private String title;
-    @Lob
-    @Column(name = "MEMO")
+
+  @Lob
+  @Column(name = "MEMO")
 	private String memo;
-    @Column(name = "CREATE_DATE", updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CREATE_DATE", updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date create_date;
-    @Column(name = "UPDATE_DATE", updatable = true)
-    @Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "UPDATE_DATE", updatable = true)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date update_date;
-    @Column(name = "DELETE_FLAG")
+	@Column(name = "DELETE_FLAG")
 	private char delete_flag;
+
+	@OneToMany(orphanRemoval=true,mappedBy = "moid_moard")
+	private List<MoimBoardFile> moimboardfile = new ArrayList<MoimBoardFile>();
+
     @Column(name = "HEART")
     private long heart;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+   @ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
 	@JoinColumn(name = "MOIM_TODO_WRITE_LIST_ID",nullable = true)
 	private ToDoWriteList toDoWriteList;
     
-    @OneToMany(orphanRemoval=true,mappedBy = "moimBoard")
-	private List<MoimBoardFile> moimBoardfile;
+  
+
 }

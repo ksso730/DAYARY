@@ -15,4 +15,7 @@ public interface MoimBoardFileRepository extends JpaRepository<MoimBoardFile, Lo
 	@Query("SELECT count(a.id) FROM Moim a INNER JOIN MoimBoard b ON a.id=b.moim INNER JOIN MoimBoardFile c ON b.id=c.moimBoard WHERE a.id=(:no)")
 	long picturecount(@Param("no") long no);
 
+
+	boolean existsByFilename(String FILE_NAME);
+	List<MoimBoardFile> findByRepresentImage(long representImage);
 }

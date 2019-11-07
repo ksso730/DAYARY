@@ -1,8 +1,6 @@
 var totalNumber = 0;
 var imagePath = {};
 
-
-
 function addImamge(path){
     console.log(path.value);
     imagePath[totalNumber] = path;
