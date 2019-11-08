@@ -55,6 +55,7 @@ public class MoimController {
 	ToDoWriteRepository toDowriteRepository;
 	@Autowired
 	MoimMeetUpRepository moimmeetupRepository;
+
 	@Autowired
 	MoimChatRepository moimchatRepository;
 	@Autowired
@@ -94,7 +95,7 @@ public class MoimController {
 		}
 
 		return returnData;
-	}
+	}0
 
 	/**
 	 * 모임 카테고리 목록 조회
@@ -113,6 +114,7 @@ public class MoimController {
 			categoryList = moimService.getMoimCategory();
 		} catch (Exception e) {
 		}
+
 		return categoryList;
 	}
 
@@ -229,6 +231,7 @@ public class MoimController {
 	}
 
 	/**
+
 	 * 모임 리스트 출력(Paging 처리)
 	 *
 	 * @param locale
