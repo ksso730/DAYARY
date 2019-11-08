@@ -18,5 +18,6 @@ public interface ToDoWriteRepository extends JpaRepository<ToDoWrite, Long> {
 	int countByMoim_id(long id);
 	ToDoWrite findById(long id);
 	List<ToDoWrite> findByMoim_idAndStatus(long id, String status,Sort sort);
+	List<ToDoWrite> findByMoim_idAndPeople_name(long id, String name,Sort sort);
 	int countBymoim_idAndStatus(long id,String status);
 }

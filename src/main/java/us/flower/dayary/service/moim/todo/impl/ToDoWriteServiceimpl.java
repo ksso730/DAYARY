@@ -255,4 +255,9 @@ public List<MoimBoardFile> findByToDoWriteList_id(long id) {
 public Page<ToDoWrite> findByMoim_idAndPeople_id(Pageable page, long id, long people) {
 	// TODO Auto-generated method stub
 	return toDowriteRepository.findByMoim_idAndPeople_id(page, id, people);
+}
+@Override
+public List<ToDoWrite> findByMoim_idAndPeople_name(long id, String name) {
+	// TODO Auto-generated method stub
+	return toDowriteRepository.findByMoim_idAndPeople_name(id, name,Sort.by("id").descending());
 }}
