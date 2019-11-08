@@ -95,7 +95,7 @@ public class MoimController {
 		}
 
 		return returnData;
-	}0
+	}
 
 	/**
 	 * 모임 카테고리 목록 조회

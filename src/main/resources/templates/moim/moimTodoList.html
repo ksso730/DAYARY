@@ -106,10 +106,12 @@
                 <nav class="mr-auto d-flex align-items-center" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="active breadcrumb-item" aria-current="page"><a href="/"><i class="fa fa-home"></i></a></li>
-                        <li class="active breadcrumb-item" aria-current="page">일정관리</li>
+                        <li class="active breadcrumb-item" aria-current="page"><span th:text="${moimName}"></span>&nbsp &nbsp 일정관리</li>
                     </ol>
                 </nav>
-                <div role="toolbar" class="btn-toolbar">
+                <input type="text" id="searchBox" style="width:150px; height:45px" placeholder="작성자를 검색하세요.">
+                <button type="button" onclick="detail_list('writer.')" class="btn btn-outline-info" style="width:70px;height:45px">검색</button>
+                <div role="toolbar" class="btn-toolbar" style="heigth:45px">
                     <div role="group" class="btn-group">
                      <a th:href="@{'/moimDetail/moimTodoList/moimTodowrite/' + ${no}}" class="d-flex nav-link">
                         <button id="tooltipAddNew" class="align-self-center btn btn-primary"><i class="fa-fw fa fa-plus"></i></button></a>
@@ -349,6 +351,8 @@ function delete_send(id){
 }
 
 function detail_list(status){
+	if(status=='writer.')
+		status+=$("#searchBox").val();
 	$.ajax({
 	      url:'/moimDetail/moimTodoList/'+$('#moimNo').attr("data-moimNo")+'/'+status,
 	      contentType: "application/json; charset=utf-8",

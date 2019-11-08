@@ -159,7 +159,12 @@ public class MoimTodoListController {
     public JSONObject  moimTodoListNew(@PathVariable("no") long no,@PathVariable("status") String status,@PageableDefault Pageable pageable ){
     	JSONObject returnData = new JSONObject();
          try {
-	         returnData.put("todolist",service.findByMoim_idAndStatus(no,status));
+        	 if(status.indexOf(".")>0) {
+        		 returnData.put("todolist",service.findByMoim_idAndPeople_name(no, status.substring(status.lastIndexOf(".")+1)));
+        	 }else {
+        		 returnData.put("todolist",service.findByMoim_idAndStatus(no,status));
+        		 
+        	 }
 	         returnData.put("code", "1");
          }catch(Exception e) {
         		returnData.put("message", e.getCause()+e.getMessage());
@@ -318,6 +323,7 @@ public class MoimTodoListController {
     	model.addAttribute("no",no);
     	model.addAttribute("todolist", toDolist);
     	model.addAttribute("moimPeople",Boolean.toString(moim));
+    	model.addAttribute("moimName",toDolist.getContent().get(0).getMoim().getTitle());
     	model.addAttribute("count",service.countByMoim_idAndStatus(no));
     	return "moim/moimTodoList";
     }
