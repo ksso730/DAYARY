@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import java.util.Optional;
-import java.util.Set;
-
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,11 +22,10 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import us.flower.dayary.domain.common.DateAudit;
+import lombok.ToString;
 
 @Entity
 @Table(name = "Moim_Board")
@@ -37,8 +33,9 @@ import us.flower.dayary.domain.common.DateAudit;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MoimBoard extends DateAudit {
-	 @Id
+@ToString
+public class MoimBoard {
+	 	@Id
 	    @GeneratedValue(strategy = GenerationType.AUTO)
 	    @Column(name = "ID")
 		private long id;
@@ -72,7 +69,7 @@ public class MoimBoard extends DateAudit {
 		@JoinColumn(name = "MOIM_TODO_WRITE_LIST_ID",nullable = true)
 		private ToDoWriteList toDoWriteList;
 	    
-	    @OneToMany(orphanRemoval=true,mappedBy = "moimBoard")
+	    @OneToMany(orphanRemoval=true,mappedBy = "moimBoard",cascade=CascadeType.ALL)
 		private List<MoimBoardFile> moimBoardfile = new ArrayList<MoimBoardFile>();
   
 

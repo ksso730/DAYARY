@@ -19,9 +19,20 @@ public interface MoimBoardRepository extends JpaRepository<MoimBoard, Long> {
 	void deleteByToDoWriteList_id(long id);
  
 	@Query(value = "select m from MoimBoard m inner join  m.moimBoardfile f WHERE m.moim=(:moim) and  m.boardGroup=(:boardGroup) and f.representImage = (:representImage)",countQuery = "select count(m) from MoimBoard m")
-	Page<MoimBoard> searchRepresent(@Param("boardGroup") BoardGroup boardGroup,@Param("moim") Moim moim,@Param("representImage") long representImage,Pageable page);
+	List<MoimBoard> searchRepresent(@Param("boardGroup") BoardGroup boardGroup,@Param("moim") Moim moim,@Param("representImage") long representImage);
 
 	//public Page<MoimBoardImage> search(final Pageable pageable);
 
 	List<MoimBoard> findByBoardGroup(BoardGroup board_group_id);
+
+	//Page<MoimBoard> findByboardGroup_idAndMoim_id(long l, Moim moim, Pageable page);
+
+
+	List<MoimBoard> findByMoim_id(long no);
+
+	List<MoimBoard> findByboardGroup_idAndMoim_id(long l, long no);
+
+
+ 
+
 }

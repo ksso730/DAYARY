@@ -29,7 +29,7 @@ public class MoimBoardFile {
     @JoinColumn(name = "MoimBoard_ID" ,referencedColumnName = "ID") 
     @JsonIgnore
 	private MoimBoard moimBoard;
-    @Column(name = "filename")
+    @Column(name = "filename") 
 	private String filename;
 
 
