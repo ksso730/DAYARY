@@ -257,7 +257,11 @@ public Page<ToDoWrite> findByMoim_idAndPeople_id(Pageable page, long id, long pe
 	return toDowriteRepository.findByMoim_idAndPeople_id(page, id, people);
 }
 @Override
-public List<ToDoWrite> findByMoim_idAndPeople_name(long id, String name) {
+public List<ToDoWrite> findByMoim_idAndPeople_nameAndStatus(long id, String name,String status) {
 	// TODO Auto-generated method stub
-	return toDowriteRepository.findByMoim_idAndPeople_name(id, name,Sort.by("id").descending());
+	if(status!="")
+		return toDowriteRepository.findByMoim_idAndPeople_nameAndStatus(id, name,status,Sort.by("id").descending());
+	else
+		return toDowriteRepository.findByMoim_idAndPeople_name(id, name,Sort.by("id").descending());
+				
 }}
