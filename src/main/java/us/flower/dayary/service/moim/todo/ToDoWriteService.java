@@ -33,7 +33,7 @@ public interface ToDoWriteService {
 	 public List<ToDoWrite> findByMoim_idAndStatus(long id, String status);
 	 public List<ToDoWrite> findByMoim_idAndPeople_nameAndStatus(long id, String name,String status);
 	 public int[] countByMoim_idAndStatus(long id);
-	 public void writeBoard(MultipartFile file,MoimBoard board,long no,String id);
+	 public void writeBoard(MultipartFile[] file,MoimBoard board,long no,String id);
 	 public void changeToDate(ToDoWrite todo);
 	 public List<MoimBoardFile> findByToDoWriteList_id(long id);
 	 }

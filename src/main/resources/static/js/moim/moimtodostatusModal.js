@@ -34,7 +34,10 @@ function modal_view(plan,writer,id,parent,email){
 	            	   html+=' <blockquote><p class="blockquote blockquote-primary">'+m[i].memo+"</p></blockquote></li>"
 	            	   console.log(i)
 	            	   if(typeof  m[i].moimBoardfile[0]!= 'undefined' && m[i].moimBoardfile[0].real_name != 'undefined'){
-	            		   html+="<img src='/getMoimImage/"+m[i].moimBoardfile[0].real_name+"' height='300px' width='500px'>";
+	            		  for(var j in m[i].moimBoardfile){
+	            			  html+="<img src='/getMoimImage/"+m[i].moimBoardfile[j].real_name+"' height='150px' width='250px'>";
+	            			  
+	            		  }
 	            	   }
 	               }
 	               html+="</ul></div></div>";
@@ -69,7 +72,7 @@ window.onclick = function(event) {
 }
 //글 작성
 function submit(){
-	if($("#message").val()==''&&$('#file')[0].files[0]==null){
+	if($("#message").val()==''&&array.length==0){
 		alert("내용을 작성하세요");
 		return;
 	}
@@ -78,15 +81,15 @@ function submit(){
 	MoimBoard.memo=$("#message").val();
 	
 	let formData = new FormData();
-	if($("#file").val()){
-		var File;
-		formData.append("File", $('#file')[0].files[0]);
+	if(array.length>0){
+		for(var i in array){
+			formData.append("File", array[i][0]);
+		}
 	}
 
 	formData.append('MoimBoard', new Blob([JSON.stringify(MoimBoard)], {
 		type: "application/json; charset=UTF-8"
 	}));
-
 	$.ajax({
 	      url:'/moimDetail/moimTodoList/modalWrite/'+$("#toDoWriteListId").val(),
 	        type:'post',
@@ -103,8 +106,8 @@ function submit(){
 	        		 get_detail($("#toDoWriteId").val());
 	        		 $("#message").val("");
 	        		 $("#file").val("");
-	        		 $("#file").removeChild(file.firstElementChild);
 	        		 $("#imgList").html("");
+	        		 array=[];
 	             }else{
 	                 alert(data.message);
 	             }
@@ -116,19 +119,20 @@ function submit(){
 	
 }
 $("#file").on("change",handleImgFileSelect);
+var count=0;
+var array=[];
 function handleImgFileSelect(e){
-	var count=0;
 	let inputId = e.target.id; // 이벤트가 발생된곳 ID
 	let imgId = 'img'+inputId; // 추가되는 이미지 ID
 	var files = e.target.files; // 추가되는 파일
 	var filesArr = Array.prototype.slice.call(files); // ?
 	let imgList = document.getElementById('imgList'); // 미리보기 div 아이디
-	let newFileButtonId = 'file'+ (count+1);
+	array.push(e.target.files);
+	/*let newFileButtonId = 'file'+ (count+1);
 	let formId = document.getElementById('file');
 	count++; // 숫자 추가
-	filesArr.forEach(function(f) {
+*/	filesArr.forEach(function(f) {
 
-		sel_file = f;
 		var reader = new FileReader();
 		reader.onload = function(e){
 			imgList.innerHTML += '<img src="'+e.target.result+'" id="'+imgId+'" style = "width:200px;height:100px; margin=2px;"/>'; // div에 미리보기 추가
@@ -136,7 +140,7 @@ function handleImgFileSelect(e){
 		reader.readAsDataURL(f);
 	});
 	
-	document.getElementById(inputId).style.display = 'none'; // 이미 추가한 버튼 비활성화
+	/*document.getElementById(inputId).style.display = 'none'; // 이미 추가한 버튼 비활성화
 	var x = document.createElement("INPUT");
 	x.setAttribute("type", "file");
 	x.setAttribute("id",newFileButtonId);
@@ -145,7 +149,7 @@ function handleImgFileSelect(e){
 	//formId += '<input type="file" id= "'+newFileButtonId+'" name="file"/>'; // 버튼 하나 추가
 	formId.appendChild(x);
 	document.getElementById(newFileButtonId).addEventListener('change',handleImgFileSelect); // 체인지시 이벤트할당
-}
+*/}
 /*function getCmaFileInfo(obj,stype) {
     var fileObj, pathHeader , pathMiddle, pathEnd, allFilename, fileName, extName;
     if(obj == "[object HTMLInputElement]") {
