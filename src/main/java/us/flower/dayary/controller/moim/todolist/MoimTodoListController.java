@@ -204,7 +204,7 @@ public class MoimTodoListController {
      */
 	@ResponseBody
 	@PostMapping("/moimDetail/moimTodoList/modalWrite/{no}")
-	public Map<String, Object> modalWrite(HttpSession session,@RequestPart(name="File",required=false) MultipartFile file,@RequestPart(name="MoimBoard") MoimBoard board,@PathVariable("no")long no) {
+	public Map<String, Object> modalWrite(HttpSession session,@RequestPart(name="File",required=false) MultipartFile[] file,@RequestPart(name="MoimBoard") MoimBoard board,@PathVariable("no")long no) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		String id =  (String) session.getAttribute("peopleEmail");
 		

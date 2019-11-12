@@ -189,7 +189,7 @@ public int[] countByMoim_idAndStatus(long id) {
 	return l;
 }
 @Override
-public void writeBoard(MultipartFile file,MoimBoard board,long no,String id) {
+public void writeBoard(MultipartFile[] file,MoimBoard board,long no,String id) {
 	// TODO Auto-generated method stub
 	//정보 기준으로 작성자와 todowritelist 설정 
 	try {
@@ -204,12 +204,13 @@ public void writeBoard(MultipartFile file,MoimBoard board,long no,String id) {
 		board.setCreate_date(new java.sql.Date(System.currentTimeMillis()));
 		board=moimboard.save(board);
 		
-		if(file != null) {
-			if(file.getOriginalFilename()!=""){
+		if(file.length>0) {
+			for(int i=0;i<file.length;i++) {
+			if(file[i].getOriginalFilename()!=""){
 			
 				MoimBoardFile bf=new MoimBoardFile();
-				String fileName=file.getOriginalFilename();
-				fileManager.fileUpload(file, moimImagePath+"/"+fileName);
+				String fileName=file[i].getOriginalFilename();
+				fileManager.fileUpload(file[i], moimImagePath+"/"+fileName);
 				
 				
 				bf.setMoimBoard(board);
@@ -217,6 +218,8 @@ public void writeBoard(MultipartFile file,MoimBoard board,long no,String id) {
 				bf.setFile_locate(moimImagePath+"/"+fileName);
 				
 				mbRepository.save(bf);
+				
+				}
 			}
 		}
 		if(todo.get().getDetail()=='N') {
