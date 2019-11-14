@@ -28,9 +28,10 @@ public interface MoimBoardRepository extends JpaRepository<MoimBoard, Long> {
 	//Page<MoimBoard> findByboardGroup_idAndMoim_id(long l, Moim moim, Pageable page);
 
 
-	List<MoimBoard> findByMoim_id(long no);
 
 	List<MoimBoard> findByboardGroup_idAndMoim_id(long l, long no);
+
+	Page<MoimBoard> findByMoim_id(Moim moim, Pageable page);
 
 
  

@@ -26,6 +26,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import us.flower.dayary.domain.common.DateAudit;
 
 @Entity
 @Table(name = "Moim_Board")
@@ -34,7 +35,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class MoimBoard {
+public class MoimBoard extends DateAudit{
 	 	@Id
 	    @GeneratedValue(strategy = GenerationType.AUTO)
 	    @Column(name = "ID")

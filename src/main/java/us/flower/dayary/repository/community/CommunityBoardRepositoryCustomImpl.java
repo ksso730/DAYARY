@@ -57,7 +57,7 @@ public class CommunityBoardRepositoryCustomImpl extends QuerydslRepositorySuppor
                                         communityBoard.viewCount,
                                         communityBoard.heart,
                                         communityBoardReply.countDistinct()))
-                                        .from(communityBoard, communityBoardReply)
+                                        .from(communityBoard)
                                         .leftJoin(communityBoard.communityBoardReplies, communityBoardReply)
                                         .where(communityBoard.boardGroup.eq(boardGroup).and(communityBoard.deleteFlag.eq(deleteFlag)).and(communityBoardReply.deleteFlag.eq(deleteFlag))
                                                 .or(communityBoard.boardGroup.eq(boardGroup).and(communityBoard.deleteFlag.eq(deleteFlag)).and(communityBoardReply.deleteFlag.isNull())));
