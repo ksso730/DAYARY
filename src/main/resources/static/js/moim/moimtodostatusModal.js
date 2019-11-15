@@ -72,6 +72,7 @@ window.onclick = function(event) {
 }
 //글 작성
 function submit(){
+	
 	if($("#message").val()==''&&array.length==0){
 		alert("내용을 작성하세요");
 		return;
@@ -121,70 +122,41 @@ function submit(){
 $("#file").on("change",handleImgFileSelect);
 var count=0;
 var array=[];
+var span = document.createElement("SPAN");
+var txt = document.createTextNode("\u00D7"); 
+span.appendChild(txt);
+span.style="position:fixed"
+span.className="deleteP"	
+	let imgList = document.getElementById('imgList'); // 미리보기 div 아이디
 function handleImgFileSelect(e){
 	let inputId = e.target.id; // 이벤트가 발생된곳 ID
 	let imgId = 'img'+inputId; // 추가되는 이미지 ID
 	var files = e.target.files; // 추가되는 파일
 	var filesArr = Array.prototype.slice.call(files); // ?
-	let imgList = document.getElementById('imgList'); // 미리보기 div 아이디
+	var fileName=e.target.files[0].name;
 	array.push(e.target.files);
 	/*let newFileButtonId = 'file'+ (count+1);
 	let formId = document.getElementById('file');
 	count++; // 숫자 추가
 */	filesArr.forEach(function(f) {
-
+	
 		var reader = new FileReader();
 		reader.onload = function(e){
-			imgList.innerHTML += '<img src="'+e.target.result+'" id="'+imgId+'" style = "width:200px;height:100px; margin=2px;"/>'; // div에 미리보기 추가
+			
+			imgList.appendChild(span);
+			imgList.innerHTML += '<img src="'+e.target.result+'"name="'+fileName+'" id="'+imgId+'" style = "width:200px;height:100px; margin=2px;"/>'; // div에 미리보기 추가
 		}
 		reader.readAsDataURL(f);
 	});
-	
-	/*document.getElementById(inputId).style.display = 'none'; // 이미 추가한 버튼 비활성화
-	var x = document.createElement("INPUT");
-	x.setAttribute("type", "file");
-	x.setAttribute("id",newFileButtonId);
-	
-	x.setAttribute("name","file");
-	//formId += '<input type="file" id= "'+newFileButtonId+'" name="file"/>'; // 버튼 하나 추가
-	formId.appendChild(x);
-	document.getElementById(newFileButtonId).addEventListener('change',handleImgFileSelect); // 체인지시 이벤트할당
-*/}
-/*function getCmaFileInfo(obj,stype) {
-    var fileObj, pathHeader , pathMiddle, pathEnd, allFilename, fileName, extName;
-    if(obj == "[object HTMLInputElement]") {
-        fileObj = obj.value
-    } else {
-        fileObj = document.getElementById(obj).value;
-    }
-    if (fileObj != "") {
-            pathHeader = fileObj.lastIndexOf("\\");
-            pathMiddle = fileObj.lastIndexOf(".");
-            pathEnd = fileObj.length;
-            fileName = fileObj.substring(pathHeader+1, pathMiddle);
-            extName = fileObj.substring(pathMiddle+1, pathEnd);
-            allFilename = fileName+"."+extName;
- 
-            if(stype == "all") {
-                    return allFilename; // 확장자 포함 파일명
-            } else if(stype == "name") {
-                    return fileName; // 순수 파일명만(확장자 제외)
-            } else if(stype == "ext") {
-                    return extName; // 확장자
-            } else {
-                    return fileName; // 순수 파일명만(확장자 제외)
-            }
-            var file = obj.target.file;
-            
-    } else {
-            alert("파일을 선택해주세요");
-            return false;
-    }
-    // getCmaFileView(this,'name');
-    // getCmaFileView('upFile','all');
- }
- 
-function getCmaFileView(obj,stype) {
-    var s = getCmaFileInfo(obj,stype);
-    
-}*/
+}
+$("#imgList").on("click","span",function(e) {
+	  var target=e.target.nextElementSibling;
+	   target.remove();
+	   e.target.remove();
+	  for(var i=0;i<array.length;i++){
+		 if(array[i][0].name==target.name){
+			 array.splice(i,1);
+		 }
+	  }
+});
+
