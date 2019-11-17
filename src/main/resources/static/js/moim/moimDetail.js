@@ -119,8 +119,9 @@ function sendEcho(moimId){
     	var sessionEmail = $('#sessionUserEmail').attr("data-sessionUserEmail");
     	var moimTitle = $('#moimTitle').attr("data-moimTitle");
 		if (socket) {
-			// websocket에 보내기 (regist,모임id,모임명,가입유저명)(ex:reply,댓글작성자,게게시글작성자,글번호)
-			let socketMsg = "regist," + moimId + "," + moimTitle + "," + sessionEmail; 
+			// websocket에 보내기 (regist,모임id,모임명,가입유저명,모임가입자들)
+			console.log("moimPeopleList>>", moimPeopleList);
+			let socketMsg = "regist," + moimId + "," + moimTitle + "," + sessionEmail + "," + moimPeopleList; 
 			console.log("sssssssmsg>>", socketMsg);
 			socket.send(socketMsg);
 		}
@@ -155,26 +156,54 @@ $('#withdraw_btn').off().on('click', function () {//스터디 탈퇴하기 by ch
    
 });
 
-$(document).ready(function(){//스터디 삭제 by choiseongjun 2019-09-20
-     $("#moim_delete_btn").click(function(){
-        var moimNo = $('#moimNo').attr("data-moimNo");
-        
-         $.ajax({
-              url:'/moimDetail/moimDeleteOne/'+moimNo,
-              type:'DELETE',
-            contentType: 'application/json; charset=UTF-8',
-              dataType:'json',
-              success:function(data){
-               if(data.code==1){
-                  alert(data.message);
-                  location.href='/moimlistView';
-               }else{
-                  alert(data.message)
-               }
-            },
-            error:function(xhr,error){
-               
-            }
-          });
-     });
-   });
+//스터디 삭제 by choiseongjun 2019-09-20
+$("#moim_delete_btn").click(function(){
+	var moimNo = $('#moimNo').attr("data-moimNo");
+	
+	$.ajax({
+		url:'/moimDetail/moimDeleteOne/'+moimNo,
+		type:'DELETE',
+		contentType: 'application/json; charset=UTF-8',
+		dataType:'json',
+		success:function(data){
+			if(data.code==1){
+				alert(data.message);
+				location.href='/moimlistView';
+			}else{
+				alert(data.message)
+			}
+		},
+		error:function(xhr,error){
+			
+		}
+	});
+});
+
+var moimPeopleList;
+$(document).ready(function(){
+	
+	var moimNo = $('#moimNo').attr("data-moimNo");
+	$.ajax({
+			url : '/moimParticipant/searchJoinedPeople/'+moimNo, 
+			type:'get',
+			contentType: 'application/json; charset=UTF-8',
+	        enctype: 'multipart/form-data',
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        contentType: false,
+	        dataType:'json',
+	        cache: false,
+	        mimeType:"multipart/form-data",
+	        success:function(data){
+	         if(data.code==1){
+	        	 moimPeopleList = data.moimPeople;
+	            console.log(moimPeopleList);
+	         }else{
+	            alert(data.message)
+	         }
+      },
+      error:function(xhr,error){
+         
+      }
+    });
+});
+

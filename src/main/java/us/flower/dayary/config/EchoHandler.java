@@ -43,23 +43,28 @@ public class EchoHandler extends TextWebSocketHandler{
 			String msg = message.getPayload();
 			if(StringUtils.isNotEmpty(msg)) {
 				String[] strs = msg.split(",");
-				if(strs != null && strs.length == 4) {
+				
+				if(strs != null) {
 					String cmd = strs[0];
 					String moimId = strs[1];
 					String moimTitle = strs[2];
 					String registUser = strs[3];
-					String moimPeople = "yy";
-					WebSocketSession moimPeopleSession = userSessions.get(moimPeople);
 					
-					System.out.println("*****#$!@#$!@#" + moimPeopleSession);
-					if("regist".equals(cmd) && moimPeopleSession != null) {
-					//	TextMessage tmpMsg = new TextMessage(replyWriter + "님이 "
-					//			+ "<a href='/board/read?bno=" + bno + "'>" + bno + "</a>번 게시글에 댓글을 달았습니다!");
-						TextMessage tmpMsg = new TextMessage(registUser + "님이  '" + moimTitle + "'  에 가입하셨습니다 !");
-						System.out.println("*****rrrrrr" + registUser);
-						moimPeopleSession.sendMessage(tmpMsg);
+					for(int cnt=4; cnt<strs.length; cnt++) {
+						
+						String recieveUser = strs[cnt];
+						WebSocketSession moimPeopleSession = userSessions.get(recieveUser);
+						
+						System.out.println("*****#$!@#$!@#" + moimPeopleSession);
+						if("regist".equals(cmd) && moimPeopleSession != null) {
+							//	TextMessage tmpMsg = new TextMessage(replyWriter + "님이 "
+							//			+ "<a href='/board/read?bno=" + bno + "'>" + bno + "</a>번 게시글에 댓글을 달았습니다!");
+							TextMessage tmpMsg = new TextMessage(registUser + "님이  '" + moimTitle + "'  에 가입하셨습니다 !");
+							System.out.println("*****rrrrrr" + registUser);
+							moimPeopleSession.sendMessage(tmpMsg);
+						}
+						
 					}
-					
 				}
 			}
 		}
@@ -67,12 +72,11 @@ public class EchoHandler extends TextWebSocketHandler{
 		private String getId(WebSocketSession session) {
 			Map<String, Object> httpSession = session.getAttributes();
 			People loginUser = (People)httpSession.get(SessionNames.LOGIN);
-			return "yy";
-			//본인한테라도 오게 테스트하기 위해 잠깐 막음
-//			if (null == loginUser)
-//				return session.getId();
-//			else
-//				return String.valueOf(loginUser.getId()); 	
+			
+			if (null == loginUser)
+				return session.getId();
+			else
+				return String.valueOf(loginUser.getId()); 	
 				//Long.toString(loginUser.getId()); 	
 		}
 	
