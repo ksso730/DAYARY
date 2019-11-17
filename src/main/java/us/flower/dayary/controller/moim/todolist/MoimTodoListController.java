@@ -51,6 +51,8 @@ import us.flower.dayary.service.moim.todo.ToDoWriteService;
 public class MoimTodoListController {
 	@Autowired 
 	private ToDoWriteService service;
+	@Autowired 
+	private moimService moimService;
 	
 	 /**
      * 모임  해야할일(ToDoList) 현재목록  DetailView  조회
@@ -159,12 +161,17 @@ public class MoimTodoListController {
     public JSONObject  moimTodoListNew(@PathVariable("no") long no,@PathVariable("status") String status,@PageableDefault Pageable pageable ){
     	JSONObject returnData = new JSONObject();
          try {
-        	 if(status.indexOf(".")>0) {
-        		 returnData.put("todolist",service.findByMoim_idAndPeople_name(no, status.substring(status.lastIndexOf(".")+1)));
+        	 if(status.indexOf(",")>0) {
+        		 String[] x=status.split(",");
+        		 if(x.length!=3) {
+        			 returnData.put("todolist",service.findByMoim_idAndPeople_nameAndStatus(no,x[1],""));
+        		 } else
+        			 returnData.put("todolist",service.findByMoim_idAndPeople_nameAndStatus(no,x[1],x[2]));
         	 }else {
         		 returnData.put("todolist",service.findByMoim_idAndStatus(no,status));
         		 
         	 }
+        	 returnData.put("status",status);
 	         returnData.put("code", "1");
          }catch(Exception e) {
         		returnData.put("message", e.getCause()+e.getMessage());
@@ -197,7 +204,7 @@ public class MoimTodoListController {
      */
 	@ResponseBody
 	@PostMapping("/moimDetail/moimTodoList/modalWrite/{no}")
-	public Map<String, Object> modalWrite(HttpSession session,@RequestPart(name="File",required=false) MultipartFile file,@RequestPart(name="MoimBoard") MoimBoard board,@PathVariable("no")long no) {
+	public Map<String, Object> modalWrite(HttpSession session,@RequestPart(name="File",required=false) MultipartFile[] file,@RequestPart(name="MoimBoard") MoimBoard board,@PathVariable("no")long no) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		String id =  (String) session.getAttribute("peopleEmail");
 		
@@ -320,11 +327,11 @@ public class MoimTodoListController {
         pageable = PageRequest.of(page, 9,Sort.by("id").descending());
     	Page<ToDoWrite> toDolist=service.findByMoim_id(pageable,no);
     	boolean moim=service.existByMoim_idAndPeople_id(no,(long)session.getAttribute("peopleId"));
-    	model.addAttribute("no",no);
+    	model.addAttribute("moim",moimService.findMoimone(no).get());
     	model.addAttribute("todolist", toDolist);
     	model.addAttribute("moimPeople",Boolean.toString(moim));
-    	model.addAttribute("moimName",toDolist.getContent().get(0).getMoim().getTitle());
     	model.addAttribute("count",service.countByMoim_idAndStatus(no));
+    	model.addAttribute("status","allList");
     	return "moim/moimTodoList";
     }
     /**
@@ -342,10 +349,11 @@ public class MoimTodoListController {
     	long people=(long)session.getAttribute("peopleId");
     	Page<ToDoWrite> toDolist=service.findByMoim_idAndPeople_id(pageable,no,people);
     	boolean moim=service.existByMoim_idAndPeople_id(no,people);
-    	model.addAttribute("no",no);
+    	model.addAttribute("moim",moimService.findMoimone(no).get());
     	model.addAttribute("todolist", toDolist);
     	model.addAttribute("moimPeople",Boolean.toString(moim));
     	model.addAttribute("count",service.countByMoim_idAndStatus(no));
+    	model.addAttribute("status","myList");
     	return "moim/moimTodoList" ;
     }
     /**

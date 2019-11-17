@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import us.flower.dayary.domain.common.DateAudit;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MoimBoardFile {
+public class MoimBoardFile extends DateAudit{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
@@ -29,7 +30,7 @@ public class MoimBoardFile {
     @JoinColumn(name = "MoimBoard_ID" ,referencedColumnName = "ID") 
     @JsonIgnore
 	private MoimBoard moimBoard;
-    @Column(name = "filename")
+    @Column(name = "filename") 
 	private String filename;
 
 

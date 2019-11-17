@@ -26,7 +26,6 @@ import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
 
 @Service
-@Transactional
 public class MoimImageImpl implements MoimImage {
 	
 	@Autowired 
@@ -50,18 +49,17 @@ public class MoimImageImpl implements MoimImage {
 
 	public Page<MoimBoard> search(final Pageable page,long no) {
     	Page<MoimBoard> result;
-    	BoardGroup boardGroup = new BoardGroup();
     	Moim moim = new Moim();
     	
     	moim.setId(no);
-    	boardGroup.setId(8);
     	
-    	result = mbRepository.searchRepresent(boardGroup,moim,0,page);
-    	
+    	//result = mbRepository.searchRepresent(boardGroup,moim,0,page);
+    	result =mbRepository.findByMoim_id(moim,page);
 		return result;
 	}
 	
 	@Override
+	@Transactional
 	public List<MoimBoardFile> saveFile(MoimBoard moid_moard,MultipartFile[] file) {
 		// TODO Auto-generated method stub
 		String[] result = new String[file.length];
