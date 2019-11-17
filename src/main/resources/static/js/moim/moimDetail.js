@@ -73,9 +73,10 @@ $('#signup_btn').off().on('click', function () {//스터디 가입하기 by choi
        data      : JSON.stringify(moimNo),
         success:function(data){
            if(data.code==1){
-              console.log("success callback data");
+               console.log("success callback data");
+               sendEcho(moimNo);
                alert(data.message);
-                 location.href='/moimlistView/moimdetailView/'+moimNo;
+               location.href='/moimlistView/moimdetailView/'+moimNo;
          }else{
             alert(data.message);
          }
@@ -98,9 +99,10 @@ $('#signup_btnY').off().on('click', function () {//스터디 가입하기 by cho
        data      : JSON.stringify(moimNo),
         success:function(data){
            if(data.code==1){
-              console.log("success callback data");
+               console.log("success callback data");
                alert(data.message);
                location.href='/moimlistView/moimdetailView/'+moimNo;
+               sendEcho(moimNo);
          }else{
             alert(data.message);
          }
@@ -110,27 +112,41 @@ $('#signup_btnY').off().on('click', function () {//스터디 가입하기 by cho
         }
     });
 });
+
+// 가입 알림 보내기 by yn 2019/11/15
+function sendEcho(moimId){
+    	console.log("reply.js::socket>>", socket);
+    	var sessionEmail = $('#sessionUserEmail').attr("data-sessionUserEmail");
+    	var moimTitle = $('#moimTitle').attr("data-moimTitle");
+		if (socket) {
+			// websocket에 보내기 (regist,모임id,모임명,가입유저명)(ex:reply,댓글작성자,게게시글작성자,글번호)
+			let socketMsg = "regist," + moimId + "," + moimTitle + "," + sessionEmail; 
+			console.log("sssssssmsg>>", socketMsg);
+			socket.send(socketMsg);
+		}
+}
+
 $('#withdraw_btn').off().on('click', function () {//스터디 탈퇴하기 by choiseongjun 2019-09-20
 
      var moimPeopleNo = $('#moimPeopleNo').attr("data-moimPeopleNo");
      moimPeopleNo*=1;
      console.log(moimPeopleNo);
-    $.ajax({
+     $.ajax({
           url : '/moimParticipant/deletejoinedPeople/'+moimPeopleNo, 
           type : "DELETE",   
           processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
-           contentType: false,
-           contentType: 'application/json; charset=UTF-8',
+          contentType: false,
+          contentType: 'application/json; charset=UTF-8',
           dataType   : 'json',  
           data      : JSON.stringify(moimPeopleNo),
-           success:function(data){
+          success:function(data){
               if(data.code==1){
-                 console.log("success callback data");
+                  console.log("success callback data");
                   alert(data.message);
-                    location.href='/moimlistView';
-            }else{
-               alert(data.message);
-            }
+                  location.href='/moimlistView';
+               }else{
+                  alert(data.message);
+               }
            },
            error:function(e){
 
