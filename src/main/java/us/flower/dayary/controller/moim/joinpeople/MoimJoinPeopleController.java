@@ -8,15 +8,15 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import net.minidev.json.JSONObject;
 import us.flower.dayary.domain.Moim;
-import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.DTO.TempData;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
@@ -197,6 +197,33 @@ public class MoimJoinPeopleController {
 	            returnData.put("code", "E3290");
 	            returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
 	      }
+		return returnData;
+	}
+
+	/**
+	 * 모임 회원 조회
+	 *
+	 * @param locale
+	 * @param moimNo
+	 * @return returnData
+	 * @throws Exception
+	 * @author yn
+	 * @Date 2019-11-17
+	 */
+	@ResponseBody
+	@GetMapping("/moimParticipant/searchJoinedPeople/{moimNo}")
+	public JSONObject searchJoinedPeople(@PathVariable("moimNo") long moimNo, HttpSession session) {
+		
+		JSONObject returnData = new JSONObject();
+		
+		try {
+			returnData.put("moimPeople", moimjoinPeopleService.searchJoinedPeople(moimNo));
+			returnData.put("code","1");
+			returnData.put("message","모임가입자 조회완료");
+		}catch (Exception e) {
+			returnData.put("code", "E3290");
+			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+		}
 		return returnData;
 	}
 }
