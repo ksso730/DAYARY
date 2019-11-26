@@ -35,7 +35,7 @@ function modal_view(plan,writer,id,parent,email){
 	            	   console.log(i)
 	            	   if(typeof  m[i].moimBoardfile[0]!= 'undefined' && m[i].moimBoardfile[0].real_name != 'undefined'){
 	            		  for(var j in m[i].moimBoardfile){
-	            			  html+="<div clas='img' onclick='expand(this)'>"
+	            			  html+="<div class='img' onclick='expand(this)'>"
 	            			  html+="<img  src='/getMoimImage/"+m[i].moimBoardfile[j].real_name+"' height='150px' width='250px'>";
 	            			  html+="<span>+</span>"
 	            			  html+="</div>"
@@ -162,22 +162,15 @@ $("#imgList").on("click","span",function(e) {
 		 }
 	  }
 });
-$(".img").on("click","span",function(e){
-	expand(e);
-})
 
 
-function expand(e){
-	e=e.firstElementChild;
+function expand(div){
+	e=div.firstElementChild;
 	if(e. height=="600"){
 		e.height="150"
 		e.width="250"
-	   e.nextElementSibling.remove();
-	   e.parentNode.appendChild(span2);	
 	}else{
-		e.nextElementSibling.remove();
 		e.height="600"
 		e.width= "1000"
-		e.parentNode.appendChild(span)
 	}
 }
