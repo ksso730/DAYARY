@@ -35,8 +35,10 @@ function modal_view(plan,writer,id,parent,email){
 	            	   console.log(i)
 	            	   if(typeof  m[i].moimBoardfile[0]!= 'undefined' && m[i].moimBoardfile[0].real_name != 'undefined'){
 	            		  for(var j in m[i].moimBoardfile){
-	            			  html+="<img src='/getMoimImage/"+m[i].moimBoardfile[j].real_name+"' height='150px' width='250px'>";
-	            			  
+	            			  html+="<div class='img' onclick='expand(this)'>"
+	            			  html+="<img  src='/getMoimImage/"+m[i].moimBoardfile[j].real_name+"' height='150px' width='250px'>";
+	            			  html+="<span>+</span>"
+	            			  html+="</div>"
 	            		  }
 	            	   }
 	               }
@@ -124,9 +126,10 @@ var count=0;
 var array=[];
 var span = document.createElement("SPAN");
 var txt = document.createTextNode("\u00D7"); 
+var span2 = document.createElement("SPAN");
+var txt2 = document.createTextNode("+"); 
 span.appendChild(txt);
-span.style="position:fixed"
-span.className="deleteP"	
+span2.appendChild(txt2)
 	let imgList = document.getElementById('imgList'); // 미리보기 div 아이디
 function handleImgFileSelect(e){
 	let inputId = e.target.id; // 이벤트가 발생된곳 ID
@@ -160,3 +163,14 @@ $("#imgList").on("click","span",function(e) {
 	  }
 });
 
+
+function expand(div){
+	e=div.firstElementChild;
+	if(e. height=="600"){
+		e.height="150"
+		e.width="250"
+	}else{
+		e.height="600"
+		e.width= "1000"
+	}
+}
