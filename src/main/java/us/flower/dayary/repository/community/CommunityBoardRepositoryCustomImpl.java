@@ -48,7 +48,7 @@ public class CommunityBoardRepositoryCustomImpl extends QuerydslRepositorySuppor
                                         .fetchResults();*/
 
         final QCommunityBoard boards = communityBoard;
-        final JPQLQuery<BoardListDTO> query = from(communityBoard, communityBoardReply)
+        final JPQLQuery<BoardListDTO> query = from(communityBoard)
                                         .select(Projections.constructor(BoardListDTO.class,
                                         communityBoard.id,
                                         communityBoard.title,
@@ -65,7 +65,7 @@ public class CommunityBoardRepositoryCustomImpl extends QuerydslRepositorySuppor
                                         if(!search.equals("")){
                                             query.where(communityBoard.title.contains(search).or(communityBoard.memo.contains(search)));
                                         }
-                                        query.groupBy(communityBoard);
+                                        query.groupBy(communityBoard).orderBy(communityBoard.createdAt.desc());
 
    /*     Map<Integer, List<CommunityBoardReply>> results = jpaQueryFactory.from(communityBoard, communityBoardReply)
                 .leftJoin(communityBoard.communityBoardReplies, communityBoardReply)
