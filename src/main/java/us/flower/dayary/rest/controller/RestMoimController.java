@@ -1,5 +1,7 @@
 package us.flower.dayary.rest.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.minidev.json.JSONObject;
+import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.repository.moim.MoimRepository;
+import us.flower.dayary.repository.moim.meetup.MoimMeetUpRepository;
 import us.flower.dayary.service.moim.moimService;
 
 @RestController
@@ -25,6 +31,8 @@ public class RestMoimController {
 	moimService moimService;
 	@Autowired
 	MoimRepository moimrepository;
+	@Autowired
+	MoimMeetUpRepository moimmeetupRepository;
 	/**
 
 	 * 모임 리스트 출력(Paging 처리)
@@ -69,5 +77,18 @@ public class RestMoimController {
 		 return new ResponseEntity<>(returnData, HttpStatus.OK);
 
 		
+	}
+	@GetMapping("/rest/moimlistView/moimdetailView/{no}")
+	public ResponseEntity<?> RestmoimDetailView(@PathVariable("no") long no, Model model, HttpSession session, Sort sort,
+			@PageableDefault Pageable pageable) {
+		
+		
+		JSONObject returnData = new JSONObject();
+		moimService.findMoimone(no).ifPresent(moimDetail -> returnData.put("moimDetail", moimDetail));// 모임장중심으로 데이터
+		
+		List<Meetup> meetupList = moimmeetupRepository.findByMoim_id(no, pageable);//오프라인모임리스트
+		returnData.put("meetupList",meetupList);
+		// 불러옴
+		 return new ResponseEntity<>(returnData, HttpStatus.OK);
 	}
 }
