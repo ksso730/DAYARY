@@ -6,6 +6,9 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import us.flower.dayary.domain.common.DateAudit;
 import javax.persistence.*;
 import java.util.List;
@@ -23,11 +26,9 @@ public class CommunityBoardReply extends DateAudit {
     @Column(name="ID")
     private long id;
 
-//    @EmbeddedId
-//    private CommunityBoardReplyId id;
-
-    @Column(name="PEOPLE_ID")
-    private long peopleId;
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = People.class)
+	@JoinColumn(name = "PEOPLE_ID", nullable = false)
+    private People people;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "COMMUNITY_BOARD_ID")
