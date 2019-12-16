@@ -103,14 +103,21 @@
                <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a> 
                <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
             </div>
-            <div class="timeline-comment-box">
+            <div class="timeline-comment-box" >
+	            <div th:id="'commentbox_'+${timeLine.id}">
+	           	  <div th:each="reply :${timeLine.communityBoardReplies}" >
+	           	   <span th:text="${reply.memo}">  </span>
+	           	     작성자:<span th:text="${reply.people.name}"></span>
+	           	   <span th:text="${#strings.replace(reply.createdAt,'T',' ')}">  </span>
+	           	  </div>
+           	  </div>
                <div class="user"><img src="https://bootdey.com/img/Content/avatar/avatar6.png"></div>
                <div class="input">
                   <form action="">
                      <div class="input-group">
-                        <input type="text" class="form-control rounded-corner" placeholder="Write a comment...">
+                        <input type="text" id=" " class="form-control rounded-corner" placeholder="Write a comment...">
                         <span class="input-group-btn p-l-10">
-                        <button class="btn btn-primary f-s-12 rounded-corner" type="button">Comment</button>
+                        <button class="btn btn-primary f-s-12 rounded-corner" type="button" th:onclick="|fn_writeReply('${timeLine.id}',this)|">Comment</button>
                         </span>
                      </div>
                   </form>
