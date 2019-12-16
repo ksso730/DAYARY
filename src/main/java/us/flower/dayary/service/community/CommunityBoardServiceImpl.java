@@ -105,7 +105,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		CommunityBoardReply reply = boardReplyRepository.getOne(replyId);
 
 		// 댓글 사용자와 작성자가 같을때
-		if(peopleId.longValue()==reply.getPeopleId()){
+		if(peopleId.longValue()==reply.getPeople().getId()){
 			deleteReply(reply);
 			return true;
 		}else{
@@ -145,7 +145,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		boardGroup.setId(boardGroupId);
 
 		List<CommunityBoard> timeLineList = communityBoardRepository.findAllByBoardGroupAndDeleteFlag(boardGroup, "N");
-
+	
 		return timeLineList;
 	}
 
@@ -339,8 +339,10 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 
 			reply.setParent(parent);
 		}
-
-		reply.setPeopleId(peopleId);
+		 
+		People people=new People();
+		people.setId(peopleId);
+		reply.setPeople(people);;
 		CommunityBoard board = communityBoardRepository.getOne(boardId);
 		reply.setCommunityBoard(board);
 		reply.setBoardGroupId(boardGroupId);
@@ -354,5 +356,18 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		communityBoardRepository.save(board);
 
 		return reply;
+	}
+	/**
+	 * 타임라인 댓글 조회
+	 * @param boardId
+	 */
+	@Override
+	public List<CommunityBoardReply> getTimeLineReplyList(long boardId) {
+		// TODO Auto-generated method stub
+		CommunityBoard board =  getCommunityBoard(boardId);
+
+		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.getAllByCommunityBoardAndDeleteFlagAndParentIsNull(board, "N");
+
+		return communityBoardReplies;
 	}
 }
