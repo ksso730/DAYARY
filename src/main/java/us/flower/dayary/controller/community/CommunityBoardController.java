@@ -623,6 +623,41 @@ public class CommunityBoardController {
 		return returnData;
 	}
 	/**
+	 * 게시글 댓글수정
+	 * @param boardGroup
+	 * @param boardId
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/community/board/modifyReply")
+	public HashMap<String, Object> modifyBoardReply( @RequestBody CommunityBoardReply reply, HttpSession session, Model model){
+		
+
+		HashMap<String, Object> returnData = new HashMap<>();
+
+		if (reply.getMemo().equals(null) || reply.getMemo().equals("")) {
+			returnData.put("code", "0");
+			returnData.put("message", "내용을 입력해주세요");
+			return returnData;
+		}
+
+		
+		try {
+			communityBoardService.moidfyBoardReply(reply);
+			returnData.put("code", "1");
+			returnData.put("message", "저장되었습니다");
+		
+
+		} catch (Exception e) {
+			returnData.put("code", "E3290");
+			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+		}
+
+		return returnData;
+	}
+	/**
 	 * 타임라인 댓글리스트
 	 * @param boardId
 	 * @param session
@@ -637,7 +672,6 @@ public class CommunityBoardController {
 
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		returnData.put("list", communityBoardService.getTimeLineReplyList(boardId));
-		System.out.print(communityBoardService.getTimeLineReplyList(boardId)+"dddddddddddddd");
 	
 		return returnData;
 	}

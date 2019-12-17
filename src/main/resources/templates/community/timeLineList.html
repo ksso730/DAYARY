@@ -28,6 +28,7 @@
 
 <div class="container">
 <div th:replace="community/sidemenu::sidemenu"/>
+<input type="hidden" id="peopleId" th:data="${session.peopleId}">
 <!--<div id="board_group_id" class="board_group_id"th:data-boardGroupNo="${boardGroupId}"></div>-->
    <ul class="timeline">
    <!-- 글쓰기 -->
@@ -83,8 +84,7 @@
             </div>
             <div class="timeline-likes">
                <div class="stats-right">
-                  <span class="stats-text">259 Shares</span>
-                  <span class="stats-text">21 Comments</span>
+                  <span class="stats-text" th:text="${timeLine.replyCount}"></span> Comments
                </div>
                <div class="stats">
                   <span class="fa-stack fa-fw stats-icon">
@@ -101,14 +101,27 @@
             <div class="timeline-footer">
                <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
                <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a> 
-               <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
             </div>
             <div class="timeline-comment-box" >
-	            <div th:id="'commentbox_'+${timeLine.id}">
-	           	  <div th:each="reply :${timeLine.communityBoardReplies}" >
-	           	   <span th:text="${reply.memo}">  </span>
-	           	     작성자:<span th:text="${reply.people.name}"></span>
-	           	   <span th:text="${#strings.replace(reply.createdAt,'T',' ')}">  </span>
+	            <div th:id="'commentbox_'+${timeLine.id}" class="box-footer box-comments">
+	           	  <div th:each="reply :${timeLine.communityBoardReplies}" th:if="${reply.deleteFlag=='N'}" class="box-comment" >
+				  <div class="user"><img src="https://bootdey.com/img/Content/avatar/avatar6.png"></div>
+				   <div class="comment-text" th:id="'replybox_'+${reply.id}">
+				   	<span class="username" th:text="${reply.people.name}"></span>
+				   		<span class="text-muted pull-right" th:text="${#strings.replace(reply.createdAt,'T',' ')}"></span>
+	           	    <span th:text="${reply.memo}">  </span>
+	           	    <button th:if="${session.peopleId==reply.people.id}" th:onclick="|fn_modifyForm('${reply.id}')|" class="btn btn-xs btn-link">수정</button>
+	           	    <button th:if="${session.peopleId==reply.people.id}" th:onclick="|fn_deleteReply('${reply.id}','${timeLine.id}')|" class="btn btn-xs btn-link">삭제</button>
+				   </div>
+	           	   <div class="input" th:id="'modifybox_'+${reply.id}"  style="display: none">
+                 	    <div class="input-group">
+                        <input type="text" class="form-control rounded-corner" th:value="${reply.memo}">
+                        <span class="input-group-btn p-l-10">
+                        <button class="btn btn-primary f-s-12 rounded-corner" type="button" th:onclick="|fn_modifyReply('${reply.id}',this,'${timeLine.id}')|">저장</button>
+                        </span>
+                     </div>
+	           	  </div>
+	           	  <br>
 	           	  </div>
            	  </div>
                <div class="user"><img src="https://bootdey.com/img/Content/avatar/avatar6.png"></div>

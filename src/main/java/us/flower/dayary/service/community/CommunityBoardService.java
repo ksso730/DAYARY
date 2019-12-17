@@ -61,5 +61,8 @@ public interface CommunityBoardService {
 
 	// 게시글 댓글 저장
 	CommunityBoardReply addBoardReply(CommunityBoardReply reply, long peopleId, long boardId, long boardGroupId);
+	
+	//게시글 댓글 수정
+	void moidfyBoardReply(CommunityBoardReply reply);
 
 }
