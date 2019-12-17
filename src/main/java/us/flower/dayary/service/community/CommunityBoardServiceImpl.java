@@ -240,6 +240,9 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	public void deleteReply(CommunityBoardReply reply) {
 		reply.setDeleteFlag("Y");
 		boardReplyRepository.save(reply);
+		CommunityBoard board=reply.getCommunityBoard();
+		board.setReplyCount(board.getReplyCount()-1);
+		communityBoardRepository.save(board);
 	}
 
 	/**
@@ -369,5 +372,15 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.getAllByCommunityBoardAndDeleteFlagAndParentIsNull(board, "N");
 
 		return communityBoardReplies;
+	}
+
+	@Override
+	public void moidfyBoardReply(CommunityBoardReply reply) {
+		// TODO Auto-generated method stub
+		//바뀐내용가져오기
+		String memo=reply.getMemo();
+		reply=boardReplyRepository.getOne(reply.getId());
+		reply.setMemo(memo);
+		boardReplyRepository.save(reply);
 	}
 }
