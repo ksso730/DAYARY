@@ -13,7 +13,7 @@ spring:
       enabled: true
   thymeleaf:
         cache: false
-  
+
   datasource:
       driverClassName : net.sf.log4jdbc.sql.jdbcapi.DriverSpy
       url: "jdbc:log4jdbc:mariadb://localhost:3306/diary"
