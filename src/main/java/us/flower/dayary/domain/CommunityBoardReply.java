@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name="COMMUNITY_BOARD_REPLY")
-@ToString(exclude = "communityBoard, parent")
+@ToString(exclude = "communityBoard, parent,people")
 @DynamicInsert
 @DynamicUpdate
 public class CommunityBoardReply extends DateAudit {
@@ -28,6 +28,7 @@ public class CommunityBoardReply extends DateAudit {
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = People.class)
 	@JoinColumn(name = "PEOPLE_ID", nullable = false)
+	@JsonIgnore
     private People people;
 
     @ManyToOne(optional = false)
