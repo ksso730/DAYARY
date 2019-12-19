@@ -84,7 +84,20 @@ function myMoimList(){
 
 
 $(document).ready(function(){//회원 탈퇴 by choiseongjun 2019-10-01
-	  $("#people_delete_btn").click(function(){
+	$.ajax({
+	      url:'/getMyNotiListCount',
+	        contentType: "application/json; charset=utf-8",
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        success:function(data){
+	        	console.log(data.getMyNotiCount);
+	        	$("#badge").append(data.getMyNotiCount);
+	        }, error:function(e){
+				//'alert(e)
+	        }
+	    });  
+	
+	
+	$("#people_delete_btn").click(function(){
 		  var peopleId = $('#peopleId').attr("data-peopleId");
 		  
 			$.ajax({

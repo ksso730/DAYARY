@@ -87,6 +87,29 @@ public class PeopleInfoController {
 		return returnData;
 	}
 	/**
+	 * 내 알림리스트 카운트조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@ResponseBody
+	@GetMapping("/getMyNotiListCount")
+	public Map<String,Object> getMyNotiCount(HttpSession session,Model model) {
+		long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.
+		
+	
+
+		long getMyNotiCount=notifyRepository.countByPeople_id(peopleId);
+		
+		
+		Map<String,Object> data=new HashMap<String,Object>();
+		data.put("getMyNotiCount",getMyNotiCount);
+		data.put("code", "1"); 	
+		
+		return data;
+	}
+	/**
 	 * 내 알림리스트 조회
 	 *
 	 * @param

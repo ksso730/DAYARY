@@ -10,4 +10,6 @@ public interface NotifyRepository extends JpaRepository<Noti, Long>{
 
 	List<Noti> findByPeople_id(long peopleId);
 
+	long countByPeople_id(long peopleId);
+
 }
