@@ -1,7 +1,9 @@
 package us.flower.dayary.controller.moim.chat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.socket.WebSocketSession;
 
+import us.flower.dayary.controller.people.SessionNames;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimChat;
 import us.flower.dayary.domain.Noti;
@@ -40,6 +44,19 @@ public class MoimChatController {
 	
 	@Autowired 
 	NotifyRepository notifyRepository;
+	
+	private String getId(HttpSession session) {
+		String userid = (String) session.getAttribute("PeopleId");
+		return userid;
+		
+//		People loginUser = (People)httpSession.get(SessionNames.LOGIN);
+//		if (null == loginUser) 
+//			return session.getId();
+//		else
+//			return String.valueOf(loginUser.getId()); 	
+			//Long.toString(loginUser.getId()); 	
+	}
+	
 	/**
      * 모임 단체채팅방 채팅 날리기
      *
@@ -49,11 +66,10 @@ public class MoimChatController {
      * @author choiseongjun 
      * @Date 2019-10-02
      */
-	
 	@MessageMapping("/moimjoinNoti")
 	@SendTo("/topic/message")
 	public MoimJoinDTO moimjoinNoti(MoimJoinDTO message) throws Exception{
-		HttpSession session = null;
+		HttpSession session;
 		 
 	String moimPeopleList = message.getMoimPeopleListstr();
 	String[] moimPeopleListstr = moimPeopleList.split(",");
@@ -85,9 +101,8 @@ public class MoimChatController {
 		noti.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
 		notifyRepository.save(noti);
 		
+		
 	}
-	String id = (String) session.getAttribute("peopleId");
-	System.out.println("Id값은>?"+id);
 	
 
 		return message;

@@ -35,7 +35,6 @@ public class Noti {
 	People people;
 	@ManyToOne
 	@JoinColumn(name = "MOIM_ID")
-	@JsonIgnore
 	private Moim moim;
 
 	@Column(name = "MEMO")
