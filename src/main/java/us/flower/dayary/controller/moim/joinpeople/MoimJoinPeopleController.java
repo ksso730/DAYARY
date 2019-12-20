@@ -160,7 +160,7 @@ public class MoimJoinPeopleController {
 	
 		char joinCondition='Y';//참가자 승인후 Y
 		Map<String,Object> returnData = new HashMap<String,Object>();
-	
+	 
 		try {	
 				moimService.moimParticipant(peopleId,moimNo,joinCondition);
 				returnData.put("code","1");  

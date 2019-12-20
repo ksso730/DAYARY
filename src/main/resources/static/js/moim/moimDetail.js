@@ -78,8 +78,8 @@ $('#signup_btn').off().on('click', function () {//스터디 가입하기 by choi
            if(data.code==1){
              //  console.log("success callback data");
              //  sendEcho(moimNo);
-             //  alert(data.message);
-             //  location.href='/moimlistView/moimdetailView/'+moimNo;
+               alert(data.message);
+               location.href='/moimlistView/moimdetailView/'+moimNo;
         	   
         		var peopleEmail = $('#sessionUserEmail').attr("data-sessionUserEmail");
             	var moimTitle = $('#moimTitle').attr("data-moimTitle");
@@ -90,17 +90,17 @@ $('#signup_btn').off().on('click', function () {//스터디 가입하기 by choi
        		//if()
             var moimPeopleListstr=moimPeopleList.join(',');
             console.log(moimPeopleListstr);
-       		if(!isStomp && socket.readyState!==1) return;
+//       		if(!isStomp && socket.readyState!==1) return;
 //       		let peopleId=$('#peopleId').attr("data-peopleId");
 //       		let msg=$('#inputmsg').val();
 //       		let moimNo=$('#moimNo').attr("data-moimNo");
 //       		let peopleEmail=$('#email').attr("data-email");
-       		if(isStomp){
-       			//socket.send('/moimjoinNoti',{},JSON.stringify({moimNo:moimNo, peopleEmail: peopleEmail, moimTitle: moimTitle,moimPeopleList:moimPeopleList}));
-       			socket.send('/moimjoinNoti',{},JSON.stringify({ moimNo, peopleEmail, moimTitle,moimPeopleListstr}));
-       		}else{
-       			socket.send(msg);
-       		}
+//       		if(isStomp){
+//       			//socket.send('/moimjoinNoti',{},JSON.stringify({moimNo:moimNo, peopleEmail: peopleEmail, moimTitle: moimTitle,moimPeopleList:moimPeopleList}));
+//       			socket.send('/moimjoinNoti',{},JSON.stringify({ moimNo, peopleEmail, moimTitle,moimPeopleListstr}));
+//       		}else{
+//       			socket.send(msg);
+//       		}
        		$('#inputmsg').val('');
          }else{
             alert(data.message);

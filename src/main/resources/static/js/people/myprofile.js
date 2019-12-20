@@ -18,7 +18,7 @@ function getNoti(){
 	    				html += 	'<span class="float-right font-weight-bold">'+notilist[i].createDate+'</span>'
 						html += 	'</td>'
 	    				html += 	'<td>'
-	    				html += 	'<a href="moimlistView/moimdetailView/'+notilist[i]+'">'+notilist[i].memo+""+'</a>'
+	    				html += 	'<a href="moimlistView/moimdetailView/'+notilist[i].moim.id+'">'+notilist[i].memo+""+'</a>'
 						html += 	'</td>'
 		   				html += '</tr>'
 	    				html += '</tbody>'
