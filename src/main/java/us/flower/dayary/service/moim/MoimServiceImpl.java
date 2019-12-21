@@ -200,9 +200,6 @@ public class MoimServiceImpl implements moimService{
 		        }
 		        
 	    	}
-		        
-	    	
-
 
 	        String title = moim.getTitle();
 	        long moimId = moim.getId();
@@ -215,6 +212,11 @@ public class MoimServiceImpl implements moimService{
 
 	        moimRepository.updateMoim(title,intro,peopleLimit,joincondition,imageName,imageExtension,moimId);
 		
+	}
+
+	@Override
+	public long selectMaxMoimId() {
+		return moimRepository.selectMaxMoimId();
 	}
 
 
