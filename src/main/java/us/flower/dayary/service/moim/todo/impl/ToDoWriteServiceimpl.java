@@ -166,11 +166,20 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
    public void deleteById(long id) {
       // TODO Auto-generated method stub
 	   List<ToDoWriteList> list=toDowriteListRepository.findByToDoWrite_id(id);
-	   for(int i=0;i<list.size();i++) {
-		   moimboard.deleteByToDoWriteList_id(list.get(i).getId());
+	   
+	   ToDoWriteList todoWriteList = new ToDoWriteList();
+	  
+	   
+	   for(int i=0;i<list.size()-1;i++) {
+		  // moimboard.deleteByToDoWriteList_id(list.get(i).getId());
+		   todoWriteList.setId(list.get(i).getId()); 
+		   moimboard.updateDeleteYn(todoWriteList);
 	   }
-	   toDowriteListRepository.deleteByToDoWrite_id(id);
-      toDowriteRepository.deleteById(id);
+	 
+	  //toDowriteListRepository.deleteByToDoWrite_id(id);
+	   //삭제말고 delete y = y로
+	   toDowriteListRepository.updateoDoWrite_id(id);//아직 미작업
+      //toDowriteRepository.deleteById(id);
    }
    @Override
    public List<ToDoWrite> findByMoim_idAndStatus(long id, String status) {
