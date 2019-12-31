@@ -160,15 +160,23 @@ public class MoimTodoListController {
     @GetMapping("/moimDetail/moimTodoList/{no}/{status}")
     public JSONObject  moimTodoListNew(@PathVariable("no") long no,@PathVariable("status") String status,@PageableDefault Pageable pageable ){
     	JSONObject returnData = new JSONObject();
+    	int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+        pageable = PageRequest.of(page, 10,Sort.by("id").descending());
+    //	pageable = PageRequest.of(1, 10, new Sort(Direction.DESC, "id"));
          try {
         	 if(status.indexOf(",")>0) {
         		 String[] x=status.split(",");
+        		 System.out.println(x[0]);
+        		 System.out.println(x[1]);
+        		 System.out.println(x[2]);
         		 if(x.length!=3) {
         			 returnData.put("todolist",service.findByMoim_idAndPeople_nameAndStatus(no,x[1],""));
         		 } else
         			 returnData.put("todolist",service.findByMoim_idAndPeople_nameAndStatus(no,x[1],x[2]));
         	 }else {
-        		 returnData.put("todolist",service.findByMoim_idAndStatus(no,status));
+        		 Page<ToDoWrite> toDolist=service.findByMoim_idAndStatus(no,status,pageable);
+        		 returnData.put("todolist",toDolist);
+        		 System.out.println("This request is get234324234??");
         		 
         	 }
         	 returnData.put("status",status);

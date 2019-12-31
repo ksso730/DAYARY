@@ -443,8 +443,9 @@ function detail_list(status){
 	        success:function(data){
 	        	 if(data.code==1){
 	        		 console.log(data)
+	        		 console.log(data.todolist)
 	        		//var page=data.todolist.page;
-	        		var list=data.todolist;
+	        		var list=data.todolist.content;
 	        		var html=""
 	        			for(var i in list){
 	        				html+='<tr><td class="align-middle"> <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div></td>';

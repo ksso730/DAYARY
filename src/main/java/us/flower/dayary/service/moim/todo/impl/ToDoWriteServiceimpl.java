@@ -182,9 +182,9 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
       //toDowriteRepository.deleteById(id);
    }
    @Override
-   public List<ToDoWrite> findByMoim_idAndStatus(long id, String status) {
+   public Page<ToDoWrite> findByMoim_idAndStatus(long id, String status,Pageable pageable) {
       // TODO Auto-generated method stub
-      return toDowriteRepository.findByMoim_idAndStatus(id,status,Sort.by("id").descending()) ;
+      return toDowriteRepository.findByMoim_idAndStatus(id,status,pageable) ;
    }
 @Override
 public int[] countByMoim_idAndStatus(long id) {
@@ -276,4 +276,5 @@ public List<ToDoWrite> findByMoim_idAndPeople_nameAndStatus(long id, String name
 	else
 		return toDowriteRepository.findByMoim_idAndPeople_name(id, name,Sort.by("id").descending());
 				
-}}
+}
+}
