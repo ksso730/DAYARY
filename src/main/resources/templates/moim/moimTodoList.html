@@ -203,39 +203,75 @@
                         </tbody>
                     </table>
                 </div>
+               
                 <div class="d-flex justify-content-center pb-0 card-footer">
                    	<nav style="text-align: center;" id="page">
-     <ul class="pagination"
-        th:with="start=${T(Math).floor(todolist.number/10)*10 + 1},
-                    last=(${start + 9 < todolist.totalPages ? start + 9 : todolist.totalPages})" th:if="${todolist.totalPages ne 0}" >
-        <li>
-            <a th:href="@{|/moimDetail/moimTodoList/${moim.id}?page=1|}" aria-label="First">
-                <span aria-hidden="true">First</span>
-            </a>
-        </li>
-
-        <li th:class="${todolist.first} ? 'disabled'">
-            <a th:href="${todolist.first} ? '#' :@{|/moimDetail/moimTodoList/${moim.id}?page=${todolist.number}|}" aria-label="Previous">
-                <span aria-hidden="true">&lt;</span>
-            </a>
-        </li>
-
-        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == todolist.number + 1} ? 'active'">
-            <a th:text="${page}" th:href="@{|/moimDetail/moimTodoList/${moim.id}?page=${page}|}"></a>
-        </li>
-
-        <li th:class="${todolist.last} ? 'disabled'">
-            <a th:href="${todolist.last} ? '#' : @{|/moimDetail/moimTodoList/${moim.id}?page=${todolist.number + 2}|}" aria-label="Next">
-                <span aria-hidden="true">&gt;</span>
-            </a>
-        </li>
-
-        <li>
-            <a th:href="@{|/moimDetail/moimTodoList/${moim.id}?page=${todolist.totalPages}|}" aria-label="Last">
-                <span aria-hidden="true">Last</span>
-            </a>
-        </li>
-    </ul> 
+     <span th:if="${status.equals('allList')}">
+	     <ul class="pagination"
+	        th:with="start=${T(Math).floor(todolist.number/10)*10 + 1},
+	                    last=(${start + 9 < todolist.totalPages ? start + 9 : todolist.totalPages})" th:if="${todolist.totalPages ne 0}" >
+	        <li>
+	            <a th:href="@{|/moimDetail/moimTodoList/${moim.id}?page=1|}" aria-label="First">
+	                <span aria-hidden="true">First</span>
+	            </a>
+	        </li>
+	
+	        <li th:class="${todolist.first} ? 'disabled'">
+	            <a th:href="${todolist.first} ? '#' :@{|/moimDetail/moimTodoList/${moim.id}?page=${todolist.number}|}" aria-label="Previous">
+	                <span aria-hidden="true">&lt;</span>
+	            </a>
+	        </li>
+	
+	        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == todolist.number + 1} ? 'active'">
+	            <a th:text="${page}" th:href="@{|/moimDetail/moimTodoList/${moim.id}?page=${page}|}"></a>
+	        </li>
+	
+	        <li th:class="${todolist.last} ? 'disabled'">
+	            <a th:href="${todolist.last} ? '#' : @{|/moimDetail/moimTodoList/${moim.id}?page=${todolist.number + 2}|}" aria-label="Next">
+	                <span aria-hidden="true">&gt;</span>
+	            </a>
+	        </li>
+	
+	        <li>
+	            <a th:href="@{|/moimDetail/moimTodoList/${moim.id}?page=${todolist.totalPages}|}" aria-label="Last">
+	                <span aria-hidden="true">Last</span>
+	            </a>
+	        </li>
+	    </ul> 
+    </span>
+    <span th:if="${status.equals('myList')}">
+	     <ul class="pagination"
+	        th:with="start=${T(Math).floor(todolist.number/10)*10 + 1},
+	                    last=(${start + 9 < todolist.totalPages ? start + 9 : todolist.totalPages})" th:if="${todolist.totalPages ne 0}" >
+	        <li>
+	            <a th:href="@{|/moimDetail/moimTodoList/myList/${moim.id}?page=1|}" aria-label="First">
+	                <span aria-hidden="true">First</span>
+	            </a>
+	        </li>
+	
+	        <li th:class="${todolist.first} ? 'disabled'">
+	            <a th:href="${todolist.first} ? '#' :@{|/moimDetail/moimTodoList/myList/${moim.id}?page=${todolist.number}|}" aria-label="Previous">
+	                <span aria-hidden="true">&lt;</span>
+	            </a>
+	        </li>
+	
+	        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == todolist.number + 1} ? 'active'">
+	            <a th:text="${page}" th:href="@{|/moimDetail/moimTodoList/myList/${moim.id}?page=${page}|}"></a>
+	        </li>
+	
+	        <li th:class="${todolist.last} ? 'disabled'">
+	            <a th:href="${todolist.last} ? '#' : @{|/moimDetail/moimTodoList/myList/${moim.id}?page=${todolist.number + 2}|}" aria-label="Next">
+	                <span aria-hidden="true">&gt;</span>
+	            </a>
+	        </li>
+	
+	        <li>
+	            <a th:href="@{|/moimDetail/moimTodoList/myList/${moim.id}?page=${todolist.totalPages}|}" aria-label="Last">
+	                <span aria-hidden="true">Last</span>
+	            </a>
+	        </li>
+	    </ul> 
+    </span>
     <span th:if="${todolist.totalPages eq 0}" >일정이 존재하지 않습니다.</span>
 </nav>
                 </div>
