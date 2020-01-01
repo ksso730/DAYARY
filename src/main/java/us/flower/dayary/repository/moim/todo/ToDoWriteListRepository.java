@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
 
 public interface ToDoWriteListRepository extends JpaRepository<ToDoWriteList, Long>{
@@ -20,6 +21,6 @@ public interface ToDoWriteListRepository extends JpaRepository<ToDoWriteList, Lo
 	void deleteByToDoWrite_id(long id);
 	@Modifying
 	@Transactional
-	@Query("UPDATE MoimBoard SET delete_flag='Y' WHERE id = (:id)")
-	void updateoDoWrite_id(@Param("id") long id);
+	@Query("UPDATE ToDoWriteList SET delete_flag='Y' WHERE toDoWrite = (:todowrite)")
+	void updateToDoWrite_id(@Param("todowrite") ToDoWrite todowrite);
 }

@@ -165,8 +165,11 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
    @Transactional
    public void deleteById(long id) {
       // TODO Auto-generated method stub
+	   System.out.println("id=todowriteId??"+id);
 	   List<ToDoWriteList> list=toDowriteListRepository.findByToDoWrite_id(id);
 	   
+	   
+	   System.out.println("LIst???"+list);
 	   ToDoWriteList todoWriteList = new ToDoWriteList();
 	  
 	   
@@ -178,8 +181,10 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
 	 
 	  //toDowriteListRepository.deleteByToDoWrite_id(id);
 	   //삭제말고 delete y = y로
-	   toDowriteListRepository.updateoDoWrite_id(id);//아직 미작업
-      //toDowriteRepository.deleteById(id);
+	   ToDoWrite todowrite=new ToDoWrite();
+	   todowrite.setId(id);
+	   toDowriteListRepository.updateToDoWrite_id(todowrite);//아직 미작업
+	   toDowriteRepository.deleteById(id);
    }
    @Override
    public Page<ToDoWrite> findByMoim_idAndStatus(long id, String status,Pageable pageable) {

@@ -105,8 +105,9 @@ public class MoimTodoListController {
     public Map<String,Object>  todostatdetail(@PathVariable("no") long no) {
     	
     	Map<String,Object> data=new HashMap<String,Object>();
+    	data.put("list",service.findByToDoWrite_id(no));
     	try {
-    		data.put("list",service.findByToDoWrite_id(no));
+    	
     		ToDoWrite todo=service.findById(no);
     		data.put("todo",todo);
     		data.put("writer", todo.getPeople());
