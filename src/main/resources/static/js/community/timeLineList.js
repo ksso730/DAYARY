@@ -56,7 +56,7 @@ function fn_getReply(id){
 		contentType: 'application/json; charset=UTF-8',
 		dataType:'json',
 		success:function(data){
-			if(data.list.length>0){
+			
 				var list=data.list;
 				var html="";
 				for(var i=0;i<list.length;i++){
@@ -65,21 +65,19 @@ function fn_getReply(id){
 				    html+=' <span class="text-muted pull-right">'+list[0].createdAt.replace('T',' ')+'</span></span>';
 					html+=list[i].memo;
 					if(list[i].people.id==$("#peopleId").attr("data")){
-						html+='<button onclick="fn_modifyForm('+list[0].id+')" class="btn btn-xs btn-link">수정</button>';
-						html+='<button onclick="fn_deleteReply('+list[0].id+','+id+')" class="btn btn-xs btn-link">삭제</button>';
+						html+='<button onclick="fn_modifyForm('+list[i].id+')" class="btn btn-xs btn-link">수정</button>';
+						html+='<button onclick="fn_deleteReply('+list[i].id+','+id+')" class="btn btn-xs btn-link">삭제</button>';
 					}
 					html+='</div>';
 					
-					html+=' <div class="input" id="modifybox_'+list[0].id+'"  style="display: none">';
+					html+=' <div class="input" id="modifybox_'+list[i].id+'"  style="display: none">';
 					html+='<div class="input-group"><input type="text" class="form-control rounded-corner" value="'+list[i].memo+'">';
 					html+=' <span class="input-group-btn p-l-10">'
-                    html+='<button class="btn btn-primary f-s-12 rounded-corner" type="button" onclick="fn_modifyReply('+list[i].id+',this,'+id+')|">저장</button>';
+                    html+='<button class="btn btn-primary f-s-12 rounded-corner" type="button" onclick="fn_modifyReply('+list[i].id+',this,'+id+')">저장</button>';
 					html+='</span></div></div><br>'
 				}
 				$("#commentbox_"+id).html(html);
-			}else{
-				alert("조회오류")
-			}
+			
 		},
 		error:function(xhr,error){
 			

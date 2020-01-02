@@ -28,7 +28,6 @@ public class CommunityBoardReply extends DateAudit {
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = People.class)
 	@JoinColumn(name = "PEOPLE_ID", nullable = false)
-	@JsonIgnore
     private People people;
 
     @ManyToOne(optional = false)
