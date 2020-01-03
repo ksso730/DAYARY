@@ -100,6 +100,7 @@ public class PeopleController {
 				People dbPeople = peopleRepository.findByEmail(loginRequest.getEmail());
 					if (bcrypt.checkpw(loginRequest.getPassword(), dbPeople.getPassword())) {// 비밀번호가맞다면
 						session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
+						session.setAttribute("peopleName", dbPeople.getName());// 이름세션저장
 						session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
 					
 						returnData.put("code", "1");

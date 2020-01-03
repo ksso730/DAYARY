@@ -55,6 +55,42 @@
 	position: absolute;
 	bottom:0px;
 }
+.progress-outer{
+    background: #fff;
+    border-radius: 50px;
+    padding: 25px;
+    margin: 10px 0;
+    box-shadow: 0 0  10px rgba(209, 219, 231,0.7);
+}
+.progress{
+    height: 27px;
+    margin: 0;
+    overflow: visible;
+    border-radius: 50px;
+    background: #eaedf3;
+    box-shadow: inset 0 10px  10px rgba(244, 245, 250,0.9);
+}
+.progress .progress-bar{
+    border-radius: 50px;
+}
+.progress .progress-value{
+    position: relative;
+    left: -45px;
+    top: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 2px;
+}
+.progress-bar.active{
+    animation: reverse progress-bar-stripes 0.40s linear infinite, animate-positive 2s;
+}
+@-webkit-keyframes animate-positive{
+    0% { width: 0%; }
+}
+@keyframes animate-positive {
+    0% { width: 0%; }
+}
     </style>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -67,7 +103,7 @@
     <div class="row">
         <div class="col-lg-3">
             <div class="mb-4">
-            	<div id="moimNo" th:data-moimNo="${no}"></div><!-- 모임번호 -->
+            	<div id="moimNo" th:data-moimNo="${moim.id}"></div><!-- 모임번호 -->
             	<div id="moimPeople" th:data-No="${moimPeople}"></div><!-- 모임번호 -->
             	<div id="Login" th:data="${session.peopleEmail}"></div><!-- 모임번호 -->
                <!--  <div class="small mb-3">Search</div>
@@ -81,8 +117,8 @@
             <div class="mb-4">
                 <!-- <div class="small mb-3">Favorites</div> -->
                 <ul class="nav flex-column nav-pills">
-                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/' + ${no}}" class="nav-link " id="allList"><i class="fa fa-fw fa-line-chart mr-2"></i>전체 일정 보기</a></li>
-                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/myList/'+ ${no}}" class="nav-link" id="myList"><i class="fa fa-pencil-square-o mr-2"></i>내가 작성한 목록</a></li>
+                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/' + ${moim.id}}" class="nav-link " id="allList"><i class="fa fa-fw fa-line-chart mr-2"></i>전체 일정 보기</a></li>
+                    <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/myList/'+ ${moim.id}}" class="nav-link" id="myList"><i class="fa fa-pencil-square-o mr-2"></i>내 일정 목록</a></li>
                     <!-- <li class="nav-item"><a href="/moimDetail/moimTodoList/moimcalender" class="nav-link"><i class="fa fa-fw fa-calendar-o mr-2"></i>달력일정 체크하기</a></li> -->
                 
                 </ul>
@@ -90,10 +126,10 @@
             <div class="mb-4">
                 <div class="small mb-3">Projects</div>
                 <ul class="nav flex-column nav-pills">
-                    <li class="nav-item" onclick="detail_list('New');"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>새로운 일정<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[0]}"></span></li>
-                    <li class="nav-item" onclick="detail_list('In Progress');" ><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>진행중인 일정<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[1]}"></span></li>
-                    <li class="nav-item" onclick="detail_list('End');" ><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>완료된것들<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[2]}"></span></li>
-                    <li class="nav-item" onclick="detail_list('Suspend');" ><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>미완료 목록<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[3]}"></span></li>
+                    <li class="nav-item" id="New" onclick="detail_list('New');"><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>새로운 일정<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[0]}"></span></li>
+                    <li class="nav-item" id="In Progress" onclick="detail_list('In Progress');" ><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>진행중인 일정<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[1]}"></span></li>
+                    <li class="nav-item" id="End"onclick="detail_list('End');" ><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>완료된것들<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[2]}"></span></li>
+                    <li class="nav-item" id="Suspend" onclick="detail_list('Suspend');" ><i class="fa fa-fw fa-star-o align-self-center mr-2"></i>미완료 목록<span class="ml-auto align-self-center badge badge-secondary badge-pill" th:text="${count[3]}"></span></li>
                     <li class="nav-item"><a th:href="@{'/moimDetail/moimTodoList/moimTodowrite/' + ${no}}" class="nav-link"><i class="fa fa-fw fa-plus mr-2"></i>일정 관리 세우기</a></li>
                 </ul>
             </div>
@@ -106,14 +142,14 @@
                 <nav class="mr-auto d-flex align-items-center" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="active breadcrumb-item" aria-current="page"><a href="/"><i class="fa fa-home"></i></a></li>
-                        <li class="active breadcrumb-item" aria-current="page"><span th:text="${moimName}"></span>&nbsp &nbsp 일정관리</li>
+                        <li class="active breadcrumb-item" aria-current="page"><span th:text="${moim.title}"></span>&nbsp &nbsp 일정관리</li>
                     </ol>
                 </nav>
                 <input type="text" id="searchBox" style="width:150px; height:45px" placeholder="작성자를 검색하세요.">
-                <button type="button" onclick="detail_list('writer.')" class="btn btn-outline-info" style="width:70px;height:45px">검색</button>
+                <button type="button" onclick="detail_list('writer,')" class="btn btn-outline-info" style="width:70px;height:45px">검색</button>
                 <div role="toolbar" class="btn-toolbar" style="heigth:45px">
                     <div role="group" class="btn-group">
-                     <a th:href="@{'/moimDetail/moimTodoList/moimTodowrite/' + ${no}}" class="d-flex nav-link">
+                     <a th:href="@{'/moimDetail/moimTodoList/moimTodowrite/' + ${moim.id}}" class="d-flex nav-link">
                         <button id="tooltipAddNew" class="align-self-center btn btn-primary"><i class="fa-fw fa fa-plus"></i></button></a>
                     </div>
                 </div>
@@ -144,11 +180,12 @@
                       		   </td>  
                                  <td class="align-middle">
                                  <span th:if="${list.status eq 'New'}" ><span class="badge badge-light badge-pill" th:text="${list.status}"></span></span>
-                               <span  th:if="${list.status eq 'In Progress'}" ><span class="badge badge-success badge-pill"th:text="${list.status}"></span></span> 
-                               <span th:if="${list.status eq 'End'}"><span class="badge badge-danger badge-pill"  th:text="${list.status}"></span></span></td>
+                               <span  th:if="${list.status eq 'In Progress'}" ><span class="badge badge-info badge-pill"th:text="${list.status}"></span></span> 
+                               <span th:if="${list.status eq 'End'}"><span class="badge badge-successr badge-pill"  th:text="${list.status}"></span></span>
+                               <span th:if="${list.status eq 'Suspend'}"><span class="badge badge-danger badge-pill"  th:text="${list.status}"></span></span></td>
                                   <td class="align-middle">
                                     <div class="mb-2 progress" style="height: 40px;">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" th:style="'width:'+${list.progress}+'%;'"></div>
+                                        			<div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" th:style="'width:'+${list.progress}+'%;'"></div>
                                     </div>
                                     <div>진행량:<span class="text-inverse"th:text="${list.count}" ></span></div>
                                 </td>
@@ -172,29 +209,29 @@
         th:with="start=${T(Math).floor(todolist.number/10)*10 + 1},
                     last=(${start + 9 < todolist.totalPages ? start + 9 : todolist.totalPages})" th:if="${todolist.totalPages ne 0}" >
         <li>
-            <a th:href="@{|/moimDetail/moimTodoList/${no}?page=1|}" aria-label="First">
+            <a th:href="@{|/moimDetail/moimTodoList/${moim.id}?page=1|}" aria-label="First">
                 <span aria-hidden="true">First</span>
             </a>
         </li>
 
         <li th:class="${todolist.first} ? 'disabled'">
-            <a th:href="${todolist.first} ? '#' :@{|/moimDetail/moimTodoList/${no}?page=${todolist.number}|}" aria-label="Previous">
+            <a th:href="${todolist.first} ? '#' :@{|/moimDetail/moimTodoList/${moim.id}?page=${todolist.number}|}" aria-label="Previous">
                 <span aria-hidden="true">&lt;</span>
             </a>
         </li>
 
         <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == todolist.number + 1} ? 'active'">
-            <a th:text="${page}" th:href="@{|/moimDetail/moimTodoList/${no}?page=${page}|}"></a>
+            <a th:text="${page}" th:href="@{|/moimDetail/moimTodoList/${moim.id}?page=${page}|}"></a>
         </li>
 
         <li th:class="${todolist.last} ? 'disabled'">
-            <a th:href="${todolist.last} ? '#' : @{|/moimDetail/moimTodoList/${no}?page=${todolist.number + 2}|}" aria-label="Next">
+            <a th:href="${todolist.last} ? '#' : @{|/moimDetail/moimTodoList/${moim.id}?page=${todolist.number + 2}|}" aria-label="Next">
                 <span aria-hidden="true">&gt;</span>
             </a>
         </li>
 
         <li>
-            <a th:href="@{|/moimDetail/moimTodoList/${no}?page=${todolist.totalPages}|}" aria-label="Last">
+            <a th:href="@{|/moimDetail/moimTodoList/${moim.id}?page=${todolist.totalPages}|}" aria-label="Last">
                 <span aria-hidden="true">Last</span>
             </a>
         </li>
@@ -350,11 +387,21 @@ function delete_send(id){
       });
 }
 
+
 function detail_list(status){
-	if(status=='writer.')
-		status+=$("#searchBox").val();
+	if(status=='writer,'){
+		status+=$("#searchBox").val()+",";
+		if($("#searchBox").val()==""){
+			alert("검색어를 입력하세요.");
+			return;
+		}
+		if(document.getElementsByClassName("nav-link active")[0].getAttribute("id").indexOf("List")<0){
+			status+=document.getElementsByClassName("nav-link active")[0].getAttribute("id");
+		}
+	}
+
 	$.ajax({
-	      url:'/moimDetail/moimTodoList/'+$('#moimNo').attr("data-moimNo")+'/'+status,
+	      url:'/moimDetail/moimTodoList/'+$('#moimNo').attr("data-moimNo")+'/'+encodeURIComponent(status),
 	      contentType: "application/json; charset=utf-8",
 	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
 	        success:function(data){
@@ -386,7 +433,10 @@ function detail_list(status){
 	        				html+='  <div class="avatar__content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png"></div> </div>'
 	        				html+='  </div></td> </tr> ';
 	        			}
-	        		
+	        		if(status.indexOf("writer")<0){
+		        		document.getElementsByClassName("nav-link active")[0].setAttribute('class','nav-link');
+		        		document.getElementById(status).setAttribute('class','nav-link active');
+	        		}
 	        		$("#list").html(html);
 	        		$("#page").hide();
 	        		 

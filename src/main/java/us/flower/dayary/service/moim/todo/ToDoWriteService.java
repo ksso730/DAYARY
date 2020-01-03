@@ -31,9 +31,9 @@ public interface ToDoWriteService {
 	public void updateById(long id,Date date);
 	public void deleteById(long id);
 	 public List<ToDoWrite> findByMoim_idAndStatus(long id, String status);
-	 public List<ToDoWrite> findByMoim_idAndPeople_name(long id, String name);
+	 public List<ToDoWrite> findByMoim_idAndPeople_nameAndStatus(long id, String name,String status);
 	 public int[] countByMoim_idAndStatus(long id);
-	 public void writeBoard(MultipartFile file,MoimBoard board,long no,String id);
+	 public void writeBoard(MultipartFile[] file,MoimBoard board,long no,String id);
 	 public void changeToDate(ToDoWrite todo);
 	 public List<MoimBoardFile> findByToDoWriteList_id(long id);
 	 }

@@ -1,3 +1,36 @@
+function getNoti(){
+	
+	console.log('알림...');
+	var peopleId = $('#peopleId').attr("data-peopleId");
+	$.ajax({
+	      url:'/getMyNotiList',
+	        contentType: "application/json; charset=utf-8",
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        success:function(data){
+	        	if(data.code==1){
+		        	var notilist=data.notiList;
+		        	console.log(notilist);
+		        	var html=""
+	        		for(var i in notilist){
+	    				html += '<tbody>'
+	    				html += '<tr>'
+    					html += 	'<td>'
+	    				html += 	'<span class="float-right font-weight-bold">'+notilist[i].createDate+'</span>'
+						html += 	'</td>'
+	    				html += 	'<td>'
+	    				html += 	'<a href="moimlistView/moimdetailView/'+notilist[i].moim.id+'">'+notilist[i].memo+""+'</a>'
+						html += 	'</td>'
+		   				html += '</tr>'
+	    				html += '</tbody>'
+	    			}
+	        		$("#notiList").html(html);
+	        	}
+	        }, error:function(e){
+				alert(e)
+	        }
+	    });
+}
+
 function myMoimList(){
 	console.log("로드");
 	$.ajax({
@@ -11,13 +44,11 @@ function myMoimList(){
 	        		var joinedMoimList=data.joinedMoimList;
 	        		var html=""
         			for(var i in joinedMoimList){
-        				html += '<tbody>'
         				html += '<tr>'
         				html += 	'<td>'
         				html += 	'<a href="moimlistView/moimdetailView/'+joinedMoimListNo[i]+'">'+joinedMoimList[i]+""+'</a>'
     					html += 	'</td>'
 		   				html += '</tr>'
-        				html += '</tbody>'
         			}
 	        		$("#list").html(html);
 	        	}
@@ -30,7 +61,6 @@ function myMoimList(){
 	        contentType: "application/json; charset=utf-8",
 	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
 	        success:function(data){
-	        	console.log(data);
 	        	if(data.code==1){
 	        		var madeMoimListNo=data.madeMoimListNo;
 	        		var madeMoimListtitle=data.madeMoimListtitle;
@@ -54,7 +84,20 @@ function myMoimList(){
 
 
 $(document).ready(function(){//회원 탈퇴 by choiseongjun 2019-10-01
-	  $("#people_delete_btn").click(function(){
+	$.ajax({
+	      url:'/getMyNotiListCount',
+	        contentType: "application/json; charset=utf-8",
+	        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+	        success:function(data){
+	        	console.log(data.getMyNotiCount);
+	        	$("#badge").append(data.getMyNotiCount);
+	        }, error:function(e){
+				//'alert(e)
+	        }
+	    });  
+	
+	
+	$("#people_delete_btn").click(function(){
 		  var peopleId = $('#peopleId').attr("data-peopleId");
 		  
 			$.ajax({
@@ -84,6 +127,6 @@ function toMoim(){
 }
 $('[name="joinedMoimId"]').on('click', function () {
 	
-	console.log($(this).val());
+//	console.log($(this).val());
 	
 });

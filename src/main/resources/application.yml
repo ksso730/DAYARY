@@ -16,9 +16,9 @@ spring:
 
   datasource:
       driverClassName : net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-      url: "jdbc:log4jdbc:mariadb://localhost:3306/diary"
-      username: root
-      password: dlalsgh123
+      url: "jdbc:log4jdbc:mariadb://moimdev.cxz28d3n4hpj.ap-northeast-2.rds.amazonaws.com:3306/jpatest"
+      username: csj2702
+      password: 1234
   jpa:
         show-sql: true
         hibernate:
@@ -32,6 +32,7 @@ spring:
     time-zone: UTC
     serialization:
                   WRITE_DATES_AS_TIMESTAMPS : false
+                  FAIL_ON_EMPTY_BEANS : false
                   
 logging:
         level:

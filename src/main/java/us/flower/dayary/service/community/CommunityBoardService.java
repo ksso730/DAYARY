@@ -35,6 +35,9 @@ public interface CommunityBoardService {
 	// 댓글 리스트 (대댓글은 DeleteFlag가 "N"인 경우만)
 	List<BoardReplyDTO> getCommunityReplyList(long boardId);
 
+	//대댓없는  타임라인 댓글리스트
+	List<CommunityBoardReply> getTimeLineReplyList(long boardId);
+
 	// 게시글 Detail
 	CommunityBoard getCommunityBoard(long boardId);
 
@@ -58,5 +61,8 @@ public interface CommunityBoardService {
 
 	// 게시글 댓글 저장
 	CommunityBoardReply addBoardReply(CommunityBoardReply reply, long peopleId, long boardId, long boardGroupId);
+	
+	//게시글 댓글 수정
+	void moidfyBoardReply(CommunityBoardReply reply);
 
 }

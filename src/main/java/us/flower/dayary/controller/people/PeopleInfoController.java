@@ -1,5 +1,8 @@
 package us.flower.dayary.controller.people;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +20,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
+import us.flower.dayary.domain.Noti;
 import us.flower.dayary.domain.People;
+import us.flower.dayary.repository.NotifyRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
 import us.flower.dayary.service.people.PeopleInfoService;
@@ -33,7 +37,8 @@ public class PeopleInfoController {
 	PeopleRepository peopleRepository;
 	@Autowired
 	MoimPeopleRepository moimpeopleRepository;
-	
+	@Autowired
+	NotifyRepository notifyRepository;
   /**
    * 사진 불러오기 by choiseongjun
    *
@@ -80,6 +85,53 @@ public class PeopleInfoController {
  
 
 		return returnData;
+	}
+	/**
+	 * 내 알림리스트 카운트조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@ResponseBody
+	@GetMapping("/getMyNotiListCount")
+	public Map<String,Object> getMyNotiCount(HttpSession session,Model model) {
+		long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.
+		
+	
+
+		long getMyNotiCount=notifyRepository.countByPeople_id(peopleId);
+		
+		
+		Map<String,Object> data=new HashMap<String,Object>();
+		data.put("getMyNotiCount",getMyNotiCount);
+		data.put("code", "1"); 	
+		
+		return data;
+	}
+	/**
+	 * 내 알림리스트 조회
+	 *
+	 * @param
+	 * @return
+	 * @throws @author choiseongjun
+	 */
+	@ResponseBody
+	@GetMapping("/getMyNotiList")
+	public Map<String,Object> getMyNotiList(HttpSession session,Model model) {
+		long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다.
+		
+	
+
+		List<Noti> notiList=notifyRepository.findByPeople_id(peopleId);
+		
+		System.out.println(notiList.toString());
+		
+		Map<String,Object> data=new HashMap<String,Object>();
+		data.put("notiList",notiList);
+		data.put("code", "1"); 	
+		
+		return data;
 	}
 	/**
 	 * 내 정보 조회

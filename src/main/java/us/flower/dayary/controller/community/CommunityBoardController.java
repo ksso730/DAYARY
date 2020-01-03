@@ -75,6 +75,7 @@ public class CommunityBoardController {
 			boardGroupId = 5L;
 		}else{
 			// go to error
+			boardGroupId= 1L;
 		}
 
 		return boardGroupId;
@@ -136,7 +137,8 @@ public class CommunityBoardController {
 
 		// service
 		List<CommunityBoard> timeLineList = communityBoardService.getCommunityBoardList(1L);
-
+	
+		
 		// contents list
 		model.addAttribute("timeLineList",timeLineList);
 
@@ -603,7 +605,7 @@ public class CommunityBoardController {
 
 		Long peopleId = (Long) session.getAttribute("peopleId");//사용자세션정보 들고오기
 		Long boardGroupId = getBoargdGroupId(boardGroup);
-
+		
 		try {
 			reply = communityBoardService.addBoardReply(reply, peopleId, boardId, boardGroupId);
 			returnData.put("code", "1");
@@ -617,6 +619,59 @@ public class CommunityBoardController {
 			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
 		}
 
+		return returnData;
+	}
+	/**
+	 * 게시글 댓글수정
+	 * @param boardGroup
+	 * @param boardId
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/community/board/modifyReply")
+	public HashMap<String, Object> modifyBoardReply( @RequestBody CommunityBoardReply reply, HttpSession session, Model model){
+		
+
+		HashMap<String, Object> returnData = new HashMap<>();
+
+		if (reply.getMemo().equals(null) || reply.getMemo().equals("")) {
+			returnData.put("code", "0");
+			returnData.put("message", "내용을 입력해주세요");
+			return returnData;
+		}
+
+		
+		try {
+			communityBoardService.moidfyBoardReply(reply);
+			returnData.put("code", "1");
+			returnData.put("message", "저장되었습니다");
+		
+
+		} catch (Exception e) {
+			returnData.put("code", "E3290");
+			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+		}
+
+		return returnData;
+	}
+	/**
+	 * 타임라인 댓글리스트
+	 * @param boardId
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	
+	@ResponseBody
+	@PostMapping("/community/timeLine/replyList/{boardId}")
+	public Map<String, Object> timeLineReplyList(@PathVariable("boardId") long boardId,
+										  HttpSession session) {
+
+		Map<String, Object> returnData = new HashMap<String, Object>();
+		returnData.put("list", communityBoardService.getTimeLineReplyList(boardId));
+	
 		return returnData;
 	}
 
