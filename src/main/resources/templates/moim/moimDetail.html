@@ -26,6 +26,8 @@ body {
    overflow: hidden;
    border: 1px solid #ccc;
    background-color: #f1f1f1;
+   margin-bottom: 30px;
+   padding: 10px;
 }
 /* Style the buttons inside the tab */
 .tab button {
@@ -37,6 +39,7 @@ body {
    padding: 14px 16px;
    transition: 0.3s;
    font-size: 17px;
+   width : 100%;
 }
 /* Change background color of buttons on hover */
 .tab button:hover {
@@ -351,12 +354,23 @@ body {
                         </a>
                      </tr> -->
                      <center>
-
                         <span style="font-size: 30px; cursor: pointer"
                            id="myBtn"> ☰ 모임원 보기</span>
                      </center>
+	               
                   </div>
                </div>
+               
+               <!-- 게시판 이동-->
+               <div class="tab">
+                  <button class="tablinks" >
+                 	 <a style="color: black;" th:href="@{'/moimdetailView/moimboard/' + ${no} + '/notice'}">모임 게시판 더보기</a>
+                  </button>
+               <!--    <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">
+                           <a th:href="@{'/moimdetailView/moimboard/' + ${no}}"> 더 보기</a>
+                  </button> -->
+               </div>
+               
             </div>
             <div class="col-xl-8">
                <div class="row">
@@ -423,84 +437,8 @@ body {
                      
                   </div>
                	</tr>
-               	
            
                </div>
-
-
-               <!-- Tab list start-->
-               <div class="tab">
-                  <button class="tablinks" onclick="openCity(event, 'London')">공지사항게시판</button>
-                  <button class="tablinks" onclick="openCity(event, 'Paris')">가입인사및
-                     자기소개 게시판</button>
-                  <button class="tablinks" onclick="openCity(event, 'Tokyo')">자유게시판</button>
-               </div>
-
-               <div id="London" class="tabcontent">
-                  <div class="card-box">
-                     <h4 class="header-title mb-3">
-                        공지사항!
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="button"
-                           class="btn btn-icon btn-sm waves-effect waves-light btn-success">
-                           <a th:href="@{'/moimdetailView/moimboard/' + ${no}}"> 더 보기</a>
-                        </button>
-                     </h4>
-                     <div class="table-responsive">
-                        <table class="table">
-                           <thead>
-                              <tr>
-                                 <th>순번</th>
-                                 <th>제목</th>
-                                 <th>글쓴이</th>
-                                 <th>유형</th>
-                                 <th>글쓴 날짜</th>
-                              </tr>
-                           </thead>
-                           <tbody>
-                              <tr>
-                                 <td>1</td>
-                                 <td><span class="label label-info">우리모임 규칙</span></td>
-                                 <td><span class="label label-info">모임장</span></td>
-                                 <td><span class="label label-info">공지사항</span></td>
-                                 <td>07/05/2015</td>
-                              </tr>
-                              <tr>
-                                 <td>2</td>
-                                 <td><span class="label label-info">일정관리 규칙</span></td>
-                                 <td><span class="label label-info">모임장</span></td>
-                                 <td><span class="label label-info">공지사항</span></td>
-                                 <td>07/05/2015</td>
-                              </tr>
-                              <tr>
-                                 <td>3</td>
-                                 <td><span class="label label-info">가입소개 양식</span></td>
-                                 <td><span class="label label-info">모임장</span></td>
-                                 <td><span class="label label-info">공지사항</span></td>
-                                 <td>07/05/2015</td>
-                              </tr>
-
-                           </tbody>
-                        </table>
-                     </div>
-                  </div>
-               </div>
-
-               <div id="Paris" class="tabcontent">
-                  <h3>가입인사및 자기소개 게시판</h3>
-                  <p>Paris is the capital of France.</p>
-               </div>
-
-               <div id="Tokyo" class="tabcontent">
-                  <h3>Tokyo</h3>
-                  <p>Tokyo is the capital of Japan.</p>
-               </div>
-               <!-- Tab List end -->
-
-
-
-
             </div>
             <!-- end col -->
          </div>

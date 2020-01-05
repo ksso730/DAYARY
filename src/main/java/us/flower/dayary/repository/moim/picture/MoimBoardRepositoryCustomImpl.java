@@ -1,56 +1,53 @@
-//package us.flower.dayary.repository.moim.picture;
-//
-//import java.util.List;
-//
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.PageImpl;
-//import org.springframework.data.domain.Pageable;
-//import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-//
-//import com.querydsl.core.types.Projections;
-//import com.querydsl.jpa.JPQLQuery;
-//import com.querydsl.jpa.impl.JPAQueryFactory;
-//
-//import us.flower.dayary.domain.MoimBoard;
-//import static us.flower.dayary.domain.QMoimBoard.moimBoard;
-//import static us.flower.dayary.domain.QMoimBoardFile.moimBoardFile;
-//import us.flower.dayary.domain.DTO.MoimBoardImage;
-//
-//
-//public class MoimBoardRepositoryCustomImpl extends QuerydslRepositorySupport implements MoimBoardRepositoryCustom  {
-//	
-//	private final JPAQueryFactory jpaQueryFactory;
-//	
-//	public MoimBoardRepositoryCustomImpl(JPAQueryFactory jpaQueryFactory) {
-//		super(MoimBoard.class);
-//		 this.jpaQueryFactory = jpaQueryFactory;
-//		// TODO Auto-generated constructor stub
-//	}
-//
+package us.flower.dayary.repository.moim.picture;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import us.flower.dayary.domain.BoardGroup;
+import us.flower.dayary.domain.MoimBoard;
+import us.flower.dayary.domain.QMoimBoard;
+import us.flower.dayary.domain.DTO.BoardListDTO;
+import us.flower.dayary.domain.DTO.MoimBoardImage;
+import us.flower.dayary.domain.DTO.MoimBoardListDTO;
+
+import static us.flower.dayary.domain.QCommunityBoard.communityBoard;
+import static us.flower.dayary.domain.QCommunityBoardReply.communityBoardReply;
+import static us.flower.dayary.domain.QMoimBoard.moimBoard;
+
+public class MoimBoardRepositoryCustomImpl extends QuerydslRepositorySupport implements MoimBoardRepositoryCustom  {
+	
+	private final JPAQueryFactory jpaQueryFactory;
+	
+	public MoimBoardRepositoryCustomImpl(JPAQueryFactory jpaQueryFactory) {
+		super(MoimBoard.class);
+		 this.jpaQueryFactory = jpaQueryFactory;
+	}
+
+	@Override
+	public Page<MoimBoardImage> search(Pageable pageable) {
+		return null;
+	}
+
 //	@Override
-//	public Page<MoimBoardImage> search(final Pageable pageable) {
-////		final QMoimBoard moimBoard = QMoimBoard.moimBoard;
-////		final QMoimBoardFile moimBoardFile = QMoimBoardFile.moimBoardFile;
-//		System.out.println("1");
-//		final JPQLQuery<MoimBoardImage> query;
-//		query = from(moimBoard)
-//				.join(moimBoardFile).on(moimBoard.id.eq(moimBoardFile.moid_moard.id))
-//				.select(Projections.constructor(MoimBoardImage.class,
-//						moimBoard.id,
-//						moimBoard.people.id,
-//                        moimBoard.boardGroup.id,
-//                        moimBoard.moim.id,
-//                        moimBoard.title,
-//                        moimBoard.memo,
-//                        moimBoard.create_date,
-//                        moimBoard.update_date,
-//                        moimBoard.delete_flag,
-//                        moimBoard.heart,
-//                        moimBoardFile.file_locate))
-//                 .where(moimBoard.id.gt(0).and(moimBoardFile.representImage.eq((long) 0)));
-//		final List<MoimBoardImage> accounts = getQuerydsl().applyPagination(pageable, query).fetch();
-//	        
-//		return new PageImpl<>(accounts, pageable, query.fetchCount());
+//	public Page<MoimBoardListDTO> findMoimBoardList(BoardGroup boardGroup, Pageable pageable) {
+//		
+//		final JPQLQuery<MoimBoardListDTO> query = from(moimBoard).select(Projections.constructor(BoardListDTO.class,
+//                                        moimBoard.id,
+//                                        moimBoard.title,
+//                                        moimBoard.people.name,
+//                                        moimBoard.create_date,
+//                                        moimBoard.heart))
+//										.from(moimBoard)
+//										.where(moimBoard.boardGroup.eq(boardGroup));
+//																						
+//		
+//		return null;
 //	}
-//
-//}
+
+
+}

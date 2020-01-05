@@ -56,12 +56,12 @@ public class MoimBoard extends DateAudit{
 		private String memo;
 	    @Column(name = "CREATE_DATE", updatable = false)
 	    @Temporal(TemporalType.TIMESTAMP)
-		private Date create_date;
+		private Date createDate;
 	    @Column(name = "UPDATE_DATE", updatable = true)
 	    @Temporal(TemporalType.TIMESTAMP)
-		private Date update_date;
+		private Date updateDate;
 	    @Column(name = "DELETE_FLAG")
-		private char delete_flag;
+		private char deleteFlag;
 	    @Column(name = "HEART")
 	    private long heart;
 	    
