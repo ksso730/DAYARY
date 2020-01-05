@@ -11,8 +11,9 @@ import org.springframework.data.repository.query.Param;
 import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimBoard;
+import us.flower.dayary.domain.DTO.MoimBoardListDTO;
 
-public interface MoimBoardRepository extends JpaRepository<MoimBoard, Long> {
+public interface MoimBoardRepository extends JpaRepository<MoimBoard, Long>, MoimBoardRepositoryCustom {
 
 	List<MoimBoard> findByToDoWriteList_id(long id);
 
@@ -27,13 +28,15 @@ public interface MoimBoardRepository extends JpaRepository<MoimBoard, Long> {
 
 	//Page<MoimBoard> findByboardGroup_idAndMoim_id(long l, Moim moim, Pageable page);
 
-
-
 	List<MoimBoard> findByboardGroup_idAndMoim_id(long l, long no);
 
 	Page<MoimBoard> findByMoim_id(Moim moim, Pageable page);
 
+	//Page<MoimBoardListDTO> findByBoardGroup(Long boardGroupId, Pageable pageable);
 
- 
+	List<MoimBoard> findAllByMoimAndBoardGroupOrderById(Moim moim, BoardGroup boardGroup);
 
+	
+
+	
 }

@@ -201,7 +201,7 @@ public void writeBoard(MultipartFile[] file,MoimBoard board,long no,String id) {
 		BoardGroup boardGroup=new BoardGroup();
 		boardGroup.setId(8);
 		board.setBoardGroup(boardGroup);
-		board.setCreate_date(new java.sql.Date(System.currentTimeMillis()));
+		board.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
 		board=moimboard.save(board);
 		
 		if(file.length>0) {
