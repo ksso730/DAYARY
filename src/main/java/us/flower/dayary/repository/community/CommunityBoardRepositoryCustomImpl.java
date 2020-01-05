@@ -65,7 +65,7 @@ public class CommunityBoardRepositoryCustomImpl extends QuerydslRepositorySuppor
                                         if(!search.equals("")){
                                             query.where(communityBoard.title.contains(search).or(communityBoard.memo.contains(search)));
                                         }
-                                        query.groupBy(communityBoard).orderBy(communityBoard.createdAt.desc());
+                                        query.groupBy(communityBoard);
 
    /*     Map<Integer, List<CommunityBoardReply>> results = jpaQueryFactory.from(communityBoard, communityBoardReply)
                 .leftJoin(communityBoard.communityBoardReplies, communityBoardReply)
