@@ -1,13 +1,16 @@
 package us.flower.dayary.domain;
 
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.Data;
-import org.apache.ibatis.annotations.Many;
-import org.springframework.context.annotation.Configuration;
-import us.flower.dayary.controller.moim.board.MoimNotiController;
 import us.flower.dayary.domain.common.DateAudit;
-
-import javax.persistence.*;
 
 /**
  * 파일 객체 (MOIM_FILE, COMMUNIY_FILE)

@@ -18,7 +18,7 @@ spring:
       driverClassName : net.sf.log4jdbc.sql.jdbcapi.DriverSpy
       url: "jdbc:log4jdbc:mariadb://moimdev.cxz28d3n4hpj.ap-northeast-2.rds.amazonaws.com:3306/jpatest"
       username: csj2702
-      password: 1234
+      password: tjdwns2702
   jpa:
         show-sql: true
         hibernate:
