@@ -81,7 +81,8 @@ public class RestMoimController {
 	@GetMapping("/rest/moimlistView/moimdetailView/{no}")
 	public ResponseEntity<?> RestmoimDetailView(@PathVariable("no") long no, Model model, HttpSession session, Sort sort,
 			@PageableDefault Pageable pageable) {
-		
+		long peopleId = (long) session.getAttribute("peopleId");
+		String moimPeopleNo = moimService.findMoimPeopleNoOne(peopleId, no);
 		
 		JSONObject returnData = new JSONObject();
 		moimService.findMoimone(no).ifPresent(moimDetail -> returnData.put("moimDetail", moimDetail));// 모임장중심으로 데이터
