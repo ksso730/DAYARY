@@ -41,6 +41,8 @@ public interface moimService {
 
 	void updateMoim(String id, Moim moim, MultipartFile file);
 
+	long selectMaxMoimId();//모임 최신번호 들고오기
+
 
 
 }

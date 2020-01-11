@@ -58,6 +58,9 @@ public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificat
 
 	List<Moim> findByidAndPeople_id(long moimId, long peopleId);
 
+	@Query("SELECT MAX(id) FROM Moim")
+	long selectMaxMoimId();
+
 
 
 

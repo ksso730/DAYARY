@@ -165,17 +165,31 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
    @Transactional
    public void deleteById(long id) {
       // TODO Auto-generated method stub
+	   System.out.println("id=todowriteId??"+id);
 	   List<ToDoWriteList> list=toDowriteListRepository.findByToDoWrite_id(id);
-	   for(int i=0;i<list.size();i++) {
-		   moimboard.deleteByToDoWriteList_id(list.get(i).getId());
+	   
+	   
+	   System.out.println("LIst???"+list);
+	   ToDoWriteList todoWriteList = new ToDoWriteList();
+	  
+	   
+	   for(int i=0;i<list.size()-1;i++) {
+		  // moimboard.deleteByToDoWriteList_id(list.get(i).getId());
+		   todoWriteList.setId(list.get(i).getId()); 
+		   moimboard.updateDeleteYn(todoWriteList);
 	   }
-	   toDowriteListRepository.deleteByToDoWrite_id(id);
-      toDowriteRepository.deleteById(id);
+	 
+	  //toDowriteListRepository.deleteByToDoWrite_id(id);
+	   //삭제말고 delete y = y로
+	   ToDoWrite todowrite=new ToDoWrite();
+	   todowrite.setId(id);
+	   toDowriteListRepository.updateToDoWrite_id(todowrite);//아직 미작업
+	   toDowriteRepository.deleteById(id);
    }
    @Override
-   public List<ToDoWrite> findByMoim_idAndStatus(long id, String status) {
+   public Page<ToDoWrite> findByMoim_idAndStatus(long id, String status,Pageable pageable) {
       // TODO Auto-generated method stub
-      return toDowriteRepository.findByMoim_idAndStatus(id,status,Sort.by("id").descending()) ;
+      return toDowriteRepository.findByMoim_idAndStatus(id,status,pageable) ;
    }
 @Override
 public int[] countByMoim_idAndStatus(long id) {
@@ -267,4 +281,5 @@ public List<ToDoWrite> findByMoim_idAndPeople_nameAndStatus(long id, String name
 	else
 		return toDowriteRepository.findByMoim_idAndPeople_name(id, name,Sort.by("id").descending());
 				
-}}
+}
+}

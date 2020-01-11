@@ -30,7 +30,7 @@ public interface ToDoWriteService {
 	public boolean existByMoim_idAndPeople_id(long id,long peopleId);
 	public void updateById(long id,Date date);
 	public void deleteById(long id);
-	 public List<ToDoWrite> findByMoim_idAndStatus(long id, String status);
+	 public Page<ToDoWrite> findByMoim_idAndStatus(long id, String status, Pageable pageable);
 	 public List<ToDoWrite> findByMoim_idAndPeople_nameAndStatus(long id, String name,String status);
 	 public int[] countByMoim_idAndStatus(long id);
 	 public void writeBoard(MultipartFile[] file,MoimBoard board,long no,String id);

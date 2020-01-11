@@ -4,7 +4,12 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
+import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
 
 public interface ToDoWriteListRepository extends JpaRepository<ToDoWriteList, Long>{
@@ -14,4 +19,8 @@ public interface ToDoWriteListRepository extends JpaRepository<ToDoWriteList, Lo
 	int countByCheckConfirmAndToDoWrite_id(char Y,long id);
 	List<ToDoWriteList> findByToDoWrite_id(long id);
 	void deleteByToDoWrite_id(long id);
+	@Modifying
+	@Transactional
+	@Query("UPDATE ToDoWriteList SET delete_flag='Y' WHERE toDoWrite = (:todowrite)")
+	void updateToDoWrite_id(@Param("todowrite") ToDoWrite todowrite);
 }

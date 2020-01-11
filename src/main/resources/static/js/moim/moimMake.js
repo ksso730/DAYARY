@@ -122,7 +122,7 @@ $('#moimMake_btn').off().on('click', function () {
         success:function(data){
             if(data.code==1){
                 alert(data.message);
-                location.href='/';
+                location.href='/moimlistView';
             }else{
                 alert(data.message);
             }

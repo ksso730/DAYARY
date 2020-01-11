@@ -41,11 +41,9 @@ public class ToDoWriteList extends DateAudit {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="MOIM_ID")
-	@JsonIgnore
 	private Moim moim;
 	@ManyToOne
 	@JoinColumn(name = "PEOPLE_ID")
-	@JsonIgnore
 	private People people;
 	
 	@ManyToOne
@@ -60,6 +58,8 @@ public class ToDoWriteList extends DateAudit {
 	
 	@Column(name="Detail")
 	private char detail;
+    @Column(name = "DELETE_FLAG",columnDefinition = "char(1) default 'N'")
+	private char delete_flag;
 	
 	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "toDoWriteList")
 	private List<MoimBoard> moimboard; 

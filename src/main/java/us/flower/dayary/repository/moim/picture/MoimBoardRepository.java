@@ -5,13 +5,17 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import us.flower.dayary.domain.BoardGroup;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimBoard;
+import us.flower.dayary.domain.ToDoWriteList;
 import us.flower.dayary.domain.DTO.MoimBoardListDTO;
+
 
 public interface MoimBoardRepository extends JpaRepository<MoimBoard, Long>, MoimBoardRepositoryCustom {
 
@@ -31,6 +35,10 @@ public interface MoimBoardRepository extends JpaRepository<MoimBoard, Long>, Moi
 	List<MoimBoard> findByboardGroup_idAndMoim_id(long l, long no);
 
 	Page<MoimBoard> findByMoim_id(Moim moim, Pageable page);
+	@Modifying
+	@Transactional
+	@Query("UPDATE MoimBoard SET delete_flag='Y' WHERE toDoWriteList = (:todoWriteList)")
+	void updateDeleteYn(@Param("todoWriteList") ToDoWriteList todoWriteList);
 
 	//Page<MoimBoardListDTO> findByBoardGroup(Long boardGroupId, Pageable pageable);
 
