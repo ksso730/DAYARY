@@ -243,7 +243,8 @@ public class MoimController {
 		model.addAttribute("meetupList", meetupList);
 		model.addAttribute("chatcount", chatcount);
 		model.addAttribute("picturecount", picturecount);
-
+		//model.addAttribute("boardGroup", "8L"); // 공지사항 게시판
+		
 		return "moim/moimDetail";
 	}
 

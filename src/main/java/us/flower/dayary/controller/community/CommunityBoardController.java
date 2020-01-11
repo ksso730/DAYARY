@@ -208,7 +208,6 @@ public class CommunityBoardController {
 		return returnData;
 	}
 
-
 	/**
 	 *  게시글 추천
 	 * @param boardId

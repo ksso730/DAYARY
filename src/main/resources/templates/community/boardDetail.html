@@ -236,8 +236,9 @@
 
 
 		$(document).ready(function(){
-			let baseTitle;
-			let baseContent;
+			let baseTitle = $('#title').val();
+			//let baseContent = $($("#content").summernote("code")).text();
+			let baseContent = $("#content").summernote('code');
 
 			const boardId = [[${board.id}]];
 			const page = [[${page}]];
@@ -322,10 +323,7 @@
 
 			$('#community_modify_btn').off().on('click', function(){
 				$('#title').attr('readonly', false);
-				$('#content').attr('readonly', false);
-
-				baseTitle = $('#title').val();
-				baseContent = $('#content').val();
+				$("#content").summernote("enable");
 
 				$('#community_modify_btn').css('display', 'none');
 				$('#community_modify_save_btn').css('display', 'inline-block');
@@ -335,10 +333,15 @@
 			$('#community_modify_cancel_btn').off().on('click', function(){
 				if(confirm('정말 취소하시겠습니까?')){
 					$('#title').attr('readonly', true);
-					$('#content').attr('readonly', true);
+					//$('#content').attr('readonly', true);
+					$("#content").summernote("disable");
 
 					$('#title').val(baseTitle);
-					$('#content').val(baseContent);
+					$('#content').summernote("code", baseContent);
+				    //$('#content').val(baseContent);
+					//alert($($("#content").summernote("code")).text());
+					//$('#content').code(baseContent);
+					//$($("#content").summernote("code")).text();
 
 					$('#community_modify_btn').css('display', 'inline-block');
 					$('#community_modify_save_btn').css('display', 'none');
@@ -360,11 +363,10 @@
 
 				// check content data input
 				//const content = CKEDITOR.instances['content'].editable().getText();
-
 				// ck editior defualt length == 1
-				if($('#content').val()==''||$('#content').val()=='undefined'||$('#content').val()==null){
+				if($($("#content").summernote("code")).text()==''||$($("#content").summernote("code")).text()=='undefined'||$($("#content").summernote("code")).text()==null){
+					alert($($("#content").summernote("code")).text());
 					alert('내용을 입력하세요');
-					$('#content').focus();
 					return;
 				}
 
@@ -372,7 +374,7 @@
 				let board = {};
 
 				board.title = $('#title').val();
-				board.memo= $('#content').val();
+				board.memo= $("#content").summernote("code");
 
 				$.ajax({
 					url:'/community/board/[[${boardGroup}]]/modify/' + boardId,

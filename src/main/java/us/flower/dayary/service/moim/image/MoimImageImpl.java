@@ -125,9 +125,9 @@ public class MoimImageImpl implements MoimImage {
 			moimBoard.setMoim(moim);
 			moimBoard.setTitle(title);
 			moimBoard.setMemo("");
-			moimBoard.setCreate_date(new java.sql.Date(System.currentTimeMillis()));
-			moimBoard.setUpdate_date(new java.sql.Date(System.currentTimeMillis()));
-			moimBoard.setDelete_flag(delete_flag);
+			moimBoard.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
+			moimBoard.setUpdateDate(new java.sql.Date(System.currentTimeMillis()));
+			moimBoard.setDeleteFlag(delete_flag);
 			moimBoard.setHeart(0L);
 			lists = saveFile(moimBoard,file);
 			
