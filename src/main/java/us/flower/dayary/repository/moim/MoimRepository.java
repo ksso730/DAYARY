@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Moim;
 
-public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificationExecutor<Moim>{
+public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificationExecutor<Moim> {
 
     boolean existsByImageName(String imageName);
 
@@ -61,30 +61,12 @@ public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificat
 	@Query("SELECT MAX(id) FROM Moim")
 	long selectMaxMoimId();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-  
-
+	@Modifying
+	@Query("UPDATE Moim SET secretCondition = (:secretCondition) WHERE Id = (:moimId) ")
+	void updateMoimClosed(@Param("secretCondition") String moimSecretCondition, @Param("moimId") int moimId);
 
 
     //@Query("select a.email as email from People a inner join MoimPeople b on a.id=b.people where b.joinrole='study' and b.people=4")
 //    @Query("select a.no as no from Moim a where a.no=1")
 //	Optional<Moim> findPeopleOne(Long people_no);
-
-	
-     
-   
-
 }

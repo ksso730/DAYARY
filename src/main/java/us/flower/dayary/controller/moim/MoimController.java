@@ -351,6 +351,7 @@ public class MoimController {
 			returnData.put("code", "E3290");
 			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
 		}
+
 		return returnData;
 	}
 
@@ -366,5 +367,35 @@ public class MoimController {
 	public String moimMakeView() {
 		return "moim/moimMake";
 	}
-	
+
+
+	/**
+	 * 모임 비공개 전환
+	 *
+	 * @param moimNo
+	 * @param session
+	 * @return
+	 * @author hyojin
+	 */
+	@ResponseBody
+	@PutMapping("/moimUpdateClosed/{moimNo}")
+	public Map<String, Object> moimUpdateClosed(@PathVariable("moimNo") int moimNo, HttpSession session) {
+		Map<String, Object> returnData = new HashMap<String, Object>();
+
+		String id = (String) session.getAttribute("peopleEmail");
+		System.out.println("id = " + id);
+		System.out.println("moimNo = " + moimNo);
+
+		try {
+			moimService.updateMoimClosed(id, moimNo);
+			returnData.put("code", "1");
+			returnData.put("message", "비공개 전환 성공");
+		} catch (Exception e) {
+			returnData.put("code", "E3290");
+			returnData.put("message", "비공개 전환 실패");
+			System.out.println(e.getMessage());
+		}
+
+		return returnData;
+	}
 }

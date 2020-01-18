@@ -369,7 +369,7 @@ public class CommunityBoardController {
 	 */
 	@ResponseBody
 	@PostMapping("/community/board/image")
-	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file){
+	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
 		try{
 			UploadFile uploadFile = communityImageService.store(file);
 			return ResponseEntity.ok().body("/community/board/image/" + uploadFile.getId());

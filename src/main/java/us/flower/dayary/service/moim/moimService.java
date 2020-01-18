@@ -43,6 +43,7 @@ public interface moimService {
 
 	long selectMaxMoimId();//모임 최신번호 들고오기
 
+	void updateMoimClosed(String id, int moimId);
 
 
 }

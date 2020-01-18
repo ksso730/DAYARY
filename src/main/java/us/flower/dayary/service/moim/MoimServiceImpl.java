@@ -208,10 +208,8 @@ public class MoimServiceImpl implements moimService{
 	        char joincondition = moim.getJoinCondition();
 	        String imageName=moim.getImageName();
 	        String imageExtension=moim.getImageExtension();
-	        
 
 	        moimRepository.updateMoim(title,intro,peopleLimit,joincondition,imageName,imageExtension,moimId);
-		
 	}
 
 	@Override
@@ -219,11 +217,11 @@ public class MoimServiceImpl implements moimService{
 		return moimRepository.selectMaxMoimId();
 	}
 
-
-
-
-
-	
+	@Override
+	@Transactional(readOnly = false)
+	public void updateMoimClosed(String id, int moimNo) {
+		moimRepository.updateMoimClosed("Y",moimNo);
+	}
 
 
 }

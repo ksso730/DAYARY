@@ -55,7 +55,7 @@ public class MoimPictureController {
     	
     	moim.setId(no);
     	boardGroup.setId(8);
-//    	
+
     	List<MoimBoard> result = mbRepository.searchRepresent(boardGroup,moim,0);
 //    	
     	//result = moimiamge.search(page,no);
