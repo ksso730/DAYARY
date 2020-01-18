@@ -120,8 +120,11 @@
 				<div class="row text-center pt-5 border-top">
 					<div class="col-md-12">
 						<div class="custom-pagination">
-							<span>1</span> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a>
-							<span>...</span> <a href="#">15</a>
+							<ul class="pagination align-content-center" th:if="${pageNumber} > 0">
+								<li style="list-style-type: none;" class="page-item" th:each="i: ${#numbers.sequence(0, pageNumber - 1)}">
+									<a  th:href="@{'/moimdetailView/moimboard/' + ${no} + '/' + ${boardGroup}(page=${i})}">[[${i}+1]]</a>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
