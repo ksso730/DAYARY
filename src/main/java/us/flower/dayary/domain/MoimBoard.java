@@ -40,28 +40,37 @@ public class MoimBoard extends DateAudit{
 	    @GeneratedValue(strategy = GenerationType.AUTO)
 	    @Column(name = "ID")
 		private long id;
+
 	    @ManyToOne
 		@JoinColumn(name = "PEOPLE_ID")
 		private People people;
+
 	    @ManyToOne
 		@JoinColumn(name = "BOARD_GROUP_ID")
 		private BoardGroup boardGroup;
+
 	    @ManyToOne
 		@JoinColumn(name = "MOIM_ID")
 		private Moim moim;
+
 	    @Column(name = "TITLE")
 		private String title;
+
 	    @Lob
 	    @Column(name = "MEMO")
 		private String memo;
+
 	    @Column(name = "CREATE_DATE", updatable = false)
 	    @Temporal(TemporalType.TIMESTAMP)
 		private Date createDate;
+
 	    @Column(name = "UPDATE_DATE", updatable = true)
 	    @Temporal(TemporalType.TIMESTAMP)
 		private Date updateDate;
+
 	    @Column(name = "DELETE_FLAG")
 		private char deleteFlag;
+
 	    @Column(name = "HEART")
 	    private long heart;
 	    

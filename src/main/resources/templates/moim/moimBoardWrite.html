@@ -71,12 +71,14 @@ $(document).ready(function(){
 
 		moimBoard.title = $('#title').val();
 		moimBoard.memo= $("#content").summernote("code");
-		moimBoard.boardGroup = '[[${boardGroup}]]';
-		
-		alert(moimBoard.boardGroup );
+		let boardGroup = '[[${boardGroup}]]';
+		let no = '[[${no}]]';
+		console.log(moimBoard.memo);
+		let tempUrl = '/moimdetailView/moimboard/' + no + '/' + boardGroup;
+		//alert(moimBoard.boardGroup );
 
-		/* $.ajax({
-			url:'/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]/write',
+		 $.ajax({
+			url: tempUrl + '/write',
 			type:'POST',
 			contentType: 'application/json; charset=UTF-8',
 			dataType:'json',
@@ -84,7 +86,7 @@ $(document).ready(function(){
 			success:function(data){
 				if(data.code==1){
 					alert(data.message);
-					location.href='/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]';
+					location.href=tempUrl;
 				}else{
 					alert(data.message);
 				}
@@ -92,7 +94,7 @@ $(document).ready(function(){
 			error:function(xhr,error){
 
 			}
-		}); */
+		});
 	});
 
 	$('#board_list_btn').on('click', function(){

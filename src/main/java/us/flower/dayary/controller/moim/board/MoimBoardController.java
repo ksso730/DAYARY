@@ -13,17 +13,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.MoimBoard;
 import us.flower.dayary.domain.DTO.BoardListDTO;
 import us.flower.dayary.domain.DTO.MoimBoardListDTO;
 import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
 import us.flower.dayary.service.moim.board.MoimBoardService;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 @Controller
 public class MoimBoardController {
@@ -63,23 +63,36 @@ public class MoimBoardController {
 	 * @return
      */
     @GetMapping("/moimdetailView/moimboard/{no}/{boardGroup}")
-    public String getMoimBoardList(@PathVariable("no") long no, @PathVariable("boardGroup") String boardGroup, Model model,
-    														@PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=25) Pageable pageable, HttpSession session) {
-    	
-    	long boardGroupId  = getBoargdGroupId(boardGroup);
-    	model.addAttribute("boardGroup",boardGroup);
-    			
-    	session.setAttribute("page", pageable.getPageNumber());
-    	
-    	//Page<MoimBoardListDTO> moimBoardList = moimBoardService.getMoimBoardList(no, boardGroupId, pageable);
-		//model.addAttribute("moimBoardList", moimBoardList.getContent());
-		//model.addAttribute("moimBoardListCount", moimBoardList.getTotalElements());
-		//model.addAttribute("pageNumber", moimBoardList.getTotalPages());
-    	
-    	List<MoimBoard> moimBoardList = moimBoardService.getMoimBoardList(no, boardGroupId);
-    	model.addAttribute("moimBoardList", moimBoardList);
+    public String getMoimBoardList(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup, Model model,
+								   @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=25) Pageable pageable, @RequestParam(name = "search", defaultValue = "") String search, HttpSession session) {
 
-    	return "moim/moimDetailboard";
+    	// get board group id
+    	long boardGroupId  = getBoargdGroupId(boardGroup);
+
+    	// board group
+    	model.addAttribute("boardGroup",boardGroup);
+
+    	// session check
+    	session.setAttribute("page", pageable.getPageNumber());
+
+		// service
+		Page<MoimBoardListDTO> moimBoardList = moimBoardService.getMoimBoardList(no, boardGroupId, pageable, search);
+		// contents list
+		model.addAttribute("moimBoardList", moimBoardList.getContent());
+		// total element count
+		model.addAttribute("boardListCount", moimBoardList.getTotalElements());
+
+		// page number
+		model.addAttribute("pageNumber", moimBoardList.getTotalPages());
+
+		// search text
+		if(search.equals("")){
+			model.addAttribute("search", 0);
+		}else{
+			model.addAttribute("search", search);
+		}
+
+    	return "moim/moimBoardList";
     }
     
     /**
@@ -90,7 +103,7 @@ public class MoimBoardController {
 	 * @return
 	 */
 	@GetMapping("/moimdetailView/moimboard/{no}/{boardGroup}/write")
-	public String moimBoardWrite(@PathVariable("boardGroup") String boardGroup, HttpSession session, Model model) {
+	public String moimBoardWrite(@PathVariable("boardGroup") String boardGroup, @PathVariable("no") Long no, HttpSession session, Model model) {
 
 		model.addAttribute("boardGroup",boardGroup);
 
@@ -112,7 +125,7 @@ public class MoimBoardController {
 	 */
 	@ResponseBody
 	@PostMapping("/moimdetailView/moimboard/{no}/{boardGroup}/write")
-	public Map<String, Object> moimBoardWrite(@PathVariable("boardGroup") String boardGroup, @RequestBody MoimBoard moimBoard, HttpSession session) {
+	public Map<String, Object> moimBoardWrite(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup, @RequestBody MoimBoard moimBoard, HttpSession session) {
 
 		Map<String, Object> returnData = new HashMap<String, Object>();
 
@@ -132,7 +145,7 @@ public class MoimBoardController {
 		Long boardGroupId = getBoargdGroupId(boardGroup);
 
 		try {
-			moimBoardService.moimBoardWrite(peopleId,boardGroupId, moimBoard);
+			moimBoardService.moimBoardWrite(no, peopleId,boardGroupId, moimBoard);
 			returnData.put("code", "1");
 			returnData.put("message", "저장되었습니다");
 
@@ -143,6 +156,53 @@ public class MoimBoardController {
 
 		return returnData;
 	}
+
+	/**
+	 * 게시글 Detail
+	 * 2019-09-30 minholee
+	 * @param boardId
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+//	@GetMapping("/moimDetailView/moimBoard/{no}/{boardGroup}/{boardId}")
+//	public String getMoimBoardDetail(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+//								 HttpSession session, Model model) {
+//
+//		// board group (게시판 그룹)
+//		model.addAttribute("boardGroup",boardGroup);
+//
+//		// moimBoard (게시글)
+//		MoimBoard moimBoard = moimBoardService.getMoimBoard(boardId);
+//		model.addAttribute("board", moimBoard);
+//
+//		// 게시글 작성자와 현재 세션의 사용자 같은지
+//		Long peopleId = (Long) session.getAttribute("peopleId");
+//		boolean writer = moimBoardService.checkWriter(peopleId, moimBoard);
+//
+//		// 게시글 작성자가 본인이라면
+//		if(writer){
+//			model.addAttribute("writerFlag", TRUE);
+//		}else{
+//			model.addAttribute("writerFlag", FALSE);
+//		}
+//
+//		// TRUE 면 기존에 추천한 게시글
+//		boolean boardLike = moimBoardService.checkBoardLike(peopleId, boardId, getBoargdGroupId(boardGroup));
+//		if(boardLike){
+//			model.addAttribute("boardLike", TRUE);
+//		}else{
+//			model.addAttribute("boardLike", FALSE);
+//		}
+//
+//		// set session page number (이전페이지 돌아갈때 사용)
+//		model.addAttribute("page", session.getAttribute("page"));
+//
+//		// 사용자 id (댓글 삭제용)
+//		model.addAttribute("id", peopleId);
+//
+//		return "moim/moimBoardDetail";
+//	}
    
 	
 }
