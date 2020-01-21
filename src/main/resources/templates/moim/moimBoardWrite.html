@@ -71,14 +71,9 @@ $(document).ready(function(){
 
 		moimBoard.title = $('#title').val();
 		moimBoard.memo= $("#content").summernote("code");
-		let boardGroup = '[[${boardGroup}]]';
-		let no = '[[${no}]]';
-		console.log(moimBoard.memo);
-		let tempUrl = '/moimdetailView/moimboard/' + no + '/' + boardGroup;
-		//alert(moimBoard.boardGroup );
 
 		 $.ajax({
-			url: tempUrl + '/write',
+			url: '/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]',
 			type:'POST',
 			contentType: 'application/json; charset=UTF-8',
 			dataType:'json',
@@ -86,7 +81,7 @@ $(document).ready(function(){
 			success:function(data){
 				if(data.code==1){
 					alert(data.message);
-					location.href=tempUrl;
+					location.href='/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]';
 				}else{
 					alert(data.message);
 				}

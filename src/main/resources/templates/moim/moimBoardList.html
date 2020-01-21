@@ -106,7 +106,7 @@
 								<tr th:each="board : ${moimBoardList}">
 									<td th:text = "${board.moimBoardId}"></td>
 									<td id="title">
-										<a th:href="@{'/moimdetailView/moimboard/' + ${no} + '/' + ${boardGroup} +'/detail/' +${board.moimBoardId}}"><span th:text = "${board.boardTitle}"></span></a>
+										<a th:href="@{'/moimdetailView/moimboard/' + ${no} + '/' + ${boardGroup} +'/'+${board.moimBoardId}}"><span th:text = "${board.boardTitle}"></span></a>
 									</td>
 									<td th:text = "${board.peopleName}"></td>
 									<td th:text = "${#strings.replace(board.createdAt,'T',' ')}"></td>

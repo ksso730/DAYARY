@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
-    <css th:replace="layout/header::headerCss" />
-    <link th:href="@{/css/community/sidemenu.css}" rel="stylesheet" />
-    <!-- 사이드메뉴css -->
-    <div th:replace="layout/header::header" />
+    <css th:replace="layout/header::headerCss"/>
+    <div th:replace="layout/header::header"/>
     <script src="/ckeditor/ckeditor.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
@@ -14,9 +12,8 @@
     <!-- include summernote css/js-->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
-    <div th:replace="community/sidemenu::sidemenu" />
     <style>
-        li{
+        li {
             list-style-type: none;
         }
     </style>
@@ -25,57 +22,45 @@
 <body>
 <article>
     <div class="container1" style="margin-left:250px; max-width:1180px">
-        <h2>글 작성</h2>
-        <button type="button" class="btn btn-sm btn-dark" id="moimBoard_remove_btn" style="display: none;">삭제</button>
-        <a href="javascript:;" class="m-r-15 text-inverse-lighter" id="like"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i>Like</a>
+        <button type="button" class="btn btn-sm btn-dark" id="moimBoard_remove_btn" style="display: none;">
+            삭제
+        </button>
+        <a href="javascript:;" class="m-r-15 text-inverse-lighter" id="like">
+            <i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i>
+            Like
+        </a>
         <!--<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">-->
         <div class="mb-3">
             <label for="title">제목</label>
-            <input type="text" class="form-control" name="title" id="title" readonly="true" style="background-color: whitesmoke;" th:value="${board.title}">
+            <input type="text" class="form-control" name="title" id="title" readonly="true"
+                   style="background-color: whitesmoke;" th:value="${board.title}">
         </div>
         <div class="mb-3">
             <label for="writer_name">작성자</label>
-            <input type="text" class="form-control" name="writer_name" id="writer_name" readonly="true"  style="background-color: whitesmoke;" th:value="${board.people.name}">
+            <input type="text" class="form-control" name="writer_name" id="writer_name" readonly="true"
+                   style="background-color: whitesmoke;" th:value="${board.people.name}">
         </div>
         <div class="mb-3">
             <label for="content">내용</label>
-            <div class="form-control" rows="20" name="content" id="content"  style="background-color: whitesmoke;" th:utext="${board.memo}"></div>
-            <!--					<textarea class="form-control" rows="20" name="content" id="content" readonly="true"  style="background-color: whitesmoke;"></textarea>-->
+            <div class="form-control" rows="20" name="content" id="content" style="background-color: whitesmoke;"
+                 th:utext="${board.memo}"></div>
         </div>
-        <!--				<div class="mb-3">-->
-        <!--					<label for="tag">TAG</label>-->
-        <!--					<input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요">-->
-        <!--				</div>-->
-        <!--</form>-->
-        <div >
-            <button type="button" class="btn btn-sm btn-danger" id="community_modify_btn" style="display: none;">수정</button>
-            <button type="button" class="btn btn-sm btn-success" id="community_modify_save_btn" style="display: none;">저장</button>
-            <button type="button" class="btn btn-sm btn-warning" id="community_modify_cancel_btn" style="display: none;">취소</button>
-            <a th:href="@{'/community/board/'+${boardGroup}+'?page='+${page}}">
-                <button type="button" class="btn btn-sm btn-primary" id="community_list_btn" style="display: none;">목록</button>
+        <div>
+            <button type="button" class="btn btn-sm btn-danger" id="moimBoard_modify_btn" style="display: none;">
+                수정
+            </button>
+            <button type="button" class="btn btn-sm btn-success" id="moimBoard_modify_save_btn" style="display: none;">
+                저장
+            </button>
+            <button type="button" class="btn btn-sm btn-warning" id="moimBoard_modify_cancel_btn" style="display: none;">
+                취소
+            </button>
+            <a th:href="@{'/moimdetailView/moimboard/' + ${no} + '/' + ${boardGroup} + '?page=' + ${page}}">
+                <button type="button" class="btn btn-sm btn-primary" id="moimBoard_list_btn" style="display: none;">
+                    목록
+                </button>
             </a>
         </div>
-        <li style="margin: 50px 0px 50px 0px;" id="reply_content">
-            <!-- end timeline-icon -->
-            <!-- begin timeline-body -->
-            <div class="timeline-body">
-                <div class="timeline-content">
-                    <textarea class="form-control" id="borad_reply" rows="3" placeholder="댓글"></textarea>
-                </div>
-                <button class="btn btn-primary f-s-12 rounded-corner" id="board_reply_save_btn" onclick="saveReply(0)" type="button">저장</button>
-            </div>
-            <!-- end timeline-body -->
-            <div class="timeline-body" th:id="'body'+ ${reply.getParent().id}" th:each="reply:${replies}" >
-                <div class="timeline-content" th:id="'content' + ${reply.getParent().id}">
-                    <textarea class="form-control" rows="3" readonly="true" placeholder="댓글"  th:id="${reply.getParent().id}" th:inline="text">[[${reply.getParent().memo}]]</textarea>
-                    <button class="btn btn-warning f-s-12 rounded-corner" th:value="${reply.getParent().id}" onclick="addReply(this.value)" type="button">답변</button>
-                </div>
-                <div class="timeline-content" th:id="'content' + ${child.id}"  th:each="child: ${reply.getChildren()}">
-                    <textarea class="form-control" rows="3" readonly="true" placeholder="댓글"  th:id="${child.id}" style="background-color: red;" th:inline="text">[[${child.memo}]]</textarea>
-                    <!--						<button class="btn btn-warning f-s-12 rounded-corner" th:value="${child.id}" onclick="addReply(this.value)" type="button">답변</button>-->
-                </div>
-            </div>
-        </li>
     </div>
 </article>
 <script>
@@ -88,250 +73,102 @@
 
     $("#content").summernote("disable");
 
-    // removeReply (1: 댓글, 2: 대댓글)
-    function removeReply(val, flag){
-
-        // 댓글인경우 대댓글이 달렸는지 확인
-        if(flag==1){
-            let parentId = $('#content' + val).parent().attr('id');
-            if($('#'+ parentId + ' > .timeline-content').length > 1){
-                alert('답변이 달린 댓글은 삭제할 수 없습니다.');
-                return;
-            }
-        }
-
-        const replyId = val;
-        if(confirm('정말 삭제하시겠습니까?')){
-
-            $.ajax({
-                url:'/community/board/reply/delete/' + replyId,
-                type:'DELETE',
-                contentType: 'application/json; charset=UTF-8',
-                dataType:'json',
-                data: {},
-                success:function(data){
-                    if(data.code==1){
-                        alert(data.message);
-                        // 화면에서 제거
-                        $('#content' + replyId).remove();
-                    }else{
-                        alert(data.message)
-                    }
-                },
-                error:function(xhr,error){
-
-                }
-            });
-        }
-    };
-
-    // 댓글 + 대댓글 저장
-    function saveReply(val){
-
-        let communityBoardReply;
-        // 댓글
-        if(val==0){
-            // check title data input
-            if($('#borad_reply').val()==''||$('#borad_reply').val()=='undefined'||$('#borad_reply').val()==null){
-                alert('댓글 내용을 입력하세요');
-                $('#borad_reply').focus();
-                return;
-            }
-
-            communityBoardReply = {
-                "memo" : $('#borad_reply').val()
-            };
-        }else{
-            // 대댓글
-            // check title data input
-            if($('#tempReply').val()==''||$('#tempReply').val()=='undefined'||$('#tempReply').val()==null){
-                alert('대댓글 내용을 입력하세요');
-                $('#tempReply').focus();
-                return;
-            }
-
-            communityBoardReply = {
-                "parent" :
-                    {
-                        "id" : val
-                    },
-                "memo" : $('#tempReply').val()
-            };
-        }
-
-        $.ajax({
-            url:'/community/board/[[${boardGroup}]]/reply/'  + [[${boardId}]],
-            type: 'POST',
-            contentType: 'application/json; charset=UTF-8',
-            dataType: 'json',
-            data: JSON.stringify(communityBoardReply),
-            success: function(data){
-                if(data.code==1){
-                    alert(data.message);
-                    // clear
-                    $('#borad_reply').val('');
-
-                    // 댓글
-                    if(val==0){
-                        // 댓글 div
-                        let re = "<div class='timeline-body' id='body" + data.id + "'>";
-                        re += "<div class='timeline-content' id='content" + data.id  + "'>";
-                        re += "<textarea class='form-control' rows='3' readonly='true' id='reply" +data.id + "' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
-                        re += "<button class='btn btn-dark f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' onclick='removeReply(" + data.id + ", 1)' type='button'>삭제</button>";
-                        re += "<button class='btn btn-warning f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_modify_btn' onclick='addReply(" + data.id + ")' type='button'>답변</button>";
-                        re += "</div>";
-                        re += "</div>";
-
-                        $('#reply_content').append(re);
-                    }else{
-
-                        // 작성중 div 삭제
-                        $('#tempContent').remove();
-                        flag = 'true';
-
-                        // 대댓글
-                        let re = "<div class='timeline-content' id='content" + data.id  + "'>";
-                        re += "<textarea class='form-control' rows='3' style='background-color: red;' id='reply"+ data.id +"' readonly='true' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
-                        re += "<button class='btn btn-dark f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' onclick='removeReply(" + data.id + ", 2)' type='button'>삭제</button>";
-                        re += "</div>";
-
-                        $('#body' + val).append(re);
-                    }
-                }else{
-                    alert(data.message)
-                }
-            },
-            error: function(xhr, error){
-
-            }
-        });
-    }
-
-
-    // 대댓글 textarea 생성
-    let flag = 'true'; // 대댓글 작성 가능
-    function addReply(val){
-        if(flag==='true'){
-            let re  = "<div class='timeline-content' id='tempContent' >";
-            re  += "<textarea class='form-control' id='tempReply' rows='3' placeholder='댓글'></textarea>";
-            re  += "<button class='btn btn-primary f-s-12 rounded-corner' value='" + val + "' id='board_reply_save_btn' onclick='saveReply(this.value)'  type='button'>저장</button>";
-            re  += "</div>";
-
-            $('#body' + val).append(re);
-
-            // 작성중 대댓글 존재
-            flag = 'false';
-        }else{
-            if(confirm("이미 작성중인 대댓글이 있습니다. 삭제하시겠습니까?")){
-                $('#tempContent').remove();
-                flag = 'true';
-                addReply(val);
-
-            }else{
-                return;
-            }
-        }
-
-    };
-
-
-    $(document).ready(function(){
+    $(document).ready(function () {
         let baseTitle = $('#title').val();
-        //let baseContent = $($("#content").summernote("code")).text();
         let baseContent = $("#content").summernote('code');
 
         const boardId = [[${board.id}]];
         const page = [[${page}]];
-        // const board = [[${board}]];
 
         // 추천 & 추천해제 Toggle
         let boardLike = [[${boardLike}]];
 
+        // 현재 세션 작성자 여부
         const flag = [[${writerFlag}]];
 
         // 이미 추천된 게시글
-        if(boardLike){
+        if (boardLike) {
             $('#like').css('color', 'red');
-        }else{
+        } else {
             $('#like').css('color', 'black');
         }
 
-        $('#community_list_btn').css('display', 'inline-block');
+        $('#moimBoard_list_btn').css('display', 'inline-block');
 
-        if(flag){
-            $('#community_modify_btn').css('display', 'inline-block');
-            $('#community_remove_btn').css('display', 'inline-block');
-        }else{
-            $('#community_modify_btn').css('display', 'none');
-            $('#community_remove_btn').css('display', 'none');
+        // 현재 작성자만 버튼 출력
+        if (flag) {
+            $('#moimBoard_modify_btn').css('display', 'inline-block');
+            $('#moimBoard_remove_btn').css('display', 'inline-block');
+        } else {
+            $('#moimBoard_modify_btn').css('display', 'none');
+            $('#moimBoard_remove_btn').css('display', 'none');
         }
 
-        $('#community_modify_save_btn').css('display', 'none');
-        $('#community_modify_cancel_btn').css('display', 'none');
+        $('#moimBoard_modify_save_btn').css('display', 'none');
+        $('#moimBoard_modify_cancel_btn').css('display', 'none');
 
 
-
-        $('#like').off().on('click', function(){
+        $('#like').off().on('click', function () {
 
             // 이미 추천된 게시글
-            if(boardLike){
-
+            if (boardLike) {
+                // '/moimdetailView/moimBoard/' + ${no} + '/' + ${boardGroup}
                 // 추천 해제
                 $.ajax({
-                    url:'/community/board/[[${boardGroup}]]/unLike/'  + boardId,
-                    type:'POST',
+                    url: '/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]/unLike/' + boardId,
+                    type: 'POST',
                     contentType: 'application/json; charset=UTF-8',
-                    dataType:'json',
+                    dataType: 'json',
                     data: {},
-                    success:function(data){
-                        if(data.code==1){
+                    success: function (data) {
+                        if (data.code == 1) {
                             // 추천 해제 성공
                             $('#like').css('color', 'black');
                             boardLike = false;
-                        }else{
+                        } else {
                             alert(data.message)
                         }
                     },
-                    error:function(xhr,error){
+                    error: function (xhr, error) {
                     }
                 });
 
                 // 추천 안한 게시글
-            }else if(!boardLike){
+            } else if (!boardLike) {
 
                 // 추천
                 $.ajax({
-                    url:'/community/board/[[${boardGroup}]]/like/'  + boardId,
-                    type:'POST',
+                    url: '/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]/like/' + boardId,
+                    type: 'POST',
                     contentType: 'application/json; charset=UTF-8',
-                    dataType:'json',
+                    dataType: 'json',
                     data: {},
-                    success:function(data){
-                        if(data.code==1){
+                    success: function (data) {
+                        if (data.code == 1) {
                             // 추천 성공
                             $('#like').css('color', 'red');
                             boardLike = true;
-                        }else{
+                        } else {
                             alert(data.message)
                         }
                     },
-                    error:function(xhr,error){
+                    error: function (xhr, error) {
                     }
                 });
             }
         });
 
-        $('#community_modify_btn').off().on('click', function(){
+        $('#moimBoard_modify_btn').off().on('click', function () {
             $('#title').attr('readonly', false);
             $("#content").summernote("enable");
 
-            $('#community_modify_btn').css('display', 'none');
-            $('#community_modify_save_btn').css('display', 'inline-block');
-            $('#community_modify_cancel_btn').css('display', 'inline-block');
+            $('#moimBoard_modify_btn').css('display', 'none');
+            $('#moimBoard_modify_save_btn').css('display', 'inline-block');
+            $('#moimBoard_modify_cancel_btn').css('display', 'inline-block');
         });
 
-        $('#community_modify_cancel_btn').off().on('click', function(){
-            if(confirm('정말 취소하시겠습니까?')){
+        $('#moimBoard_modify_cancel_btn').off().on('click', function () {
+            if (confirm('정말 취소하시겠습니까?')) {
                 $('#title').attr('readonly', true);
                 //$('#content').attr('readonly', true);
                 $("#content").summernote("disable");
@@ -343,19 +180,19 @@
                 //$('#content').code(baseContent);
                 //$($("#content").summernote("code")).text();
 
-                $('#community_modify_btn').css('display', 'inline-block');
-                $('#community_modify_save_btn').css('display', 'none');
-                $('#community_modify_cancel_btn').css('display', 'none');
-            }else{
+                $('#moimBoard_modify_btn').css('display', 'inline-block');
+                $('#moimBoard_modify_save_btn').css('display', 'none');
+                $('#moimBoard_modify_cancel_btn').css('display', 'none');
+            } else {
                 return;
             }
         });
 
         // 수정
-        $('#community_modify_save_btn').off().on('click', function () {
+        $('#moimBoard_modify_save_btn').off().on('click', function () {
 
             // check title data input
-            if($('#title').val()==''||$('#title').val()=='undefined'||$('#title').val()==null){
+            if ($('#title').val() == '' || $('#title').val() == 'undefined' || $('#title').val() == null) {
                 alert('제목을 입력하세요');
                 $('#title').focus();
                 return;
@@ -364,8 +201,8 @@
             // check content data input
             //const content = CKEDITOR.instances['content'].editable().getText();
             // ck editior defualt length == 1
-            if($($("#content").summernote("code")).text()==''||$($("#content").summernote("code")).text()=='undefined'||$($("#content").summernote("code")).text()==null){
-                alert($($("#content").summernote("code")).text());
+            if ($($("#content").summernote("code")).text() == '' || $($("#content").summernote("code")).text() == 'undefined' || $($("#content").summernote("code")).text() == null) {
+                // alert($($("#content").summernote("code")).text());
                 alert('내용을 입력하세요');
                 return;
             }
@@ -374,50 +211,50 @@
             let board = {};
 
             board.title = $('#title').val();
-            board.memo= $("#content").summernote("code");
+            board.memo = $("#content").summernote("code");
 
             $.ajax({
-                url:'/community/board/[[${boardGroup}]]/modify/' + boardId,
-                type:'POST',
+                url: '/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]/' + boardId,
+                type: 'PUT',
                 contentType: 'application/json; charset=UTF-8',
-                dataType:'json',
+                dataType: 'json',
                 data: JSON.stringify(board),
-                success:function(data){
-                    if(data.code==1){
+                success: function (data) {
+                    if (data.code == 1) {
                         alert(data.message);
-                        location.href='/community/board/[[${boardGroup}]]' + '?page=' + page;
-                    }else{
+                        location.href = '/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]/' + boardId;
+                    } else {
                         alert(data.message)
                     }
                 },
-                error:function(xhr,error){
+                error: function (xhr, error) {
 
                 }
             });
         });
 
-        $('#community_list_btn').off().on('click', function(){
+        $('#moimBoard_list_btn').off().on('click', function () {
 
 
         });
 
-        $('#community_remove_btn').off().on('click', function(){
-            if(confirm('정말 삭제하시겠습니까?')){
+        $('#moimBoard_remove_btn').off().on('click', function () {
+            if (confirm('정말 삭제하시겠습니까?')) {
                 $.ajax({
-                    url:'/community/board/delete/' + boardId,
-                    type:'DELETE',
+                    url: '/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]/' + boardId,
+                    type: 'DELETE',
                     contentType: 'application/json; charset=UTF-8',
-                    dataType:'json',
+                    dataType: 'json',
                     data: {},
-                    success:function(data){
-                        if(data.code==1){
+                    success: function (data) {
+                        if (data.code == 1) {
                             alert(data.message);
-                            location.href='/community/board/[[${boardGroup}]]' + '?page='+page;
-                        }else{
+                            location.href = '/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]' + '?page=' + page;
+                        } else {
                             alert(data.message)
                         }
                     },
-                    error:function(xhr,error){
+                    error: function (xhr, error) {
 
                     }
                 });

@@ -19,7 +19,9 @@ import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.MoimBoard;
 import us.flower.dayary.domain.DTO.BoardListDTO;
 import us.flower.dayary.domain.DTO.MoimBoardListDTO;
+import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
+import us.flower.dayary.repository.people.PeopleRepository;
 import us.flower.dayary.service.moim.board.MoimBoardService;
 
 import static java.lang.Boolean.FALSE;
@@ -32,13 +34,17 @@ public class MoimBoardController {
 	MoimBoardRepository moimBoardRepository;
 	@Autowired
 	MoimBoardService moimBoardService;
+	@Autowired
+	PeopleRepository peopleRepository;
+	@Autowired
+	BoardLikeRepository boardLikeRepository;
 
 	/**
 	 * board group id 구하기
 	 * @param boardGroup
 	 * @return
 	 */
-	public long getBoargdGroupId(String boardGroup){
+	public long getBoardGroupId(String boardGroup){
 
 		long boardGroupId  = 8L;
 
@@ -55,19 +61,21 @@ public class MoimBoardController {
 	
 	/**
      * 모임 게시판(공지사항,가입인사 및 자기소개,자유게시판 등등)  조회
-    * 2019-12-29 yuna
-	 * @param no, boardGroup
+     * 2019-12-29 yuna
+	 * @param no,boardGroup
 	 * @param model
 	 * @param pageable
+	 * @param search
 	 * @param session
 	 * @return
      */
     @GetMapping("/moimdetailView/moimboard/{no}/{boardGroup}")
-    public String getMoimBoardList(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup, Model model,
-								   @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=25) Pageable pageable, @RequestParam(name = "search", defaultValue = "") String search, HttpSession session) {
+    public String getMoimBoardList(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup,
+								   Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=25) Pageable pageable,
+								   @RequestParam(name = "search", defaultValue = "") String search, HttpSession session) {
 
     	// get board group id
-    	long boardGroupId  = getBoargdGroupId(boardGroup);
+    	long boardGroupId  = getBoardGroupId(boardGroup);
 
     	// board group
     	model.addAttribute("boardGroup",boardGroup);
@@ -97,13 +105,15 @@ public class MoimBoardController {
     
     /**
 	 *  게시글 쓰기 (GET)
-	 * @param no, boardGroup
+	 * @param no
+	 * @param boardGroup
 	 * @param session
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("/moimdetailView/moimboard/{no}/{boardGroup}/write")
-	public String moimBoardWrite(@PathVariable("boardGroup") String boardGroup, @PathVariable("no") Long no, HttpSession session, Model model) {
+	public String moimBoardWrite(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup,
+								 HttpSession session, Model model) {
 
 		model.addAttribute("boardGroup",boardGroup);
 
@@ -115,17 +125,66 @@ public class MoimBoardController {
 
 		return "moim/moimBoardWrite";
 	}
-	
+
+	/**
+	 * 게시글 Detail
+	 * 2019-09-30 minholee, jino
+	 * @param no
+	 * @param boardId
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/moimdetailView/moimboard/{no}/{boardGroup}/{boardId}")
+	public String getMoimBoardDetail(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+									 HttpSession session, Model model) {
+
+		// board group (게시판 그룹)
+		model.addAttribute("boardGroup",boardGroup);
+
+		// moimBoard (게시글)
+		MoimBoard moimBoard = moimBoardService.getMoimBoard(boardId);
+		model.addAttribute("board", moimBoard);
+
+		// 게시글 작성자와 현재 세션의 사용자 같은지
+		Long peopleId = (Long) session.getAttribute("peopleId");
+		boolean writer = moimBoardService.checkWriter(peopleId, moimBoard);
+
+		// 게시글 작성자가 본인이라면
+		if(writer){
+			model.addAttribute("writerFlag", TRUE);
+		}else{
+			model.addAttribute("writerFlag", FALSE);
+		}
+
+		// TRUE 면 기존에 추천한 게시글
+		boolean boardLike = moimBoardService.checkBoardLike(peopleId, boardId, getBoardGroupId(boardGroup));
+		if(boardLike){
+			model.addAttribute("boardLike", TRUE);
+		}else{
+			model.addAttribute("boardLike", FALSE);
+		}
+
+		// set session page number (이전페이지 돌아갈때 사용)
+		model.addAttribute("page", session.getAttribute("page"));
+
+		// 사용자 id (댓글 삭제용)
+		model.addAttribute("id", peopleId);
+
+		return "moim/moimBoardDetail";
+	}
+
 	/**
 	 *  게시글 쓰기 (POST)
-	 * @param no, boardGroup, title, memo
+	 * @param no, boardGroup, moimBoard, session
      * @return
      * @throws
      * @author yuna
 	 */
 	@ResponseBody
-	@PostMapping("/moimdetailView/moimboard/{no}/{boardGroup}/write")
-	public Map<String, Object> moimBoardWrite(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup, @RequestBody MoimBoard moimBoard, HttpSession session) {
+	@PostMapping("/moimdetailView/moimboard/{no}/{boardGroup}")
+	public Map<String, Object> moimBoardWrite(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup,
+											  @RequestBody MoimBoard moimBoard, HttpSession session) {
 
 		Map<String, Object> returnData = new HashMap<String, Object>();
 
@@ -142,7 +201,7 @@ public class MoimBoardController {
 		}
 
 		Long peopleId = (Long) session.getAttribute("peopleId");//사용자세션정보 들고오기
-		Long boardGroupId = getBoargdGroupId(boardGroup);
+		Long boardGroupId = getBoardGroupId(boardGroup);
 
 		try {
 			moimBoardService.moimBoardWrite(no, peopleId,boardGroupId, moimBoard);
@@ -158,51 +217,94 @@ public class MoimBoardController {
 	}
 
 	/**
-	 * 게시글 Detail
-	 * 2019-09-30 minholee
+	 * 모임 리스트 글 수정
+	 *
+	 * @param no, boardGroup, boradId, moimBoard, session
+	 * @return
+	 * @throws
+	 * @author jino
+	 */
+	@ResponseBody
+	@PutMapping("/moimdetailView/moimboard/{no}/{boardGroup}/{boardId}")
+	public Map<String, Object> studyModify(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+										   @RequestBody MoimBoard moimBoard, HttpSession session) {
+
+		Map<String, Object> returnData = new HashMap<>();
+
+		if (moimBoard.getTitle().equals(null) || moimBoard.getTitle().equals("")) {
+			returnData.put("code", "0");
+			returnData.put("message", "제목을 입력해주세요");
+			return returnData;
+		}
+
+		if (moimBoard.getMemo().equals(null) || moimBoard.getMemo().equals("")) {
+			returnData.put("code", "0");
+			returnData.put("message", "내용을 입력해주세요");
+			return returnData;
+		}
+
+		// 게시글 작성자와 현재 세션의 사용자 같은지
+		Long peopleId = (Long) session.getAttribute("peopleId");
+		boolean check = moimBoardService.checkWriter(peopleId, boardId);
+
+		if(check){
+			try {
+				moimBoardService.updateBoard(boardId, moimBoard);
+
+				returnData.put("code", "1");
+				returnData.put("message", "수정되었습니다");
+
+			} catch (Exception e) {
+				returnData.put("code", "E3290");
+				returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+			}
+		}else{
+			returnData.put("code", "E3290");
+			returnData.put("message", "게시글 작성자만 수정할 수 있습니다.");
+		}
+
+
+		return returnData;
+	}
+
+	/**
+	 *  게시판 게시글 삭제
 	 * @param boardId
 	 * @param session
-	 * @param model
 	 * @return
+	 * @thorws
+	 * @author jino
 	 */
-//	@GetMapping("/moimDetailView/moimBoard/{no}/{boardGroup}/{boardId}")
-//	public String getMoimBoardDetail(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
-//								 HttpSession session, Model model) {
-//
-//		// board group (게시판 그룹)
-//		model.addAttribute("boardGroup",boardGroup);
-//
-//		// moimBoard (게시글)
-//		MoimBoard moimBoard = moimBoardService.getMoimBoard(boardId);
-//		model.addAttribute("board", moimBoard);
-//
-//		// 게시글 작성자와 현재 세션의 사용자 같은지
-//		Long peopleId = (Long) session.getAttribute("peopleId");
-//		boolean writer = moimBoardService.checkWriter(peopleId, moimBoard);
-//
-//		// 게시글 작성자가 본인이라면
-//		if(writer){
-//			model.addAttribute("writerFlag", TRUE);
-//		}else{
-//			model.addAttribute("writerFlag", FALSE);
-//		}
-//
-//		// TRUE 면 기존에 추천한 게시글
-//		boolean boardLike = moimBoardService.checkBoardLike(peopleId, boardId, getBoargdGroupId(boardGroup));
-//		if(boardLike){
-//			model.addAttribute("boardLike", TRUE);
-//		}else{
-//			model.addAttribute("boardLike", FALSE);
-//		}
-//
-//		// set session page number (이전페이지 돌아갈때 사용)
-//		model.addAttribute("page", session.getAttribute("page"));
-//
-//		// 사용자 id (댓글 삭제용)
-//		model.addAttribute("id", peopleId);
-//
-//		return "moim/moimBoardDetail";
-//	}
-   
-	
+	@ResponseBody
+	@DeleteMapping("/moimdetailView/moimboard/{no}/{boardGroup}/{boardId}")
+	public Map<String, Object> deleteBoard(@PathVariable("boardId") long boardId, HttpSession session){
+
+		// return message
+		Map<String, Object> returnData = new HashMap<>();
+
+		// session user id
+		Long peopleId = (Long) session.getAttribute("peopleId");
+
+		// 게시글 작성자와 현재 세션의 사용자 같은지
+		boolean check = moimBoardService.checkWriter(peopleId, boardId);
+
+		// 게시글 작성자가 본인이라면
+		if(check){
+			try {
+				// 게시글 Delete Flag를 'Y'로 변경
+				moimBoardService.deleteBoard(boardId);
+				returnData.put("code", "1");
+				returnData.put("message", "삭제되었습니다");
+
+			} catch (Exception e) {
+				returnData.put("code", "E3290");
+				returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+			}
+		}else {
+			returnData.put("code", "E3290");
+			returnData.put("message", "게시글 작성자만 삭제할 수 있습니다.");
+		}
+
+		return returnData;
+	}
 }

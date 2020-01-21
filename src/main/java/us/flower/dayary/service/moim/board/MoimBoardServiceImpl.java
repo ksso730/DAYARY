@@ -9,12 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import us.flower.dayary.domain.BoardGroup;
+import us.flower.dayary.domain.*;
 import us.flower.dayary.domain.DTO.BoardListDTO;
-import us.flower.dayary.domain.Moim;
-import us.flower.dayary.domain.MoimBoard;
-import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.DTO.MoimBoardListDTO;
+import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
 
 @Service
@@ -23,24 +21,23 @@ public class MoimBoardServiceImpl implements MoimBoardService{
 
 	@Autowired
 	MoimBoardRepository moimBoardRepository;
-	
+
+	@Autowired
+	BoardLikeRepository boardLikeRepository;
+
+
 	/**
-	 * 모임 게시판 글 조회
-	 * yuna
-	 * @param boardGroupId
-	 * @param pageable
+	 * 게시글 Detail 조회
+	 * @param boardId
 	 * @return
 	 */
-//	@Override
-//	public Page<MoimBoardListDTO> getMoimBoardList(Long no, Long boardGroupId, Pageable pageable) {
-//		
-//		BoardGroup boardGroup = new BoardGroup();
-//		boardGroup.setId(boardGroupId);
-//		
-//		Page<MoimBoardListDTO> moimBoardList = moimBoardRepository.findByBoardGroup(boardGroupId, pageable);
-//
-//		return moimBoardList;
-//	}
+	@Override
+	public MoimBoard getMoimBoard(long boardId) {
+
+		MoimBoard moimBoard = moimBoardRepository.getOne(boardId);
+
+		return moimBoard;
+	}
 
 	/**
 	 * 게시글 목록
@@ -61,20 +58,67 @@ public class MoimBoardServiceImpl implements MoimBoardService{
 
 		return moimBoardList;
 	}
-	
-//	@Override
-//	public List<MoimBoard> getMoimBoardList(long no, long boardGroupId) {
-//
-//		Moim moim = new Moim();
-//		moim.setId(no);
-//
-//		BoardGroup boardGroup = new BoardGroup();
-//		boardGroup.setId(boardGroupId);
-//
-//		List<MoimBoard> moimBoardList = moimBoardRepository.findAllByMoimAndBoardGroupOrderById(moim, boardGroup);
-//
-//		return moimBoardList;
-//	}
+
+	/**
+	 * 사용자와 게시글 작성자 동일한지 확인
+	 * @param peopleId
+	 * @param boardId
+	 * @return
+	 */
+	@Override
+	public boolean checkWriter(Long peopleId, long boardId) {
+
+		Long writerId = moimBoardRepository.getOne(boardId).getPeople().getId();
+
+		if(peopleId.longValue()==writerId.longValue()){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * 사용자와 게시글 작성자 동일한지 확인
+	 * @param peopleId
+	 * @param moimBoard
+	 * @return
+	 */
+	@Override
+	public boolean checkWriter(Long peopleId, MoimBoard moimBoard) {
+
+		Long writerId = moimBoard.getPeople().getId();
+
+		if(peopleId.longValue()==writerId.longValue()){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * 게시글 추천 이력 조회
+	 * @param peopleId
+	 * @param boardId
+	 * @param boardGroupId
+	 * @return
+	 */
+	@Override
+	public boolean checkBoardLike(long peopleId, long boardId, long boardGroupId) {
+
+		BoardLikeId boardLikeId = new BoardLikeId();
+		boardLikeId.setPeopleId(peopleId);
+		boardLikeId.setCommunityBoardId(boardId);
+		boardLikeId.setBoardGroupId(boardGroupId);
+
+		BoardLike boardLike =  boardLikeRepository.findBoardLikeById(boardLikeId);
+
+		// null이면 추천한 이력이 없다
+		if(boardLike==null){
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 	@Override
 	public void moimBoardWrite(Long no, Long peopleId, Long boardGroupId, MoimBoard moimBoard) {
@@ -97,8 +141,27 @@ public class MoimBoardServiceImpl implements MoimBoardService{
 		moimBoardRepository.save(moimBoard);
 	}
 
+	/**
+	 * 게시글 수정
+	 * @param boardId
+	 */
+	@Override
+	public void updateBoard(long boardId, MoimBoard moimBoard) {
+		// modify board
+		MoimBoard modifyBoard = moimBoardRepository.getOne(boardId);
+		modifyBoard.setTitle(moimBoard.getTitle());
+		modifyBoard.setMemo(moimBoard.getMemo());
+		moimBoardRepository.save(modifyBoard);
+	}
 
-	
-	
-
+	/**
+	 * 게시글 삭제
+	 * @param boardId
+	 */
+	@Override
+	public void deleteBoard(long boardId) {
+		MoimBoard moimBoard = moimBoardRepository.getOne(boardId);
+		moimBoard.setDeleteFlag('Y');
+		moimBoardRepository.save(moimBoard);
+	}
 }
