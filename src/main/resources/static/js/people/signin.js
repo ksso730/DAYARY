@@ -17,6 +17,7 @@ $('#signin_btn').off().on('click',function(){
 				location.href='/';
 			}else if(data.code==2){
 				location.href=data.savePage;
+				
 			}
 		},
 		error:function(xhr,error){

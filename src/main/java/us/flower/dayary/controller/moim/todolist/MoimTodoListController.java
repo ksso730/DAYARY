@@ -167,9 +167,6 @@ public class MoimTodoListController {
          try {
         	 if(status.indexOf(",")>0) {
         		 String[] x=status.split(",");
-        		 System.out.println(x[0]);
-        		 System.out.println(x[1]);
-        		 System.out.println(x[2]);
         		 if(x.length!=3) {
         			 returnData.put("todolist",service.findByMoim_idAndPeople_nameAndStatus(no,x[1],""));
         		 } else
@@ -177,7 +174,6 @@ public class MoimTodoListController {
         	 }else {
         		 Page<ToDoWrite> toDolist=service.findByMoim_idAndStatus(no,status,pageable);
         		 returnData.put("todolist",toDolist);
-        		 System.out.println("This request is get234324234??");
         		 
         	 }
         	 returnData.put("status",status);

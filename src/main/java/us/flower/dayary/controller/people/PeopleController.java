@@ -12,6 +12,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -107,7 +108,6 @@ public class PeopleController {
 							String jwt = tokenProvider.generateToken(authentication);
 							JwtAuthenticationResponse csj= new JwtAuthenticationResponse(jwt);
 					        model.addAttribute("csj",csj);
-					        System.out.println(jwt);
 					    	String savePage = (String)session.getAttribute("savePage");
 					        
 					    	
@@ -118,6 +118,7 @@ public class PeopleController {
 								returnData.put("code", "2");								
 							}
 						returnData.put("message", "로그인 완료!");
+						returnData.put("jwt",new JwtAuthenticationResponse(jwt));
 					} 
 			} 
 		} catch (Exception e) {
