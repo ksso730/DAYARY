@@ -15,14 +15,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.minidev.json.JSONObject;
 import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.meetup.MoimMeetUpRepository;
+import us.flower.dayary.security.JwtTokenProvider;
 import us.flower.dayary.service.moim.moimService;
+import us.flower.dayary.service.people.PeopleService;
 
 @RestController
 public class RestMoimController {
@@ -33,6 +37,9 @@ public class RestMoimController {
 	MoimRepository moimrepository;
 	@Autowired
 	MoimMeetUpRepository moimmeetupRepository;
+	@Autowired
+	JwtTokenProvider tokenProvider;
+	
 	/**
 
 	 * 모임 리스트 출력(Paging 처리)
@@ -79,12 +86,17 @@ public class RestMoimController {
 		
 	}
 	@GetMapping("/rest/moimlistView/moimdetailView/{no}")
-	public ResponseEntity<?> RestmoimDetailView(@PathVariable("no") long no, Model model, HttpSession session, Sort sort,
+	public ResponseEntity<?> RestmoimDetailView(@PathVariable("no") long no,@RequestHeader (name="Authorization") String token, Model model, HttpSession session, Sort sort,
 			@PageableDefault Pageable pageable) {
-		long peopleId = (long) session.getAttribute("peopleId");
-		String moimPeopleNo = moimService.findMoimPeopleNoOne(peopleId, no);
-		
 		JSONObject returnData = new JSONObject();
+		if(tokenProvider.validateToken(token)) {
+			System.out.println(tokenProvider.getUserIdFromJWT(token));
+			Long userId=tokenProvider.getUserIdFromJWT(token);
+			String moimPeopleNo = moimService.findMoimPeopleNoOne(userId, no);// 참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에
+			// 넣어준다)
+			returnData.put("moimPeopleNo",moimPeopleNo);
+		}
+		
 		moimService.findMoimone(no).ifPresent(moimDetail -> returnData.put("moimDetail", moimDetail));// 모임장중심으로 데이터
 		
 		List<Meetup> meetupList = moimmeetupRepository.findByMoim_id(no, pageable);//오프라인모임리스트
