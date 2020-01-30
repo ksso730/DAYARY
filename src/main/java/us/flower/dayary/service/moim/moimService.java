@@ -15,7 +15,7 @@ import us.flower.dayary.domain.People;
 
 public interface moimService {
 
-	Map<String, Object> getMoimCategory();// 모임 카테고리 목록 조회
+	Map<String, Object> getMoimElement();// 모임 카테고리 리스트 목록 조회
 
 	void saveMoim(String id, String subject, Moim moim, MultipartFile file);//모임 만들기
 
@@ -33,7 +33,10 @@ public interface moimService {
 
 	String findMoimPeopleNoOne(long peopleId, long no);//모임넘버 조회해오는것(모임탈퇴할떄 Moim_people no기준으로 삭제)
 
-	Page<Moim> selectListAll(Pageable pageable);
+	Page<Moim> selectMoimAll(Pageable pageable);
+
+	// [2020.01.28][hyozkim] 추가
+	Page<Moim> selectMoimByCategory(Pageable pageable, String commonCode);
 
 	List<Moim> findByTitle(String name);
 
@@ -43,7 +46,7 @@ public interface moimService {
 
 	long selectMaxMoimId();//모임 최신번호 들고오기
 
-	void updateMoimClosed(String id, int moimId);
+	void updateMoimClosed(int moimId);
 
 
 }
