@@ -46,13 +46,18 @@ public class MoimServiceImpl implements moimService{
 	@Autowired
 	private FileManager fileManager;
 
-	public Map<String, Object> getMoimCategory(){
-		List<Common> cateList= (List<Common>) commonRepository.findAll();
-	
-		Map<String, Object> categoryList = new HashMap<String, Object>();
-		categoryList.put("_category", cateList);
-		
-		return categoryList;
+	public Map<String, Object> getMoimElement(){
+		// List<Common> cateList= (List<Common>) commonRepository.findAll();
+		List<Common> elementCA1 = (List<Common>) commonRepository.findByCommHead("CA1");
+		List<Common> elementCA2 = (List<Common>) commonRepository.findByCommHead("CA2");
+		List<Common> elementCA3 = (List<Common>) commonRepository.findByCommHead("CA3");
+
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("element_CA1", elementCA1);
+		returnMap.put("element_CA2", elementCA2);
+		returnMap.put("element_CA3", elementCA3);
+
+		return returnMap;
 	}
 	
     public void saveMoim(String email, String subject, Moim moim, MultipartFile file) {
@@ -87,8 +92,6 @@ public class MoimServiceImpl implements moimService{
 	        }
 	        
     	}
-	        
-    	
 
         moim.setPeople(people);
         moim.setCategory(category);
@@ -152,9 +155,17 @@ public class MoimServiceImpl implements moimService{
 	
 
 	@Override
-	public Page<Moim> selectListAll(Pageable pageable) {
+	public Page<Moim> selectMoimAll(Pageable pageable) {
 		// TODO Auto-generated method stub
 		return moimRepository.findAll(pageable);
+	}
+
+	// [2020.01.28][hyozkim] 추가
+	@Override
+	public Page<Moim> selectMoimByCategory(Pageable pageable, String commonCode) {
+		return moimRepository.findAll(pageable);
+		// 수정 필요
+		//return moimRepository.findByCommCode(pageable,commonCode);
 	}
 
 //	@Override
@@ -171,7 +182,7 @@ public class MoimServiceImpl implements moimService{
 	@Override
 	public void updateMoim(String email, Moim moim, MultipartFile file) {
 		   People people = peopleRepository.findByEmail(email);
-	        //Common category=commonRepository.findBycommName(subject);
+	        //Common category=commonRepository.figetMoimElementndBycommName(subject);
 	       
 	        //사진이있다면
 	        if(file!=null) {
@@ -208,10 +219,8 @@ public class MoimServiceImpl implements moimService{
 	        char joincondition = moim.getJoinCondition();
 	        String imageName=moim.getImageName();
 	        String imageExtension=moim.getImageExtension();
-	        
 
 	        moimRepository.updateMoim(title,intro,peopleLimit,joincondition,imageName,imageExtension,moimId);
-		
 	}
 
 	@Override
@@ -219,11 +228,9 @@ public class MoimServiceImpl implements moimService{
 		return moimRepository.selectMaxMoimId();
 	}
 
-
-
-
-
-	
-
-
+	@Override
+	@Transactional(readOnly = false)
+	public void updateMoimClosed(int moimNo) {
+		moimRepository.updateMoimClosed("Y",moimNo);
+	}
 }

@@ -3,6 +3,7 @@ $(document).ready(function(){
 	isLoading.start();
 	$("#moim_image_file").on("change", handleImgFileSelect);
 	$('#preview_img').hide();
+
 });
 
 function handleImgFileSelect(e){
@@ -46,12 +47,24 @@ function deletePreImage(){
 }
 
 
-function initMoimMake(opt){
+// [hyozkim] makeSelectElement 셀렉트 탭에 데이터 추가
+function makeSelectElement(item, id) {
+    $('#'+id).empty(); // 초기화
+
+    for (var n=0; n<item.length; n++) {
+        var code  = item[n].commCode;
+        var name = item[n].commName;
+
+        $('#'+id).append('<option value="' + code + '">' + name + '</option>');
+    }
+}
+
+// [hyozkim] 모임 상태, 모임 주제, 모임 비공개 데이터 모두 가져오도록 수정.
+function initMoimElement(opt) {
 	
    $.ajax({
-      
-      url:'/getMoimCategory',
-        type:'post',
+      url:'/moimelemtent',
+        type:'get',
         enctype: 'multipart/form-data',
         processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
         contentType: false,
@@ -59,23 +72,30 @@ function initMoimMake(opt){
         cache: false,
         mimeType:"multipart/form-data",
         //data: formData,
-        success:function(data){
-         
-          $('#categorybox').empty(); // 초기화
-         
+        success:function(data) {
+
+             makeSelectElement(data.element_CA1,'categorybox');
+             makeSelectElement(data.element_CA2,'status');
+             makeSelectElement(data.element_CA3,'secretmode');
+
+         /* ASIS
+          *
+         $('#categorybox').empty(); // 초기화
+
          var item = data._category;
-         
+
          for (var n=0; n<item.length; n++){
         	 var code  = item[n].commCode;
             var name = item[n].commName;
-            
+
             $('#categorybox').append('<option value="' + code + '">' + name + '</option>');
          }
+        */
         // $('#categorybox').selectmenu('refresh');
-         
+
       }
    });
- //로딩화면 스탑
+ //로딩화면 스탑i
    isLoading.stop();
 }
 
@@ -84,11 +104,16 @@ $('#moimMake_btn').off().on('click', function () {
     var cate = document.getElementById('categorybox');
     var si = document.getElementById('sido_code');
     var goon = document.getElementById('sigoon_code');
+    // [hyozkim] 모임 상태(모집중,모집완료), 비공개 설정 추가
+    var secretmode = document.getElementById('secretmode');
+    var status = document.getElementById('status');
     
-    console.log(si.options[si.selectedIndex].value);
-    console.log(goon.options[goon.selectedIndex].value);
-    console.log(si.options[si.selectedIndex].text);
-    console.log(goon.options[goon.selectedIndex].text);
+    //console.log(si.options[si.selectedIndex].value);
+    //console.log(goon.options[goon.selectedIndex].value);
+    //console.log(si.options[si.selectedIndex].text);
+    //console.log(goon.options[goon.selectedIndex].text);
+    console.log(status.options[status.selectedIndex].text);
+    console.log(secretmode.options[secretmode.selectedIndex].text);
     let moim = {};
     moim.title = $('#title').val();
     moim.peopleLimit = $('#peopleLimit').val();
@@ -98,6 +123,9 @@ $('#moimMake_btn').off().on('click', function () {
     moim.sidoname = si.options[si.selectedIndex].text;
     moim.sigoonname = goon.options[goon.selectedIndex].text;
     moim.joinCondition = $(":input:radio[name=chk_info]:checked").val();
+    // [hyozkim] 모임 상태(모집중,모집완료), 비공개 설정 추가
+    moim.recruitStatus = status.options[status.selectedIndex].text;
+    moim.secretCondition = (secretmode.options[secretmode.selectedIndex].text === '공개') ? 'N' : 'Y';
     
     let category = {};
     category.commName = cate.options[cate.selectedIndex].text;
@@ -128,7 +156,7 @@ $('#moimMake_btn').off().on('click', function () {
             }
         },
         error:function(e){
-        	alert(data.message);
+        	alert(e.message);
         }
     });
 

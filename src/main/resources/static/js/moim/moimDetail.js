@@ -59,10 +59,9 @@ $('[name="banpeople_btn"]').on('click', function () {//회원 강퇴하기 by ch
            }
        });
 });
-$('#signup_btn').off().on('click', function () {//스터디 가입하기 by choiseongjun 2019-09-20
 
-	
-		
+
+$('#signup_btn').off().on('click', function () {//스터디 가입하기 by choiseongjun 2019-09-20
 	
     var moimNo = $('#moimNo').attr("data-moimNo");
     var joinCondition = $('#joinCondition').attr("data-joinCondition");
@@ -203,6 +202,32 @@ $("#moim_delete_btn").click(function(){
 			
 		}
 	});
+});
+
+
+// 모임 비공개 전환 by hyozkim 2020-01-14
+$("#moimClosedBtn").click(function() {
+    var moimNo = $('#moimNo').attr("data-moimNo");
+
+    $.ajax({
+        url:'/moimUpdateClosed/'+moimNo,
+        type:'PUT',
+        contentType: 'application/json; charset=UTF-8',
+        dataType:'json',
+        success:function(data){
+            if(data.code == 1){
+                alert(data.message);
+                location.href='/moimlistView';
+
+            }else{
+                alert(data.message);
+            }
+        },
+        error:function(xhr,error) {
+
+        }
+    });
+
 });
 
 var moimPeopleList;
