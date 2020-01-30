@@ -1,48 +1,19 @@
 package us.flower.dayary.controller.moim;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import us.flower.dayary.common.MediaUtils;
-import us.flower.dayary.domain.Common;
-import us.flower.dayary.domain.Meetup;
-import us.flower.dayary.domain.Moim;
-import us.flower.dayary.domain.MoimPeople;
-import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.*;
 import us.flower.dayary.repository.chat.MoimChatRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
@@ -51,6 +22,12 @@ import us.flower.dayary.repository.moim.picture.MoimBoardFileRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
 import us.flower.dayary.service.moim.moimService;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 @Controller
 public class MoimController {
 
@@ -58,19 +35,20 @@ public class MoimController {
 	private moimService moimService;
 
 	@Autowired
-	MoimPeopleRepository moimpeopleRepository;
+	private MoimPeopleRepository moimpeopleRepository;
 	@Autowired
-	MoimRepository moimRepository;
+	private MoimRepository moimRepository;
 
 	@Autowired
-	ToDoWriteRepository toDowriteRepository;
-	@Autowired
-	MoimMeetUpRepository moimmeetupRepository;
+	private ToDoWriteRepository toDowriteRepository;
 
 	@Autowired
-	MoimChatRepository moimchatRepository;
+	private MoimMeetUpRepository moimmeetupRepository;
+
 	@Autowired
-	MoimBoardFileRepository moimboardfileRepository;
+	private MoimChatRepository moimchatRepository;
+	@Autowired
+	private MoimBoardFileRepository moimboardfileRepository;
 	private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
 
 //    @GetMapping("/searchTitle")
@@ -109,31 +87,32 @@ public class MoimController {
 	}
 
 	/**
-	 * 모임 카테고리 목록 조회
+	 * 모임 생성에 필요한 목록들 조회
 	 *
-	 * @param locale
-	 * @param Moim
+	 * @param
 	 * @return
-	 * @throws @author yuna
+	 * @author yuna
+	 * @author hyoz 수정
 	 */
 	@ResponseBody
-	@PostMapping("/getMoimCategory")
-	public Map<String, Object> getMoimCategory() {
-
-		Map<String, Object> categoryList = new HashMap<String, Object>();
+	@GetMapping("/moimelemtent")
+	public Map<String, Object> getMoimElement() {
+		/*
+		Map<String, Object> list = new HashMap<String, Object>();
 		try {
-			categoryList = moimService.getMoimCategory();
+			// categoryList = moimService.getMoimCategory();
+			list = moimService.getMoimElement(option);
 		} catch (Exception e) {
 		}
+		*/
 
-		return categoryList;
+		return moimService.getMoimElement();
 	}
 
 	/**
 	 * 모임 만들기
 	 *
-	 * @param locale
-	 * @param Moim
+	 * @param moim
 	 * @return
 	 * @throws @author yuna
 	 */
@@ -166,6 +145,16 @@ public class MoimController {
 				|| moim.getSigooncode().equals("")) {
 			returnData.put("code", "0");
 			returnData.put("message", "활동 지역을 선택해주세요");
+			return returnData;
+		}
+		// [hyozkim] 추가
+		else if(moim.getSecretCondition() == null || moim.getSecretCondition().equals("") ) {
+			returnData.put("code", "0");
+			returnData.put("message", "비공개 설정을 선택해주세요");
+			return returnData;
+		} else if(moim.getRecruitStatus() == null || moim.getRecruitStatus().equals("") ) {
+			returnData.put("code", "0");
+			returnData.put("message", "모임 상태를 선택해주세요");
 			return returnData;
 		}
 		char joinCondition='Y';//참가자 승인후 Y Defualt Value
@@ -252,8 +241,10 @@ public class MoimController {
 
 	 * 모임 리스트 출력(Paging 처리)
 	 *
-	 * @param locale
-	 * @param Moim
+	 * @param title
+	 * @param category
+	 * @param sido_code
+	 * @param sigoon_code
 	 * @return moimList
 	 * @throws Exception
 	 * @author choiseongjun
@@ -263,26 +254,32 @@ public class MoimController {
 			@RequestParam(required = false) String title, @RequestParam(required = false) String category,
 			@RequestParam(required = false) String sido_code, @RequestParam(required = false) String sigoon_code) {
 
-		System.out.println(sido_code);
+		logger.info(sido_code);
+
+
 		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
 		pageable = PageRequest.of(page, 9, Sort.Direction.DESC, "id");// 내림차순으로 정렬한다
 
 		Common common = new Common();
 		common.setCommCode(category);// 검색조건 해올때 필요하다 by choiseongjun 2019-10-06
 
+		// [hyozkim] 카테고리 데이터 추가
+		List<Common> categories = (List<Common>) moimService.getMoimElement().get("element_CA1");
+
 		if (title != null || category != null || sido_code != null || sigoon_code != null) {
-			Page<Moim> moimList = moimService.selecttitleList(pageable, title, common, sido_code, sigoon_code);// 타이틀을
-																												// 검색한
-																												// 모임리스트
-																												// 출력한다
-			model.addAttribute("moimList", moimList);
-			long moimListcount = moimList.getTotalElements();// 각각 카운트를 센다
-			model.addAttribute("moimListcount", moimListcount);
+			Page<Moim> moims = moimService.selecttitleList(pageable, title, common, sido_code, sigoon_code); // 타이틀,카테고리별,시도/시군 검색 -> 모임리스트
+			long moimsCount = moims.getTotalElements();// 각각 카운트
+			model.addAttribute("categories",categories);
+			model.addAttribute("moimList", moims);
+			model.addAttribute("moimListCount", moimsCount);
+			logger.info("view moim by selected: {}", moims);
 		} else {
-			Page<Moim> moimList = moimService.selectListAll(pageable);// 모든 모임리스트 출력한다
-			model.addAttribute("moimList", moimList);
-			long moimListcount = moimList.getTotalElements();
-			model.addAttribute("moimListcount", moimListcount);
+			Page<Moim> moims = moimService.selectMoimAll(pageable);// 모든 모임리스트 출력한다
+			long moimsCount = moims.getTotalElements();
+			model.addAttribute("categories",categories);
+			model.addAttribute("moimList", moims);
+			model.addAttribute("moimListCount", moimsCount);
+			logger.info("view moim ALL: {}", moims);
 		}
 
 		return "moim/moimList";
@@ -382,20 +379,48 @@ public class MoimController {
 	public Map<String, Object> moimUpdateClosed(@PathVariable("moimNo") int moimNo, HttpSession session) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 
-		String id = (String) session.getAttribute("peopleEmail");
-		System.out.println("id = " + id);
-		System.out.println("moimNo = " + moimNo);
+		// String id = (String) session.getAttribute("peopleEmail");
+		// System.out.println("id = " + id);
 
 		try {
-			moimService.updateMoimClosed(id, moimNo);
+			moimService.updateMoimClosed(moimNo);
 			returnData.put("code", "1");
 			returnData.put("message", "비공개 전환 성공");
 		} catch (Exception e) {
 			returnData.put("code", "E3290");
 			returnData.put("message", "비공개 전환 실패");
-			System.out.println(e.getMessage());
 		}
 
 		return returnData;
+	}
+
+	/**
+	 * Ajax 비동기로 카테고리 별 모임 리스트 가져오기
+	 *
+	 * @param commonCode(categoryId)
+	 * @return Map<String,Object>
+	 * @author hyojin
+	 */
+	@GetMapping(path="/moimlist")
+	@ResponseBody
+	public Map<String,Object> moimList(@PageableDefault Pageable pageable,
+			@RequestParam(name="commonCode", required=false /*, defaultValue = "00"*/) String commonCode) {
+
+		// 1. 카테고리 영역( 전체 00 추가? )
+		List<Common> categories = (List<Common>) moimService.getMoimElement().get("element_CA1");
+
+		// 2. 모임 리스트 영역 by CommonCode (+ pageable)
+		// 00 -> 전체
+		Page<Moim> moims = commonCode.equals("00") ? moimService.selectMoimAll(pageable) : moimService.selectMoimByCategory(pageable, commonCode) ;
+
+		// 3. 카테고리별 모임 리스트 개수
+		long moimsCount = moims.getTotalElements();
+
+		Map<String,Object> returnMap = new HashMap<>();
+		returnMap.put("categories", categories);
+		returnMap.put("moimList", moims);
+		returnMap.put("moimListCount", moimsCount);
+
+		return returnMap;
 	}
 }
