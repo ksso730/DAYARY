@@ -73,6 +73,10 @@ $(".category_tab_lst").off().on('click', function(evt) {
 
 
 
+function selectCommCode(){
+	
+	
+}
 
 
 // [hyozkim] makeSelectElement 셀렉트 탭에 데이터 추가

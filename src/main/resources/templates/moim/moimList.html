@@ -78,6 +78,23 @@ form.example::after {
     border-bottom: 2px solid #0aba16;
     font-weight: 600
 }
+.category_tab_lst {
+    list-style:none;
+    margin:0;
+    padding:0;
+    margin-left:550px;
+}
+
+.item {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    border : 0;
+    float: left;
+}
+.select_element_tab {
+	display: inline;
+	margin-left: 550px;
+}
 </style>
 </head>
 <body onload="initMoimElement();">
@@ -109,6 +126,7 @@ form.example::after {
 			        </div>
 			     </form> -->
 			<form id="form1" name="form1"  method="get" class="example">
+				<br /><br />
 				<ul class="select_element_tab">
 					<li class="element" data-element="1">
 						<!-- 모임 상태 (CA2) -->
@@ -128,8 +146,8 @@ form.example::after {
 							<option text=""></option>
 						</select>
 					</li>
-
-					<li class="element" data-element="3">
+					<br />
+					<li class="element" data-element="3" style="margin-left: 550px">
 						<label class="text-black">모임 검색</label>
 						<input type="text" placeholder="Search.." name="title">
 						<button type="submit" onclick="fn_formSubmit()"><i class="fa fa-search"></i></button>
