@@ -233,4 +233,14 @@ public class MoimServiceImpl implements moimService{
 	public void updateMoimClosed(int moimNo) {
 		moimRepository.updateMoimClosed("Y",moimNo);
 	}
+
+	@Override
+	public Page<Moim> selectMoimCate(Pageable pageable, String commCode) {
+		
+		Common common =new Common();
+		common.setCommCode(commCode);
+		return moimRepository.findAllByCategory(common,pageable);
+	}
+
+	
 }

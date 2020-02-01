@@ -4,6 +4,7 @@ package us.flower.dayary.controller.community;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -291,9 +292,10 @@ public class CommunityBoardController {
 	 * @return
 	 */
 	@GetMapping("/community/board/{boardGroup}/detail/{boardId}")
-	public String getBoardDetail(@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+	public String getBoardDetail(@PageableDefault Pageable pageable,@PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
 							  HttpSession session, Model model) {
-
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+		pageable = PageRequest.of(page, 9, Sort.Direction.DESC, "id");// 내림차순으로 정렬한다
 		// board group (게시판 그룹)
 		model.addAttribute("boardGroup",boardGroup);
 
@@ -327,7 +329,7 @@ public class CommunityBoardController {
 		model.addAttribute("page", session.getAttribute("page"));
 
 		// 댓글 (전체)
-		model.addAttribute("replies", communityBoardService.getCommunityReplyList(boardId));
+		model.addAttribute("replies", communityBoardService.getCommunityReplyList(boardId,pageable));
 
 		// 사용자 id (댓글 삭제용)
 		model.addAttribute("id", peopleId);
@@ -667,10 +669,12 @@ public class CommunityBoardController {
 	@ResponseBody
 	@PostMapping("/community/timeLine/replyList/{boardId}")
 	public Map<String, Object> timeLineReplyList(@PathVariable("boardId") long boardId,
-										  HttpSession session) {
-
+			@PageableDefault Pageable pageable, HttpSession session) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+		pageable = PageRequest.of(page, 9, Sort.Direction.DESC, "id");// 내림차순으로 정렬한다
+		
 		Map<String, Object> returnData = new HashMap<String, Object>();
-		returnData.put("list", communityBoardService.getTimeLineReplyList(boardId));
+		returnData.put("list", communityBoardService.getTimeLineReplyList(boardId,pageable));
 	
 		return returnData;
 	}

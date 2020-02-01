@@ -67,7 +67,11 @@ public interface MoimRepository extends JpaRepository<Moim, Long>, JpaSpecificat
 
 
 	Page<Moim> findAllByTitleLikeAndSidocodeLikeAndSigooncodeLike(Pageable pageable, String string, String string2,
-			String string3);
+			String string3); 
+
+
+
+	Page<Moim> findAllByCategory(Common common, Pageable pageable);
 
 	// [2020.01.28][hyozkim] commonCode를 조건으로 가져온 모임 리스트 데이터
 	// Page<Moim> findByCommCode(Pageable pageable, String commonCode);
