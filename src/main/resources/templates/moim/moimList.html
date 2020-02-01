@@ -130,16 +130,21 @@ form.example::after {
 					</li>
 
 					<li class="element" data-element="2">
-						<!-- 활동 지역 --> <label class="text-black">활동 지역</label> <select
+						<!-- 활동 지역 --> <label class="text-black">활동 지역</label> 
+					<select
 						name="sido_code" id="sido_code" class="form-control">
 							<option text="">선택</option>
-					</select> <select name="sigoon_code" id="sigoon_code" class="form-control">
+					</select> 
+					
+					</li>
+					<li>
+					<select name="sigoon_code" id="sigoon_code" class="form-control">
 							<option text=""></option>
 					</select>
 					</li>
 					<br />
-					<li class="element" data-element="3" style="margin-left: 550px">
-						<label class="text-black">모임 검색</label> <input type="text"
+					<li class="element" data-element="3" style="margin-left: 600px">
+						 <input type="text"
 						placeholder="Search.." name="title">
 						<button type="submit" onclick="fn_formSubmit()">
 							<i class="fa fa-search"></i>
@@ -152,12 +157,12 @@ form.example::after {
 
 	<section>
 		<div class="site-section bg-white">
-			<h2>
+		<!-- 	<h2>
 				<center>
 					개설된 총 스터디수:
 					<td th:text="${moimListCount}" />
 				</center>
-			</h2>
+			</h2> -->
 			<div class="container">
 				<div class="row">
 
