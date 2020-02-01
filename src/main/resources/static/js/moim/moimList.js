@@ -73,10 +73,6 @@ $(".category_tab_lst").off().on('click', function(evt) {
 
 
 
-function selectCommCode(){
-	
-	
-}
 
 
 // [hyozkim] makeSelectElement 셀렉트 탭에 데이터 추가
@@ -105,7 +101,7 @@ function initMoimElement(opt) {
         mimeType:"multipart/form-data",
         //data: formData,
         success:function(data) {
-
+        	
              makeSelectElement(data.element_CA1,'categorybox');
              makeSelectElement(data.element_CA2,'status');
 
@@ -114,13 +110,10 @@ function initMoimElement(opt) {
 
          /* ASIS
          $('#categorybox').empty(); // 초기화
-
          var item = data._category;
-
          for (var n=0; n<item.length; n++){
         	 var code  = item[n].commCode;
             var name = item[n].commName;
-
             $('#categorybox').append('<option value="' + code + '">' + name + '</option>');
          }
         */
@@ -184,4 +177,3 @@ $(function(){
 		});
 	});
 })
-

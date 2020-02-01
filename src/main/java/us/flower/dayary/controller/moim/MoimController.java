@@ -267,53 +267,48 @@ public class MoimController {
 	int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
 	pageable = PageRequest.of(page, 9, Sort.Direction.DESC, "id");// 내림차순으로 정렬한다
 
+	// [hyozkim] 카테고리 데이터 추가
+	List<Common> categories = (List<Common>) moimService.getMoimElement().get("element_CA1");
+	
 	if (title != null ||  sido_code != null || sigoon_code != null) {
-	Page<Moim> moimList = moimService.selecttitleList(pageable, title, sido_code, sigoon_code);// 타이틀을
-	for(int i=0;i<moimList.getNumberOfElements();i++) {
-	List<ToDoWrite> todowrite =  moimList.getContent().get(i).getTodowrite();
-	long progresstotalSum=0;
-	long progresstotal=0;
-	double progressbefore = 0;
-	double progress = 0;
-	long count = 0;
-	for(ToDoWrite j: todowrite) {
-		Map<String, Object> tempMap = new HashMap<String, Object>();
-		tempMap.put("progress_done", j.getProgress_done());
-		tempMap.put("sametodoid",j.getMoim().getId());
-		progresstotalSum+=j.getProgress_done();
-		progresstotal+=j.getProgress_total();
-		progressbefore += j.getProgress();
-		count++;
-	}
+		Page<Moim> moimList = moimService.selecttitleList(pageable, title, sido_code, sigoon_code);// 타이틀을
+		
+		for(int i=0;i<moimList.getNumberOfElements();i++) {
+		List<ToDoWrite> todowrite =  moimList.getContent().get(i).getTodowrite();
+		long progresstotalSum=0;
+		long progresstotal=0;
+		double progressbefore = 0;
+		double progress = 0;
+		long count = 0;
+		for(ToDoWrite j: todowrite) {
+			Map<String, Object> tempMap = new HashMap<String, Object>();
+			tempMap.put("progress_done", j.getProgress_done());
+			tempMap.put("sametodoid",j.getMoim().getId());
+			progresstotalSum+=j.getProgress_done();
+			progresstotal+=j.getProgress_total();
+			progressbefore += j.getProgress();
+			count++;
+		}
 
-	if(count==0) {
-
-	count = 1;
-
-	}
+		if(count==0) {
+		count = 1;
+		}
 
 	//progress = Double.parseDouble(String.format("%.2f",progressbefore / count));
 
-	double progressPercent=0;
+		double progressPercent=0;
 
-	progressPercent = Math.round(((progresstotalSum/progresstotal)*100)*100)/100.0;
-
-	moimList.getContent().get(i).setProgresssum(progresstotalSum);
-
-	moimList.getContent().get(i).setProgresstotal(progresstotal);
-
-	moimList.getContent().get(i).setProgresspercent(progressPercent);
-
-	}
+		progressPercent = Math.round(((progresstotalSum/progresstotal)*100)*100)/100.0;
+		moimList.getContent().get(i).setProgresssum(progresstotalSum);
+		moimList.getContent().get(i).setProgresstotal(progresstotal);
+		moimList.getContent().get(i).setProgresspercent(progressPercent);
+		}
 
 	// 출력한다
-
-	model.addAttribute("moimList", moimList);
-
-	long moimListcount = moimList.getTotalElements();// 각각 카운트를 센다
-
-	model.addAttribute("moimListcount", moimListcount);
-
+		model.addAttribute("categories",categories);
+		model.addAttribute("moimList", moimList);
+		long moimListcount = moimList.getTotalElements();// 각각 카운트를 센다
+		model.addAttribute("moimListcount", moimListcount);
 	} else {
 	Page<Moim> moimList = moimService.selectMoimAll(pageable);// 모든 모임리스트 출력한다
 	Moim moim=new Moim();
@@ -354,6 +349,7 @@ public class MoimController {
 		moimList.getContent().get(i).setProgresspercent(progressPercent);
 		moimList.getContent().get(i).setTodocount(count);
 	}
+	model.addAttribute("categories",categories);
 	model.addAttribute("moimList", moimList);
 	long moimListcount = moimList.getTotalElements();
 	model.addAttribute("moimListcount", moimListcount);
