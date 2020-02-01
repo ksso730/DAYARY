@@ -2,7 +2,6 @@ package us.flower.dayary.domain;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,12 +19,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -134,5 +132,12 @@ public class Moim extends DateAudit{
 	//가입조건  N은 누구나 Y는 승인해야함
 	@Column(name="JOIN_CONDITION" ,nullable=false, columnDefinition = "char(1) default 'N'")
 	private char joinCondition;
-
+	@Transient
+	private long progresssum;
+	@Transient
+	private long progresstotal;
+	@Transient
+	private double progresspercent;
+	@Transient
+	private long todocount;//계획카운트
 }

@@ -174,9 +174,9 @@ public class MoimServiceImpl implements moimService{
 //	}
 
 	@Override
-	public Page<Moim> selecttitleList(Pageable pageable, String title, Common common,String sido_code,String sigoon_code) {
+	public Page<Moim> selecttitleList(Pageable pageable, String title, String sido_code,String sigoon_code) {
 		// TODO Auto-generated method stub
-		return moimRepository.findAllByTitleLikeAndCategoryAndSidocodeLikeAndSigooncodeLike(pageable,"%"+title+"%",common,"%"+sido_code+"%","%"+sigoon_code+"%");
+		return moimRepository.findAllByTitleLikeAndSidocodeLikeAndSigooncodeLike(pageable,"%"+title+"%","%"+sido_code+"%","%"+sigoon_code+"%");
 	}
 
 	@Override
