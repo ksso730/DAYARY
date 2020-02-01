@@ -102,33 +102,22 @@ form.example::after {
 	<div th:replace="layout/header::header" />
 	<!-- <div id="moimPeopleList" th:data-moimPeopleList="${moimList.peopleList}"></div> -->
 	<header>
-		<!-- [2020.01.27][hyozkim] TABUI -->
-		<div class="header_category_tab">
-			<ul class="category_tab_lst">
-				<li class="item" th:attr="data-category=${category.commCode}"
-					th:each="category : ${categories}"><a
-					th:if="${category.commCode.toString().equals('01')}"
-					class="anchor active"> <span th:text="${category.commName}"></span></a>
-					<a th:unless="${category.commCode.toString().equals('01')}"
-					class="anchor"> <span th:text="${category.commName}"></span></a></li>
-			</ul>
-		</div>
+		
+		
 		
 
 		<div class="header_filter_tab">
 			<input type="hidden" id="sido_key" value="12685d425f1af0872d756c" />
 			<input type="hidden" id="sigoon_key" value="b0888bae39fbd0463a9252" />
-			<!-- 	<div id="myBtnContainer">
-                <button class="btn active" id="categorybox"
-                    onclick="filterSelection('all')">모든 주제 보기</button>
-
-            </div> -->
-			<!-- 	<form action="/moimlistView" class="form-inline">
-			        <div class="form-group mb-2">
-			         <input type="text" class="form-control" name="title" placeholder="Search User" />
-			         <input type="submit" value="Search"  class="btn btn-primary"/>
-			        </div>
-			     </form> -->
+			<!-- [2020.01.27][hyozkim] TABUI -->
+		<div class="header_category_tab">
+			<ul class="category_tab_lst">
+				<li class="item" th:attr="data-category=${category.commCode}" th:each="category : ${categories}">
+					<a th:if="${category.commCode.toString().equals('01')}" class="anchor active"> <span th:text="${category.commName}"></span></a>
+					<a th:unless="${category.commCode.toString().equals('01')}" class="anchor"> <span th:text="${category.commName}"></span></a>
+				</li>
+			</ul>
+		</div>
 			<form id="form1" name="form1" method="get" class="example">
 				<br />
 				<br />
