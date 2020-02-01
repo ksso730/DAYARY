@@ -239,51 +239,129 @@ public class MoimController {
 
 	/**
 
-	 * 모임 리스트 출력(Paging 처리)
-	 *
-	 * @param title
-	 * @param category
-	 * @param sido_code
-	 * @param sigoon_code
-	 * @return moimList
-	 * @throws Exception
-	 * @author choiseongjun
-	 */
+
+
+	* 모임 리스트 출력(Paging 처리)
+
+	*
+
+	* @param locale
+
+	* @param Moim
+
+	* @return moimList
+
+	* @throws Exception
+
+	* @author choiseongjun
+
+	*/
+
 	@GetMapping("/moimlistView")
+
 	public String moimListView(@PageableDefault Pageable pageable, HttpSession session, Model model,
-			@RequestParam(required = false) String title, @RequestParam(required = false) String category,
-			@RequestParam(required = false) String sido_code, @RequestParam(required = false) String sigoon_code) {
-
-		logger.info(sido_code);
+	@RequestParam(required = false) String title, 
+	@RequestParam(required = false) String sido_code, @RequestParam(required = false) String sigoon_code) {
 
 
-		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
-		pageable = PageRequest.of(page, 9, Sort.Direction.DESC, "id");// 내림차순으로 정렬한다
+	int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+	pageable = PageRequest.of(page, 9, Sort.Direction.DESC, "id");// 내림차순으로 정렬한다
 
-		Common common = new Common();
-		common.setCommCode(category);// 검색조건 해올때 필요하다 by choiseongjun 2019-10-06
-
-		// [hyozkim] 카테고리 데이터 추가
-		List<Common> categories = (List<Common>) moimService.getMoimElement().get("element_CA1");
-
-		if (title != null || category != null || sido_code != null || sigoon_code != null) {
-			Page<Moim> moims = moimService.selecttitleList(pageable, title, common, sido_code, sigoon_code); // 타이틀,카테고리별,시도/시군 검색 -> 모임리스트
-			long moimsCount = moims.getTotalElements();// 각각 카운트
-			model.addAttribute("categories",categories);
-			model.addAttribute("moimList", moims);
-			model.addAttribute("moimListCount", moimsCount);
-			logger.info("view moim by selected: {}", moims);
-		} else {
-			Page<Moim> moims = moimService.selectMoimAll(pageable);// 모든 모임리스트 출력한다
-			long moimsCount = moims.getTotalElements();
-			model.addAttribute("categories",categories);
-			model.addAttribute("moimList", moims);
-			model.addAttribute("moimListCount", moimsCount);
-			logger.info("view moim ALL: {}", moims);
-		}
-
-		return "moim/moimList";
+	if (title != null ||  sido_code != null || sigoon_code != null) {
+	Page<Moim> moimList = moimService.selecttitleList(pageable, title, sido_code, sigoon_code);// 타이틀을
+	for(int i=0;i<moimList.getNumberOfElements();i++) {
+	List<ToDoWrite> todowrite =  moimList.getContent().get(i).getTodowrite();
+	long progresstotalSum=0;
+	long progresstotal=0;
+	double progressbefore = 0;
+	double progress = 0;
+	long count = 0;
+	for(ToDoWrite j: todowrite) {
+		Map<String, Object> tempMap = new HashMap<String, Object>();
+		tempMap.put("progress_done", j.getProgress_done());
+		tempMap.put("sametodoid",j.getMoim().getId());
+		progresstotalSum+=j.getProgress_done();
+		progresstotal+=j.getProgress_total();
+		progressbefore += j.getProgress();
+		count++;
 	}
+
+	if(count==0) {
+
+	count = 1;
+
+	}
+
+	//progress = Double.parseDouble(String.format("%.2f",progressbefore / count));
+
+	double progressPercent=0;
+
+	progressPercent = Math.round(((progresstotalSum/progresstotal)*100)*100)/100.0;
+
+	moimList.getContent().get(i).setProgresssum(progresstotalSum);
+
+	moimList.getContent().get(i).setProgresstotal(progresstotal);
+
+	moimList.getContent().get(i).setProgresspercent(progressPercent);
+
+	}
+
+	// 출력한다
+
+	model.addAttribute("moimList", moimList);
+
+	long moimListcount = moimList.getTotalElements();// 각각 카운트를 센다
+
+	model.addAttribute("moimListcount", moimListcount);
+
+	} else {
+	Page<Moim> moimList = moimService.selectMoimAll(pageable);// 모든 모임리스트 출력한다
+	Moim moim=new Moim();
+
+	for(int i=0;i<moimList.getNumberOfElements();i++) {
+
+	List<ToDoWrite> todowrite =  moimList.getContent().get(i).getTodowrite();
+	double progresstotalSum=0;
+	double progresstotal=0;
+	double progressbefore = 0;
+	double progress = 0;
+	long count = 0;
+
+	for(ToDoWrite j: todowrite) {
+		Map<String, Object> tempMap = new HashMap<String, Object>();
+		tempMap.put("progress_done", j.getProgress_done());
+		tempMap.put("sametodoid",j.getMoim().getId());
+		progresstotalSum+=j.getProgress_done();
+		progresstotal+=j.getProgress_total();
+		progressbefore += j.getProgress();
+		count++;
+	}
+	if(count==0) {
+	count = 1;
+	}
+	if(progresstotalSum==0) {
+		progresstotalSum=1;
+	}
+
+	if(progresstotal==0) {
+	progresstotal=1;
+	}
+		double progressPercent=0;
+		//progress = Double.parseDouble(String.format("%.2f",progressbefore / count));
+		progressPercent = Math.round(((progresstotalSum/progresstotal)*100)*100)/100.0;
+		moimList.getContent().get(i).setProgresssum((long)progresstotalSum);
+		moimList.getContent().get(i).setProgresstotal((long)progresstotal);
+		moimList.getContent().get(i).setProgresspercent(progressPercent);
+		moimList.getContent().get(i).setTodocount(count);
+	}
+	model.addAttribute("moimList", moimList);
+	long moimListcount = moimList.getTotalElements();
+	model.addAttribute("moimListcount", moimListcount);
+	}
+	return "moim/moimList";
+	}
+
+
 
 	@ResponseBody
 	@GetMapping(value="/getMoimImage/{imageName:.+}",produces = MediaType.IMAGE_JPEG_VALUE)

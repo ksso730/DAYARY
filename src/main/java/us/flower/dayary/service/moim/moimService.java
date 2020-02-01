@@ -40,7 +40,7 @@ public interface moimService {
 
 	List<Moim> findByTitle(String name);
 
-	Page<Moim> selecttitleList(Pageable pageable, String title, Common common, String sido_code, String sigoon_code);
+	Page<Moim> selecttitleList(Pageable pageable, String title, String sido_code, String sigoon_code);
 
 	void updateMoim(String id, Moim moim, MultipartFile file);
 
