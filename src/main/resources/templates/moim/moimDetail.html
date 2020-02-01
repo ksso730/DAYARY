@@ -209,8 +209,12 @@ body {
                   <div class="panel-body">
                      <p class="text-muted font-13">
                      <td th:text="${moimDetail.intro}" />
+                      <tr th:each="StachartList : ${StachartList}">
+                    	<td
+                              th:text="${StachartList}" /> 
+                    	</tr>
                      </p>
-                    
+                   
                      <tr th:each="joinedpeoplelist : ${joinedpeoplelist}">
                            <span th:if="${joinedpeoplelist.joinCondition}=='N'">   
                            	 <span th:if="${joinedpeople}!=null">   

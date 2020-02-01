@@ -50,5 +50,7 @@ public interface moimService {
 
 	Page<Moim> selectMoimCate(Pageable pageable, String commCode);//카테고리별로 가져옴
 
+	List<Map<String, String>> selectTodoLankChart(long no);
+
 
 }

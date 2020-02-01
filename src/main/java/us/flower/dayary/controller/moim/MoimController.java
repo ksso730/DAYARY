@@ -201,7 +201,10 @@ public class MoimController {
 	@GetMapping("/moimlistView/moimdetailView/{no}")
 	public String moimDetailView(@PathVariable("no") long no, Model model, HttpSession session, Sort sort,
 			@PageableDefault Pageable pageable) {
-
+		
+		List<Map<String,String>> StachartList = moimService.selectTodoLankChart(no);//계획리스트 그상태별 차트리스트는?
+		System.out.println("StachartList="+StachartList);
+		model.addAttribute("StachartList",StachartList);
 		moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));// 모임장중심으로 데이터
 																											// 불러옴
 		long peopleId = (long) session.getAttribute("peopleId");// 일반회원 번호를 던져준다.참가를 위해
