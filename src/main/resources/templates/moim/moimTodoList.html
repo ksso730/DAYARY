@@ -448,6 +448,7 @@ function detail_list(status){
 	        		var list=data.todolist.content;
 	        		var html=""
 	        			for(var i in list){
+	        				
 	        				html+='<tr><td class="align-middle"> <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div></td>';
 	        				html+='<td><div><a href="#" onclick="get_detail('+list[i].id+');" ><span>'+list[i].plan_title+'</span></a></div>';
 	        				html+='   Edited by:'+list[i].people.name+'<br>'+list[i].from_date+'~'
@@ -466,7 +467,7 @@ function detail_list(status){
 		        				html+=' <span class="badge badge-danger badge-pill">Suspend</span>';
 		        			html+=' <td class="align-middle"> <div class="mb-2 progress" style="height: 5px;">';
 		        			html+='<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:'+list[i].progress+'%;"></div>';
-                            html+= '</div><div>진행률:'+list[i].count+'</div></td>';
+                            html+= '</div><div>진행률:'+list[i].progress_done+'/'+list[i].progress_total+'</div></td>';
                             html+='<td class="align-middle">  <div class="avatar-image avatar-image--loaded"> <div class="avatar avatar--md avatar-image__image">'
 	        				html+='  <div class="avatar__content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png"></div> </div>'
 	        				html+='  </div></td> </tr> ';
@@ -500,12 +501,13 @@ function post_send(id) {
 // 		alert("기한이 지나 수정이 불가능합니다.");
 // 		document.getElementById("sendBtn").style.display="none";
 // 		return ;
-// 	 }
-	/* if($('#suspendVal').text()=="Suspend"){
+// 	 }	
+	console.log($('#suspendVal').text())
+	if($('#suspendVal').text()=="Suspend"){
 		alert("기한이 지나 수정이 불가능합니다.");
 		return ;
-	} */
-		 
+	} 
+
 	if(temp.length!=0){
 		for (var i in temp) {
 			if(temp[i].className=="checked"){
@@ -521,8 +523,8 @@ function post_send(id) {
 	var param={
 			list:list,
 			count:count.length
-	}
-	   $.ajax({
+	}  
+	    $.ajax({
 	      url:'/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/'+id,
 	        type:'post',
 	        data: JSON.stringify(param) ,
@@ -535,7 +537,7 @@ function post_send(id) {
 	             }
 	        }, error:function(e){
 	        }
-	    });
+	    }); 
 	}
 
 
