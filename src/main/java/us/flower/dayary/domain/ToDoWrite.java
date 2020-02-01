@@ -60,13 +60,17 @@ public class ToDoWrite extends DateAudit{
 	private Date to_date2;
 	@Column(name="CREATE_DATE")
 	private Date create_date;
-	@Column
-	private String count;
+//	@Column
+//	private String count;
 	@Column
 	private double progress;
+	@Column(name="PROGRESS_DONE")
+	private long progress_done;
+	@Column(name="PROGRESS_TOTAL")
+	private long progress_total;
 	
 	@Column(name="STATUS")
-	   private String status;
+	private String status;
 	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "toDoWrite")
 	@JsonIgnore
 	private List<ToDoWriteList> todowritelist;

@@ -61,8 +61,10 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
          Optional<Moim> moimOne=moimRepository.findById(no);
          list.getToDoWrite().setMoim(moimOne.get());
          String[] todo=list.getPlan_list().split(",");
-         String count="0/"+todo.length;
-        		 list.getToDoWrite().setCount(count);
+        // String count="0/"+todo.length;
+        //		 list.getToDoWrite().setCount(count);
+         list.getToDoWrite().setProgress_done(0);
+         list.getToDoWrite().setProgress_total(todo.length);
          //todowrite 저장하고 객체 반환
          ToDoWrite t =toDowriteRepository.save(list.getToDoWrite());
          //todo계획에 있는 목록들인 list를 하나씩 목록에 빼서 넣어주기
@@ -123,8 +125,9 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
            toDowriteListRepository.save(l);
         }
        
-       String x=Integer.toString(done)+"/"+Integer.toString(total);
-       todo.setCount(x);
+       //String x=Integer.toString(done)+"/"+Integer.toString(total);
+       //todo.setCount(x);
+       todo.setProgress_done(done);//상태 완료치는 것
        //상태바 
        if(total!=0) {
          todo.setProgress((double)done/(double)total*100.0);
