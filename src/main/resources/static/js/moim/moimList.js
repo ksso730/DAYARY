@@ -12,7 +12,7 @@ function makeCategoryTab(item,commonCode) {
     //console.log(typeof commonCode);
     var resJson = jQuery.parseJSON(JSON.stringify(item));
     var categoryhtml = $('#categoryItem').html();
-    // console.log(categoryhtml);
+     console.log(categoryhtml);
 
     var resultHtml = "";
     for(var i=0; i<resJson.length; i++) {

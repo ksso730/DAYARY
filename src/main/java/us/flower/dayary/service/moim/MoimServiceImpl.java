@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -233,4 +234,22 @@ public class MoimServiceImpl implements moimService{
 	public void updateMoimClosed(int moimNo) {
 		moimRepository.updateMoimClosed("Y",moimNo);
 	}
+
+	@Override
+	public Page<Moim> selectMoimCate(Pageable pageable, String commCode) {
+		
+		Common common =new Common();
+		common.setCommCode(commCode);
+		return moimRepository.findAllByCategory(common,pageable);
+	}
+	@Autowired
+	SqlSession sqlSession;
+	
+	@Override
+	public List<Map<String, String>> selectTodoLankChart(long no) {
+		return sqlSession.selectList("todo.selecttodoStatusGroup",no);
+	}
+	
+
+	
 }

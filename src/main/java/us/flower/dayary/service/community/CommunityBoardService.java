@@ -33,10 +33,10 @@ public interface CommunityBoardService {
 	List<CommunityBoard> getCommunityBoardList(long boardGroupId, long peopleId);
 
 	// 댓글 리스트 (대댓글은 DeleteFlag가 "N"인 경우만)
-	List<BoardReplyDTO> getCommunityReplyList(long boardId);
+	List<BoardReplyDTO> getCommunityReplyList(long boardId, Pageable pageable);
 
 	//대댓없는  타임라인 댓글리스트
-	List<CommunityBoardReply> getTimeLineReplyList(long boardId);
+	List<CommunityBoardReply> getTimeLineReplyList(long boardId, Pageable pageable);
 
 	// 게시글 Detail
 	CommunityBoard getCommunityBoard(long boardId);

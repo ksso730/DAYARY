@@ -58,6 +58,7 @@ function fn_getReply(id){
 		success:function(data){
 			if(data.list.length>0){
 				var list=data.list;
+				console.log(list);
 				var html="";
 				for(var i=0;i<list.length;i++){
 					html+=' <div class="box-comment"> <div class="user"><img src="https://bootdey.com/img/Content/avatar/avatar6.png"></div>';
@@ -69,7 +70,6 @@ function fn_getReply(id){
 						html+='<button onclick="fn_deleteReply('+list[0].id+','+id+')" class="btn btn-xs btn-link">삭제</button>';
 					}
 					html+='</div>';
-					
 					html+=' <div class="input" id="modifybox_'+list[0].id+'"  style="display: none">';
 					html+='<div class="input-group"><input type="text" class="form-control rounded-corner" value="'+list[i].memo+'">';
 					html+=' <span class="input-group-btn p-l-10">'

@@ -1,5 +1,12 @@
 package us.flower.dayary.controller.moim;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +18,22 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import us.flower.dayary.domain.*;
+
+import us.flower.dayary.domain.Common;
+import us.flower.dayary.domain.Meetup;
+import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.MoimPeople;
+import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.repository.chat.MoimChatRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
@@ -21,12 +41,6 @@ import us.flower.dayary.repository.moim.meetup.MoimMeetUpRepository;
 import us.flower.dayary.repository.moim.picture.MoimBoardFileRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
 import us.flower.dayary.service.moim.moimService;
-
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Controller
 public class MoimController {
@@ -187,7 +201,10 @@ public class MoimController {
 	@GetMapping("/moimlistView/moimdetailView/{no}")
 	public String moimDetailView(@PathVariable("no") long no, Model model, HttpSession session, Sort sort,
 			@PageableDefault Pageable pageable) {
-
+		
+		List<Map<String,String>> StachartList = moimService.selectTodoLankChart(no);//계획리스트 그상태별 차트리스트는?
+		System.out.println("StachartList="+StachartList);
+		model.addAttribute("StachartList",StachartList);
 		moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));// 모임장중심으로 데이터
 																											// 불러옴
 		long peopleId = (long) session.getAttribute("peopleId");// 일반회원 번호를 던져준다.참가를 위해
@@ -334,13 +351,7 @@ public class MoimController {
 	if(count==0) {
 	count = 1;
 	}
-	if(progresstotalSum==0) {
-		progresstotalSum=1;
-	}
-
-	if(progresstotal==0) {
-	progresstotal=1;
-	}
+	
 		double progressPercent=0;
 		//progress = Double.parseDouble(String.format("%.2f",progressbefore / count));
 		progressPercent = Math.round(((progresstotalSum/progresstotal)*100)*100)/100.0;
@@ -467,7 +478,7 @@ public class MoimController {
 
 		return returnData;
 	}
-
+	
 	/**
 	 * Ajax 비동기로 카테고리 별 모임 리스트 가져오기
 	 *
@@ -496,5 +507,29 @@ public class MoimController {
 		returnMap.put("moimListCount", moimsCount);
 
 		return returnMap;
+	}
+	/**
+	 * 모임 주제별 리스트 리턴하기
+	 *
+	 * @param commonCode(categoryId)
+	 * @return Map<String,Object>
+	 * @author Seong Jun 
+	 */
+	@GetMapping(path="/moimlistCate/{commCode}")
+	public String moimlistCate(@PageableDefault Pageable pageable,@PathVariable("commCode") String commCode,Model model) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+		pageable = PageRequest.of(page, 9, Sort.Direction.DESC, "id");// 내림차순으로 정렬한다
+		// [hyozkim] 카테고리 데이터 추가
+		List<Common> categories = (List<Common>) moimService.getMoimElement().get("element_CA1");
+		if(commCode.equals("11")) {
+			Page<Moim> moimList = moimService.selectMoimAll(pageable);// 모든 모임리스트 출력한다
+			model.addAttribute("moimList", moimList);
+		}else {
+			Page<Moim> moimList = moimService.selectMoimCate(pageable,commCode);// 카테고리별로 모임리스트 출력한다
+			model.addAttribute("moimList", moimList);
+		}
+		model.addAttribute("categories", categories);
+		
+		return "moim/moimList";
 	}
 }
