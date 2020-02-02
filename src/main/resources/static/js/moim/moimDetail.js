@@ -333,8 +333,8 @@ function drawChartEnd(result) {
 	
 	
 	var data = new google.visualization.DataTable();
-	data.addColumn('string', 'name');
-	data.addColumn('number', 'cnt');
+	data.addColumn('string', '이름');
+	data.addColumn('number', '완료한 갯수');
 	
 	var dataArray = [];
 	$.each(result, function(i, obj) {
