@@ -21,6 +21,7 @@ import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.repository.CommonRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
@@ -246,7 +247,7 @@ public class MoimServiceImpl implements moimService{
 	SqlSession sqlSession;
 	
 	@Override
-	public List<Map<String, String>> selectTodoLankChart(long no) {
+	public List<ToDoWrite> selectTodoLankChart(long no) {
 		return sqlSession.selectList("todo.selecttodoStatusGroup",no);
 	}
 	

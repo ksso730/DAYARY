@@ -3,15 +3,21 @@ package us.flower.dayary.controller.people;
 import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -130,7 +136,7 @@ public class PeopleController {
 		
 		return returnData;
 	}
-
+	
 	@PostMapping("/signup")
 	@ResponseBody
 	public Map<String, Object> registerUser(@Valid @RequestPart("signUpRequest") SignUpRequest signUpRequest, @RequestPart(name="file",required=false) MultipartFile file) {
