@@ -86,16 +86,16 @@ public class RestMoimController {
 		
 	}
 	@GetMapping("/rest/moimlistView/moimdetailView/{no}")
-	public ResponseEntity<?> RestmoimDetailView(@PathVariable("no") long no,@RequestHeader (name="Authorization") String token, Model model, HttpSession session, Sort sort,
+	public ResponseEntity<?> RestmoimDetailView(@PathVariable("no") long no, Model model, HttpSession session, Sort sort,
 			@PageableDefault Pageable pageable) {
 		JSONObject returnData = new JSONObject();
-		if(tokenProvider.validateToken(token)) {
-			System.out.println(tokenProvider.getUserIdFromJWT(token));
-			Long userId=tokenProvider.getUserIdFromJWT(token);
-			String moimPeopleNo = moimService.findMoimPeopleNoOne(userId, no);// 참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에
-			// 넣어준다)
-			returnData.put("moimPeopleNo",moimPeopleNo);
-		}
+//		if(tokenProvider.validateToken(token)) {
+//			System.out.println(tokenProvider.getUserIdFromJWT(token));
+//			Long userId=tokenProvider.getUserIdFromJWT(token);
+//			String moimPeopleNo = moimService.findMoimPeopleNoOne(userId, no);// 참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에
+//			// 넣어준다)
+//			returnData.put("moimPeopleNo",moimPeopleNo);
+//		}
 		
 		moimService.findMoimone(no).ifPresent(moimDetail -> returnData.put("moimDetail", moimDetail));// 모임장중심으로 데이터
 		

@@ -12,6 +12,7 @@ import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.ToDoWrite;
 
 public interface moimService {
 
@@ -50,7 +51,7 @@ public interface moimService {
 
 	Page<Moim> selectMoimCate(Pageable pageable, String commCode);//카테고리별로 가져옴
 
-	List<Map<String, String>> selectTodoLankChart(long no);
+	List<ToDoWrite> selectTodoLankChart(long no);
 
 
 }

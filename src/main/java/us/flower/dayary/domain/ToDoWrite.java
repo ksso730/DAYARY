@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.engine.FetchStyle;
 
@@ -75,5 +76,8 @@ public class ToDoWrite extends DateAudit{
 	@JsonIgnore
 	private List<ToDoWriteList> todowritelist;
 
+	
+	@Transient
+	private long cnt;// 상태 그룹별 카운트
 
 }

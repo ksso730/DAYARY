@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import net.minidev.json.JSONObject;
 import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.Moim;
@@ -188,7 +189,26 @@ public class MoimController {
 		}
 		return returnData;
 	}
+	/**
+	 * 계획 상태 비율 원차트
+	 *
+	 * @param locale
+	 * @param no
+	 * @return moimDetail,people_no
+	 * @throws Exception
+	 * @author choiseongjun
+	 */
 
+	
+	@ResponseBody
+	@GetMapping("/TodoStatusChart/{no}")
+	public JSONObject TodoStatusChart(@PathVariable("no") long no) {
+		JSONObject returnData = new JSONObject();
+		
+		List<ToDoWrite> StachartList = moimService.selectTodoLankChart(no);//계획리스트 그상태별 차트리스트
+		returnData.put("StachartList",StachartList);
+		return returnData;
+	}
 	/**
 	 * 모임 디테일 출력
 	 *
@@ -202,9 +222,7 @@ public class MoimController {
 	public String moimDetailView(@PathVariable("no") long no, Model model, HttpSession session, Sort sort,
 			@PageableDefault Pageable pageable) {
 		
-		List<Map<String,String>> StachartList = moimService.selectTodoLankChart(no);//계획리스트 그상태별 차트리스트는?
-		System.out.println("StachartList="+StachartList);
-		model.addAttribute("StachartList",StachartList);
+		
 		moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));// 모임장중심으로 데이터
 																											// 불러옴
 		long peopleId = (long) session.getAttribute("peopleId");// 일반회원 번호를 던져준다.참가를 위해

@@ -233,7 +233,24 @@ $("#moimClosedBtn").click(function() {
 var moimPeopleList;
 $(document).ready(function(){
 	
+	
 	var moimNo = $('#moimNo').attr("data-moimNo");
+	$.ajax({
+		type : 'GET',
+		headers : {
+			Accept : "application/json; charset=utf-8",
+			"Content-Type" : "application/json; charset=utf-8"
+		},
+		url : '/TodoStatusChart/'+moimNo,
+		success : function(result) {
+			google.charts.load('current', {
+				'packages' : [ 'corechart' ]
+			});
+			google.charts.setOnLoadCallback(function() {
+				drawChart(result);
+			});
+		}
+	});
 	$.ajax({
 			url : '/moimParticipant/searchJoinedPeople/'+moimNo, 
 			type:'get',
@@ -257,4 +274,42 @@ $(document).ready(function(){
       }
     });
 });
+function drawChart(result) {
+	console.log('chart')
+	var chartData=result.StachartList;
+	
+	
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'status');
+	data.addColumn('number', 'cnt');
+	
+	var dataArray = [];
+	$.each(result, function(i, obj) {
+		dataArray.push([ obj.name, obj.quantity ]);
+	});
+	for(var i=0;i<chartData.length;i++){
+		console.log(chartData[i]);
+		dataArray.push([ chartData[i].status, chartData[i].cnt ]);
+	}
+	data.addRows(dataArray);
+
+	var piechart_options = {
+		title : '현재 계획상태리스트',
+		width : 300,
+		height : 300
+	};
+	var piechart = new google.visualization.PieChart(document
+			.getElementById('piechart_div'));
+	piechart.draw(data, piechart_options);
+
+//	var barchart_options = {
+//		title : 'Barchart: How Much Products Sold By Last Night',
+//		width : 400,
+//		height : 300,
+//		legend : 'none'
+//	};
+//	var barchart = new google.visualization.BarChart(document
+//			.getElementById('barchart_div'));
+//	barchart.draw(data, barchart_options);
+}
 

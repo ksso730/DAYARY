@@ -296,6 +296,7 @@ body {
                      </ul>
                   </div>
                </div>
+               
                <!-- Personal-Information -->
                <div class="card-box ribbon-box">
 
@@ -357,7 +358,7 @@ body {
                         <span style="font-size: 30px; cursor: pointer"
                            id="myBtn"> ☰ 모임원 보기</span>
                      </center>
-	               
+	             
                   </div>
                </div>
                
@@ -437,7 +438,12 @@ body {
                      
                   </div>
                	</tr>
-           
+             <table class="columns">
+		<tr>
+			<td><div id="piechart_div" style="border: 1px solid #ccc"></div></td>
+			<td><div id="barchart_div" style="border: 1px solid #ccc"></div></td>
+		</tr>
+	</table>
                </div>
             </div>
             <!-- end col -->
@@ -557,6 +563,8 @@ body {
             }
             //오프라인모임 팝업창 끝
          </script>
+         <script type="text/javascript"
+			src="https://www.gstatic.com/charts/loader.js"></script>
          <script src="/js/moim/moimDetail.js"></script>
 </body>
 </html>

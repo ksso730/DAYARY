@@ -78,6 +78,8 @@ compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4',
     // https://mvnrepository.com/artifact/org.springframework/spring-websocket
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '2.1.7.RELEASE'
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9'
 	
 	
 	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple

@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="todo">
-       <select id="selecttodoStatusGroup" resultType="Map" parameterType="long">
+       <select id="selecttodoStatusGroup" resultType="us.flower.dayary.domain.ToDoWrite" parameterType="long">
 	       	select count(id) as cnt ,status from moim_todo_write
 			where moim_id=#{no}
 			group by status
