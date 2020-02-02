@@ -252,6 +252,22 @@ $(document).ready(function(){
 		}
 	});
 	$.ajax({
+		type : 'GET',
+		headers : {
+			Accept : "application/json; charset=utf-8",
+			"Content-Type" : "application/json; charset=utf-8"
+		},
+		url : '/TodoCompltLankChart/'+moimNo,
+		success : function(result) {
+			google.charts.load('current', {
+				'packages' : [ 'corechart' ]
+			});
+			google.charts.setOnLoadCallback(function() {
+				drawChartEnd(result);
+			});
+		}
+	});
+	$.ajax({
 			url : '/moimParticipant/searchJoinedPeople/'+moimNo, 
 			type:'get',
 			contentType: 'application/json; charset=UTF-8',
@@ -312,4 +328,39 @@ function drawChart(result) {
 //			.getElementById('barchart_div'));
 //	barchart.draw(data, barchart_options);
 }
+function drawChartEnd(result) {
+	var chartData=result.StachartList;
+	
+	
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'name');
+	data.addColumn('number', 'cnt');
+	
+	var dataArray = [];
+	$.each(result, function(i, obj) {
+		dataArray.push([ obj.name, obj.cnt ]);
+	});
+	for(var i=0;i<chartData.length;i++){
+		dataArray.push([ chartData[i].name, chartData[i].cnt ]);
+	}
+	data.addRows(dataArray);
 
+//	var piechart_options = {
+//		title : '현재 계획상태리스트',
+//		width : 300,
+//		height : 300
+//	};
+//	var piechart = new google.visualization.PieChart(document
+//			.getElementById('piechart_div'));
+//	piechart.draw(data, piechart_options);
+
+	var barchart_options = {
+		title : '현재 계획완료한 사람 랭킹',
+		width : 400,
+		height : 300,
+		legend : 'none'
+	};
+	var barchart = new google.visualization.BarChart(document
+			.getElementById('barchart_div'));
+	barchart.draw(data, barchart_options);
+}

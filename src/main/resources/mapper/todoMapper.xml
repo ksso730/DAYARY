@@ -9,4 +9,14 @@
 			where moim_id=#{no}
 			group by status
        </select>
+       
+       <select id="selectTodoCompltLankChart" resultType="us.flower.dayary.domain.DTO.TempData" parameterType="long">
+	      SELECT COUNT(a.id) AS cnt
+			,b.name 		 AS name
+		 	FROM moim_todo_write a,people b
+			WHERE a.moim_id=#{no} AND a.STATUS='End' AND a.people_id=b.id 
+			GROUP BY a.people_id ORDER BY cnt DESC LIMIT 5;
+       </select>
+       
+       
 </mapper>

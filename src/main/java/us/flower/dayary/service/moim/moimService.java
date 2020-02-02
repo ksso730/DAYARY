@@ -13,6 +13,7 @@ import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
+import us.flower.dayary.domain.DTO.TempData;
 
 public interface moimService {
 
@@ -52,6 +53,8 @@ public interface moimService {
 	Page<Moim> selectMoimCate(Pageable pageable, String commCode);//카테고리별로 가져옴
 
 	List<ToDoWrite> selectTodoLankChart(long no);
+
+	List<TempData> selectTodoCompltLankChart(long no);//계획완료된 5사람 들고오기
 
 
 }
