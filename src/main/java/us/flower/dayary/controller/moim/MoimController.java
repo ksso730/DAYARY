@@ -310,8 +310,8 @@ public class MoimController {
 		
 		for(int i=0;i<moimList.getNumberOfElements();i++) {
 		List<ToDoWrite> todowrite =  moimList.getContent().get(i).getTodowrite();
-		long progresstotalSum=0;
-		long progresstotal=0;
+		double progresstotalSum=0;
+		double progresstotal=0;
 		double progressbefore = 0;
 		double progress = 0;
 		long count = 0;
@@ -334,8 +334,8 @@ public class MoimController {
 		double progressPercent=0;
 
 		progressPercent = Math.round(((progresstotalSum/progresstotal)*100)*100)/100.0;
-		moimList.getContent().get(i).setProgresssum(progresstotalSum);
-		moimList.getContent().get(i).setProgresstotal(progresstotal);
+		moimList.getContent().get(i).setProgresssum((long)progresstotalSum);
+		moimList.getContent().get(i).setProgresstotal((long)progresstotal);
 		moimList.getContent().get(i).setProgresspercent(progressPercent);
 		}
 
