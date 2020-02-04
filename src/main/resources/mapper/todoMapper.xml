@@ -15,8 +15,15 @@
 			,b.name 		 AS name
 		 	FROM moim_todo_write a,people b
 			WHERE a.moim_id=#{no} AND a.STATUS='End' AND a.people_id=b.id 
-			GROUP BY a.people_id ORDER BY cnt DESC LIMIT 5;
+			GROUP BY a.people_id ORDER BY cnt DESC LIMIT 5
        </select>
-       
+       <select id="selectMyTodoProgress" resultType="us.flower.dayary.domain.DTO.TempData" parameterType="long">
+	    SELECT 	(SELECT title FROM moim b WHERE b.id=moim_id) AS title
+				,SUM(progress_done)		AS	no1
+				,SUM(progress_total)  	AS	no2
+			FROM moim_todo_write
+			WHERE people_id=#{no}
+			GROUP BY moim_id
+       </select>
        
 </mapper>

@@ -13,15 +13,8 @@ public class TempData {
 	private char data1;
 	private String name;
 	private long cnt;
+	private String progress_done;
+	private String progress_total;
+	private String title;
 }
-/**
- * 일반회원 모임 강퇴(모임장) 임시로 데이터 담기위해서 넘었다
- * +++또한 모임승인 데이터 담기위함
- * @param locale
- * @param Moim
- * @return returnData
- * @throws Exception
- * @author choiseongjun
- */
-//@ResponseBody
-//@PostMapping("/moimParticipant/banjoinedPeople")
+

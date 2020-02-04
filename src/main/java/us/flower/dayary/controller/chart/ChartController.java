@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import net.minidev.json.JSONObject;
 import us.flower.dayary.domain.DTO.TempData;
 import us.flower.dayary.service.moim.moimService;
+import us.flower.dayary.service.people.PeopleInfoService;
 
 @Controller
 public class ChartController {
 	
 	@Autowired
 	moimService moimService;
+	@Autowired
+	PeopleInfoService peopleInfoService;
 	
 	/**
 	 * 계획비율완료된거중에 순위차트
@@ -33,6 +36,24 @@ public class ChartController {
 		JSONObject returnData = new JSONObject();
 		
 		List<TempData> StachartList = moimService.selectTodoCompltLankChart(no);//계획리스트 그상태별 차트리스트
+		returnData.put("StachartList",StachartList);
+		return returnData;
+	}
+	/**
+	 * 내 계획리스트 바로 들고오기
+	 *
+	 * @param locale
+	 * @param no
+	 * @return moimDetail,people_no
+	 * @throws Exception
+	 * @author choiseongjun
+	 */
+	@ResponseBody
+	@GetMapping("/selectMyTodoProgress/{no}")
+	public JSONObject MyTodoProgress(@PathVariable("no") long no) {
+		JSONObject returnData = new JSONObject();
+		
+		List<TempData> StachartList = peopleInfoService.MyTodoProgress(no);//계획리스트 그상태별 차트리스트
 		returnData.put("StachartList",StachartList);
 		return returnData;
 	}
