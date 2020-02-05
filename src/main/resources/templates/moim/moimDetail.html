@@ -186,7 +186,9 @@ body {
                                     모임수정하기</button></a>
                               <button type="button" id="moim_delete_btn"
                                  class="btn btn-icon btn-sm waves-effect waves-light btn-success">모임삭제하기</button>
-                                 
+
+                               <!-- [20200114][hyojin] 비공개 버튼 추가 -->
+                               <button type="button" id="moimClosedBtn" class="btn btn-icon btn-sm waves-effect waves-light btn-success">모임 비공개 전환</button>
                            </span>
                         </div>
                      </div>
@@ -207,36 +209,36 @@ body {
                   <div class="panel-body">
                      <p class="text-muted font-13">
                      <td th:text="${moimDetail.intro}" />
+                      <tr th:each="StachartList : ${StachartList}">
+                    	<td
+                              th:text="${StachartList}" /> 
+                    	</tr>
                      </p>
-                    
+                   
                      <tr th:each="joinedpeoplelist : ${joinedpeoplelist}">
                            <span th:if="${joinedpeoplelist.joinCondition}=='N'">   
                            	 <span th:if="${joinedpeople}!=null">   
 		                        <span th:if="${!(session.peopleId==moimDetail.people.id)}">
-		                           <button type="button" id="withdraw_btn"
-		                              class="btn btn-primary btn-xs">스터디 승인대기중...</button>
+		                           <button type="button" id="withdraw_btn" class="btn btn-primary btn-xs">스터디 승인대기중...</button>
 		                        </span>
 		                      </span>
                            </span>
                            <span th:if="${joinedpeoplelist.joinCondition}=='Y'">   
 		                     <span th:if="${joinedpeople}!=null">   
 		                        <span th:if="${!(session.peopleId==moimDetail.people.id)}">
-		                           <button type="button" id="withdraw_btn"
-		                              class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
+		                           <button type="button" id="withdraw_btn" class="btn btn-primary btn-xs">스터디 탈퇴하기</button>
 		                        </span>
 		                      </span>
 		                    </span>
-		                     
                        </tr>
-                       <!--  <td th:text="${moimDetail.joinCondition}" /> -->    
+                       <!--  <td th:text="${moimDetail.joinCondition}" /> -->
                       <span th:if="${moimDetail.joinCondition}=='N'">   <!-- 누구나 가입하는 경우  by choinseognjun 2019-10-07-->
 	                       <span th:if="${joinedpeople}==null">   
 	                        <span
 	                           th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople-1>=moimDetail.peopleLimit-1) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
 	                           <!-- 미가입자와 운영자가 아닌경우 -->
-	                           <button type="button" id="signup_btn"
-	                              class="btn btn-primary btn-xs">스터디 가입하기</button>
-	                        </span> 
+	                           <button type="button" id="signup_btn" class="btn btn-primary btn-xs">스터디 가입하기</button>
+	                        </span>
 	                     </span>
                       </span>
                        <span th:if="${moimDetail.joinCondition}=='Y'">    <!-- 가입 승인조건을 받아야 하는  경우 -->
@@ -244,9 +246,7 @@ body {
 	                        <span
 	                           th:if="${!(session.peopleId==moimDetail.people.id) &&!(totalPeople>=moimDetail.peopleLimit) }"><!-- 토탈인원보다 작으면 가입 불가능하고 모임장이면서 가입되지 않은 회원 By choiseongjun -->
 	                           <!-- 미가입자와 운영자가 아닌경우 -->
-	                       
-	                           <button type="button" id="signup_btnY"
-	                              class="btn btn-primary btn-xs">스터디 가입하기</button>
+	                           <button type="button" id="signup_btnY" class="btn btn-primary btn-xs">스터디 가입하기</button>
 	                        </span> 
 	                     </span>
                       </span>
@@ -296,6 +296,7 @@ body {
                      </ul>
                   </div>
                </div>
+               
                <!-- Personal-Information -->
                <div class="card-box ribbon-box">
 
@@ -357,7 +358,7 @@ body {
                         <span style="font-size: 30px; cursor: pointer"
                            id="myBtn"> ☰ 모임원 보기</span>
                      </center>
-	               
+	             
                   </div>
                </div>
                
@@ -437,7 +438,12 @@ body {
                      
                   </div>
                	</tr>
-           
+             <table class="columns">
+		<tr>
+			<td><div id="piechart_div" style="border: 1px solid #ccc"></div></td>
+			<td><div id="barchart_div" style="border: 1px solid #ccc"></div></td>
+		</tr>
+	</table>
                </div>
             </div>
             <!-- end col -->
@@ -491,7 +497,7 @@ body {
 
                         </a>
                      </tr>
-            
+            		
          </div>
       </div>
 
@@ -557,6 +563,8 @@ body {
             }
             //오프라인모임 팝업창 끝
          </script>
+         <script type="text/javascript"
+			src="https://www.gstatic.com/charts/loader.js"></script>
          <script src="/js/moim/moimDetail.js"></script>
 </body>
 </html>

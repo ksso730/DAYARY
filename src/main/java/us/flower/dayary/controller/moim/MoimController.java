@@ -1,7 +1,5 @@
 package us.flower.dayary.controller.moim;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,20 +7,15 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,19 +23,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import us.flower.dayary.common.MediaUtils;
+import net.minidev.json.JSONObject;
 import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.repository.chat.MoimChatRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
@@ -58,19 +50,20 @@ public class MoimController {
 	private moimService moimService;
 
 	@Autowired
-	MoimPeopleRepository moimpeopleRepository;
+	private MoimPeopleRepository moimpeopleRepository;
 	@Autowired
-	MoimRepository moimRepository;
+	private MoimRepository moimRepository;
 
 	@Autowired
-	ToDoWriteRepository toDowriteRepository;
-	@Autowired
-	MoimMeetUpRepository moimmeetupRepository;
+	private ToDoWriteRepository toDowriteRepository;
 
 	@Autowired
-	MoimChatRepository moimchatRepository;
+	private MoimMeetUpRepository moimmeetupRepository;
+
 	@Autowired
-	MoimBoardFileRepository moimboardfileRepository;
+	private MoimChatRepository moimchatRepository;
+	@Autowired
+	private MoimBoardFileRepository moimboardfileRepository;
 	private static final Logger logger = LoggerFactory.getLogger(MoimController.class);
 
 //    @GetMapping("/searchTitle")
@@ -109,31 +102,32 @@ public class MoimController {
 	}
 
 	/**
-	 * 모임 카테고리 목록 조회
+	 * 모임 생성에 필요한 목록들 조회
 	 *
-	 * @param locale
-	 * @param Moim
+	 * @param
 	 * @return
-	 * @throws @author yuna
+	 * @author yuna
+	 * @author hyoz 수정
 	 */
 	@ResponseBody
-	@PostMapping("/getMoimCategory")
-	public Map<String, Object> getMoimCategory() {
-
-		Map<String, Object> categoryList = new HashMap<String, Object>();
+	@GetMapping("/moimelemtent")
+	public Map<String, Object> getMoimElement() {
+		/*
+		Map<String, Object> list = new HashMap<String, Object>();
 		try {
-			categoryList = moimService.getMoimCategory();
+			// categoryList = moimService.getMoimCategory();
+			list = moimService.getMoimElement(option);
 		} catch (Exception e) {
 		}
+		*/
 
-		return categoryList;
+		return moimService.getMoimElement();
 	}
 
 	/**
 	 * 모임 만들기
 	 *
-	 * @param locale
-	 * @param Moim
+	 * @param moim
 	 * @return
 	 * @throws @author yuna
 	 */
@@ -168,6 +162,16 @@ public class MoimController {
 			returnData.put("message", "활동 지역을 선택해주세요");
 			return returnData;
 		}
+		// [hyozkim] 추가
+		else if(moim.getSecretCondition() == null || moim.getSecretCondition().equals("") ) {
+			returnData.put("code", "0");
+			returnData.put("message", "비공개 설정을 선택해주세요");
+			return returnData;
+		} else if(moim.getRecruitStatus() == null || moim.getRecruitStatus().equals("") ) {
+			returnData.put("code", "0");
+			returnData.put("message", "모임 상태를 선택해주세요");
+			return returnData;
+		}
 		char joinCondition='Y';//참가자 승인후 Y Defualt Value
 		try {
 			moimService.saveMoim(id, subject, moim, file);
@@ -185,7 +189,26 @@ public class MoimController {
 		}
 		return returnData;
 	}
+	/**
+	 * 계획 상태 비율 원차트
+	 *
+	 * @param locale
+	 * @param no
+	 * @return moimDetail,people_no
+	 * @throws Exception
+	 * @author choiseongjun
+	 */
 
+	
+	@ResponseBody
+	@GetMapping("/TodoStatusChart/{no}")
+	public JSONObject TodoStatusChart(@PathVariable("no") long no) {
+		JSONObject returnData = new JSONObject();
+		
+		List<ToDoWrite> StachartList = moimService.selectTodoLankChart(no);//계획리스트 그상태별 차트리스트
+		returnData.put("StachartList",StachartList);
+		return returnData;
+	}
 	/**
 	 * 모임 디테일 출력
 	 *
@@ -198,7 +221,8 @@ public class MoimController {
 	@GetMapping("/moimlistView/moimdetailView/{no}")
 	public String moimDetailView(@PathVariable("no") long no, Model model, HttpSession session, Sort sort,
 			@PageableDefault Pageable pageable) {
-
+		
+		
 		moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));// 모임장중심으로 데이터
 																											// 불러옴
 		long peopleId = (long) session.getAttribute("peopleId");// 일반회원 번호를 던져준다.참가를 위해
@@ -250,43 +274,119 @@ public class MoimController {
 
 	/**
 
-	 * 모임 리스트 출력(Paging 처리)
-	 *
-	 * @param locale
-	 * @param Moim
-	 * @return moimList
-	 * @throws Exception
-	 * @author choiseongjun
-	 */
+
+
+	* 모임 리스트 출력(Paging 처리)
+
+	*
+
+	* @param locale
+
+	* @param Moim
+
+	* @return moimList
+
+	* @throws Exception
+
+	* @author choiseongjun
+
+	*/
+
 	@GetMapping("/moimlistView")
+
 	public String moimListView(@PageableDefault Pageable pageable, HttpSession session, Model model,
-			@RequestParam(required = false) String title, @RequestParam(required = false) String category,
-			@RequestParam(required = false) String sido_code, @RequestParam(required = false) String sigoon_code) {
+	@RequestParam(required = false) String title, 
+	@RequestParam(required = false) String sido_code, @RequestParam(required = false) String sigoon_code) {
 
-		System.out.println(sido_code);
-		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
-		pageable = PageRequest.of(page, 9, Sort.Direction.DESC, "id");// 내림차순으로 정렬한다
 
-		Common common = new Common();
-		common.setCommCode(category);// 검색조건 해올때 필요하다 by choiseongjun 2019-10-06
+	int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+	pageable = PageRequest.of(page, 9, Sort.Direction.DESC, "id");// 내림차순으로 정렬한다
 
-		if (title != null || category != null || sido_code != null || sigoon_code != null) {
-			Page<Moim> moimList = moimService.selecttitleList(pageable, title, common, sido_code, sigoon_code);// 타이틀을
-																												// 검색한
-																												// 모임리스트
-																												// 출력한다
-			model.addAttribute("moimList", moimList);
-			long moimListcount = moimList.getTotalElements();// 각각 카운트를 센다
-			model.addAttribute("moimListcount", moimListcount);
-		} else {
-			Page<Moim> moimList = moimService.selectListAll(pageable);// 모든 모임리스트 출력한다
-			model.addAttribute("moimList", moimList);
-			long moimListcount = moimList.getTotalElements();
-			model.addAttribute("moimListcount", moimListcount);
+	// [hyozkim] 카테고리 데이터 추가
+	List<Common> categories = (List<Common>) moimService.getMoimElement().get("element_CA1");
+	
+	if (title != null ||  sido_code != null || sigoon_code != null) {
+		Page<Moim> moimList = moimService.selecttitleList(pageable, title, sido_code, sigoon_code);// 타이틀을
+		
+		for(int i=0;i<moimList.getNumberOfElements();i++) {
+		List<ToDoWrite> todowrite =  moimList.getContent().get(i).getTodowrite();
+		double progresstotalSum=0;
+		double progresstotal=0;
+		double progressbefore = 0;
+		double progress = 0;
+		long count = 0;
+		for(ToDoWrite j: todowrite) {
+			Map<String, Object> tempMap = new HashMap<String, Object>();
+			tempMap.put("progress_done", j.getProgress_done());
+			tempMap.put("sametodoid",j.getMoim().getId());
+			progresstotalSum+=j.getProgress_done();
+			progresstotal+=j.getProgress_total();
+			progressbefore += j.getProgress();
+			count++;
 		}
 
-		return "moim/moimList";
+		if(count==0) {
+		count = 1;
+		}
+
+	//progress = Double.parseDouble(String.format("%.2f",progressbefore / count));
+
+		double progressPercent=0;
+
+		progressPercent = Math.round(((progresstotalSum/progresstotal)*100)*100)/100.0;
+		moimList.getContent().get(i).setProgresssum((long)progresstotalSum);
+		moimList.getContent().get(i).setProgresstotal((long)progresstotal);
+		moimList.getContent().get(i).setProgresspercent(progressPercent);
+		}
+
+	// 출력한다
+		model.addAttribute("categories",categories);
+		model.addAttribute("moimList", moimList);
+		long moimListcount = moimList.getTotalElements();// 각각 카운트를 센다
+		model.addAttribute("moimListcount", moimListcount);
+	} else {
+	Page<Moim> moimList = moimService.selectMoimAll(pageable);// 모든 모임리스트 출력한다
+	Moim moim=new Moim();
+
+	for(int i=0;i<moimList.getNumberOfElements();i++) {
+
+	List<ToDoWrite> todowrite =  moimList.getContent().get(i).getTodowrite();
+	double progresstotalSum=0;
+	double progresstotal=0;
+	double progressbefore = 0;
+	double progress = 0;
+	long count = 0;
+
+	for(ToDoWrite j: todowrite) {
+		Map<String, Object> tempMap = new HashMap<String, Object>();
+		tempMap.put("progress_done", j.getProgress_done());
+		tempMap.put("sametodoid",j.getMoim().getId());
+		progresstotalSum+=j.getProgress_done();
+		progresstotal+=j.getProgress_total();
+		progressbefore += j.getProgress();
+		count++;
 	}
+	if(count==0) {
+	count = 1;
+	}
+	
+		double progressPercent=0;
+		//progress = Double.parseDouble(String.format("%.2f",progressbefore / count));
+		progressPercent = Math.round(((progresstotalSum/progresstotal)*100)*100)/100.0;
+		moimList.getContent().get(i).setProgresssum((long)progresstotalSum);
+		moimList.getContent().get(i).setProgresstotal((long)progresstotal);
+		moimList.getContent().get(i).setProgresspercent(progressPercent);
+		moimList.getContent().get(i).setTodocount(count);
+	}
+	model.addAttribute("categories",categories);
+	model.addAttribute("moimList", moimList);
+	long moimListcount = moimList.getTotalElements();
+	model.addAttribute("moimListcount", moimListcount);
+	}
+	return "moim/moimList";
+	}
+
+
 
 	@ResponseBody
 	@GetMapping(value="/getMoimImage/{imageName:.+}",produces = MediaType.IMAGE_JPEG_VALUE)
@@ -351,6 +451,7 @@ public class MoimController {
 			returnData.put("code", "E3290");
 			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
 		}
+
 		return returnData;
 	}
 
@@ -366,5 +467,87 @@ public class MoimController {
 	public String moimMakeView() {
 		return "moim/moimMake";
 	}
+
+
+	/**
+	 * 모임 비공개 전환
+	 *
+	 * @param moimNo
+	 * @param session
+	 * @return
+	 * @author hyojin
+	 */
+	@ResponseBody
+	@PutMapping("/moimUpdateClosed/{moimNo}")
+	public Map<String, Object> moimUpdateClosed(@PathVariable("moimNo") int moimNo, HttpSession session) {
+		Map<String, Object> returnData = new HashMap<String, Object>();
+
+		// String id = (String) session.getAttribute("peopleEmail");
+		// System.out.println("id = " + id);
+
+		try {
+			moimService.updateMoimClosed(moimNo);
+			returnData.put("code", "1");
+			returnData.put("message", "비공개 전환 성공");
+		} catch (Exception e) {
+			returnData.put("code", "E3290");
+			returnData.put("message", "비공개 전환 실패");
+		}
+
+		return returnData;
+	}
 	
+	/**
+	 * Ajax 비동기로 카테고리 별 모임 리스트 가져오기
+	 *
+	 * @param commonCode(categoryId)
+	 * @return Map<String,Object>
+	 * @author hyojin
+	 */
+	@GetMapping(path="/moimlist")
+	@ResponseBody
+	public Map<String,Object> moimList(@PageableDefault Pageable pageable,
+			@RequestParam(name="commonCode", required=false /*, defaultValue = "00"*/) String commonCode) {
+
+		// 1. 카테고리 영역( 전체 00 추가? )
+		List<Common> categories = (List<Common>) moimService.getMoimElement().get("element_CA1");
+
+		// 2. 모임 리스트 영역 by CommonCode (+ pageable)
+		// 00 -> 전체
+		Page<Moim> moims = commonCode.equals("00") ? moimService.selectMoimAll(pageable) : moimService.selectMoimByCategory(pageable, commonCode) ;
+
+		// 3. 카테고리별 모임 리스트 개수
+		long moimsCount = moims.getTotalElements();
+
+		Map<String,Object> returnMap = new HashMap<>();
+		returnMap.put("categories", categories);
+		returnMap.put("moimList", moims);
+		returnMap.put("moimListCount", moimsCount);
+
+		return returnMap;
+	}
+	/**
+	 * 모임 주제별 리스트 리턴하기
+	 *
+	 * @param commonCode(categoryId)
+	 * @return Map<String,Object>
+	 * @author Seong Jun 
+	 */
+	@GetMapping(path="/moimlistCate/{commCode}")
+	public String moimlistCate(@PageableDefault Pageable pageable,@PathVariable("commCode") String commCode,Model model) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+		pageable = PageRequest.of(page, 9, Sort.Direction.DESC, "id");// 내림차순으로 정렬한다
+		// [hyozkim] 카테고리 데이터 추가
+		List<Common> categories = (List<Common>) moimService.getMoimElement().get("element_CA1");
+		if(commCode.equals("11")) {
+			Page<Moim> moimList = moimService.selectMoimAll(pageable);// 모든 모임리스트 출력한다
+			model.addAttribute("moimList", moimList);
+		}else {
+			Page<Moim> moimList = moimService.selectMoimCate(pageable,commCode);// 카테고리별로 모임리스트 출력한다
+			model.addAttribute("moimList", moimList);
+		}
+		model.addAttribute("categories", categories);
+		
+		return "moim/moimList";
+	}
 }

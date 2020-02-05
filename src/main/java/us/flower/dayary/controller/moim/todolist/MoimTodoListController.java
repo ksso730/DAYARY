@@ -53,6 +53,10 @@ public class MoimTodoListController {
 	private ToDoWriteService service;
 	@Autowired 
 	private moimService moimService;
+	@Autowired
+	MoimBoardRepository moimboardRepository;
+	@Autowired
+	MoimBoardFileRepository moimboardfileRepostiory;
 	
 	 /**
      * 모임  해야할일(ToDoList) 현재목록  DetailView  조회
@@ -80,7 +84,9 @@ public class MoimTodoListController {
     @PostMapping("/moimDetail/moimTodoList/moimtodostatus/moimtodostatusDetail/{no}")
     public Map<String, Object> todostatusdetailpost(@PathVariable("no") long no,@RequestBody Map<String,String> param) {
     	Map<String, Object> returnData = new HashMap<String, Object>();
-    		  try {
+    		
+    	
+    			try {
     			  service.updateList(param.get("list"),no,Integer.parseInt(param.get("count")));
     	            returnData.put("code", "1");
     	            returnData.put("message", "저장되었습니다");
@@ -167,9 +173,6 @@ public class MoimTodoListController {
          try {
         	 if(status.indexOf(",")>0) {
         		 String[] x=status.split(",");
-        		 System.out.println(x[0]);
-        		 System.out.println(x[1]);
-        		 System.out.println(x[2]);
         		 if(x.length!=3) {
         			 returnData.put("todolist",service.findByMoim_idAndPeople_nameAndStatus(no,x[1],""));
         		 } else
@@ -177,7 +180,6 @@ public class MoimTodoListController {
         	 }else {
         		 Page<ToDoWrite> toDolist=service.findByMoim_idAndStatus(no,status,pageable);
         		 returnData.put("todolist",toDolist);
-        		 System.out.println("This request is get234324234??");
         		 
         	 }
         	 returnData.put("status",status);
@@ -229,10 +231,7 @@ public class MoimTodoListController {
 	      
 	  return returnData;
 	}
-	@Autowired
-	MoimBoardRepository moimboardRepository;
-	@Autowired
-	MoimBoardFileRepository moimboardfileRepostiory;
+	
 	/**
 	 * 모달창 todowrite에 대한 설명조회
 	 *

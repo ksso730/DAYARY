@@ -3,15 +3,22 @@ package us.flower.dayary.controller.people;
 import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -107,7 +114,6 @@ public class PeopleController {
 							String jwt = tokenProvider.generateToken(authentication);
 							JwtAuthenticationResponse csj= new JwtAuthenticationResponse(jwt);
 					        model.addAttribute("csj",csj);
-					        System.out.println(jwt);
 					    	String savePage = (String)session.getAttribute("savePage");
 					        
 					    	
@@ -118,6 +124,7 @@ public class PeopleController {
 								returnData.put("code", "2");								
 							}
 						returnData.put("message", "로그인 완료!");
+						returnData.put("jwt",new JwtAuthenticationResponse(jwt));
 					} 
 			} 
 		} catch (Exception e) {
@@ -129,7 +136,7 @@ public class PeopleController {
 		
 		return returnData;
 	}
-
+	
 	@PostMapping("/signup")
 	@ResponseBody
 	public Map<String, Object> registerUser(@Valid @RequestPart("signUpRequest") SignUpRequest signUpRequest, @RequestPart(name="file",required=false) MultipartFile file) {

@@ -43,7 +43,6 @@ public class MoimJoinPeopleServiceImpl implements MoimJoinPeopleService{
 			if(joinCondition.equals("Y")) {
 				peopleId.add(person.getPeople().getId());
 			}
-			
 		}
 		
 		return peopleId;

@@ -59,10 +59,9 @@ $('[name="banpeople_btn"]').on('click', function () {//회원 강퇴하기 by ch
            }
        });
 });
-$('#signup_btn').off().on('click', function () {//스터디 가입하기 by choiseongjun 2019-09-20
 
-	
-		
+
+$('#signup_btn').off().on('click', function () {//스터디 가입하기 by choiseongjun 2019-09-20
 	
     var moimNo = $('#moimNo').attr("data-moimNo");
     var joinCondition = $('#joinCondition').attr("data-joinCondition");
@@ -205,10 +204,69 @@ $("#moim_delete_btn").click(function(){
 	});
 });
 
+
+// 모임 비공개 전환 by hyozkim 2020-01-14
+$("#moimClosedBtn").click(function() {
+    var moimNo = $('#moimNo').attr("data-moimNo");
+
+    $.ajax({
+        url:'/moimUpdateClosed/'+moimNo,
+        type:'PUT',
+        contentType: 'application/json; charset=UTF-8',
+        dataType:'json',
+        success:function(data){
+            if(data.code == 1){
+                alert(data.message);
+                location.href='/moimlistView';
+
+            }else{
+                alert(data.message);
+            }
+        },
+        error:function(xhr,error) {
+
+        }
+    });
+
+});
+
 var moimPeopleList;
 $(document).ready(function(){
 	
+	
 	var moimNo = $('#moimNo').attr("data-moimNo");
+	$.ajax({
+		type : 'GET',
+		headers : {
+			Accept : "application/json; charset=utf-8",
+			"Content-Type" : "application/json; charset=utf-8"
+		},
+		url : '/TodoStatusChart/'+moimNo,
+		success : function(result) {
+			google.charts.load('current', {
+				'packages' : [ 'corechart' ]
+			});
+			google.charts.setOnLoadCallback(function() {
+				drawChart(result);
+			});
+		}
+	});
+	$.ajax({
+		type : 'GET',
+		headers : {
+			Accept : "application/json; charset=utf-8",
+			"Content-Type" : "application/json; charset=utf-8"
+		},
+		url : '/TodoCompltLankChart/'+moimNo,
+		success : function(result) {
+			google.charts.load('current', {
+				'packages' : [ 'corechart' ]
+			});
+			google.charts.setOnLoadCallback(function() {
+				drawChartEnd(result);
+			});
+		}
+	});
 	$.ajax({
 			url : '/moimParticipant/searchJoinedPeople/'+moimNo, 
 			type:'get',
@@ -232,4 +290,77 @@ $(document).ready(function(){
       }
     });
 });
+function drawChart(result) {
+	console.log('chart')
+	var chartData=result.StachartList;
+	
+	
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'status');
+	data.addColumn('number', 'cnt');
+	
+	var dataArray = [];
+	$.each(result, function(i, obj) {
+		dataArray.push([ obj.name, obj.quantity ]);
+	});
+	for(var i=0;i<chartData.length;i++){
+		console.log(chartData[i]);
+		dataArray.push([ chartData[i].status, chartData[i].cnt ]);
+	}
+	data.addRows(dataArray);
 
+	var piechart_options = {
+		title : '현재 계획상태리스트',
+		width : 300,
+		height : 300
+	};
+	var piechart = new google.visualization.PieChart(document
+			.getElementById('piechart_div'));
+	piechart.draw(data, piechart_options);
+
+//	var barchart_options = {
+//		title : 'Barchart: How Much Products Sold By Last Night',
+//		width : 400,
+//		height : 300,
+//		legend : 'none'
+//	};
+//	var barchart = new google.visualization.BarChart(document
+//			.getElementById('barchart_div'));
+//	barchart.draw(data, barchart_options);
+}
+function drawChartEnd(result) {
+	var chartData=result.StachartList;
+	
+	
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', '이름');
+	data.addColumn('number', '완료한 갯수');
+	
+	var dataArray = [];
+	$.each(result, function(i, obj) {
+		dataArray.push([ obj.name, obj.cnt ]);
+	});
+	for(var i=0;i<chartData.length;i++){
+		dataArray.push([ chartData[i].name, chartData[i].cnt ]);
+	}
+	data.addRows(dataArray);
+
+//	var piechart_options = {
+//		title : '현재 계획상태리스트',
+//		width : 300,
+//		height : 300
+//	};
+//	var piechart = new google.visualization.PieChart(document
+//			.getElementById('piechart_div'));
+//	piechart.draw(data, piechart_options);
+
+	var barchart_options = {
+		title : '현재 계획완료한 사람 랭킹',
+		width : 400,
+		height : 300,
+		legend : 'none'
+	};
+	var barchart = new google.visualization.BarChart(document
+			.getElementById('barchart_div'));
+	barchart.draw(data, barchart_options);
+}

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,8 @@ import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.People;
+import us.flower.dayary.domain.ToDoWrite;
+import us.flower.dayary.domain.DTO.TempData;
 import us.flower.dayary.repository.CommonRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
@@ -46,13 +49,18 @@ public class MoimServiceImpl implements moimService{
 	@Autowired
 	private FileManager fileManager;
 
-	public Map<String, Object> getMoimCategory(){
-		List<Common> cateList= (List<Common>) commonRepository.findAll();
-	
-		Map<String, Object> categoryList = new HashMap<String, Object>();
-		categoryList.put("_category", cateList);
-		
-		return categoryList;
+	public Map<String, Object> getMoimElement(){
+		// List<Common> cateList= (List<Common>) commonRepository.findAll();
+		List<Common> elementCA1 = (List<Common>) commonRepository.findByCommHead("CA1");
+		List<Common> elementCA2 = (List<Common>) commonRepository.findByCommHead("CA2");
+		List<Common> elementCA3 = (List<Common>) commonRepository.findByCommHead("CA3");
+
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("element_CA1", elementCA1);
+		returnMap.put("element_CA2", elementCA2);
+		returnMap.put("element_CA3", elementCA3);
+
+		return returnMap;
 	}
 	
     public void saveMoim(String email, String subject, Moim moim, MultipartFile file) {
@@ -87,8 +95,6 @@ public class MoimServiceImpl implements moimService{
 	        }
 	        
     	}
-	        
-    	
 
         moim.setPeople(people);
         moim.setCategory(category);
@@ -152,9 +158,17 @@ public class MoimServiceImpl implements moimService{
 	
 
 	@Override
-	public Page<Moim> selectListAll(Pageable pageable) {
+	public Page<Moim> selectMoimAll(Pageable pageable) {
 		// TODO Auto-generated method stub
 		return moimRepository.findAll(pageable);
+	}
+
+	// [2020.01.28][hyozkim] 추가
+	@Override
+	public Page<Moim> selectMoimByCategory(Pageable pageable, String commonCode) {
+		return moimRepository.findAll(pageable);
+		// 수정 필요
+		//return moimRepository.findByCommCode(pageable,commonCode);
 	}
 
 //	@Override
@@ -163,15 +177,15 @@ public class MoimServiceImpl implements moimService{
 //	}
 
 	@Override
-	public Page<Moim> selecttitleList(Pageable pageable, String title, Common common,String sido_code,String sigoon_code) {
+	public Page<Moim> selecttitleList(Pageable pageable, String title, String sido_code,String sigoon_code) {
 		// TODO Auto-generated method stub
-		return moimRepository.findAllByTitleLikeAndCategoryAndSidocodeLikeAndSigooncodeLike(pageable,"%"+title+"%",common,"%"+sido_code+"%","%"+sigoon_code+"%");
+		return moimRepository.findAllByTitleLikeAndSidocodeLikeAndSigooncodeLike(pageable,"%"+title+"%","%"+sido_code+"%","%"+sigoon_code+"%");
 	}
 
 	@Override
 	public void updateMoim(String email, Moim moim, MultipartFile file) {
 		   People people = peopleRepository.findByEmail(email);
-	        //Common category=commonRepository.findBycommName(subject);
+	        //Common category=commonRepository.figetMoimElementndBycommName(subject);
 	       
 	        //사진이있다면
 	        if(file!=null) {
@@ -208,10 +222,8 @@ public class MoimServiceImpl implements moimService{
 	        char joincondition = moim.getJoinCondition();
 	        String imageName=moim.getImageName();
 	        String imageExtension=moim.getImageExtension();
-	        
 
 	        moimRepository.updateMoim(title,intro,peopleLimit,joincondition,imageName,imageExtension,moimId);
-		
 	}
 
 	@Override
@@ -219,11 +231,32 @@ public class MoimServiceImpl implements moimService{
 		return moimRepository.selectMaxMoimId();
 	}
 
+	@Override
+	@Transactional(readOnly = false)
+	public void updateMoimClosed(int moimNo) {
+		moimRepository.updateMoimClosed("Y",moimNo);
+	}
 
+	@Override
+	public Page<Moim> selectMoimCate(Pageable pageable, String commCode) {
+		
+		Common common =new Common();
+		common.setCommCode(commCode);
+		return moimRepository.findAllByCategory(common,pageable);
+	}
+	@Autowired
+	SqlSession sqlSession;
+	
+	@Override
+	public List<ToDoWrite> selectTodoLankChart(long no) {
+		return sqlSession.selectList("todo.selecttodoStatusGroup",no);
+	}
 
-
-
+	@Override
+	public List<TempData> selectTodoCompltLankChart(long no) {
+		return sqlSession.selectList("todo.selectTodoCompltLankChart",no);
+	}
 	
 
-
+	
 }

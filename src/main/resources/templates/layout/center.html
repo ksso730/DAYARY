@@ -4,12 +4,75 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style>
+
+</style>
 <body>
 	<div th:fragment="center">
 		<div class="site-wrap">
-			<div class="site-section bg-light">
+<!-- 			<div class="site-section bg-light">
+ -->				<!-- 슬라이드사진 시작 -->
+    <!-- Hero Section Begin -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row">
+             <form class="form-inline element-animate" id="search-form" style="margin-top:550px;margin-left:400px;">
+              <label for="s" class="sr-only">Location</label>
+              <input type="text" style="width:350px;" class="form-control form-control-block search-input" id="autocomplete" placeholder="찾고싶은 크루를 입력하세요" onFocus="geolocate()">
+              <button type="submit" class="btn btn-primary">찾기</button>
+            </form>
+                <!-- <div class="col-lg-6">
+                    <div class="hero-text">
+                        <h1>Fruit</h1>
+                        <p>여러분의 크루를 구성하고 계획공유를 하세요.</p>
+                        <a href="#" class="primary-btn">Discover Now</a>
+                    </div>
+                </div> -->
+                <!-- <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
+                    <div class="booking-form">
+                        <h1 style="text-shadow:-1px -1px 1px #111, 1px 1px 1px #000;">크루 찾기</h1>
+                        <form action="#">
+                            <div class="check-date">
+                                <label for="date-in">Check In:</label>
+                                <input type="text" class="date-input" id="date-in">
+                                <i class="icon_calendar"></i>
+                            </div>
+                            <div class="check-date">
+                                <label for="date-out">Check Out:</label>
+                                <input type="text" class="date-input" id="date-out">
+                                <i class="icon_calendar"></i>
+                            </div>
+                            <div class="select-option">
+                                <label for="guest">Guests:</label>
+                                <select id="guest">
+                                    <option value="">2 Adults</option>
+                                    <option value="">3 Adults</option>
+                                </select>
+                            </div>
+                            <div class="select-option">
+                                <label for="room">Room:</label>
+                                <select id="room">
+                                    <option value="">1 Room</option>
+                                    <option value="">2 Room</option>
+                                </select>
+                            </div>
+                            <button type="submit">조회</button>
+                        </form>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="hero-slider owl-carousel">
+            <div class="hs-item set-bg" style="background-image: url('img/hero/colla1.jpg');"></div>
+            <div class="hs-item set-bg" style="background-image: url('img/hero/colla2.png');"></div>
+            <div class="hs-item set-bg" style="background-image: url('img/hero/colla3.png');"></div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+    
+    <!-- 슬라이드사진 끝 -->
 				<div class="container">
-					<div class="row align-items-stretch retro-layout-2">
+					<!-- <div class="row align-items-stretch retro-layout-2">
 						<div class="col-md-4">
 							<a href="/moimlistView" class="h-entry mb-30 v-height gradient" style="background-image: url('images/img_1.jpg');">
 
@@ -57,13 +120,123 @@
 								</div>
 							</a>
 						</div>
-					</div>
+					</div> -->
+					
 				</div>
 			</div>
 
-			<div class="site-section">
+    
+    
+    
+			 <div class="site-section">
 				<div class="container">
-					<div class="row mb-5">
+				<div class="col-12">
+							<h2>최근 등록한 크루</h2>
+				</div>
+					<div class="row">
+					<tr th:each="moimList : ${moimList}">
+
+						<div class="col-lg-21">
+							<div class="entry2" style="width: 300px;">
+								<div class="excerpt" style="width: 400px;">
+
+									<div class="Card_custom-card--border_5wJKy card">
+										<div class="card-body">
+											<span class="mb-2 badge badge-danger badge-pill">
+											<td th:text="${moimList.recruitStatus}" /></span>
+											<span class="post-category text-white bg-secondary mb-3">
+												<td th:text="${moimList.sidoname}" />
+												<td th:text="${moimList.sigoonname}" />
+
+											</span> <span class="post-category text-white bg-secondary mb-3">
+												<td th:text="${moimList.category.commName}" />
+											</span> <a
+												th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
+												<img
+												th:src="${moimList.imageName!=null} ? ${'/getMoimImage/'+moimList.imageName+'.'+moimList.imageExtension} : '/images/img_4.jpg'"
+												alt="Image" class="img-fluid rounded"
+												style="height: 200px; width: 500px" />
+											</a>
+											<div class="mb-2">
+												<i class="fa fa-fw fa-star-o"></i><a
+													th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}"><td th:text="${moimList.title}" /></a>
+											</div>
+											<p>
+												소개:
+												<td
+													th:text="${#strings.length(moimList.intro)>10} ? ${#strings.substring(moimList.intro,0,10)+'...'} : ${moimList.intro}"
+													id="moimtitle" />
+											</p>
+											<p>
+												<a
+													th:href="@{'/moimlistView/moimdetailView/' + ${moimList.id}}">
+													더보기</a>
+
+											</p>
+										</div>
+										<div class="card-footer">
+											<div class="progress progress-striped">
+												<div class="progress-bar progress-bar-info"
+													role="progressbar" aria-valuenow="90" aria-valuemin="0"
+													aria-valuemax="100"
+													th:style="'width:'+${moimList.progresspercent}+'%;'">
+													[[${moimList.progresspercent}]]%</div>
+											</div>
+										</div>
+										<div class="card-footer">
+											<figure class="author-figure mb-0 mr-3 float-left">
+												<img
+													th:src="${moimList.imageName!=null} ? ${'/getMoimImage/'+moimList.people.imageName+'.'+moimList.people.imageExtension} : '/images/default_people.png'"
+													alt="Image" class="img-fluid rounded"
+													style="height: 30px; width: 30px">
+
+											</figure>
+											<span style="font-weight: bold;">모임장:
+												<td th:text="${moimList.people.email}"></td>
+											</a>
+											</span> <span> <br />
+											<span style="font-weight: bold;">회원수:
+													<td th:text="${moimList.peopleList.size()}" />/
+													<td th:text="${moimList.peopleLimit}-1" />
+												<span style="font-weight: bold;"> <br />개설일:
+												</span>
+												<td th:text="${moimList.createDate}" />
+												
+										</div>
+										<div class="d-flex card-footer">
+											<span class="align-self-center"><td th:text="${moimList.todocount}" />개의 계획</span>
+											<div class="align-self-center ml-auto btn-group">
+												<button type="button" aria-haspopup="true"
+													aria-expanded="false"
+													class="dropdown-toggle btn btn-link btn-sm">
+													<i class="fa fa-gear"></i>
+												</button>
+												<div tabindex="-1" role="menu" aria-hidden="true"
+													class="dropdown-menu dropdown-menu-right">
+													<button type="button" tabindex="0" class="dropdown-item">
+														<i class="fa fa-fw fa-folder-open mr-2"></i>View
+													</button>
+													<button type="button" tabindex="0" class="dropdown-item">
+														<i class="fa fa-fw fa-ticket mr-2"></i>Add Task
+													</button>
+													<button type="button" tabindex="0" class="dropdown-item">
+														<i class="fa fa-fw fa-paperclip mr-2"></i>Add Files
+													</button>
+													<div tabindex="-1" class="dropdown-divider"></div>
+													<button type="button" tabindex="0" class="dropdown-item">
+														<i class="fa fa-fw fa-trash mr-2"></i>Delete
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</tr>
+					<!-- end of tr -->
+					</div>
+					<!-- <div class="row mb-5">
 						<div class="col-12">
 							<h2>Recent Posts</h2>
 						</div>
@@ -127,184 +300,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-4 mb-4">
-							<div class="entry2">
-								<a href="single.html"><img src="images/img_3.jpg"
-									alt="Image" class="img-fluid rounded"></a>
-								<div class="excerpt">
-									<span class="post-category text-white bg-warning mb-3">Travel</span>
-
-									<h2>
-										<a href="single.html">The AI magically removes moving
-											objects from videos.</a>
-									</h2>
-									<div class="post-meta align-items-center text-left clearfix">
-										<figure class="author-figure mb-0 mr-3 float-left">
-											<img src="images/person_1.jpg" alt="Image" class="img-fluid">
-										</figure>
-										<span class="d-inline-block mt-1">By <a href="#">Carrol
-												Atkinson</a></span> <span>&nbsp;-&nbsp; July 19, 2019</span>
-									</div>
-
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Quo sunt tempora dolor laudantium sed optio, explicabo
-										ad deleniti impedit facilis fugit recusandae! Illo, aliquid,
-										dicta beatae quia porro id est.</p>
-									<p>
-										<a href="#">Read More</a>
-									</p>
-								</div>
-							</div>
-						</div>
-
-
-						<div class="col-lg-4 mb-4">
-							<div class="entry2">
-								<a href="single.html"><img src="images/img_1.jpg"
-									alt="Image" class="img-fluid rounded"></a>
-								<div class="excerpt">
-									<span class="post-category text-white bg-secondary mb-3">Politics</span>
-
-									<h2>
-										<a href="single.html">The AI magically removes moving
-											objects from videos.</a>
-									</h2>
-									<div class="post-meta align-items-center text-left clearfix">
-										<figure class="author-figure mb-0 mr-3 float-left">
-											<img src="images/person_1.jpg" alt="Image" class="img-fluid">
-										</figure>
-										<span class="d-inline-block mt-1">By <a href="#">Carrol
-												Atkinson</a></span> <span>&nbsp;-&nbsp; July 19, 2019</span>
-									</div>
-
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Quo sunt tempora dolor laudantium sed optio, explicabo
-										ad deleniti impedit facilis fugit recusandae! Illo, aliquid,
-										dicta beatae quia porro id est.</p>
-									<p>
-										<a href="#">Read More</a>
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 mb-4">
-							<div class="entry2">
-								<a href="single.html"><img src="images/img_2.jpg"
-									alt="Image" class="img-fluid rounded"></a>
-								<div class="excerpt">
-									<span class="post-category text-white bg-success mb-3">Nature</span>
-
-									<h2>
-										<a href="single.html">The AI magically removes moving
-											objects from videos.</a>
-									</h2>
-									<div class="post-meta align-items-center text-left clearfix">
-										<figure class="author-figure mb-0 mr-3 float-left">
-											<img src="images/person_1.jpg" alt="Image" class="img-fluid">
-										</figure>
-										<span class="d-inline-block mt-1">By <a href="#">Carrol
-												Atkinson</a></span> <span>&nbsp;-&nbsp; July 19, 2019</span>
-									</div>
-
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Quo sunt tempora dolor laudantium sed optio, explicabo
-										ad deleniti impedit facilis fugit recusandae! Illo, aliquid,
-										dicta beatae quia porro id est.</p>
-									<p>
-										<a href="#">Read More</a>
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 mb-4">
-							<div class="entry2">
-								<a href="single.html"><img src="images/img_4.jpg"
-									alt="Image" class="img-fluid rounded"></a>
-								<div class="excerpt">
-									<span class="post-category text-white bg-danger mb-3">Sports</span>
-
-									<h2>
-										<a href="single.html">The AI magically removes moving
-											objects from videos.</a>
-									</h2>
-									<div class="post-meta align-items-center text-left clearfix">
-										<figure class="author-figure mb-0 mr-3 float-left">
-											<img src="images/person_1.jpg" alt="Image" class="img-fluid">
-										</figure>
-										<span class="d-inline-block mt-1">By <a href="#">Carrol
-												Atkinson</a></span> <span>&nbsp;-&nbsp; July 19, 2019</span>
-									</div>
-
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Quo sunt tempora dolor laudantium sed optio, explicabo
-										ad deleniti impedit facilis fugit recusandae! Illo, aliquid,
-										dicta beatae quia porro id est.</p>
-									<p>
-										<a href="#">Read More</a>
-									</p>
-								</div>
-							</div>
-						</div>
-
-
-						<div class="col-lg-4 mb-4">
-							<div class="entry2">
-								<a href="single.html"><img src="images/img_1.jpg"
-									alt="Image" class="img-fluid rounded"></a>
-								<div class="excerpt">
-									<span class="post-category text-white bg-success mb-3">Nature</span>
-
-									<h2>
-										<a href="single.html">The AI magically removes moving
-											objects from videos.</a>
-									</h2>
-									<div class="post-meta align-items-center text-left clearfix">
-										<figure class="author-figure mb-0 mr-3 float-left">
-											<img src="images/person_1.jpg" alt="Image" class="img-fluid">
-										</figure>
-										<span class="d-inline-block mt-1">By <a href="#">Carrol
-												Atkinson</a></span> <span>&nbsp;-&nbsp; July 19, 2019</span>
-									</div>
-
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Quo sunt tempora dolor laudantium sed optio, explicabo
-										ad deleniti impedit facilis fugit recusandae! Illo, aliquid,
-										dicta beatae quia porro id est.</p>
-									<p>
-										<a href="#">Read More</a>
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 mb-4">
-							<div class="entry2">
-								<a href="single.html"><img src="images/img_2.jpg"
-									alt="Image" class="img-fluid rounded"></a>
-								<div class="excerpt">
-									<span class="post-category text-white bg-danger mb-3">Sports</span>
-									<span class="post-category text-white bg-secondary mb-3">Tech</span>
-
-									<h2>
-										<a href="single.html">The AI magically removes moving
-											objects from videos.</a>
-									</h2>
-									<div class="post-meta align-items-center text-left clearfix">
-										<figure class="author-figure mb-0 mr-3 float-left">
-											<img src="images/person_1.jpg" alt="Image" class="img-fluid">
-										</figure>
-										<span class="d-inline-block mt-1">By <a href="#">Carrol
-												Atkinson</a></span> <span>&nbsp;-&nbsp; July 19, 2019</span>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Quo sunt tempora dolor laudantium sed optio, explicabo
-										ad deleniti impedit facilis fugit recusandae! Illo, aliquid,
-										dicta beatae quia porro id est.</p>
-									<p>
-										<a href="#">Read More</a>
-									</p>
-								</div>
-							</div>
-						</div>
+						
 						<div class="col-lg-4 mb-4">
 							<div class="entry2">
 								<a href="single.html"><img src="images/img_4.jpg"
@@ -343,9 +339,9 @@
 								<span>...</span> <a href="#">15</a>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
-			</div>
+			</div> 
 
 			<div class="site-section bg-light">
 				<div class="container">
@@ -481,4 +477,9 @@
 		</div>
 	</div>
 </body>
+<script>
+
+</script>
+
+
 </html>

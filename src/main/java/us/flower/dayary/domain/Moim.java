@@ -2,7 +2,6 @@ package us.flower.dayary.domain;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,12 +19,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,7 +37,7 @@ import us.flower.dayary.domain.common.DateAudit;
 @Table(name = "MOIM")
 @Getter
 @Setter
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 public class Moim extends DateAudit{
  
@@ -105,15 +103,24 @@ public class Moim extends DateAudit{
     private String sidoname;
 	//구
 	@Column(name = "SIGOON_NAME")
-    private String sigoonname;	
-    
-    // 모임 참여자 
+    private String sigoonname;
+
+    // [2020.01.14][hyojin] Column 추가
+    // 비공개/공개 컬럼
+    @Column(name="SECRET_CONDITION",nullable=false,columnDefinition = "VARCHAR(1) default 'N'")
+    private String secretCondition;
+
+    // 모집상태
+    @Column(name="RECRUIT_STATUS",nullable=false, columnDefinition = "VARCHAR(10)")
+    private String recruitStatus;
+
+
+    // 모임 참여자
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "MOIM_PEOPLE",
                joinColumns = @JoinColumn(name = "MOIM_ID"),
                inverseJoinColumns = @JoinColumn(name = "PEOPLE_ID"))
     private List<People> peopleList;
-
 	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "moim")
 	@JsonIgnore
 	private List<ToDoWrite> todowrite;
@@ -125,7 +132,12 @@ public class Moim extends DateAudit{
 	//가입조건  N은 누구나 Y는 승인해야함
 	@Column(name="JOIN_CONDITION" ,nullable=false, columnDefinition = "char(1) default 'N'")
 	private char joinCondition;
-
-    public Moim() {
-    }
+	@Transient
+	private long progresssum;
+	@Transient
+	private long progresstotal;
+	@Transient
+	private double progresspercent;
+	@Transient
+	private long todocount;//계획카운트
 }

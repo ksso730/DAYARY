@@ -1,6 +1,8 @@
 package us.flower.dayary.rest.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,13 +17,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import net.minidev.json.JSONObject;
 import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.Moim;
+import us.flower.dayary.domain.MoimPeople;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.meetup.MoimMeetUpRepository;
+import us.flower.dayary.security.JwtTokenProvider;
 import us.flower.dayary.service.moim.moimService;
 
 @RestController
@@ -33,6 +43,11 @@ public class RestMoimController {
 	MoimRepository moimrepository;
 	@Autowired
 	MoimMeetUpRepository moimmeetupRepository;
+	@Autowired
+	MoimPeopleRepository moimpeopleRepository;
+	@Autowired
+	JwtTokenProvider tokenProvider;
+	
 	/**
 
 	 * 모임 리스트 출력(Paging 처리)
@@ -79,17 +94,94 @@ public class RestMoimController {
 		
 	}
 	@GetMapping("/rest/moimlistView/moimdetailView/{no}")
-	public ResponseEntity<?> RestmoimDetailView(@PathVariable("no") long no, Model model, HttpSession session, Sort sort,
+	public ResponseEntity<?> RestmoimDetailView(@PathVariable("no") long no,@RequestHeader (name="Authorization", required=false) String token, Model model, HttpSession session, Sort sort,
 			@PageableDefault Pageable pageable) {
-		long peopleId = (long) session.getAttribute("peopleId");
-		String moimPeopleNo = moimService.findMoimPeopleNoOne(peopleId, no);
-		
 		JSONObject returnData = new JSONObject();
+		System.out.println(token);
+		if(tokenProvider.validateToken(token)) {
+			System.out.println(tokenProvider.getUserIdFromJWT(token));
+			Long userId=tokenProvider.getUserIdFromJWT(token);
+			System.out.println(userId);
+			String moimPeopleNo = moimService.findMoimPeopleNoOne(userId, no);// 참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에
+			// 넣어준다)
+			List<MoimPeople> joinedpeoplelist = moimpeopleRepository.findByMoim_idAndPeople_id(no, userId);// 현재 접속한 유저
+			// 리스트를 들고옴
+			returnData.put("PeopleNo",userId);
+			returnData.put("moimPeopleNo",moimPeopleNo);
+			returnData.put("joinedpeoplelist",joinedpeoplelist);
+		}
+		
 		moimService.findMoimone(no).ifPresent(moimDetail -> returnData.put("moimDetail", moimDetail));// 모임장중심으로 데이터
 		
 		List<Meetup> meetupList = moimmeetupRepository.findByMoim_id(no, pageable);//오프라인모임리스트
 		returnData.put("meetupList",meetupList);
 		// 불러옴
 		 return new ResponseEntity<>(returnData, HttpStatus.OK);
+	}
+	@PostMapping("/rest/moimMake")
+	public Map<String, Object> RestmoimMake(@RequestParam("title") String title,@RequestParam("intro") String intro, 
+			@RequestPart(name = "file", required = false) MultipartFile file) {
+		Map<String, Object> returnData = new HashMap<String, Object>();
+		
+		System.out.println("Controlloer");
+		System.out.println(title+"/"+intro);
+		System.out.println(file);
+		if(file==null) {
+			returnData.put("path", "path");
+			return returnData;
+		}
+		return returnData;
+
+		//String id = (String) session.getAttribute("peopleEmail");
+		//Long peopleId = (Long) session.getAttribute("peopleId");
+//		String subject = moim.getCategory().getCommName();
+//		if (id.equals(null) || id.equals("")) {
+//			returnData.put("code", "0");
+//			returnData.put("message", "로그인 후 이용해주세요");
+//			return returnData;
+//		} else if (moim.getTitle().equals(null) || moim.getTitle().equals("")) {
+//			returnData.put("code", "0");
+//			returnData.put("message", "모임 이름을 입력해주세요");
+//			return returnData;
+//		} else if (moim.getPeopleLimit() == 0) {
+//			returnData.put("code", "0");
+//			returnData.put("message", "인원수를 입력해주세요");
+//			return returnData;
+//		} else if (moim.getCategory() == null || moim.getCategory().equals("")) {
+//			returnData.put("code", "0");
+//			returnData.put("message", "모임 주제를 선택해주세요");
+//			return returnData;
+//		} else if (moim.getSidocode() == null || moim.getSidocode().equals("") || moim.getSigooncode() == null
+//				|| moim.getSigooncode().equals("")) {
+//			returnData.put("code", "0");
+//			returnData.put("message", "활동 지역을 선택해주세요");
+//			return returnData;
+//		}
+//		// [hyozkim] 추가
+//		else if(moim.getSecretCondition() == null || moim.getSecretCondition().equals("") ) {
+//			returnData.put("code", "0");
+//			returnData.put("message", "비공개 설정을 선택해주세요");
+//			return returnData;
+//		} else if(moim.getRecruitStatus() == null || moim.getRecruitStatus().equals("") ) {
+//			returnData.put("code", "0");
+//			returnData.put("message", "모임 상태를 선택해주세요");
+//			return returnData;
+//		}
+//		char joinCondition='Y';//참가자 승인후 Y Defualt Value
+//		try {
+//			moimService.saveMoim(id, subject, moim, file);
+//			
+//			long MoimId = moimService.selectMaxMoimId();
+//			
+//			//모임참가자 서비스를 들고와서 재사용한다(모임참가자테이블에도넣기위함 알림을 모임참가자테이블로 보내기에 모임장도 넣어야한다 ) by choiseongjun 20191221
+//			moimService.moimParticipant(peopleId,MoimId,joinCondition);
+//			returnData.put("code", "1");
+//			returnData.put("message", "저장되었습니다");
+//
+//		} catch (Exception e) {
+//			returnData.put("code", "E3290");
+//			returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+//		}
+//		return returnData;
 	}
 }

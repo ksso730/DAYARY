@@ -1,6 +1,5 @@
 function getNoti(){
 	
-	console.log('알림...');
 	var peopleId = $('#peopleId').attr("data-peopleId");
 	$.ajax({
 	      url:'/getMyNotiList',
@@ -32,7 +31,6 @@ function getNoti(){
 }
 
 function myMoimList(){
-	console.log("로드");
 	$.ajax({
 	      url:'/myprofilemoimView',
 	        contentType: "application/json; charset=utf-8",
@@ -83,7 +81,27 @@ function myMoimList(){
 }
 
 
-$(document).ready(function(){//회원 탈퇴 by choiseongjun 2019-10-01
+$(document).ready(function(){
+	console.log("여기")
+	var peopleId = $('#peopleId').attr("data-peopleId");
+	
+	$.ajax({
+		type : 'GET',
+		headers : {
+			Accept : "application/json; charset=utf-8",
+			"Content-Type" : "application/json; charset=utf-8"
+		},
+		url : '/selectMyTodoProgress/'+peopleId,
+		success : function(result) {
+			google.charts.load('current', {
+				'packages' : [ 'corechart' ]
+			});
+			google.charts.setOnLoadCallback(function() {
+				drawChartEnd(result);
+			});
+		}
+	});
+	
 	$.ajax({
 	      url:'/getMyNotiListCount',
 	        contentType: "application/json; charset=utf-8",
@@ -130,3 +148,31 @@ $('[name="joinedMoimId"]').on('click', function () {
 //	console.log($(this).val());
 	
 });
+function drawChartEnd(result) {
+	var chartData=result.StachartList;
+	
+	console.log(result)
+	
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', '이름');
+	data.addColumn('number', '완료한 갯수');
+	data.addColumn('number', '해야할 갯수');
+	var dataArray = [];
+	$.each(result, function(i, obj) {
+		dataArray.push([ obj.title, obj.no, obj.no2 ]);
+	});
+	for(var i=0;i<chartData.length;i++){
+		dataArray.push([ chartData[i].title, chartData[i].no1, chartData[i].no2 ]);
+	}
+	data.addRows(dataArray);
+
+	var barchart_options = {
+		title : '나의 계획 진척도',
+		width : 400,
+		height : 300,
+		legend : 'none'
+	};
+	var barchart = new google.visualization.ColumnChart(document
+			.getElementById('barchart_div'));
+	barchart.draw(data, barchart_options);
+}

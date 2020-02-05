@@ -175,11 +175,11 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	 * @return
 	 */
 	@Override
-	public List<BoardReplyDTO> getCommunityReplyList(long boardId) {
+	public List<BoardReplyDTO> getCommunityReplyList(long boardId,Pageable pageable) {
 
 		CommunityBoard board =  getCommunityBoard(boardId);
 
-		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.getAllByCommunityBoardAndDeleteFlagAndParentIsNull(board, "N");
+		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.getAllByCommunityBoardAndDeleteFlagAndParentIsNull(board, "N",pageable);
 
 		List<BoardReplyDTO> replies = new ArrayList<>();
 		for(CommunityBoardReply reply : communityBoardReplies){
@@ -365,11 +365,11 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 	 * @param boardId
 	 */
 	@Override
-	public List<CommunityBoardReply> getTimeLineReplyList(long boardId) {
+	public List<CommunityBoardReply> getTimeLineReplyList(long boardId,Pageable pageable) {
 		// TODO Auto-generated method stub
 		CommunityBoard board =  getCommunityBoard(boardId);
 
-		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.getAllByCommunityBoardAndDeleteFlagAndParentIsNull(board, "N");
+		List<CommunityBoardReply> communityBoardReplies = boardReplyRepository.getAllByCommunityBoardAndDeleteFlagAndParentIsNull(board, "N",pageable);
 
 		return communityBoardReplies;
 	}
@@ -383,4 +383,6 @@ public class CommunityBoardServiceImpl implements CommunityBoardService{
 		reply.setMemo(memo);
 		boardReplyRepository.save(reply);
 	}
+
+	
 }
