@@ -268,6 +268,22 @@ $(document).ready(function(){
 		}
 	});
 	$.ajax({
+		type : 'GET',
+		headers : {
+			Accept : "application/json; charset=utf-8",
+			"Content-Type" : "application/json; charset=utf-8"
+		},
+		url : '/TodoTimeline/'+moimNo,
+		success : function(result) {
+			google.charts.load('current', {
+				'packages' : [ 'corechart' ]
+			});
+			google.charts.setOnLoadCallback(function() {
+				drawChartTimeLine(result);
+			});
+		}
+	});
+	$.ajax({
 			url : '/moimParticipant/searchJoinedPeople/'+moimNo, 
 			type:'get',
 			contentType: 'application/json; charset=UTF-8',
@@ -363,4 +379,47 @@ function drawChartEnd(result) {
 	var barchart = new google.visualization.BarChart(document
 			.getElementById('barchart_div'));
 	barchart.draw(data, barchart_options);
+}
+google.charts.load('current', {'packages':['timeline']});
+//function drawChart() {
+//  var container = document.getElementById('timeline');
+//  var chart = new google.visualization.Timeline(container);
+//  var dataTable = new google.visualization.DataTable();
+//
+//  dataTable.addColumn({ type: 'string', id: 'President' });
+//  dataTable.addColumn({ type: 'date', id: 'Start' });
+//  dataTable.addColumn({ type: 'date', id: 'End' });
+//  dataTable.addRows([
+//    [ 'Washington', new Date(1789, 3, 30), new Date(1797, 2, 4) ],
+//    [ 'Adams',      new Date(1797, 2, 4),  new Date(1801, 2, 4) ],
+//    [ 'Jefferson',  new Date(1801, 2, 4),  new Date(1809, 2, 4) ]]);
+//
+//  chart.draw(dataTable);
+//}
+function drawChartTimeLine(result){
+	console.log('dfgsdfdsf')
+	
+	var chartData=result.timeLinelist;
+	console.log(chartData);
+	
+	 var container = document.getElementById('timeline');
+	  var chart = new google.visualization.Timeline(container);
+	  var dataTable = new google.visualization.DataTable();
+
+	  dataTable.addColumn({ type: 'string', id: 'President' });
+	  dataTable.addColumn({ type: 'date', id: 'Start' });
+	  dataTable.addColumn({ type: 'date', id: 'End' });
+	  
+	  for(var i=0;i<chartData.length;i++){
+		  dataTable.addRows([
+			    [ chartData[i].title, new Date(chartData[i].a), new Date(chartData[i].b) ],
+			    ]);
+	  }
+//	  dataTable.addRows([
+//	    [ 'Washington', new Date(1789, 3, 30), new Date(1797, 2, 4) ],
+//	    [ 'Adams',      new Date(1797, 2, 4),  new Date(1801, 2, 4) ],
+//	    [ 'Jefferson',  new Date(1801, 2, 4),  new Date(1809, 2, 4) ]]);
+
+	  chart.draw(dataTable);
+	
 }

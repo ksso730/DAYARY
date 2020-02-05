@@ -25,5 +25,15 @@
 			WHERE people_id=#{no}
 			GROUP BY moim_id
        </select>
+        <select id="selectTodotimeLinelist" resultType="us.flower.dayary.domain.DTO.TempData" parameterType="long">
+	   SELECT 
+            id				AS NAME
+            , a.plan_title    AS title
+            ,a.from_date    AS a
+            ,a.to_date       AS b
+            ,a.progress  AS progress   
+             FROM moim_todo_write a
+         WHERE a.moim_id=#{no}
+       </select>
        
 </mapper>

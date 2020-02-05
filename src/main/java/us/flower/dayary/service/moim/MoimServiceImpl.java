@@ -256,6 +256,11 @@ public class MoimServiceImpl implements moimService{
 	public List<TempData> selectTodoCompltLankChart(long no) {
 		return sqlSession.selectList("todo.selectTodoCompltLankChart",no);
 	}
+
+	@Override
+	public List<TempData> TodotimeLinelist(long no) {
+		return sqlSession.selectList("todo.selectTodotimeLinelist",no);
+	}
 	
 
 	

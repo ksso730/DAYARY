@@ -57,4 +57,22 @@ public class ChartController {
 		returnData.put("StachartList",StachartList);
 		return returnData;
 	}
+	/**
+	 * 나의 모임 계획 타임라인
+	 *
+	 * @param locale
+	 * @param no
+	 * @return moimDetail,people_no
+	 * @throws Exception
+	 * @author choiseongjun
+	 */
+	@ResponseBody
+	@GetMapping("/TodoTimeline/{no}")
+	public JSONObject TodotimeLinelist(@PathVariable("no") long no) {
+		JSONObject returnData = new JSONObject();
+		
+		List<TempData> timeLinelist = moimService.TodotimeLinelist(no);//계획리스트 그상태별 차트리스트
+		returnData.put("timeLinelist",timeLinelist);
+		return returnData;
+	}
 }
