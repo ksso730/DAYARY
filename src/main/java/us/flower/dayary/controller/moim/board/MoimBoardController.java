@@ -71,15 +71,14 @@ public class MoimBoardController {
      */
     @GetMapping("/moimdetailView/moimboard/{no}/{boardGroup}")
     public String getMoimBoardList(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup,
-								   Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=25) Pageable pageable,
-								   @RequestParam(name = "search", defaultValue = "") String search, HttpSession session) {
+								   @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=25) Pageable pageable,
+								   @RequestParam(name = "search", defaultValue = "") String search,
+								   Model model, HttpSession session) {
 
     	// get board group id
     	long boardGroupId  = getBoardGroupId(boardGroup);
-
     	// board group
     	model.addAttribute("boardGroup",boardGroup);
-
     	// session check
     	session.setAttribute("page", pageable.getPageNumber());
 
@@ -89,7 +88,6 @@ public class MoimBoardController {
 		model.addAttribute("moimBoardList", moimBoardList.getContent());
 		// total element count
 		model.addAttribute("boardListCount", moimBoardList.getTotalElements());
-
 		// page number
 		model.addAttribute("pageNumber", moimBoardList.getTotalPages());
 
@@ -113,7 +111,7 @@ public class MoimBoardController {
 	 */
 	@GetMapping("/moimdetailView/moimboard/{no}/{boardGroup}/write")
 	public String moimBoardWrite(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup,
-								 HttpSession session, Model model) {
+								 Model model, HttpSession session) {
 
 		model.addAttribute("boardGroup",boardGroup);
 
@@ -137,7 +135,7 @@ public class MoimBoardController {
 	 */
 	@GetMapping("/moimdetailView/moimboard/{no}/{boardGroup}/{boardId}")
 	public String getMoimBoardDetail(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
-									 HttpSession session, Model model) {
+									 Model model, HttpSession session) {
 
 		// board group (게시판 그룹)
 		model.addAttribute("boardGroup",boardGroup);
@@ -184,7 +182,8 @@ public class MoimBoardController {
 	@ResponseBody
 	@PostMapping("/moimdetailView/moimboard/{no}/{boardGroup}")
 	public Map<String, Object> moimBoardWrite(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup,
-											  @RequestBody MoimBoard moimBoard, HttpSession session) {
+											  @RequestBody MoimBoard moimBoard,
+											  HttpSession session) {
 
 		Map<String, Object> returnData = new HashMap<String, Object>();
 
@@ -227,7 +226,8 @@ public class MoimBoardController {
 	@ResponseBody
 	@PutMapping("/moimdetailView/moimboard/{no}/{boardGroup}/{boardId}")
 	public Map<String, Object> studyModify(@PathVariable("no") Long no, @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
-										   @RequestBody MoimBoard moimBoard, HttpSession session) {
+										   @RequestBody MoimBoard moimBoard,
+										   HttpSession session) {
 
 		Map<String, Object> returnData = new HashMap<>();
 
@@ -277,7 +277,8 @@ public class MoimBoardController {
 	 */
 	@ResponseBody
 	@DeleteMapping("/moimdetailView/moimboard/{no}/{boardGroup}/{boardId}")
-	public Map<String, Object> deleteBoard(@PathVariable("boardId") long boardId, HttpSession session){
+	public Map<String, Object> deleteBoard(@PathVariable("boardId") long boardId,
+										   HttpSession session){
 
 		// return message
 		Map<String, Object> returnData = new HashMap<>();
@@ -303,6 +304,80 @@ public class MoimBoardController {
 		}else {
 			returnData.put("code", "E3290");
 			returnData.put("message", "게시글 작성자만 삭제할 수 있습니다.");
+		}
+
+		return returnData;
+	}
+
+	/**
+	 *  게시글 추천
+	 * @param boardId
+	 * @param boardGroup
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/moimdetailView/moimboard/{no}/{boardGroup}/like/{boardId}")
+	public Map<String, Object> addLike( @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+										HttpSession session) {
+
+		// return value
+		Map<String, Object> returnData = new HashMap<>();
+
+		// people id
+		Long peopleId = (Long) session.getAttribute("peopleId");
+
+		// boardGroupId
+		Long boardGroupId = getBoardGroupId(boardGroup);
+
+		// 이전 추천했는지 확인 (TRUE 이면 기존 추천글)
+		boolean boardLike = moimBoardService.checkBoardLike(peopleId, boardId, boardGroupId);
+
+		// 추천하지 않았던 게시글이면
+		if(!boardLike){
+			// 추천이력 등록
+			moimBoardService.addBoardLike(peopleId, boardId, boardGroupId);
+			returnData.put("code", "1");
+		}else{
+			returnData.put("code", "2");
+			returnData.put("message", "이미 추천한 게시글 입니다");
+		}
+
+		return returnData;
+	}
+
+	/**
+	 *  게시글 추천 해제
+	 * @param boardId
+	 * @param boardGroup
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/moimdetailView/moimboard/{no}/{boardGroup}/unlike/{boardId}")
+	public Map<String, Object> removeLike( @PathVariable("boardGroup") String boardGroup, @PathVariable("boardId") long boardId,
+										   HttpSession session) {
+
+		// return value
+		Map<String, Object> returnData = new HashMap<>();
+
+		// people id
+		Long peopleId = (Long) session.getAttribute("peopleId");
+
+		// boardGroupId
+		Long boardGroupId = getBoardGroupId(boardGroup);
+
+		// 이전 추천했는지 확인 (TRUE 이면 기존 추천글)
+		boolean boardLike = moimBoardService.checkBoardLike(peopleId, boardId, boardGroupId);
+
+		// 추천했던 게시글이면
+		if(boardLike){
+			// 추천이력 제거
+			moimBoardService.removeBoardLike(peopleId, boardId, boardGroupId);
+			returnData.put("code", "1");
+		}else{
+			returnData.put("code", "2");
+			returnData.put("message", "추천하지않은 게시글 입니다");
 		}
 
 		return returnData;

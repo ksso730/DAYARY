@@ -39,7 +39,7 @@ import us.flower.dayary.domain.common.DateAudit;
 @Table(name = "MOIM")
 @Getter
 @Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 public class Moim extends DateAudit{
  
@@ -126,4 +126,6 @@ public class Moim extends DateAudit{
 	@Column(name="JOIN_CONDITION" ,nullable=false, columnDefinition = "char(1) default 'N'")
 	private char joinCondition;
 
+    public Moim() {
+    }
 }

@@ -26,6 +26,12 @@ public interface MoimBoardService {
 	// 이미 추천한 게시글인지 확인
 	boolean checkBoardLike(long peopleId, long boardId, long boardGroupId);
 
+	// 게시글 추천
+	void addBoardLike(long people, long boardId, long BoardGroupId);
+
+	// 게시글 추천 삭제
+	void removeBoardLike(long peopleId, long boardId, long BoardGroupId);
+
 	//게시글 쓰기
 	void moimBoardWrite(Long no, Long peopleId, Long boardGroupId, MoimBoard moimBoard);
 

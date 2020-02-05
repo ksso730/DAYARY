@@ -120,6 +120,61 @@ public class MoimBoardServiceImpl implements MoimBoardService{
 		}
 	}
 
+	/**
+	 * 게시글 추천
+	 * @param peopleId
+	 * @param boardId
+	 * @param boardGroupId
+	 */
+	@Override
+	public void addBoardLike(long peopleId, long boardId, long boardGroupId) {
+		// Embeddable Id
+		BoardLikeId boardLikeId = new BoardLikeId();
+		boardLikeId.setPeopleId(peopleId);
+		boardLikeId.setCommunityBoardId(boardId);
+		boardLikeId.setBoardGroupId(boardGroupId);
+
+		// board like
+		BoardLike boardLike = new BoardLike();
+		boardLike.setId(boardLikeId);
+
+		// save
+		boardLikeRepository.save(boardLike);
+
+		// update heart count (+)
+		MoimBoard moimBoard = moimBoardRepository.getOne(boardId);
+		moimBoard.setHeart(moimBoard.getHeart()+1);
+		moimBoardRepository.save(moimBoard);
+	}
+
+	/**
+	 * 게시글 추천 삭제
+	 * @param peopleId
+	 * @param boardId
+	 * @param boardGroupId
+	 */
+	@Override
+	public void removeBoardLike(long peopleId, long boardId, long boardGroupId) {
+
+		// Embeddable Id
+		BoardLikeId boardLikeId = new BoardLikeId();
+		boardLikeId.setPeopleId(peopleId);
+		boardLikeId.setCommunityBoardId(boardId);
+		boardLikeId.setBoardGroupId(boardGroupId);
+
+		// board like
+		BoardLike boardLike = new BoardLike();
+		boardLike.setId(boardLikeId);
+
+		// delete
+		boardLikeRepository.delete(boardLike);
+
+		// update heart count (-)
+		MoimBoard moimBoard = moimBoardRepository.getOne(boardId);
+		moimBoard.setHeart(moimBoard.getHeart()-1);
+		moimBoardRepository.save(moimBoard);
+	}
+
 	@Override
 	public void moimBoardWrite(Long no, Long peopleId, Long boardGroupId, MoimBoard moimBoard) {
 		People people=new People();
