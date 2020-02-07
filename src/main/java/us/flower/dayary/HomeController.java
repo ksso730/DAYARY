@@ -96,5 +96,6 @@ public class HomeController {
 	public String loginSuccess(People people,HttpSession session) {
 		return "main";
 	}
+	
 
 }
