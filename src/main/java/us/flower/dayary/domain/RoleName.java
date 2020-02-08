@@ -8,6 +8,6 @@ package us.flower.dayary.domain;
  * @author choiseongjun
  */
 public enum  RoleName {
-    ROLE_USER,
-    ROLE_ADMIN
+    USER,
+    ADMIN
 }

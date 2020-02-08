@@ -5,10 +5,13 @@ import java.net.URI;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
@@ -106,16 +109,26 @@ public class PeopleController {
 			if (peopleRepository.existsByEmail(loginRequest.getEmail())) {
 				People dbPeople = peopleRepository.findByEmail(loginRequest.getEmail());
 					if (bcrypt.checkpw(loginRequest.getPassword(), dbPeople.getPassword())) {// 비밀번호가맞다면
+				        
+	
 						session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
 						session.setAttribute("peopleName", dbPeople.getName());// 이름세션저장
 						session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
-					
+						session.setAttribute("people",dbPeople);
+						returnData.put("people",dbPeople);
 						returnData.put("code", "1");
 							String jwt = tokenProvider.generateToken(authentication);
 							JwtAuthenticationResponse csj= new JwtAuthenticationResponse(jwt);
 					        model.addAttribute("csj",csj);
 					    	String savePage = (String)session.getAttribute("savePage");
-					        
+//					    	RoleName rolename = null;
+//					    	Role roles =new Role();
+//					    	roles.setName(rolename.ADMIN);
+//					    	
+//					    	Set<Role> set =new HashSet<Role>();
+//					    	set.add(roles);
+//					    	
+//					    	dbPeople.setRoles(set);
 					    	
 					        if(savePage!=null) {
 								mav.setViewName("redirect:/"+savePage);
@@ -150,7 +163,7 @@ public class PeopleController {
  
 				user.setPassword(bcrypt.hashpw(user.getPassword()));
 
-				Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+				Role userRole = roleRepository.findByName(RoleName.USER)
 						.orElseThrow(() -> new AppException("먼저 Role테이블에 insert문으로 데이터 넣어주세요.트렐로에 필수 INSERT문 넣었습니다"));
 
 				user.setRoles(Collections.singleton(userRole));
