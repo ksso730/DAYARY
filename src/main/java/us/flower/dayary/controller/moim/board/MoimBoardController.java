@@ -144,6 +144,9 @@ public class MoimBoardController {
 		MoimBoard moimBoard = moimBoardService.getMoimBoard(boardId);
 		model.addAttribute("board", moimBoard);
 
+		// 조회수 업데이트
+		moimBoardService.addViewCount(moimBoard);
+
 		// 게시글 작성자와 현재 세션의 사용자 같은지
 		Long peopleId = (Long) session.getAttribute("peopleId");
 		boolean writer = moimBoardService.checkWriter(peopleId, moimBoard);

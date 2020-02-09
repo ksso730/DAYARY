@@ -60,6 +60,16 @@ public class MoimBoardServiceImpl implements MoimBoardService{
 	}
 
 	/**
+	 * 게시글 조회수 +!
+	 * @param moimBoard
+	 */
+	@Override
+	public void addViewCount(MoimBoard moimBoard) {
+		moimBoard.setViewCount(moimBoard.getViewCount()+1);
+		moimBoardRepository.save(moimBoard);
+	}
+
+	/**
 	 * 사용자와 게시글 작성자 동일한지 확인
 	 * @param peopleId
 	 * @param boardId

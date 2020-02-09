@@ -92,7 +92,7 @@
 									<th width="40%">제목</th>
 									<th width="20%">작성자</th>
 									<th width="20%">작성일</th>
-<!--									<th width="10%">조회수</th>-->
+									<th width="10%">조회수</th>
 									<th width="10%">좋아요수</th>
 <!--									<th width="10%">댓글수</th>-->
 								</tr>
@@ -112,6 +112,7 @@
 									</td>
 									<td th:text = "${board.peopleName}"></td>
 									<td th:text = "${#strings.replace(board.createdAt,'T',' ')}"></td>
+									<td th:text = "${board.viewCount}"></td>
 									<td th:text = "${board.heart}"></td>
 								</tr> 
 							</tbody>

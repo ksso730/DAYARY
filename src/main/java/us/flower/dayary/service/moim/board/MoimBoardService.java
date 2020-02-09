@@ -17,6 +17,9 @@ public interface MoimBoardService {
 	//모임 게시판 글 조회
 	Page<MoimBoardListDTO> getMoimBoardList(Long moimId, Long boardGroupId, Pageable pageable, String search);
 
+	// 조회수 + 1
+	void addViewCount(MoimBoard moimBoard);
+
 	// 게시글 작성자와 사용자 아이디 같은지 확인
 	boolean checkWriter(Long peopleId, long moimBoardId);
 
