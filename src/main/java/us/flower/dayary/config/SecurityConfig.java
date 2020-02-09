@@ -106,25 +106,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                         .permitAll()
-                        
                     .antMatchers("/**/**")
                         .permitAll()
-                   
                     .antMatchers(HttpMethod.GET, "/**/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()                    
                     .anyRequest().authenticated()
+                    
                     .and()
                         .oauth2Login()
                         .defaultSuccessUrl("/loginSuccess")
                         .failureUrl("/loginFailure")    
                     .and()
                     .formLogin()
-                    
                        .loginPage("/signinView")
                        .permitAll()
-                       
                      .and()
                      
                      	.logout().logoutUrl("/logout")
@@ -138,7 +135,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .and()
                         .addFilterBefore(filter, CsrfFilter.class)
                         .csrf().disable();;
-        				
                         /*.and()
                         .exceptionHandling().authenticationEntryPoint(new CustomHttp403ForbiddenEntryPoint());*/
 

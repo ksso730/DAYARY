@@ -56,6 +56,8 @@ public interface moimService {
 
 	List<TempData> selectTodoCompltLankChart(long no);//계획완료된 5사람 들고오기
 
+	List<TempData> TodotimeLinelist(long no);
+
 
 
 

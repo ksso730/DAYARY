@@ -71,4 +71,5 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
         return sqlSessionFactoryBean.getObject();
     }
+    
 }

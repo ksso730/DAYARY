@@ -1,5 +1,8 @@
 package us.flower.dayary.domain.DTO;
 
+
+import java.util.Date;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,5 +19,7 @@ public class TempData {
 	private String progress_done;
 	private String progress_total;
 	private String title;
+	private String a;
+	private String b;
 }
 

@@ -14,7 +14,13 @@ $('#signin_btn').off().on('click',function(){
 		success:function(data){
 			if(data.code==1){
 				alert(data.message);
-				location.href='/';
+				console.log(data.people.roles[0].name);
+				if(data.people.roles[0].name=="ADMIN"){
+					location.href="/admin/admini"
+				}else{
+					location.href='/';					
+				}
+
 			}else if(data.code==2){
 				location.href=data.savePage;
 				
