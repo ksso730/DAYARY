@@ -1,4 +1,9 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size : 50MB
+      max-request-size: 50MB
+        
   security:
     oauth2:
       client:
@@ -39,13 +44,12 @@ logging:
               com:
                   devson: 
                           pagination: debug
-                          
+                         
 server:
     port: 8080
+   
     servlet:
-      multipart:
-        maxFileSize: 100MB
-        maxRequestSize: 100MB
+        
         cookie:
           http-only: true
         session:

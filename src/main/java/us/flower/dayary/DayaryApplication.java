@@ -1,13 +1,14 @@
 package us.flower.dayary;
 
+import java.io.File;
+import java.util.TimeZone;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import javax.annotation.PostConstruct;
-import java.io.File;
-import java.util.TimeZone;
 
 @SpringBootApplication
 public class DayaryApplication {
@@ -47,5 +48,5 @@ public class DayaryApplication {
     public String communityImagePath(){
         return communityImagePath;
     }
-    
+   
 }
