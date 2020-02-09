@@ -1,6 +1,8 @@
 package us.flower.dayary.repository.moim.picture;
 
+import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -9,6 +11,7 @@ import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import us.flower.dayary.domain.BoardGroup;
+import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimBoard;
 import us.flower.dayary.domain.QMoimBoard;
 import us.flower.dayary.domain.DTO.BoardListDTO;
@@ -26,6 +29,30 @@ public class MoimBoardRepositoryCustomImpl extends QuerydslRepositorySupport imp
 	public MoimBoardRepositoryCustomImpl(JPAQueryFactory jpaQueryFactory) {
 		super(MoimBoard.class);
 		 this.jpaQueryFactory = jpaQueryFactory;
+	}
+
+	@Override
+	public Page<MoimBoardListDTO> findAllByBoardGroupAndDeleteFlagAndReply(final Moim moim, final BoardGroup boardGroup, final char deleteFlag, final Pageable pageable, final String search) {
+
+		final QMoimBoard boards = moimBoard;
+		final JPQLQuery<MoimBoardListDTO> query = from(moimBoard)
+				.select(Projections.constructor(MoimBoardListDTO.class,
+						moimBoard.id,
+						moimBoard.title,
+						moimBoard.people.name,
+						moimBoard.createdAt,
+						moimBoard.viewCount,
+						moimBoard.heart))
+				.from(moimBoard)
+				.where(moimBoard.boardGroup.eq(boardGroup).and(moimBoard.deleteFlag.eq(deleteFlag)).and(moimBoard.moim.eq(moim)));
+		// search text
+		if(!search.equals("")){
+			query.where(moimBoard.title.contains(search).or(moimBoard.memo.contains(search)));
+		}
+		//query.groupBy(moimBoard);
+
+		final QueryResults<MoimBoardListDTO> results = getQuerydsl().applyPagination(pageable, query).fetchResults();
+		return new PageImpl<>(results.getResults(), pageable, results.getTotal());
 	}
 
 	@Override

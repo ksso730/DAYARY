@@ -89,10 +89,12 @@
 							<thead>
 								<tr >
 									<th width="10%">번호</th>
-									<th width="40%">제목</th>
+									<th width="30%">제목</th>
 									<th width="20%">작성자</th>
 									<th width="20%">작성일</th>
 									<th width="10%">조회수</th>
+									<th width="10%">좋아요수</th>
+<!--									<th width="10%">댓글수</th>-->
 								</tr>
 							</thead>
 							<tbody>
@@ -104,10 +106,13 @@
 									<td>07/05/2015</td>
 								</tr> -->
 								<tr th:each="board : ${moimBoardList}">
-									<td th:text = "${board.id}"></td>
-									<td th:text = "${board.title}" id="title"></td>
-									<td th:text = "${board.people.name}"></td>
-									<td th:text = "${board.createDate}"></td>
+									<td th:text = "${board.moimBoardId}"></td>
+									<td id="title">
+										<a th:href="@{'/moimdetailView/moimboard/' + ${no} + '/' + ${boardGroup} +'/'+${board.moimBoardId}}"><span th:text = "${board.boardTitle}"></span></a>
+									</td>
+									<td th:text = "${board.peopleName}"></td>
+									<td th:text = "${#strings.replace(board.createdAt,'T',' ')}"></td>
+									<td th:text = "${board.viewCount}"></td>
 									<td th:text = "${board.heart}"></td>
 								</tr> 
 							</tbody>
@@ -118,8 +123,11 @@
 				<div class="row text-center pt-5 border-top">
 					<div class="col-md-12">
 						<div class="custom-pagination">
-							<span>1</span> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a>
-							<span>...</span> <a href="#">15</a>
+							<ul class="pagination align-content-center" th:if="${pageNumber} > 0">
+								<li style="list-style-type: none;" class="page-item" th:each="i: ${#numbers.sequence(0, pageNumber - 1)}">
+									<a  th:href="@{'/moimdetailView/moimboard/' + ${no} + '/' + ${boardGroup}(page=${i})}">[[${i}+1]]</a>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>

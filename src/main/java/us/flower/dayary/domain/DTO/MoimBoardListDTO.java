@@ -17,6 +17,7 @@ public class MoimBoardListDTO {
 
     private LocalDateTime createdAt;
 
+    private long viewCount;
 
     private long heart;
 
@@ -26,6 +27,7 @@ public class MoimBoardListDTO {
         this.boardTitle = boardTitle;
         this.peopleName = peopleName;
         this.createdAt = createdAt;
+        this.viewCount = viewCount;
         this.heart = heart;
     }
 }
