@@ -1,5 +1,8 @@
 package us.flower.dayary.rest.controller.Moim.MoimPeople.Todo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.minidev.json.JSONObject;
@@ -23,7 +27,7 @@ import us.flower.dayary.service.moim.todo.ToDoWriteService;
 
 @RestController
 @RequestMapping("/rest")
-public class TodoController {
+public class RestTodoController {
 	@Autowired 
 	private ToDoWriteService todoWriteservice;
 	@Autowired 
@@ -49,5 +53,34 @@ public class TodoController {
     	returnData.put("count",todoWriteservice.countByMoim_idAndStatus(MoimId));
     	returnData.put("status","allList");
     	return new ResponseEntity<>(returnData, HttpStatus.OK);
+    }
+    /**
+     * 모임  해야할일(ToDoList) 불러와서 조회하기
+     *
+     * @param 
+     * @return
+     * @throws 
+     * @author jy
+     */
+    @ResponseBody
+    @GetMapping("/moimDetail/moimTodoList/detail/{no}")
+    public Map<String,Object>  todostatdetail(@PathVariable("no") long no) {
+    	JSONObject returnData = new JSONObject();
+    	
+    	try {
+    		returnData.put("list",todoWriteservice.findByToDoWrite_id(no));
+    		ToDoWrite todo=todoWriteservice.findById(no);
+    		//returnData.put("todo",todo);
+    		returnData.put("writer", todo.getPeople());
+    		returnData.put("code", "1");
+    		returnData.put("message", "조회되었습니다");
+
+	        } catch (Exception e) {
+	        	returnData.put("code", "E3290");
+	        	returnData.put("message", "데이터 확인 후 다시 시도해주세요.");
+	        }
+    	
+    	
+    	return returnData;
     }
 }
