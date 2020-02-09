@@ -41,6 +41,7 @@ public class MoimBoardRepositoryCustomImpl extends QuerydslRepositorySupport imp
 						moimBoard.title,
 						moimBoard.people.name,
 						moimBoard.createdAt,
+						moimBoard.viewCount,
 						moimBoard.heart))
 				.from(moimBoard)
 				.where(moimBoard.boardGroup.eq(boardGroup).and(moimBoard.deleteFlag.eq(deleteFlag)).and(moimBoard.moim.eq(moim)));

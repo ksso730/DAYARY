@@ -17,14 +17,17 @@ public class MoimBoardListDTO {
 
     private LocalDateTime createdAt;
 
+    private long viewCount;
+
     private long heart;
 
     @QueryProjection
-    public MoimBoardListDTO(long moimBoardId, String boardTitle, String peopleName, LocalDateTime createdAt,  long heart){
+    public MoimBoardListDTO(long moimBoardId, String boardTitle, String peopleName, LocalDateTime createdAt, long viewCount, long heart){
         this.moimBoardId = moimBoardId;
         this.boardTitle = boardTitle;
         this.peopleName = peopleName;
         this.createdAt = createdAt;
+        this.viewCount = viewCount;
         this.heart = heart;
     }
 }
