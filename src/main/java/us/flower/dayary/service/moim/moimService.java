@@ -58,6 +58,8 @@ public interface moimService {
 
 	List<TempData> TodotimeLinelist(long no);
 
+	Page<Moim> selectseacrhList(Pageable pageable, String title, String sido_code, String sigoon_code, String commCode);
+
 
 
 
