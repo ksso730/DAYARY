@@ -83,10 +83,35 @@
 		$('#content').summernote({
 			height: 600,
 			minHeight: null,
-			maxHeight: null
+			maxHeight: null,
+			callbacks: {
+				onImageUpload: function(files, editor, welEditable) {
+					for (let i = files.length - 1; i >= 0; i--) {
+						sendFile(files[i], this);
+					}
+				}
+			}
 		});
 
 		$("#content").summernote("disable");
+
+		function sendFile(file, el) {
+			let form_data = new FormData();
+			form_data.append('file', file);
+			$.ajax({
+				data: form_data,
+				type: "POST",
+				url: '/community/board/image',
+				cache: false,
+				contentType: false,
+				enctype: 'multipart/form-data',
+				processData: false,
+				success: function(url) {
+					$(el).summernote('editor.insertImage', url);
+					$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+				}
+			});
+		}
 
 		// removeReply (1: 댓글, 2: 대댓글)
 		function removeReply(val, flag){
