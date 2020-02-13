@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import us.flower.dayary.config.SessionListener;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
@@ -43,6 +44,8 @@ public class HomeController {
 		pageable = PageRequest.of(page, 3, Sort.Direction.DESC, "id");// 내림차순으로 정렬한다
 //		Optional<Moim> moim = moimRepository.findById((long) 48);
 //		return moim.get();
+
+		
 		VisitCheck vo=new VisitCheck();
 		insertVisitor(vo);
 		Page<Moim> moimList = moimService.selectMoimAll(pageable);// 모든 모임리스트 출력한다

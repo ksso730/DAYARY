@@ -19,7 +19,7 @@
     <div class="wrapper">
 	
 	<div th:replace="layout/adminside::sidebar" />
-	<span th:if="${session.people.roles[0].name.toString().equals('ADMIN')}">
+	<span th:if="${session.people.roles[0].name.toString().equals('ROLE_ADMIN')}">
         <div class="main-panel">
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
@@ -36,6 +36,7 @@
                                 <a href="#" class="nav-link" data-toggle="dropdown">
                                     <i class="nc-icon nc-palette"></i>
                                     <span class="d-lg-none">Dashboard</span>
+                                    
                                 </a>
                             </li>
                             <li class="dropdown nav-item">
@@ -97,7 +98,7 @@
                             <div class="card strpied-tabled-with-hover">
                                 <div class="card-header ">
                                     
-                                    <h4 class="card-title">Striped Table with Hover[[${session.people.roles[0].name}]]</h4>
+                                    <h4 class="card-title">Striped Table with Hover</h4>
                                     <p class="card-category">Here is a subtitle for this table</p>
                                 </div>
                                 <div class="card-body table-full-width table-responsive">
@@ -160,7 +161,7 @@
                         <div class="col-md-12">
                             <div class="card card-plain table-plain-bg">
                                 <div class="card-header ">
-                                    <h4 class="card-title">Table on Plain Background</h4>
+                                    <h4 class="card-title">Table on Plain Background[[${session.sessioncount}]]</h4>
                                     <p class="card-category">Here is a subtitle for this table</p>
                                 </div>
                                 <div class="card-body table-full-width table-responsive">
