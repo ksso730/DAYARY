@@ -113,8 +113,8 @@ form.example::after {
 		<div class="header_category_tab">
 			<ul class="category_tab_lst">
 				<li class="item" th:attr="data-category=${category.commCode}" th:each="category : ${categories}">
-					<a th:if="${category.commCode.toString().equals('01')}" class="anchor active" th:href="@{'/moimlistCate/' + ${category.commCode}}"> 	<span th:text="${category.commName}" ></a>
-					<a th:unless="${category.commCode.toString().equals('01')}" class="anchor" th:href="@{'/moimlistCate/' + ${category.commCode}}"> <span th:text="${category.commName}" /></a>
+					<a th:if="${category.commCode.toString().equals(commCode)}" class="anchor active" th:href="@{'/moimlistView/' + ${category.commCode}}"> 	<span th:text="${category.commName}" ></a>
+					<a th:unless="${category.commCode.toString().equals(commCode)}" class="anchor" th:href="@{'/moimlistView/' + ${category.commCode}}"> <span th:text="${category.commName}" /></a>
 				</li>
 			</ul>
 		</div>
@@ -286,35 +286,34 @@ form.example::after {
 			</div>
 		</div>
 	</div> -->
-
+<a th:if="${moimList.totalElements!=0}">
 	<footer style="text-align: center;">
 		<ul class="pagination"
 			th:with="start=${T(Math).floor(moimList.number/10)*10 + 1},
                     last=(${start + 9 < moimList.totalPages ? start + 9 : moimList.totalPages})">
-			<li><a th:href="@{/moimlistView(page=1)}" aria-label="First">
+			<li><a th:href="@{'/moimlistView/'+${commCode}(page=1)}" aria-label="First">
 					<span aria-hidden="true">First</span>
 			</a></li>
 
-			<li th:class="${moimList.first} ? 'disabled'"><a
-				th:href="${moimList.first} ? '#' :@{/moimlistView(page=${moimList.number})}"
+			<li th:class="${moimList.first} ? 'disabled'"><a 
+				th:href="${moimList.first} ? '#' :@{'/moimlistView/'+${commCode}(page=${moimList.number},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code})}"
 				aria-label="Previous"> <span aria-hidden="true">&lt;</span>
 			</a></li>
-
+			
 			<li th:each="page: ${#numbers.sequence(start, last)}"
 				th:class="${page == moimList.number + 1} ? 'active'"><a
-				th:text="${page}" th:href="@{/moimlistView(page=${page})}"></a></li>
-
+				th:text="${page}" th:href="@{'/moimlistView/'+${commCode}(page=${page},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code})}"></a></li>
 			<li th:class="${moimList.last} ? 'disabled'"><a
-				th:href="${moimList.last} ? '#' : @{/moimlistView(page=${moimList.number + 2})}"
+				th:href="${moimList.last} ? '#' : @{'/moimlistView/'+${commCode}(page=${moimList.number + 2},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code})}"
 				aria-label="Next"> <span aria-hidden="true">&gt;</span>
 			</a></li>
 
-			<li><a th:href="@{/moimlistView(page=${moimList.totalPages})}"
+			<li><a th:href="@{'/moimlistView/'+${commCode}(page=${moimList.totalPages},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code})}"
 				aria-label="Last"> <span aria-hidden="true">Last</span>
 			</a></li>
 		</ul>
 	</footer>
-
+</a>
 	<script src="/js/moim/moimList.js"></script>
 
 	<script type="rv-template" id="categoryItem">

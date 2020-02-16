@@ -1,6 +1,7 @@
 package us.flower.dayary.config;
 
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
@@ -9,11 +10,26 @@ import javax.servlet.http.HttpSessionListener;
 
 @WebListener
 public class SessionListener implements HttpSessionListener, HttpSessionIdListener, HttpSessionAttributeListener {
-   
+	
+	public static int count;
+	 
+    public static int getCount() {
+        return count;
+    }
+
+
   @Override
-  public void sessionCreated(HttpSessionEvent se) {
+  public void sessionCreated(HttpSessionEvent event) {
+	  HttpSession session = event.getSession(); //request에서 얻는 session과 동일한 객체
+      session.setMaxInactiveInterval(60*20);
+       
+      count++;
+       
+      session.getServletContext().log(session.getId() + " 세션생성 " + ", 접속자수 : " + count);
+
+      session.setAttribute("sessioncount", count);
     // 세션 생성시 호출
-    System.out.println("[ session ] created / id : " + se.getSession().getId());
+    System.out.println("[ session ] created / id : " + event.getSession().getId());
   }
  
   @Override

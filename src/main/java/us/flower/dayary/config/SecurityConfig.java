@@ -106,6 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                         .permitAll()
+                    //.antMatchers("/community/**").hasRole("USER")
                     .antMatchers("/**/**")
                         .permitAll()
                     .antMatchers(HttpMethod.GET, "/**/**")

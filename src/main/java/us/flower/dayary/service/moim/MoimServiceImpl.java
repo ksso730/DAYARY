@@ -261,6 +261,15 @@ public class MoimServiceImpl implements moimService{
 	public List<TempData> TodotimeLinelist(long no) {
 		return sqlSession.selectList("todo.selectTodotimeLinelist",no);
 	}
+
+	@Override
+	public Page<Moim> selectseacrhList(Pageable pageable, String title, String sido_code, String sigoon_code,
+			String commCode) {
+		Common common =new Common();
+		common.setCommCode(commCode);
+		
+		return moimRepository.findAllByCategoryAndTitleLikeAndSidocodeLikeAndSigooncodeLike(pageable,common,"%"+title+"%","%"+sido_code+"%","%"+sigoon_code+"%");
+	}
 	
 
 	

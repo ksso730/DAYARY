@@ -6,69 +6,69 @@ function makeMoimList(item, itemCount) {
 }
 
 // [hyozkim] makeCategoryTab 카테고리 탭 화면에 추가
-function makeCategoryTab(item,commonCode) {
-    // console.log(item);
-    //console.log(commonCode);
-    //console.log(typeof commonCode);
-    var resJson = jQuery.parseJSON(JSON.stringify(item));
-    var categoryhtml = $('#categoryItem').html();
-     console.log(categoryhtml);
-
-    var resultHtml = "";
-    for(var i=0; i<resJson.length; i++) {
-        resultHtml += categoryhtml.replace("{commonCode}", resJson[i].commCode)
-                                    .replace("{className}","anchor")
-                                    .replace("{categoryName}", resJson[i].commName);
-    }
-    $(".category_tab_lst").html(resultHtml);
-
-    // 클릭한 카테고리 탭 active 활성화
-    Array.from(document.querySelector(".category_tab_lst").querySelectorAll("li")).forEach( a => {
-    	a.firstElementChild.className = (a.dataset.category == commonCode) ? "anchor active" : "anchor";
-    });
-}
+//function makeCategoryTab(item,commonCode) {
+//    // console.log(item);
+//    //console.log(commonCode);
+//    //console.log(typeof commonCode);
+//    var resJson = jQuery.parseJSON(JSON.stringify(item));
+//    var categoryhtml = $('#categoryItem').html();
+//     console.log(categoryhtml);
+//
+//    var resultHtml = "";
+//    for(var i=0; i<resJson.length; i++) {
+//        resultHtml += categoryhtml.replace("{commonCode}", resJson[i].commCode)
+//                                    .replace("{className}","anchor")
+//                                    .replace("{categoryName}", resJson[i].commName);
+//    }
+//    $(".category_tab_lst").html(resultHtml);
+//
+//    // 클릭한 카테고리 탭 active 활성화
+//    Array.from(document.querySelector(".category_tab_lst").querySelectorAll("li")).forEach( a => {
+//    	a.firstElementChild.className = (a.dataset.category == commonCode) ? "anchor active" : "anchor";
+//    });
+//}
 
 // 카테고리 탭 Click Event
-$(".category_tab_lst").off().on('click', function(evt) {
-    var commonCode = "";
-	if( evt.target.tagName === "LI" ) {
-		//console.log(evt.target.dataset.category);
-		commonCode = evt.target.dataset.category;
-
-	} else if ( evt.target.tagName === "UL" ) {
-		//console.log(evt.target.firstChild.dataset.category);
-		commonCode = evt.target.firstChild.dataset.category;
-
-
-	} else if ( evt.target.tagName === "A" ) {
-		//console.log(evt.target.parentElement.dataset.category);
-		commonCode = evt.target.parentElement.dataset.category;
-
-
-	} else if( evt.target.tagName === "SPAN" ) {
-		//console.log(evt.target.parentElement.parentElement.dataset.category);
-		commonCode = evt.target.parentElement.parentElement.dataset.category;
-
-	}
-
-    $.ajax({
-      url:'/moimlist?commonCode='+commonCode,
-        type:'get',
-        enctype: 'multipart/form-data',
-        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
-        contentType: false,
-        dataType:'json',
-        cache: false,
-        mimeType:"multipart/form-data",
-        success:function(data) {
-            //console.log(data.categories);
-            makeCategoryTab(data.categories,commonCode);
-
-            //console.log(data.moimList);
-            // makeMoimList(data.moimList, data.moimListCount);
-        }
-    });
-});
+//$(".category_tab_lst").off().on('click', function(evt) {
+//    var commonCode = "";
+//	if( evt.target.tagName === "LI" ) {
+//		//console.log(evt.target.dataset.category);
+//		commonCode = evt.target.dataset.category;
+//
+//	} else if ( evt.target.tagName === "UL" ) {
+//		//console.log(evt.target.firstChild.dataset.category);
+//		commonCode = evt.target.firstChild.dataset.category;
+//
+//
+//	} else if ( evt.target.tagName === "A" ) {
+//		//console.log(evt.target.parentElement.dataset.category);
+//		commonCode = evt.target.parentElement.dataset.category;
+//
+//
+//	} else if( evt.target.tagName === "SPAN" ) {
+//		//console.log(evt.target.parentElement.parentElement.dataset.category);
+//		commonCode = evt.target.parentElement.parentElement.dataset.category;
+//
+//	}
+//
+//    $.ajax({
+//      url:'/moimlist?commonCode='+commonCode,
+//        type:'get',
+//        enctype: 'multipart/form-data',
+//        processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+//        contentType: false,
+//        dataType:'json',
+//        cache: false,
+//        mimeType:"multipart/form-data",
+//        success:function(data) {
+//            //console.log(data.categories);
+//            makeCategoryTab(data.categories,commonCode);
+//
+//            //console.log(data.moimList);
+//            // makeMoimList(data.moimList, data.moimListCount);
+//        }
+//    });
+//});
 
 
 

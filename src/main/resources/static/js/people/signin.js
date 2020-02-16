@@ -15,7 +15,7 @@ $('#signin_btn').off().on('click',function(){
 			if(data.code==1){
 				alert(data.message);
 				console.log(data.people.roles[0].name);
-				if(data.people.roles[0].name=="ADMIN"){
+				if(data.people.roles[0].name=="ROLE_ADMIN"){
 					location.href="/admin/admini"
 				}else{
 					location.href='/';					
