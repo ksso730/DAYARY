@@ -1,6 +1,8 @@
 package us.flower.dayary.service.moim.board;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.minidev.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import us.flower.dayary.domain.*;
 import us.flower.dayary.domain.DTO.BoardListDTO;
+import us.flower.dayary.domain.DTO.BoardReplyDTO;
 import us.flower.dayary.domain.DTO.MoimBoardListDTO;
+import us.flower.dayary.domain.DTO.MoimBoardReplyDTO;
 import us.flower.dayary.repository.community.BoardLikeRepository;
+import us.flower.dayary.repository.community.BoardReplyRepository;
+import us.flower.dayary.repository.moim.picture.MoimBoardReplyRepository;
 import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
 
 @Service
@@ -24,6 +30,9 @@ public class MoimBoardServiceImpl implements MoimBoardService{
 
 	@Autowired
 	BoardLikeRepository boardLikeRepository;
+
+	@Autowired
+	MoimBoardReplyRepository moimBoardReplyRepository;
 
 
 	/**
@@ -228,5 +237,110 @@ public class MoimBoardServiceImpl implements MoimBoardService{
 		MoimBoard moimBoard = moimBoardRepository.getOne(boardId);
 		moimBoard.setDeleteFlag('Y');
 		moimBoardRepository.save(moimBoard);
+	}
+
+	/**
+	 * 사용자와 댓글 작성자 동일한지 확인
+	 * @param peopleId
+	 * @param replyId
+	 * @return
+	 */
+	@Override
+	public boolean checkReplyWriter(Long peopleId, long replyId) {
+
+		MoimBoardReply reply = moimBoardReplyRepository.getOne(replyId);
+
+		// 댓글 사용자와 작성자가 같을때
+		if(peopleId.longValue()==reply.getPeople().getId()){
+			deleteReply(reply);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * 댓글 저장
+	 * @param reply
+	 * @param peopleId
+	 * @param boardId
+	 * @param boardGroupId
+	 */
+	@Override
+	public MoimBoardReply addBoardReply(MoimBoardReply reply, long peopleId, long boardId, long boardGroupId) {
+
+		// parent가 존재하면
+		if(reply.getParent()!=null){
+			long parentId = reply.getParent().getId();
+			MoimBoardReply parent =  moimBoardReplyRepository.getOne(parentId);
+
+			reply.setParent(parent);
+		}
+
+		People people=new People();
+		people.setId(peopleId);
+		reply.setPeople(people);;
+		MoimBoard board = moimBoardRepository.getOne(boardId);
+		reply.setMoimBoard(board);
+		reply.setBoardGroupId(boardGroupId);
+
+		// save reply
+		moimBoardReplyRepository.save(reply);
+
+		// update board
+		board.getMoimBoardReplies().add(reply);
+		board.setReplyCount(board.getReplyCount()+1);
+		moimBoardRepository.save(board);
+
+		return reply;
+	}
+
+	@Override
+	public void moidfyBoardReply(MoimBoardReply reply) {
+		// TODO Auto-generated method stub
+		//바뀐내용가져오기
+		String memo=reply.getMemo();
+		reply=moimBoardReplyRepository.getOne(reply.getId());
+		reply.setMemo(memo);
+		moimBoardReplyRepository.save(reply);
+	}
+
+	/**
+	 * 댓글 삭제
+	 * @param reply
+	 */
+	@Override
+	public void deleteReply(MoimBoardReply reply) {
+		reply.setDeleteFlag("Y");
+		moimBoardReplyRepository.save(reply);
+		MoimBoard board=reply.getMoimBoard();
+		board.setReplyCount(board.getReplyCount()-1);
+		moimBoardRepository.save(board);
+	}
+
+	/**
+	 * 게시글 댓글 전체 리스트
+	 * @param boardId
+	 * @return
+	 */
+	@Override
+	public List<MoimBoardReplyDTO> getMoimReplyList(long boardId, Pageable pageable) {
+
+		MoimBoard board = getMoimBoard(boardId);
+
+		List<MoimBoardReply> moimBoardReplies = moimBoardReplyRepository.getAllByMoimBoardAndDeleteFlagAndParentIsNull(board, "N",pageable);
+
+		List<MoimBoardReplyDTO> replies = new ArrayList<>();
+		for(MoimBoardReply reply : moimBoardReplies){
+
+			// 삭제된 댓글 제외한 리스트
+			List<MoimBoardReply> filteredReply = reply.getChild().stream().filter(child -> child.getDeleteFlag().equals("N")).collect(Collectors.toList());
+
+			MoimBoardReplyDTO replyDTO = new MoimBoardReplyDTO(reply, filteredReply);
+			replies.add(replyDTO);
+		}
+
+		return replies;
+
 	}
 }

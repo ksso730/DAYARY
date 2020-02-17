@@ -52,7 +52,8 @@
             <button type="button" class="btn btn-sm btn-success" id="moimBoard_modify_save_btn" style="display: none;">
                 저장
             </button>
-            <button type="button" class="btn btn-sm btn-warning" id="moimBoard_modify_cancel_btn" style="display: none;">
+            <button type="button" class="btn btn-sm btn-warning" id="moimBoard_modify_cancel_btn"
+                    style="display: none;">
                 취소
             </button>
             <a th:href="@{'/moimdetailView/moimboard/' + ${no} + '/' + ${boardGroup} + '?page=' + ${page}}">
@@ -61,6 +62,37 @@
                 </button>
             </a>
         </div>
+        <li style="margin: 50px 0px 50px 0px;" id="reply_content">
+            <!-- end timeline-icon -->
+            <!-- begin timeline-body -->
+            <div class="timeline-body">
+                <div class="timeline-content">
+                    <textarea class="form-control" id="borad_reply" rows="3" placeholder="댓글"></textarea>
+                </div>
+                <button class="btn btn-primary f-s-12 rounded-corner" id="board_reply_save_btn" onclick="saveReply(0)"
+                        type="button">저장
+                </button>
+            </div>
+            <!-- end timeline-body -->
+            <div class="timeline-body" th:id="'body'+ ${reply.getParent().id}" th:each="reply:${replies}">
+                <div class="timeline-content" th:id="'content' + ${reply.getParent().id}">
+                    <textarea class="form-control" rows="3" readonly="true" placeholder="댓글"
+                              th:id="${reply.getParent().id}" th:inline="text">
+                        [[${reply.getParent().memo}]]
+                    </textarea>
+                    <button class="btn btn-warning f-s-12 rounded-corner" th:value="${reply.getParent().id}"
+                            onclick="addReply(this.value)" type="button">
+                        답변
+                    </button>
+                </div>
+                <div class="timeline-content" th:id="'content' + ${child.id}" th:each="child: ${reply.getChildren()}">
+                    <textarea cltass="form-control" rows="3" readonly="true" placeholder="댓글" th:id="${child.id}"
+                              style="background-color: red;" th:inline="text">
+                        [[${child.memo}]]
+                    </textarea>
+                </div>
+            </div>
+        </li>
     </div>
 </article>
 <script>
@@ -99,36 +131,36 @@
     }
 
     // removeReply (1: 댓글, 2: 대댓글)
-    function removeReply(val, flag){
+    function removeReply(val, flag) {
 
         // 댓글인경우 대댓글이 달렸는지 확인
-        if(flag == 1){
+        if (flag == 1) {
             let parentId = $('#content' + val).parent().attr('id');
-            if($('#'+ parentId + ' > .timeline-content').length > 1){
+            if ($('#' + parentId + ' > .timeline-content').length > 1) {
                 alert('답변이 달린 댓글은 삭제할 수 없습니다.');
                 return;
             }
         }
 
         const replyId = val;
-        if(confirm('정말 삭제하시겠습니까?')){
+        if (confirm('정말 삭제하시겠습니까?')) {
 
             $.ajax({
-                url:'/community/board/reply/delete/' + replyId,
-                type:'DELETE',
+                url: '/moimboards/[[${boardGroup}]]/boards/[[${boardId}]]/replies/' + replyId,
+                type: 'DELETE',
                 contentType: 'application/json; charset=UTF-8',
-                dataType:'json',
+                dataType: 'json',
                 data: {},
-                success:function(data){
-                    if(data.code==1){
+                success: function (data) {
+                    if (data.code == 1) {
                         alert(data.message);
                         // 화면에서 제거
                         $('#content' + replyId).remove();
-                    }else{
+                    } else {
                         alert(data.message)
                     }
                 },
-                error:function(xhr,error){
+                error: function (xhr, error) {
 
                 }
             });
@@ -136,82 +168,82 @@
     };
 
     // 댓글 + 대댓글 저장
-    function saveReply(val){
+    function saveReply(val) {
 
         let communityBoardReply;
         // 댓글
-        if(val==0){
+        if (val == 0) {
             // check title data input
-            if($('#borad_reply').val()==''||$('#borad_reply').val()=='undefined'||$('#borad_reply').val()==null){
+            if ($('#borad_reply').val() == '' || $('#borad_reply').val() == 'undefined' || $('#borad_reply').val() == null) {
                 alert('댓글 내용을 입력하세요');
                 $('#borad_reply').focus();
                 return;
             }
 
             communityBoardReply = {
-                "memo" : $('#borad_reply').val()
+                "memo": $('#borad_reply').val()
             };
-        }else{
+        } else {
             // 대댓글
             // check title data input
-            if($('#tempReply').val()==''||$('#tempReply').val()=='undefined'||$('#tempReply').val()==null){
+            if ($('#tempReply').val() == '' || $('#tempReply').val() == 'undefined' || $('#tempReply').val() == null) {
                 alert('대댓글 내용을 입력하세요');
                 $('#tempReply').focus();
                 return;
             }
 
             communityBoardReply = {
-                "parent" :
+                "parent":
                     {
-                        "id" : val
+                        "id": val
                     },
-                "memo" : $('#tempReply').val()
+                "memo": $('#tempReply').val()
             };
         }
 
         $.ajax({
-            url:'/community/board/[[${boardGroup}]]/reply/'  + [[${boardId}]],
+            url: '/moimboards/[[${boardGroup}]]/boards/[[${boardId}]]/replies',
             type: 'POST',
             contentType: 'application/json; charset=UTF-8',
             dataType: 'json',
             data: JSON.stringify(communityBoardReply),
-            success: function(data){
-                if(data.code==1){
+            success: function (data) {
+                if (data.code == 1) {
                     alert(data.message);
                     // clear
                     $('#borad_reply').val('');
 
                     // 댓글
-                    if(val==0){
+                    if (val == 0) {
                         // 댓글 div
                         let re = "<div class='timeline-body' id='body" + data.id + "'>";
-                        re += "<div class='timeline-content' id='content" + data.id  + "'>";
-                        re += "<textarea class='form-control' rows='3' readonly='true' id='reply" +data.id + "' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
+                        re += "<div class='timeline-content' id='content" + data.id + "'>";
+                        re += "<textarea class='form-control' rows='3' readonly='true' id='reply" + data.id + "' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
                         re += "<button class='btn btn-dark f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' onclick='removeReply(" + data.id + ", 1)' type='button'>삭제</button>";
                         re += "<button class='btn btn-warning f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_modify_btn' onclick='addReply(" + data.id + ")' type='button'>답변</button>";
                         re += "</div>";
                         re += "</div>";
 
                         $('#reply_content').append(re);
-                    }else{
+                    } else {
 
                         // 작성중 div 삭제
                         $('#tempContent').remove();
                         flag = 'true';
 
                         // 대댓글
-                        let re = "<div class='timeline-content' id='content" + data.id  + "'>";
-                        re += "<textarea class='form-control' rows='3' style='background-color: red;' id='reply"+ data.id +"' readonly='true' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
+                        let re = "<div class='timeline-content' id='content" + data.id + "'>";
+                        re += "<textarea class='form-control' rows='3' style='background-color: red;' id='reply" + data.id + "' readonly='true' placeholder='댓글' th:inline='text'>" + data.memo + "</textarea>";
                         re += "<button class='btn btn-dark f-s-12 rounded-corner' th:value=" + data.id + " id='board_reply_delete_btn' onclick='removeReply(" + data.id + ", 2)' type='button'>삭제</button>";
                         re += "</div>";
 
                         $('#body' + val).append(re);
                     }
-                }else{
+                } else {
                     alert(data.message)
                 }
             },
-            error: function(xhr, error){
+            error: function (xhr, error) {
 
             }
         });
@@ -220,24 +252,24 @@
 
     // 대댓글 textarea 생성
     let flag = 'true'; // 대댓글 작성 가능
-    function addReply(val){
-        if(flag==='true'){
-            let re  = "<div class='timeline-content' id='tempContent' >";
-            re  += "<textarea class='form-control' id='tempReply' rows='3' placeholder='댓글'></textarea>";
-            re  += "<button class='btn btn-primary f-s-12 rounded-corner' value='" + val + "' id='board_reply_save_btn' onclick='saveReply(this.value)'  type='button'>저장</button>";
-            re  += "</div>";
+    function addReply(val) {
+        if (flag === 'true') {
+            let re = "<div class='timeline-content' id='tempContent' >";
+            re += "<textarea class='form-control' id='tempReply' rows='3' placeholder='댓글'></textarea>";
+            re += "<button class='btn btn-primary f-s-12 rounded-corner' value='" + val + "' id='board_reply_save_btn' onclick='saveReply(this.value)'  type='button'>저장</button>";
+            re += "</div>";
 
             $('#body' + val).append(re);
 
             // 작성중 대댓글 존재
             flag = 'false';
-        }else{
-            if(confirm("이미 작성중인 대댓글이 있습니다. 삭제하시겠습니까?")){
+        } else {
+            if (confirm("이미 작성중인 대댓글이 있습니다. 삭제하시겠습니까?")) {
                 $('#tempContent').remove();
                 flag = 'true';
                 addReply(val);
 
-            }else{
+            } else {
                 return;
             }
         }
