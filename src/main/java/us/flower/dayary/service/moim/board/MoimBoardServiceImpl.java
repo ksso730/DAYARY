@@ -107,7 +107,7 @@ public class MoimBoardServiceImpl implements MoimBoardService{
 
 		Long writerId = moimBoard.getPeople().getId();
 
-		if(peopleId.longValue()==writerId.longValue()){
+		if(peopleId.longValue() == writerId.longValue()){
 			return true;
 		}else{
 			return false;

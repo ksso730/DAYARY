@@ -72,7 +72,7 @@ public class MoimBoardController {
 	/**
      * 모임 게시판(공지사항,가입인사 및 자기소개,자유게시판 등등)  조회
      * 2019-12-29 yuna
-	 * @param moimId,boardGroup
+	 * @param no,boardGroup
 	 * @param model
 	 * @param pageable
 	 * @param search
@@ -168,6 +168,8 @@ public class MoimBoardController {
 		}else{
 			model.addAttribute("writerFlag", FALSE);
 		}
+
+		model.addAttribute("currentPeopleId", peopleId);
 
 		// TRUE 면 기존에 추천한 게시글
 		boolean boardLike = moimBoardService.checkBoardLike(peopleId, boardId, getBoardGroupId(boardGroup));
@@ -523,15 +525,16 @@ public class MoimBoardController {
 	}
 	/**
 	 * 게시글 댓글수정
-	 * @param boardGroup
-	 * @param boardId
+	 * @param reply
 	 * @param session
 	 * @param model
 	 * @return
 	 */
 	@ResponseBody
-	@PostMapping("/moimDetailView/moimboard/{no}/{boradGroup/{boardId}/replies/{replyId}")
-	public HashMap<String, Object> modifyBoardReply( @RequestBody MoimBoardReply reply, HttpSession session, Model model){
+	@PutMapping("/moimboards/{boardGroup}/boards/{boardId}/replies/{replyId}")
+	public HashMap<String, Object> modifyBoardReply( @PathVariable("replyId") Long replyId,
+													 @RequestBody MoimBoardReply reply,
+													 HttpSession session, Model model){
 
 
 		HashMap<String, Object> returnData = new HashMap<>();
@@ -541,7 +544,7 @@ public class MoimBoardController {
 			returnData.put("message", "내용을 입력해주세요");
 			return returnData;
 		}
-
+		reply.setId(replyId);
 
 		try {
 			moimBoardService.moidfyBoardReply(reply);
