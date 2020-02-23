@@ -48,5 +48,10 @@ public class DayaryApplication {
     public String communityImagePath(){
         return communityImagePath;
     }
+
+    @Bean(name="moimImagePath")
+    public String moimImagePath(){
+        return  moimImagePath;
+    }
    
 }

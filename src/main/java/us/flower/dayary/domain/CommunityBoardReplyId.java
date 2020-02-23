@@ -11,7 +11,8 @@ import java.io.Serializable;
 
 @Data
 @Embeddable
-public class CommunityBoardReplyId implements Serializable {
+public class
+CommunityBoardReplyId implements Serializable {
 
     @Column(name="PEOPLE_ID")
     private long peopleId;

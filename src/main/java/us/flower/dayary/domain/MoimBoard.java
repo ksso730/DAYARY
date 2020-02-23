@@ -68,6 +68,12 @@ public class MoimBoard extends DateAudit {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
+    @Column(name="REPLY_COUNT")
+    private long replyCount;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "moimBoard", cascade = CascadeType.ALL)
+    private List<MoimBoardReply> moimBoardReplies;
+
     @Column(name = "DELETE_FLAG")
     private char deleteFlag;
 

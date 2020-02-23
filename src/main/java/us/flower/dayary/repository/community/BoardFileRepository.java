@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import us.flower.dayary.domain.UploadFile;
 
 
-public interface CommunityBoardFileRepository extends JpaRepository<UploadFile, Long> {
+public interface BoardFileRepository extends JpaRepository<UploadFile, Long> {
 
     UploadFile findOneByFileName(String fileName);
 

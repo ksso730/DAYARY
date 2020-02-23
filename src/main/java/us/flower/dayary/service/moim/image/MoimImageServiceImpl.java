@@ -1,4 +1,4 @@
-package us.flower.dayary.service.community.image;
+package us.flower.dayary.service.moim.image;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Service
-public class CommunityImageServiceImpl implements CommunityImageService {
+public class MoimImageServiceImpl implements MoimImageService {
 
     private final Path rootLocation;
 
-    public CommunityImageServiceImpl(String communityImagePath){
-        this.rootLocation = Paths.get(communityImagePath);
+    public MoimImageServiceImpl(String moimImagePath){
+        this.rootLocation = Paths.get(moimImagePath);
     }
 
     @Autowired
@@ -69,7 +69,6 @@ public class CommunityImageServiceImpl implements CommunityImageService {
             if(file.isEmpty()){
                 throw new Exception("Failed to store empty file " + file.getOriginalFilename());
             }
-
             String saveFileName = FileManager.fileSave(rootLocation.toString(), file);
 
             if(saveFileName.toCharArray()[0] == '/'){

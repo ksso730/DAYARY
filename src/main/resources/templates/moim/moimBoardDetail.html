@@ -45,7 +45,7 @@
             <div class="form-control" rows="20" name="content" id="content" style="background-color: whitesmoke;"
                  th:utext="${board.memo}"></div>
         </div>
-        <div>
+        <div class="mb-3">
             <button type="button" class="btn btn-sm btn-danger" id="moimBoard_modify_btn" style="display: none;">
                 수정
             </button>
@@ -56,22 +56,272 @@
                 취소
             </button>
             <a th:href="@{'/moimdetailView/moimboard/' + ${no} + '/' + ${boardGroup} + '?page=' + ${page}}">
-                <button type="button" class="btn btn-sm btn-primary" id="moimBoard_list_btn" style="display: none;">
+                <button type="button" class="btn btn-sm btn-primary" id="moimBoard_list_btn">
                     목록
                 </button>
             </a>
         </div>
+        <li style="margin: 50px 0px 50px 0px;" id="reply_content">
+            <div class="timeline-body">
+                <div class="timeline-content">
+                    <textarea class="form-control" id="borad_reply" rows="3" placeholder="댓글"></textarea>
+                </div>
+                <button class="btn btn-primary f-s-12 rounded-corner" id="board_reply_save_btn" onclick="saveReply(0)" type="button">
+                    저장
+                </button>
+            </div>
+            <div class="timeline-body" th:id="'body'+ ${reply.getParent().id}" th:each="reply:${replies}">
+                <div class="timeline-content" th:id="'content' + ${reply.getParent().id}">
+                    <textarea class="form-control" rows="3" readonly="true" placeholder="댓글" th:id="'reply' + ${reply.getParent().id}" th:inline="text">[[${reply.getParent().memo}]]</textarea>
+                    <button type='button' class="btn btn-warning f-s-12 rounded-corner" th:value="${reply.getParent().id}" onclick="addReply(this.value)">
+                        답변
+                    </button>
+                    <button type='button' class='btn btn-dark f-s-12 rounded-corner' th:id="'board_reply_modify_btn_' + ${reply.getParent().id}" th:value="${reply.getParent().id}" onclick='modifyReadyReply(this.value)' th:style="(${currentPeopleId} == ${reply.getParent().getPeople().id}) ? '' : 'display: none;'">
+                        수정
+                    </button>
+                    <button type="button" class="btn btn-dark f-s-12 rounded-corner" th:id="'board_reply_modify_save_btn_' + ${reply.getParent().id}" th:value="${reply.getParent().id}" onclick='modifyReply(this.value, 0)' style="display: none;">
+                        저장
+                    </button>
+                    <button type="button" class="btn btn-dark f-s-12 rounded-corner" th:id="'board_reply_modify_cancel_btn_' + ${reply.getParent().id}" onclick='modifyCancelReply(this.value)' style="display: none;">
+                        취소
+                    </button>
+                    <button type='button' class='btn btn-warning f-s-12 rounded-corner' id='board_reply_delete_btn' th:value="${reply.getParent().id}"  onclick='removeReply(this.value, 1)' th:style="(${currentPeopleId} == ${reply.getParent().getPeople().id}) ? '' : 'display: none;'">
+                        삭제
+                    </button>
+                </div>
+                <div class="timeline-content" th:id="'content' + ${child.id}" th:each="child: ${reply.getChildren()}">
+                    <textarea class="form-control" rows="3" readonly="true" placeholder="댓글" th:id="'reply' + ${child.id}" style="background-color: red;" th:inline="text">[[${child.memo}]]</textarea>
+                    <button type='button' class='btn btn-dark f-s-12 rounded-corner' th:value="${child.id}" th:id="'board_reply_modify_btn_' + ${child.id}" onclick='modifyReadyReply(this.value)' th:style="(${currentPeopleId} == ${child.getPeople().id}) ? '' : 'display: none;'">
+                        수정
+                    </button>
+                    <button type="button" class="btn btn-sm btn-warning" th:id="'board_reply_modify_save_btn_' + ${child.id}" th:value="${child.id}" onclick='modifyReply(this.value, 1)' style="display: none;">
+                        저장
+                    </button>
+                    <button type="button" class="btn btn-sm btn-warning" th:id="'board_reply_modify_cancel_btn_' + ${child.id}" th:value="${child.id}" onclick='modifyCancelReply(this.value)' style="display: none;">
+                        취소
+                    </button>
+                    <button type='button' class='btn btn-warning f-s-12 rounded-corner' th:id="'board_reply_delete_btn_' + ${child.id}" th:value="${child.id}" onclick='removeReply(this.value, 0)' th:style="(${currentPeopleId} == ${child.getPeople().id}) ? '' : 'display: none;'">
+                        삭제
+                    </button>
+                </div>
+            </div>
+        </li>
     </div>
 </article>
 <script>
 
+    // summernote 설정
     $('#content').summernote({
         height: 600,
         minHeight: null,
-        maxHeight: null
+        maxHeight: null,
+        callbacks: {
+            onImageUpload: function (files, editor, welEditable) {
+                for (let i = files.length - 1; i >= 0; i--) {
+                    sendFile(files[i], this);
+                }
+            }
+        }
     });
 
+    // summernote 초기 비활성화
     $("#content").summernote("disable");
+
+    // 파일 전송 함수
+    function sendFile(file, el) {
+        let form_data = new FormData();
+        form_data.append('file', file);
+        $.ajax({
+            data: form_data,
+            type: "POST",
+            url: '/moimdetailView/moimboard/image',
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (url) {
+                $(el).summernote('editor.insertImage', url);
+                $('#imageBoard > ul').append('<li><img src="' + url + '" width="480" height="auto"/></li>');
+            }
+        });
+    };
+
+    // 댓글 + 대댓글 저장
+    function saveReply(val) {
+        let moimBoardReply;
+        // 댓글
+        if (val == 0) {
+            // check title data input
+            if ($('#borad_reply').val() == '' || $('#borad_reply').val() == 'undefined' || $('#borad_reply').val() == null) {
+                alert('댓글 내용을 입력하세요');
+                $('#borad_reply').focus();
+                return;
+            }
+
+            moimBoardReply = {
+                "memo": $('#borad_reply').val()
+            };
+        } else {
+            // 대댓글
+            // check title data input
+            if ($('#tempReply').val() == '' || $('#tempReply').val() == 'undefined' || $('#tempReply').val() == null) {
+                alert('대댓글 내용을 입력하세요');
+                $('#tempReply').focus();
+                return;
+            }
+
+            moimBoardReply = {
+                "parent":
+                    {
+                        "id": val
+                    },
+                "memo": $('#tempReply').val()
+            };
+        }
+
+        $.ajax({
+            url: '/moimboards/[[${boardGroup}]]/boards/[[${boardId}]]/replies',
+            type: 'POST',
+            contentType: 'application/json; charset=UTF-8',
+            dataType: 'json',
+            data: JSON.stringify(moimBoardReply),
+            success: function (data) {
+                if (data.code == 1) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message)
+                }
+            },
+            error: function (xhr, error) {
+
+            }
+        });
+    };
+
+    // 대댓글 textarea 생성
+    let flag = 'true'; // 대댓글 작성 가능
+    function addReply(val) {
+        if (flag === 'true') {
+            let re = "<div class='timeline-content' id='tempContent' >";
+            re += "<textarea class='form-control' id='tempReply' rows='3' placeholder='댓글'></textarea>";
+            re += "<button class='btn btn-primary f-s-12 rounded-corner' value='" + val + "' id='board_reply_save_btn' onclick='saveReply(this.value)'  type='button'>저장</button>";
+            re += "</div>";
+
+            $('#body' + val).append(re);
+
+            // 작성중 대댓글 존재
+            flag = 'false';
+        } else {
+            if (confirm("이미 작성중인 대댓글이 있습니다. 삭제하시겠습니까?")) {
+                $('#tempContent').remove();
+                flag = 'true';
+                addReply(val);
+
+            } else {
+                return;
+            }
+        }
+
+    };
+
+    // 댓글, 대댓글 수정 시작
+    function modifyReadyReply(replyId) {
+        $('#reply' + replyId).attr('readonly', false);
+        $('#reply' + replyId).attr('style', null);
+        $('#board_reply_modify_btn_' + replyId).css('display', 'none');
+        $('#board_reply_modify_save_btn_' + replyId).css('display', 'inline-block');
+        $('#board_reply_modify_cancel_btn_' + replyId).css('display', 'inline-block');
+    };
+
+    // 댓글, 대댓글 수정 저장
+    function modifyReply(replyId, flag) {
+        let moimBoardReply;
+        if (flag == 0) {
+            if ($('#reply' + replyId).val() == '' || $('#reply' + replyId).val() == 'undefined' || $('#reply' + replyId).val() == null) {
+                alert('댓글 수정 내용을 입력하세요');
+                $('#reply' + replyId).focus();
+                return;
+            }
+
+            moimBoardReply = {
+                "memo": $('#reply' + replyId).val()
+            };
+        }
+        else {
+            if ($('#reply' + replyId).val() == '' || $('#reply' + replyId).val() == 'undefined' || $('#reply' + replyId).val() == null) {
+                alert('댓글 수정 내용을 입력하세요');
+                $('#reply' + replyId).focus();
+                return;
+            }
+
+            moimBoardReply = {
+                "memo": $('#reply' + replyId).val()
+            };
+        }
+
+
+        $.ajax({
+            url: '/moimboards/[[${boardGroup}]]/boards/[[${boardId}]]/replies/' + replyId,
+            type: 'PUT',
+            contentType: 'application/json; charset=UTF-8',
+            dataType: 'json',
+            data: JSON.stringify(moimBoardReply),
+            success: function (data) {
+                if (data.code == 1) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message)
+                }
+            },
+            error: function (xhr, error) {
+
+            }
+        });
+
+    };
+
+    // 댓글, 대댓글 수정 취소
+    function modifyCancelReply(replyId) {
+        location.reload();
+    };
+
+    // removeReply(댓글 ID, 대댓글여부)
+    function removeReply(replyId, rereplyFlag) {
+
+        // 댓글인경우 대댓글이 달렸는지 확인
+        if (rereplyFlag === 1) {
+            let parentId = $('#content' + replyId).parent().attr('id');
+            if ($('#' + parentId + ' > .timeline-content').length > 1) {
+                alert('답변이 달린 댓글은 삭제할 수 없습니다.');
+                return;
+            }
+        }
+
+        if (confirm('정말 삭제하시겠습니까?')) {
+
+            $.ajax({
+                url: '/moimboards/[[${boardGroup}]]/boards/[[${boardId}]]/replies/' + replyId,
+                type: 'DELETE',
+                contentType: 'application/json; charset=UTF-8',
+                dataType: 'json',
+                data: {},
+                success: function (data) {
+                    if (data.code == 1) {
+                        alert(data.message);
+                        // 화면에서 제거
+                        $('#content' + replyId).remove();
+                    } else {
+                        alert(data.message)
+                    }
+                },
+                error: function (xhr, error) {
+
+                }
+            });
+        }
+    };
 
     $(document).ready(function () {
         let baseTitle = $('#title').val();
@@ -93,8 +343,6 @@
             $('#like').css('color', 'black');
         }
 
-        $('#moimBoard_list_btn').css('display', 'inline-block');
-
         // 현재 작성자만 버튼 출력
         if (flag) {
             $('#moimBoard_modify_btn').css('display', 'inline-block');
@@ -112,7 +360,6 @@
 
             // 이미 추천된 게시글
             if (boardLike) {
-                // '/moimdetailView/moimBoard/' + ${no} + '/' + ${boardGroup}
                 // 추천 해제
                 $.ajax({
                     url: '/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]/unlike/' + boardId,
@@ -158,6 +405,7 @@
             }
         });
 
+        // 게시글 수정
         $('#moimBoard_modify_btn').off().on('click', function () {
             $('#title').attr('readonly', false);
             $("#content").summernote("enable");
@@ -167,6 +415,7 @@
             $('#moimBoard_modify_cancel_btn').css('display', 'inline-block');
         });
 
+        // 게시글 수정 취소
         $('#moimBoard_modify_cancel_btn').off().on('click', function () {
             if (confirm('정말 취소하시겠습니까?')) {
                 $('#title').attr('readonly', true);
@@ -188,7 +437,7 @@
             }
         });
 
-        // 수정
+        // 게시글 수정 확인
         $('#moimBoard_modify_save_btn').off().on('click', function () {
 
             // check title data input
@@ -231,11 +480,6 @@
 
                 }
             });
-        });
-
-        $('#moimBoard_list_btn').off().on('click', function () {
-
-
         });
 
         $('#moimBoard_remove_btn').off().on('click', function () {

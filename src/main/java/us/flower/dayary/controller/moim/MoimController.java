@@ -73,6 +73,7 @@ public class MoimController {
 //    	model.addAttribute("moimsearchList", moimService.findByTitle(name));
 //		return "moim/moimList";
 //	}
+
 	/**
 	 * 모임 삭제
 	 *
