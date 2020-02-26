@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import us.flower.dayary.config.SessionListener;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
@@ -67,7 +66,7 @@ public class HomeController {
 			}
 
 			if(count==0) {
-			count = 1;
+			count = 0;
 			}
 
 		//progress = Double.parseDouble(String.format("%.2f",progressbefore / count));

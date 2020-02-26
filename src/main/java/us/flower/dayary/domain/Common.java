@@ -38,11 +38,11 @@ public class Common{
 	@Column(name = "SORT")
 	private int sort;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "PAR_COMM_CODE",referencedColumnName = "COMM_CODE")
-	private Common parent;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
-	private List<Common> children;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "PAR_COMM_CODE",referencedColumnName = "COMM_CODE")
+//	private Common parent;
+//
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+//	private List<Common> children;
 	
 }

@@ -1,4 +1,5 @@
 spring:
+  mvc:    favicon:      enabled: false
   servlet:
     multipart:
       max-file-size : 50MB

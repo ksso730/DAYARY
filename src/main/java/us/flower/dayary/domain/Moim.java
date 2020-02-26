@@ -125,7 +125,7 @@ public class Moim extends DateAudit{
 	@JsonIgnore
 	private List<ToDoWrite> todowrite;
 
-	@OneToMany(orphanRemoval=true,mappedBy = "moim")
+	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "moim")
 	@JsonIgnore
 	private List<Meetup> meetup;
 	

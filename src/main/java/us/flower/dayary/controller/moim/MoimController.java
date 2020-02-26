@@ -333,7 +333,7 @@ public class MoimController {
 					count++;
 				}
 				if(count==0) {
-				count = 1;
+				count = 0;
 				}
 				
 					double progressPercent=0;
@@ -376,7 +376,7 @@ public class MoimController {
 					count++;
 				}
 				if(count==0) {
-				count = 1;
+				count = 0;
 				}
 				
 					double progressPercent=0;
@@ -420,7 +420,7 @@ public class MoimController {
 					count++;
 				}
 				if(count==0) {
-				count = 1;
+				count = 0;
 				}
 				
 					double progressPercent=0;
@@ -464,7 +464,7 @@ public class MoimController {
 					count++;
 				}
 				if(count==0) {
-				count = 1;
+				count = 0;
 				}
 				
 					double progressPercent=0;

@@ -44,7 +44,7 @@ public class ToDoWrite extends DateAudit{
 	@JsonIgnore
 	@JoinColumn(name="MOIM_ID")
 	private Moim moim;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "PEOPLE_ID")
 	private People people;
 	
@@ -72,9 +72,9 @@ public class ToDoWrite extends DateAudit{
 	
 	@Column(name="STATUS")
 	private String status;
-	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "toDoWrite")
-	@JsonIgnore
-	private List<ToDoWriteList> todowritelist;
+//	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "toDoWrite")
+//	@JsonIgnore
+//	private List<ToDoWriteList> todowritelist;
 
 	
 	@Transient

@@ -335,7 +335,7 @@ public class MoimTodoListController {
         pageable = PageRequest.of(page, 9,Sort.by("id").descending());
     	Page<ToDoWrite> toDolist=service.findByMoim_id(pageable,no);
     	boolean moim=service.existByMoim_idAndPeople_id(no,(long)session.getAttribute("peopleId"));
-    	model.addAttribute("moim",moimService.findMoimone(no).get());
+    	model.addAttribute("moim",moimService.findMoimone(no).get());//이쿼리문 수정해야함 모든 내부데이터 다들고옴 20200227 최성준
     	model.addAttribute("todolist", toDolist);
     	model.addAttribute("moimPeople",Boolean.toString(moim));
     	model.addAttribute("count",service.countByMoim_idAndStatus(no));
