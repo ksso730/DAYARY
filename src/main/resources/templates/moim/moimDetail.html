@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Fruit</title>
 <css th:replace="layout/header::headerCss" />
 <div th:replace="layout/header::header" />
 <link th:href="@{/css/moim/moimDetail.css}" rel="stylesheet" />
@@ -480,16 +480,17 @@ body {
 	                             </a>
                                 	 
                               <span th:if="${session.peopleId==moimDetail.people.id}">
-	                               <span th:if="${joinedmoimpeopleList.joinCondition}=='N'">
-											<button type="button" name="grantpeople_btn"  th:value="${joinedmoimpeopleList.people.id}"
-		                                       class="btn btn-icon btn-sm waves-effect waves-light btn-success">가입승인하기</button>
-		                            </span>
-                                    <button type="button"
-                                       class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
-                                    
-                                    <button type="button"  name="banpeople_btn"  th:value="${joinedmoimpeopleList.people.id}"
-                                       class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
-                                 </span>
+                              	
+		                               <span th:if="${joinedmoimpeopleList.joinCondition}=='N'">
+												<button type="button" name="grantpeople_btn"  th:value="${joinedmoimpeopleList.people.id}"
+			                                       class="btn btn-icon btn-sm waves-effect waves-light btn-success">가입승인하기</button>
+			                            </span>
+	                                    <button type="button"
+	                                       class="btn btn-icon btn-sm waves-effect waves-light btn-success">운영진주기</button>
+	                                    
+	                                    <button type="button"  name="banpeople_btn"  th:value="${joinedmoimpeopleList.people.id}"
+	                                       class="btn btn-icon btn-sm waves-effect waves-light btn-danger">강퇴하기</button>
+                              </span>
                               </p>
                            
                               <p class="inbox-item-date">

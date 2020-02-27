@@ -41,6 +41,10 @@ public interface MoimPeopleRepository extends JpaRepository<MoimPeople, Long>{
 	List<String> findmadeMoimName(@Param("people") People people);
 	@Query("SELECT id from Moim WHERE people=(:people)")
 	List<String> findmadeMoimNo(@Param("people") People people);
+
+	List<MoimPeople> findByMoim_idAndMaker(long no, char c);
+
+	List<MoimPeople> findByMoim_idAndPeople_idAndMaker(long no, long peopleId, char c);
   
 
 }

@@ -27,7 +27,7 @@ public interface moimService {
 
 	byte[] getMoimImage(String imageName) throws Exception;//모임이미지들고오기
 
-	MoimPeople moimParticipant(long peopleNo, long moimNo, char joinCondition);//회원 모임참가하기
+	MoimPeople moimParticipant(long peopleNo, long moimNo, char joinCondition, char maker);//회원 모임참가하기
 
 	void deleteMoimOne(long moimNo);
 

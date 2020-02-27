@@ -112,8 +112,6 @@ $('#moimMake_btn').off().on('click', function () {
     //console.log(goon.options[goon.selectedIndex].value);
     //console.log(si.options[si.selectedIndex].text);
     //console.log(goon.options[goon.selectedIndex].text);
-    console.log(status.options[status.selectedIndex].text);
-    console.log(secretmode.options[secretmode.selectedIndex].text);
     let moim = {};
     moim.title = $('#title').val();
     moim.peopleLimit = $('#peopleLimit').val();
@@ -125,7 +123,7 @@ $('#moimMake_btn').off().on('click', function () {
     moim.joinCondition = $(":input:radio[name=chk_info]:checked").val();
     // [hyozkim] 모임 상태(모집중,모집완료), 비공개 설정 추가
     moim.recruitStatus = status.options[status.selectedIndex].text;
-    moim.secretCondition = (secretmode.options[secretmode.selectedIndex].text === '공개') ? 'N' : 'Y';
+   // moim.secretCondition = (secretmode.options[secretmode.selectedIndex].text === '공개') ? 'N' : 'Y';
     
     let category = {};
     category.commName = cate.options[cate.selectedIndex].text;
@@ -150,7 +148,7 @@ $('#moimMake_btn').off().on('click', function () {
         success:function(data){
             if(data.code==1){
                 alert(data.message);
-                location.href='/moimlistView';
+                location.href='/moimlistView/11';
             }else{
                 alert(data.message);
             }

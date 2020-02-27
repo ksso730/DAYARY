@@ -397,10 +397,8 @@ google.charts.load('current', {'packages':['timeline']});
 //  chart.draw(dataTable);
 //}
 function drawChartTimeLine(result){
-	console.log('dfgsdfdsf')
 	
 	var chartData=result.timeLinelist;
-	console.log(chartData);
 	
 	 var container = document.getElementById('timeline');
 	  var chart = new google.visualization.Timeline(container);
