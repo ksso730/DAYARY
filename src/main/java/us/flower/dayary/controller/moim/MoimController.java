@@ -162,13 +162,7 @@ public class MoimController {
 			returnData.put("code", "0");
 			returnData.put("message", "활동 지역을 선택해주세요");
 			return returnData;
-		}
-		// [hyozkim] 추가
-		else if(moim.getSecretCondition() == null || moim.getSecretCondition().equals("") ) {
-			returnData.put("code", "0");
-			returnData.put("message", "비공개 설정을 선택해주세요");
-			return returnData;
-		} else if(moim.getRecruitStatus() == null || moim.getRecruitStatus().equals("") ) {
+		}else if(moim.getRecruitStatus() == null || moim.getRecruitStatus().equals("") ) {
 			returnData.put("code", "0");
 			returnData.put("message", "모임 상태를 선택해주세요");
 			return returnData;
@@ -234,17 +228,17 @@ public class MoimController {
 
 		String moimPeopleNo = moimService.findMoimPeopleNoOne(peopleId, no);// 참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에
 																			// 넣어준다)
-		List<MoimPeople> joinedpeoplelist = moimpeopleRepository.findByMoim_idAndPeople_id(no, peopleId);// 현재 접속한 유저
+		List<MoimPeople> joinedpeoplelist = moimpeopleRepository.findByMoim_idAndPeople_idAndMaker(no, peopleId,'N');// 현재 접속한 유저
 																											// 리스트를 들고옴
 
-		List<MoimPeople> joinedmoimpeopleList = moimpeopleRepository.findByMoim_id(no);// 이건 모임내 전체사람조회
+		List<MoimPeople> joinedmoimpeopleList = moimpeopleRepository.findByMoim_idAndMaker(no,'N');// 이건 모임내 전체사람조회,모임장제외해서 들고옴
 		for (int i = 0; i < joinedpeoplelist.size(); i++) {
 			long joinedpeople = joinedpeoplelist.get(i).getId();
 			model.addAttribute("joinedpeople", joinedpeople);
 		}
 		Optional<Moim> moimOne = moimRepository.findById(no);
 		//List<People> moimpeopleList = moimOne.get().getPeopleList();
-		List<MoimPeople> moimpeopleList =moimpeopleRepository.findByMoim_id(no);
+		List<MoimPeople> moimpeopleList = moimpeopleRepository.findByMoim_idAndMaker(no,'N');
 		sort = sort.and(new Sort(Sort.Direction.DESC, "id"));
 		List<Meetup> meetupList = moimmeetupRepository.findByMoim_id(no, pageable);// 오프라인 모임 내림차순정렬로 가져옴
 

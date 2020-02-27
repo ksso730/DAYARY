@@ -107,8 +107,8 @@ public class Moim extends DateAudit{
 
     // [2020.01.14][hyojin] Column 추가
     // 비공개/공개 컬럼
-    @Column(name="SECRET_CONDITION",nullable=false,columnDefinition = "VARCHAR(1) default 'N'")
-    private String secretCondition;
+//    @Column(name="SECRET_CONDITION",nullable=false,columnDefinition = "VARCHAR(1) default 'N'")
+//    private String secretCondition;
 
     // 모집상태
     @Column(name="RECRUIT_STATUS",nullable=false, columnDefinition = "VARCHAR(10)")
