@@ -1,6 +1,7 @@
 package us.flower.dayary.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -86,7 +87,9 @@ public class People extends DateAudit{
 	
 	@Column(name="ACTIVATION")
 	private String activation;
-	
+	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "people")
+	@JsonIgnore
+	private List<MoimPeople> moimpeople;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "USER_ROLES", 
             joinColumns = @JoinColumn(name = "PEOPLE_ID"),

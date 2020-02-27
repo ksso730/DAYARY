@@ -116,11 +116,13 @@ public class Moim extends DateAudit{
 
 
     // 모임 참여자
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "MOIM_PEOPLE",
-               joinColumns = @JoinColumn(name = "MOIM_ID"),
-               inverseJoinColumns = @JoinColumn(name = "PEOPLE_ID"))
-    private List<People> peopleList;
+//	@ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "MOIM_PEOPLE",
+//               joinColumns = @JoinColumn(name = "MOIM_ID"),
+//               inverseJoinColumns = @JoinColumn(name = "PEOPLE_ID"))
+//    private List<People> peopleList;
+    @OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "moim")
+	private List<MoimPeople> moimpeople;
 	@OneToMany(fetch = FetchType.LAZY,orphanRemoval=true,mappedBy = "moim")
 	@JsonIgnore
 	private List<ToDoWrite> todowrite;
