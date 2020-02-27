@@ -39,7 +39,8 @@ public class RestMoimPeopleController {
 			char joinCondition='Y';//참가자 승인후 Y
 		 
 			try {	
-					moimService.moimParticipant(PeopleNo,moimNo,joinCondition);
+					char maker='N';//만든사람여부
+					moimService.moimParticipant(PeopleNo,moimNo,joinCondition,maker);
 					String moimPeopleNo = moimService.findMoimPeopleNoOne(PeopleNo, moimNo);// 참여자단건 조회(모임피플넘버를 단건으로 가져와서 moimPeople_no에
 					returnData.put("code","1");  
 					returnData.put("message","모임가입완료:)");

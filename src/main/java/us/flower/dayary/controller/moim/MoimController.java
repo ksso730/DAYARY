@@ -178,9 +178,9 @@ public class MoimController {
 			moimService.saveMoim(id, subject, moim, file);
 			
 			long MoimId = moimService.selectMaxMoimId();
-			
+			char maker='Y';//만든사람여부
 			//모임참가자 서비스를 들고와서 재사용한다(모임참가자테이블에도넣기위함 알림을 모임참가자테이블로 보내기에 모임장도 넣어야한다 ) by choiseongjun 20191221
-			moimService.moimParticipant(peopleId,MoimId,joinCondition);
+			moimService.moimParticipant(peopleId,MoimId,joinCondition,maker);
 			returnData.put("code", "1");
 			returnData.put("message", "저장되었습니다");
 

@@ -21,12 +21,14 @@ import org.springframework.web.socket.WebSocketSession;
 import us.flower.dayary.controller.people.SessionNames;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimChat;
+import us.flower.dayary.domain.MoimPeople;
 import us.flower.dayary.domain.Noti;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.DTO.Message;
 import us.flower.dayary.domain.DTO.MoimJoinDTO;
 import us.flower.dayary.repository.NotifyRepository;
 import us.flower.dayary.repository.chat.MoimChatRepository;
+import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.service.moim.moimService;
 
@@ -41,6 +43,8 @@ public class MoimChatController {
 	MoimChatRepository moimchatRepository;
 	@Autowired
 	private SimpMessageSendingOperations messagingTemplate;
+	@Autowired
+	MoimPeopleRepository moimpeopleRepository;
 	
 	@Autowired 
 	NotifyRepository notifyRepository;
@@ -144,8 +148,8 @@ public class MoimChatController {
     	long peopleId = (long) session.getAttribute("peopleId");//일반회원 번호를 던져준다
     	String email = (String) session.getAttribute("peopleEmail");
     	Optional<Moim> moimOne=moimRepository.findById(no);
-        List<People> moimpeopleList=moimOne.get().getPeopleList();
-        
+        //List<People> moimpeopleList=moimOne.get().getPeopleList();
+        List<MoimPeople> moimpeopleList = moimpeopleRepository.findByMoim_id(no);// 이건 모임내 전체사람조회
         moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));//모임장중심으로 데이터 불러옴
         List<MoimChat> moimchatList=moimchatRepository.findByMoim_id(no);//특정모임의 채팅리스트를 들고온다( ex)모임1번의 채팅리스트)
        

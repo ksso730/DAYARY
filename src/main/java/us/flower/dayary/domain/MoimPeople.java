@@ -50,6 +50,9 @@ public class MoimPeople extends DateAudit{
 	 
 	@Column(name="JOINROLE")
 	private String joinrole;
+	// Y은 만든사람 N은 참여자
+	@Column(name="MAKER" ,nullable=false, columnDefinition = "char(1) default 'N'")
+	private char maker;
 
 	//참가자 Y은 승인된 사람 N은 비승인자
 	@Column(name="JOIN_CONDITION" ,nullable=false, columnDefinition = "char(1) default 'Y'")

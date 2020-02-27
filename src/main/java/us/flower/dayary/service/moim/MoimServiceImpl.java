@@ -113,7 +113,9 @@ public class MoimServiceImpl implements moimService{
         return fileManager.getByteArray(moimImagePath+"/"+imageName);
     }
 
-	public MoimPeople moimParticipant(long peopleId, long moimId,char joinCondition) {
+	public MoimPeople moimParticipant(long peopleId, long moimId,char joinCondition,char maker) {
+		
+		
 		Moim moim=new Moim();
 		moim.setId(moimId);
 		
@@ -125,6 +127,12 @@ public class MoimServiceImpl implements moimService{
 		moimPeople.setPeople(people);
 		moimPeople.setJoinrole("study"); 
 		moimPeople.setJoinCondition(joinCondition);
+		if(maker=='Y') {
+			moimPeople.setMaker(maker);//Y가 넘어온경우 모임장인거와 일반유저 구분하기위함
+		}else {
+			moimPeople.setMaker(maker);//Y가 넘어온경우 모임장인거와 일반유저 구분하기위함
+		}
+		
 		return moimpeopleRepository.save(moimPeople);
 	}
 
