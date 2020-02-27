@@ -284,10 +284,9 @@
 <script>
 $(document).ready(function(){
 	//시간 받아와서 지나면 suspend로 업데이트
-	$.ajax({
- 	     url:'/moimDetail/moimTodoList/status/'+$('#moimNo').attr("data-moimNo"),
- 	  
- 	   });
+/* //	$.ajax({
+// 	     url:'/moimDetail/moimTodoList/status/'+$('#moimNo').attr("data-moimNo"),
+// 	   }); */
 
 	 document.getElementById("detail").style.display="none";
  	if($('#moimPeople').attr("data-No")=='false'){

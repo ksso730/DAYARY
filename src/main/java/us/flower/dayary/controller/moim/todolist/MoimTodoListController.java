@@ -313,14 +313,14 @@ public class MoimTodoListController {
      * @throws 
      * @author choiseongjun
      */
-    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/{no}")
-    public String moimtodostatus(@PathVariable("no") long no,Model model) {
-    	
-    	model.addAttribute("no",no);
-    	model.addAttribute("list", service.findByMoim_id(no));
-    	
-    	return "moim/moimTodostatus";
-    }
+//    @GetMapping("/moimDetail/moimTodoList/moimtodostatus/{no}")
+//    public String moimtodostatus(@PathVariable("no") long no,Model model) {
+//    	
+//    	model.addAttribute("no",no);
+//    	model.addAttribute("list", service.findByMoim_id(no));
+//    	
+//    	return "moim/moimTodostatus";
+//    }
 	   /**
      * 모임 해야할일(ToDoList) 목록 조회
      *
@@ -401,11 +401,11 @@ public class MoimTodoListController {
     * @throws 
     * @author JY
     */
-   @ResponseBody
-   @GetMapping("/moimDetail/moimTodoList/status/{no}")
-   public void status(@PathVariable("no")long no) {
-   	Date date=new java.sql.Date(System.currentTimeMillis());
-	 service.updateById(no, date);
-   }
+//   @ResponseBody
+//   @GetMapping("/moimDetail/moimTodoList/status/{no}")
+//   public void status(@PathVariable("no")long no) {
+//   	Date date=new java.sql.Date(System.currentTimeMillis());
+//	 service.updateById(no, date);
+//   }
 
 }

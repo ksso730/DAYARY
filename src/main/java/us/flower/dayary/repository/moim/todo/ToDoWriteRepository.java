@@ -12,7 +12,7 @@ import us.flower.dayary.domain.ToDoWrite;
 
 public interface ToDoWriteRepository extends JpaRepository<ToDoWrite, Long> {
 	//해당모임에 todo가져오기
-	List<ToDoWrite> findByMoim_id(long id);
+	//List<ToDoWrite> findByMoim_id(long id);
 	Page<ToDoWrite> findByMoim_id(Pageable page,long id);
 	Page<ToDoWrite> findByMoim_idAndPeople_id(Pageable page,long id,long people);
 	int countByMoim_id(long id);
@@ -21,4 +21,6 @@ public interface ToDoWriteRepository extends JpaRepository<ToDoWrite, Long> {
 	List<ToDoWrite> findByMoim_idAndPeople_name(long id, String name,Sort sort);
 	List<ToDoWrite> findByMoim_idAndPeople_nameAndStatus(long id, String name,String status,Sort sort);
 	int countBymoim_idAndStatus(long id,String status);
+	//List<ToDoWrite> findByMoim_id(long id);
+	List<ToDoWrite> findByMoim_id(long id);
 }

@@ -83,6 +83,7 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
    @Override
    public Page<ToDoWrite> findByMoim_id(Pageable pageable, long id) {
       // TODO Auto-generated method stub
+	  
       Page<ToDoWrite> todo=toDowriteRepository.findByMoim_id(pageable,id);
        
       
@@ -95,11 +96,11 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
       //todo아이디 기준으로 리스트불러온다
       return toDowriteListRepository.findByToDoWrite_id(id);
     }
-   @Override
-   public List<ToDoWrite> findByMoim_id(long id) {
-      // TODO Auto-generated method stub
-      return toDowriteRepository.findByMoim_id(id);
-   }
+//   @Override
+//   public List<ToDoWrite> findByMoim_id(long id) {
+//      // TODO Auto-generated method stub
+//      return toDowriteRepository.findByMoim_id(id);
+//   }
    @Override
    public ToDoWrite findById(long id) {
       // TODO Auto-generated method stub
@@ -150,20 +151,19 @@ public class ToDoWriteServiceimpl implements ToDoWriteService {
          return moimPeopleRepository.existsByMoim_idAndPeople_id(id, peopleId);
    
    }
-   @Override
-   public void updateById(long id, Date date) {
-      // TODO Auto-generated method stub
-      List<ToDoWrite> list=toDowriteRepository.findByMoim_id(id);
-      //현재시간이 todo시작 날짜보다 지나고 100% 완료되지 않은경우 미완료로 상태변경
-      System.out.print("status update");
-      for(int i=0;i< list.size();i++) {
-         ToDoWrite todo=list.get(i);
-         if(date.compareTo(todo.getTo_date())>0&&todo.getProgress()!=100) {
-            todo.setStatus("Suspend");
-         }
-         toDowriteRepository.save(todo);
-      }
-   }
+//   @Override
+//   public void updateById(long id, Date date) {
+//      // TODO Auto-generated method stub
+//      List<ToDoWrite> list=toDowriteRepository.findByMoim_id(id);
+//      //현재시간이 todo시작 날짜보다 지나고 100% 완료되지 않은경우 미완료로 상태변경
+//      for(int i=0;i< list.size();i++) {
+//         ToDoWrite todo=list.get(i);
+//         if(date.compareTo(todo.getTo_date())>0&&todo.getProgress()!=100) {
+//            todo.setStatus("Suspend");
+//         }
+//         toDowriteRepository.save(todo);
+//      }
+//   }
    @Override
    @Transactional
    public void deleteById(long id) {
@@ -248,41 +248,53 @@ public void writeBoard(MultipartFile[] file,MoimBoard board,long no,String id) {
 		}
 	}
 	
-@Override
-public void changeToDate(ToDoWrite todo) {
-	// TODO Auto-generated method stub
-	System.out.print(todo);
-	Date changeDate=todo.getTo_date2();
-	todo=toDowriteRepository.findById(todo.getId());
-	todo.setTo_date2(changeDate);
-	toDowriteRepository.save(todo);
-}
-@Override
-public List<MoimBoardFile> findByToDoWriteList_id(long id) {
-	// TODO Auto-generated method stub
-	
-		List<MoimBoard> list=moimboard.findByToDoWriteList_id(id);
-		List<MoimBoardFile> returnData=new ArrayList<MoimBoardFile>();
-		for(int i=0;i<list.size();i++) {
-//			MoimBoardFile e=new MoimBoardFile();
-//			e=mbRepository.findByMoimBoard_id(list.get(i).getId());
-//			e.setMoimBoard(list.get(i));
-//			returnData.add(e);
-		}
-	return returnData;
-}
-@Override
-public Page<ToDoWrite> findByMoim_idAndPeople_id(Pageable page, long id, long people) {
-	// TODO Auto-generated method stub
-	return toDowriteRepository.findByMoim_idAndPeople_id(page, id, people);
-}
-@Override
-public List<ToDoWrite> findByMoim_idAndPeople_nameAndStatus(long id, String name,String status) {
-	// TODO Auto-generated method stub
-	if(status!="")
-		return toDowriteRepository.findByMoim_idAndPeople_nameAndStatus(id, name,status,Sort.by("id").descending());
-	else
-		return toDowriteRepository.findByMoim_idAndPeople_name(id, name,Sort.by("id").descending());
-				
-}
+	@Override
+	public void changeToDate(ToDoWrite todo) {
+		// TODO Auto-generated method stub
+		System.out.print(todo);
+		Date changeDate=todo.getTo_date2();
+		todo=toDowriteRepository.findById(todo.getId());
+		todo.setTo_date2(changeDate);
+		toDowriteRepository.save(todo);
+	}
+	@Override
+	public List<MoimBoardFile> findByToDoWriteList_id(long id) {
+		// TODO Auto-generated method stub
+		
+			List<MoimBoard> list=moimboard.findByToDoWriteList_id(id);
+			List<MoimBoardFile> returnData=new ArrayList<MoimBoardFile>();
+			for(int i=0;i<list.size();i++) {
+	//			MoimBoardFile e=new MoimBoardFile();
+	//			e=mbRepository.findByMoimBoard_id(list.get(i).getId());
+	//			e.setMoimBoard(list.get(i));
+	//			returnData.add(e);
+			}
+		return returnData;
+	}
+	@Override
+	public Page<ToDoWrite> findByMoim_idAndPeople_id(Pageable page, long id, long people) {
+		// TODO Auto-generated method stub
+		return toDowriteRepository.findByMoim_idAndPeople_id(page, id, people);
+	}
+	@Override
+	public List<ToDoWrite> findByMoim_idAndPeople_nameAndStatus(long id, String name,String status) {
+		// TODO Auto-generated method stub
+		if(status!="")
+			return toDowriteRepository.findByMoim_idAndPeople_nameAndStatus(id, name,status,Sort.by("id").descending());
+		else
+			return toDowriteRepository.findByMoim_idAndPeople_name(id, name,Sort.by("id").descending());
+					
+	}
+	@Override
+	public void updateById(java.util.Date date) {
+		 List<ToDoWrite> list=toDowriteRepository.findAll();
+	      //현재시간이 todo시작 날짜보다 지나고 100% 완료되지 않은경우 미완료로 상태변경
+	      for(int i=0;i< list.size();i++) {
+	         ToDoWrite todo=list.get(i);
+	         if(date.compareTo(todo.getTo_date())>0&&todo.getProgress()!=100) {
+	            todo.setStatus("Suspend");
+	         }
+	         toDowriteRepository.save(todo);
+	      }
+	}
 }

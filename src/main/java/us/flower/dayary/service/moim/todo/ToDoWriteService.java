@@ -23,12 +23,12 @@ public interface ToDoWriteService {
 	public void saveList(ToDoWriteList toDoWriteList,String id,long no);
 	public Page<ToDoWrite> findByMoim_id(Pageable page,long id); 
 	public Page<ToDoWrite> findByMoim_idAndPeople_id(Pageable page,long id,long people); 
-	public List<ToDoWrite> findByMoim_id(long id); 
+	//public List<ToDoWrite> findByMoim_id(long id); 
 	public List<ToDoWriteList> findByToDoWrite_id(long id);
 	public ToDoWrite findById(long id);
 	public void updateList(String list,long no,int count);
 	public boolean existByMoim_idAndPeople_id(long id,long peopleId);
-	public void updateById(long id,Date date);
+	//public void updateById(long id,Date date);
 	public void deleteById(long id);
 	 public Page<ToDoWrite> findByMoim_idAndStatus(long id, String status, Pageable pageable);
 	 public List<ToDoWrite> findByMoim_idAndPeople_nameAndStatus(long id, String name,String status);
@@ -36,4 +36,5 @@ public interface ToDoWriteService {
 	 public void writeBoard(MultipartFile[] file,MoimBoard board,long no,String id);
 	 public void changeToDate(ToDoWrite todo);
 	 public List<MoimBoardFile> findByToDoWriteList_id(long id);
+	public void updateById(java.util.Date date);
 	 }
