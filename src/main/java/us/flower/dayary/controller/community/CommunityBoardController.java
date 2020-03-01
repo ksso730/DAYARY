@@ -1,6 +1,15 @@
 package us.flower.dayary.controller.community;
 
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -11,29 +20,33 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import us.flower.dayary.common.MediaUtils;
 import us.flower.dayary.domain.CommunityBoard;
 import us.flower.dayary.domain.CommunityBoardReply;
-import us.flower.dayary.domain.DTO.BoardListDTO;
 import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.UploadFile;
+import us.flower.dayary.domain.DTO.BoardListDTO;
 import us.flower.dayary.repository.community.BoardLikeRepository;
 import us.flower.dayary.repository.community.CommunityBoardRepository;
 import us.flower.dayary.repository.people.PeopleRepository;
+import us.flower.dayary.security.CurrentUser;
 import us.flower.dayary.service.community.CommunityBoardService;
 import us.flower.dayary.service.community.image.CommunityImageService;
-
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 
 
@@ -136,6 +149,14 @@ public class CommunityBoardController {
 	@GetMapping("/community/timeLine")
 	public String getTimeLineList(Model model) {
 
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
+
+
+
+		System.out.println(auth);
+		System.out.println("@#$#@$@#$@#@#");
 		// service
 		List<CommunityBoard> timeLineList = communityBoardService.getCommunityBoardList(1L);
 	

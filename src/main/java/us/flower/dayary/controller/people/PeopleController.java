@@ -25,6 +25,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,6 +76,9 @@ public class PeopleController {
 	@Autowired
     private TokenGenerator tokenGenerator;
 	@Autowired
+	JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
 	private FileManager fileManager;
 	@Value("${moimImagePath}")
 	private String moimImagePath;
@@ -103,8 +108,10 @@ public class PeopleController {
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
 		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    
-		
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		 String token = jwtTokenProvider.generateToken(authentication);
+		 System.out.println("Token#$@#$@#$@#$@#");
+		 System.out.println(token);
         try {
 			if (peopleRepository.existsByEmail(loginRequest.getEmail())) {
 				People dbPeople = peopleRepository.findByEmail(loginRequest.getEmail());

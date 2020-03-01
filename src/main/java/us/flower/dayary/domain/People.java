@@ -1,10 +1,7 @@
 package us.flower.dayary.domain;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,6 +28,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 import us.flower.dayary.domain.common.DateAudit;
 import us.flower.dayary.oauth2.SocialType;
 
@@ -129,5 +129,6 @@ public class People extends DateAudit{
     	this.photo=photo;
     	this.activation=activation;
     }
+
 	
 }

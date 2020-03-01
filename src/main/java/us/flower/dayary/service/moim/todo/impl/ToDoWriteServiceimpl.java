@@ -297,4 +297,36 @@ public void writeBoard(MultipartFile[] file,MoimBoard board,long no,String id) {
 	         toDowriteRepository.save(todo);
 	      }
 	}
+	@Override
+	public void saveListTodoRest(ToDoWriteList list, long peopleNo, long no) {
+		// TODO Auto-generated method stub
+        list.getToDoWrite().setCreate_date(new java.sql.Date(System.currentTimeMillis()));
+        list.getToDoWrite().setStatus("New");
+        //생성자 설정
+        People people =new People();
+        people.setId(peopleNo);
+        list.getToDoWrite().setPeople(people);;
+        //모임 설정
+        Optional<Moim> moimOne=moimRepository.findById(no);
+        list.getToDoWrite().setMoim(moimOne.get());
+        String[] todo=list.getPlan_list().split(",");
+       // String count="0/"+todo.length;
+       //		 list.getToDoWrite().setCount(count);
+        list.getToDoWrite().setProgress_done(0);
+        list.getToDoWrite().setProgress_total(todo.length);
+        //todowrite 저장하고 객체 반환
+        ToDoWrite t =toDowriteRepository.save(list.getToDoWrite());
+        //todo계획에 있는 목록들인 list를 하나씩 목록에 빼서 넣어주기
+       for(String i: todo) {
+          //각각 저장을 위해 객체 생성
+          ToDoWriteList todolist=new ToDoWriteList(); 
+          todolist.setToDoWrite(t);
+          todolist.setPlan_list(i);
+          todolist.setPeople(people);
+          todolist.setMoim(moimOne.get());
+          todolist.setCheckConfirm('N');
+          todolist.setDetail('N');
+          toDowriteListRepository.save(todolist);
+       }
+	}
 }

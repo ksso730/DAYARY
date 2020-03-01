@@ -36,5 +36,6 @@ public interface ToDoWriteService {
 	 public void writeBoard(MultipartFile[] file,MoimBoard board,long no,String id);
 	 public void changeToDate(ToDoWrite todo);
 	 public List<MoimBoardFile> findByToDoWriteList_id(long id);
-	public void updateById(java.util.Date date);
+	 public void updateById(java.util.Date date);
+	 public void saveListTodoRest(ToDoWriteList todo, long peopleNo, long no);//Rest풀(리액트네이티브) 일정작성
 	 }

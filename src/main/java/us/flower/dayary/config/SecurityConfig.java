@@ -119,10 +119,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .oauth2Login()
                         .defaultSuccessUrl("/loginSuccess")
                         .failureUrl("/loginFailure")    
-                    .and()
-                    .formLogin()
-                       .loginPage("/signinView")
-                       .permitAll()
+                   
                      .and()
                      
                      	.logout().logoutUrl("/logout")
