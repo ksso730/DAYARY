@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,10 +95,7 @@ public class HomeController {
     public String accessDenied() {
         return "/error/access-denied";
     }
-	@GetMapping("/loginSuccess")
-	public String loginSuccess(People people,HttpSession session) {
-		return "main";
-	}
+	
 	
 
 }

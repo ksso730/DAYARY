@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"    
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head>
         <meta charset="UTF-8">
         <title>Fruit</title>
@@ -61,13 +61,13 @@
                                         <a href="/">Home</a>
                                     </li>
                                     <li>
-                                        <a href="/moimlistView/11">스터디모임</a>
+                                        <a href="/moimlistView/11">크루 찾기</a>
                                     </li>
                                     <li>
                                         <a href="/community/timeLine">커뮤니티</a>
                                     </li>
                                    	<li th:if="${session.peopleEmail!=null}">
-                                        <a href="/moimMakeView">모임 만들기</a>
+                                        <a href="/moimMakeView">크루 만들기</a>
                                     </li>
                                     <li th:if="${session.peopleEmail==null}">
                                         <a href="/signupView">회원가입</a>
@@ -76,12 +76,16 @@
                                         <a href="/signinView">로그인
                                         </a>
                                     </li>
-                                  	 <li th:if="${session.peopleEmail!=null}">
+                                  	 <li sec:authorize="hasRole('USER')">
                                         <a href="/logout">로그아웃</a>
                                     </li>
+                                 
                                     <li th:if="${session.peopleEmail!=null}">
                                         <a href="/myprofileView">내정보보기 </a>
                                     </li>
+                                   <div sec:authorize="hasRole('ROLE_ADMIN')">
+  This content is only shown to administrators.
+</div>
                                     <li th:if="${session.peopleEmail!=null}">
                                         <div class="notification notishow">
                                             <span>Inbox</span>

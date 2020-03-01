@@ -16,6 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +36,6 @@ import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
-import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.repository.chat.MoimChatRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
@@ -132,6 +134,7 @@ public class MoimController {
 	 * @return
 	 * @throws @author yuna
 	 */
+	
 	@ResponseBody
 	@PostMapping("/moimMake")
 	public Map<String, Object> moimMake(@RequestPart("moim") Moim moim,
@@ -636,6 +639,11 @@ public class MoimController {
 	 */
 	@GetMapping("/moimMakeView")
 	public String moimMakeView() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
+		System.out.println(auth);
+		System.out.println("@#$#@$@#$@#@#");
 		return "moim/moimMake";
 	}
 
