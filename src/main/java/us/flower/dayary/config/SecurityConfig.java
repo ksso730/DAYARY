@@ -101,7 +101,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.clearAuthentication(true)
 		.and()
 		.exceptionHandling()
-        .accessDeniedHandler(accessDeniedHandler)
+		.accessDeniedPage("/access-denied"); // 권한이 없을경우 해당 url로 이동
+
 	;
 
 		// Add our custom JWT security filter
