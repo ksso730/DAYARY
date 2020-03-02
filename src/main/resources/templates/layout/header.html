@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="col-4 site-logo">
-                            <a href="/" class="text-black h2 mb-0">StudyFind<span th:if="${csj}"></span></a>
+                            <a href="/" class="text-black h2 mb-0"><img src="/Fruit.png" width="100px" height="80px"/></a>
                         </div>
 
                         <div class="col-8 text-right">
@@ -66,27 +66,27 @@
                                     <li>
                                         <a href="/community/timeLine">커뮤니티</a>
                                     </li>
-                                   	<li th:if="${session.peopleEmail!=null}">
+                                   	<li sec:authorize="hasAuthority('ROLE_USER')">
                                         <a href="/moimMakeView">크루 만들기</a>
                                     </li>
-                                    <li th:if="${session.peopleEmail==null}">
+                                    <li sec:authorize="isAnonymous()">
                                         <a href="/signupView">회원가입</a>
                                     </li>
-                                  	<li th:if="${session.peopleEmail==null}">
+                                  	<li sec:authorize="isAnonymous()">
                                         <a href="/signinView">로그인
                                         </a>
                                     </li>
-                                  	 <li sec:authorize="hasRole('USER')">
+                                  	 <li sec:authorize="hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')">
                                         <a href="/logout">로그아웃</a>
                                     </li>
                                  
-                                    <li th:if="${session.peopleEmail!=null}">
+                                    <li sec:authorize="hasAuthority('ROLE_USER')">
                                         <a href="/myprofileView">내정보보기 
-                                         <div sec:authorize="hasAuthority('ROLE_USER')">- only admin!!!!</div></a>
+                                      </a>
                                     </li>
                              
 
-                                    <li th:if="${session.peopleEmail!=null}">
+                                    <li sec:authorize="hasAuthority('ROLE_USER')">
                                         <div class="notification notishow">
                                             <span>Inbox</span>
                                             <span class="badge">3</span>

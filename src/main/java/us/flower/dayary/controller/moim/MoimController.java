@@ -36,6 +36,7 @@ import us.flower.dayary.domain.Common;
 import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
+import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.repository.chat.MoimChatRepository;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
@@ -43,6 +44,7 @@ import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.meetup.MoimMeetUpRepository;
 import us.flower.dayary.repository.moim.picture.MoimBoardFileRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
+import us.flower.dayary.repository.people.PeopleRepository;
 import us.flower.dayary.service.moim.moimService;
 
 @Controller
@@ -55,6 +57,8 @@ public class MoimController {
 	private MoimPeopleRepository moimpeopleRepository;
 	@Autowired
 	private MoimRepository moimRepository;
+	@Autowired
+	private PeopleRepository peopleRepository;
 
 	@Autowired
 	private ToDoWriteRepository toDowriteRepository;
@@ -218,12 +222,14 @@ public class MoimController {
 	 */
 	@GetMapping("/moimlistView/moimdetailView/{no}")
 	public String moimDetailView(@PathVariable("no") long no, Model model, HttpSession session, Sort sort,
-			@PageableDefault Pageable pageable) {
+			@PageableDefault Pageable pageable,Authentication authentication) {
 		
 		
+		String username = authentication.getName();
+		People user = peopleRepository.findByName(username);
 		moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));// 모임장중심으로 데이터
-																											// 불러옴
-		long peopleId = (long) session.getAttribute("peopleId");// 일반회원 번호를 던져준다.참가를 위해
+																								// 불러옴
+		long peopleId = user.getId();
 		session.setAttribute("peopleId", peopleId);
 
 		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
