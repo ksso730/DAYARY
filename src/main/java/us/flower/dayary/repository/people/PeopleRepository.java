@@ -23,6 +23,10 @@ public interface PeopleRepository extends JpaRepository<People, Long>{
 
 	boolean existsByImageName(String imageName);
 
+	People findByName(String username);
+
+	boolean existsByName(String name);
+
     
  
 }

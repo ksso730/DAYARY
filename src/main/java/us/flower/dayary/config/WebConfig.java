@@ -44,11 +44,13 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(certificationInterceptor)
-                .addPathPatterns("/moimlistView/moimdetailView/**")
                 .addPathPatterns("/community/**/detail/**")
                 .excludePathPatterns("signinView");
     }
-    
+  
+
+
+
     /* the request was rejected because the url contained a potentially malicious string ";" 500에러 떄문에  추가했음 by choiseongjun 2019-09-29*/
     @Bean
     public ServletContextInitializer servletContextInitializer() {

@@ -16,6 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,6 +44,7 @@ import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.meetup.MoimMeetUpRepository;
 import us.flower.dayary.repository.moim.picture.MoimBoardFileRepository;
 import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
+import us.flower.dayary.repository.people.PeopleRepository;
 import us.flower.dayary.service.moim.moimService;
 
 @Controller
@@ -53,6 +57,8 @@ public class MoimController {
 	private MoimPeopleRepository moimpeopleRepository;
 	@Autowired
 	private MoimRepository moimRepository;
+	@Autowired
+	private PeopleRepository peopleRepository;
 
 	@Autowired
 	private ToDoWriteRepository toDowriteRepository;
@@ -132,6 +138,7 @@ public class MoimController {
 	 * @return
 	 * @throws @author yuna
 	 */
+	
 	@ResponseBody
 	@PostMapping("/moimMake")
 	public Map<String, Object> moimMake(@RequestPart("moim") Moim moim,
@@ -215,12 +222,14 @@ public class MoimController {
 	 */
 	@GetMapping("/moimlistView/moimdetailView/{no}")
 	public String moimDetailView(@PathVariable("no") long no, Model model, HttpSession session, Sort sort,
-			@PageableDefault Pageable pageable) {
+			@PageableDefault Pageable pageable,Authentication authentication) {
 		
 		
+		String username = authentication.getName();
+		People user = peopleRepository.findByName(username);
 		moimService.findMoimone(no).ifPresent(moimDetail -> model.addAttribute("moimDetail", moimDetail));// 모임장중심으로 데이터
-																											// 불러옴
-		long peopleId = (long) session.getAttribute("peopleId");// 일반회원 번호를 던져준다.참가를 위해
+																								// 불러옴
+		long peopleId = user.getId();
 		session.setAttribute("peopleId", peopleId);
 
 		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
@@ -636,6 +645,11 @@ public class MoimController {
 	 */
 	@GetMapping("/moimMakeView")
 	public String moimMakeView() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
+		System.out.println(auth);
+		System.out.println("@#$#@$@#$@#@#");
 		return "moim/moimMake";
 	}
 

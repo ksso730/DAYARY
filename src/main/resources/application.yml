@@ -4,7 +4,7 @@ spring:
     multipart:
       max-file-size : 50MB
       max-request-size: 50MB
-        
+       
   security:
     oauth2:
       client:
@@ -18,8 +18,7 @@ spring:
     livereload:
       enabled: true
   thymeleaf:
-        cache: false
-
+    enabled: true
   datasource:
       #driverClassName : net.sf.log4jdbc.sql.jdbcapi.DriverSpy
       #url: "jdbc:log4jdbc:mariadb://moimdev.cxz28d3n4hpj.ap-northeast-2.rds.amazonaws.com:3306/jpatest"
@@ -48,7 +47,7 @@ logging:
                           pagination: debug
                          
 server:
-    port: 8080
+    port: 8081
    
     servlet:
         
