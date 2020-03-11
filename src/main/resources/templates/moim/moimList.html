@@ -297,19 +297,19 @@ form.example::after {
 			</a></li>
 
 			<li th:class="${moimList.first} ? 'disabled'"><a 
-				th:href="${moimList.first} ? '#' :@{'/moimlistView/'+${commCode}(page=${moimList.number},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code})}"
+				th:href="${moimList.first} ? '#' :@{'/moimlistView/'+${commCode}(page=${moimList.number},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code},title=${title})}"
 				aria-label="Previous"> <span aria-hidden="true">&lt;</span>
 			</a></li>
 			
 			<li th:each="page: ${#numbers.sequence(start, last)}"
 				th:class="${page == moimList.number + 1} ? 'active'"><a
-				th:text="${page}" th:href="@{'/moimlistView/'+${commCode}(page=${page},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code})}"></a></li>
+				th:text="${page}" th:href="@{'/moimlistView/'+${commCode}(page=${page},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code},title=${title})}"></a></li>
 			<li th:class="${moimList.last} ? 'disabled'"><a
-				th:href="${moimList.last} ? '#' : @{'/moimlistView/'+${commCode}(page=${moimList.number + 2},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code})}"
+				th:href="${moimList.last} ? '#' : @{'/moimlistView/'+${commCode}(page=${moimList.number + 2},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code},title=${title})}"
 				aria-label="Next"> <span aria-hidden="true">&gt;</span>
 			</a></li>
 
-			<li><a th:href="@{'/moimlistView/'+${commCode}(page=${moimList.totalPages},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code})}"
+			<li><a th:href="@{'/moimlistView/'+${commCode}(page=${moimList.totalPages},status=${status},sido_code=${sido_code},sigoon_code=${sigoon_code},title=${title})}"
 				aria-label="Last"> <span aria-hidden="true">Last</span>
 			</a></li>
 		</ul>
