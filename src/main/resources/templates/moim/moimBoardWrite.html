@@ -75,7 +75,7 @@
                     dataType: 'json',
                     data: JSON.stringify(moimBoard),
                     success: function (data) {
-                        if (data.code === 1) {
+                        if (data.code == 1) {
                             alert(data.message);
                             location.href = '/moimdetailView/moimboard/[[${no}]]/[[${boardGroup}]]';
                         } else {
