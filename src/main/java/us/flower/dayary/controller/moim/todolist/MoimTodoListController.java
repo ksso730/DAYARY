@@ -1,9 +1,12 @@
 package us.flower.dayary.controller.moim.todolist;
 
-import java.sql.Date;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,28 +22,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import net.minidev.json.JSONObject;
-
-import java.util.List;
-
-import us.flower.dayary.domain.CommunityBoard;
-import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimBoard;
-import us.flower.dayary.domain.MoimBoardFile;
-import us.flower.dayary.domain.People;
 import us.flower.dayary.domain.ToDoWrite;
 import us.flower.dayary.domain.ToDoWriteList;
 import us.flower.dayary.repository.moim.picture.MoimBoardFileRepository;
 import us.flower.dayary.repository.moim.picture.MoimBoardRepository;
-import us.flower.dayary.repository.moim.todo.ToDoWriteRepository;
 import us.flower.dayary.service.moim.moimService;
 import us.flower.dayary.service.moim.todo.ToDoWriteService;
 
@@ -326,15 +315,28 @@ public class MoimTodoListController {
      *
      * @param 
      * @return
+	 * @throws IOException 
      * @throws 
      * @author choiseongjun
      */
     @GetMapping("/moimDetail/moimTodoList/{no}")
-    public String moimTodoList(@PathVariable("no") long no,Model model,@PageableDefault Pageable pageable,HttpSession session) {
+    public String moimTodoList(@PathVariable("no") long no,Model model,@PageableDefault Pageable pageable,HttpSession session
+    		,HttpServletResponse response) throws IOException {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
         pageable = PageRequest.of(page, 9,Sort.by("id").descending());
     	Page<ToDoWrite> toDolist=service.findByMoim_id(pageable,no);
     	boolean moim=service.existByMoim_idAndPeople_id(no,(long)session.getAttribute("peopleId"));
+    	
+    	if(moim==false) {
+    		response.setContentType("text/html; charset=UTF-8");
+    		 
+    		PrintWriter out = response.getWriter();
+    		 
+    		out.println("<script>alert('모임에 가입하여 주세요'); location.href='/moimlistView/moimdetailView/"+no+"';</script>");
+    		 
+    		out.flush();
+
+    	}
     	model.addAttribute("moim",moimService.findMoimone(no).get());//이쿼리문 수정해야함 모든 내부데이터 다들고옴 20200227 최성준
     	model.addAttribute("todolist", toDolist);
     	model.addAttribute("moimPeople",Boolean.toString(moim));
