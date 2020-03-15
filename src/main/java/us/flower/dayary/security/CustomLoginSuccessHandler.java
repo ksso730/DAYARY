@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.people.PeopleRepository;
@@ -36,7 +37,10 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		session.setAttribute("peopleName", dbPeople.getName());// 이름세션저장
 		session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
 		session.setAttribute("people",dbPeople);
+		
+		
         String redirectUrl = (String) session.getAttribute("savePage");
+        
         if (redirectUrl != null) {
             session.removeAttribute("savePage");
             getRedirectStrategy().sendRedirect(request, response, redirectUrl);

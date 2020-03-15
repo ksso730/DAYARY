@@ -95,11 +95,11 @@ public class PeopleController {
 			,HttpServletResponse response,Authentication authentication,ModelAndView mav) throws ServletException {
 			String username = authentication.getName();
 			People dbPeople = peopleRepository.findByName(username);
-			System.out.println("SFSDFSDFDFSDFSDFSDFSDFSD");
-			session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
-			session.setAttribute("peopleName", dbPeople.getName());// 이름세션저장
-			session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
-			session.setAttribute("people",dbPeople);
+//			System.out.println("SFSDFSDFDFSDFSDFSDFSDFSD");
+//			session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
+//			session.setAttribute("peopleName", dbPeople.getName());// 이름세션저장
+//			session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
+//			session.setAttribute("people",dbPeople);
 			if(request.isUserInRole("ROLE_ADMIN")) {
 		    	return "redirect:/admin/admini";
 		    	//mav.setViewName("redirect:/admin/admini");
