@@ -93,6 +93,7 @@ public class HomeController {
     }
 	@GetMapping("/access-denied")
     public String accessDenied() {
+		System.out.println("access denied");
         return "/error/access-denied";
     }
 	

@@ -29,26 +29,21 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         
     	
     	//((SecurityMember)authentication.getPrincipal()).setIp(getClientIp(request));
-    	
-        HttpSession session = request.getSession();
-        System.out.println("SDFSDfsdfsdfsdfsdfsd");
-        String username = authentication.getName();
+    	String username = authentication.getName();
 		People dbPeople = peopleRepository.findByName(username);
-		session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
+        HttpSession session = request.getSession();
+        session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
 		session.setAttribute("peopleName", dbPeople.getName());// 이름세션저장
 		session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
 		session.setAttribute("people",dbPeople);
-        if (session != null) {
-            String redirectUrl = (String) session.getAttribute("prevPage");
-            if (redirectUrl != null) {
-                session.removeAttribute("prevPage");
-                getRedirectStrategy().sendRedirect(request, response, redirectUrl);
-            } else {
-                super.onAuthenticationSuccess(request, response, authentication);
-            }
+        String redirectUrl = (String) session.getAttribute("savePage");
+        if (redirectUrl != null) {
+            session.removeAttribute("savePage");
+            getRedirectStrategy().sendRedirect(request, response, redirectUrl);
         } else {
             super.onAuthenticationSuccess(request, response, authentication);
         }
+       
     }
     
     public static String getClientIp(HttpServletRequest request) {

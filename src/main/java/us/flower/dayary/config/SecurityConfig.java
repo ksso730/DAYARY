@@ -69,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AuthenticationSuccessHandler successHandler() {
 		
-	    return new CustomLoginSuccessHandler("/defaultUrl");
+	    return new CustomLoginSuccessHandler("/");
 	}
 
 	@Override
@@ -95,9 +95,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 successHandler(new CustomLoginSuccessHandler("/")).
                 usernameParameter("email").
                 passwordParameter("password").
-                defaultSuccessUrl("/loginSuccess").	
-		and().logout().    //logout configuration
-		logoutUrl("/logout")
+                defaultSuccessUrl("/loginSuccess").
+                successHandler(successHandler()).
+		 and().logout()    //logout configuration
+		.logoutUrl("/logout")
 		.invalidateHttpSession(true)
 		.clearAuthentication(true)
 		.and()

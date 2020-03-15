@@ -74,9 +74,9 @@ public class MoimTodoListController {
     public Map<String, Object> todostatusdetailpost(@PathVariable("no") long no,@RequestBody Map<String,String> param) {
     	Map<String, Object> returnData = new HashMap<String, Object>();
     		
-    	
+    	 
     			try {
-    			  service.updateList(param.get("list"),no,Integer.parseInt(param.get("count")));
+    				service.updateList(param.get("list"),no,Integer.parseInt(param.get("count")));
     	            returnData.put("code", "1");
     	            returnData.put("message", "저장되었습니다");
 

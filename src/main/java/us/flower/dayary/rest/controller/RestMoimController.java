@@ -3,6 +3,7 @@ package us.flower.dayary.rest.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,9 +29,11 @@ import net.minidev.json.JSONObject;
 import us.flower.dayary.domain.Meetup;
 import us.flower.dayary.domain.Moim;
 import us.flower.dayary.domain.MoimPeople;
+import us.flower.dayary.domain.People;
 import us.flower.dayary.repository.moim.MoimPeopleRepository;
 import us.flower.dayary.repository.moim.MoimRepository;
 import us.flower.dayary.repository.moim.meetup.MoimMeetUpRepository;
+import us.flower.dayary.repository.people.PeopleRepository;
 import us.flower.dayary.security.JwtTokenProvider;
 import us.flower.dayary.service.moim.moimService;
 
@@ -45,6 +48,8 @@ public class RestMoimController {
 	MoimMeetUpRepository moimmeetupRepository;
 	@Autowired
 	MoimPeopleRepository moimpeopleRepository;
+	@Autowired
+	PeopleRepository peopleRepository;
 	@Autowired
 	JwtTokenProvider tokenProvider;
 	
@@ -120,16 +125,27 @@ public class RestMoimController {
 	}
 	@PostMapping("/rest/moimMake")
 	public Map<String, Object> RestmoimMake(@RequestParam("title") String title,@RequestParam("intro") String intro, 
-			@RequestPart(name = "file", required = false) MultipartFile file) {
+			@RequestPart(name = "file", required = false) MultipartFile file,@RequestHeader (name="Authorization", required=false) String token) {
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		
+		Moim moim = new Moim();
+		if(tokenProvider.validateToken(token)) {
+			Long PeopleNo=tokenProvider.getUserIdFromJWT(token);
+			Optional<People> people = peopleRepository.findById(PeopleNo);
+			String email = people.get().getEmail();
+			String subject = "영어";
+			
+			moim.setTitle(title);
+			moim.setIntro(intro);
+			moim.setRecruitStatus("모집중");
+			
+			moimService.saveMoim(email, subject, moim, file);
+		}
 		System.out.println("Controlloer");
 		System.out.println(title+"/"+intro);
-		System.out.println(file);
-		if(file==null) {
-			returnData.put("path", "path");
-			return returnData;
-		}
+		System.out.println(file.getOriginalFilename());
+		System.out.println(file.getSize());
+		
 		return returnData;
 
 		//String id = (String) session.getAttribute("peopleEmail");

@@ -95,6 +95,7 @@ public class PeopleController {
 			,HttpServletResponse response,Authentication authentication,ModelAndView mav) throws ServletException {
 			String username = authentication.getName();
 			People dbPeople = peopleRepository.findByName(username);
+			System.out.println("SFSDFSDFDFSDFSDFSDFSDFSD");
 			session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
 			session.setAttribute("peopleName", dbPeople.getName());// 이름세션저장
 			session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
@@ -110,62 +111,62 @@ public class PeopleController {
 //			}
 		return "redirect:/";
 	}
-//	@PostMapping("/signin")
-//	@ResponseBody
-//	public Map<String, Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,HttpSession session
-//												,Model model,ModelAndView mav
-//												,Principal principal) {
-//		Map<String, Object> returnData = new HashMap<String, Object>();
-//		Authentication authentication = authenticationManager.authenticate(
-//				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-//
-//		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		SecurityContextHolder.getContext().setAuthentication(authentication);
-//		 String token = jwtTokenProvider.generateToken(authentication);
-//        try {
-//			if (peopleRepository.existsByEmail(loginRequest.getEmail())) {
-//				People dbPeople = peopleRepository.findByEmail(loginRequest.getEmail());
-//					if (bcrypt.checkpw(loginRequest.getPassword(), dbPeople.getPassword())) {// 비밀번호가맞다면
-//				        
-//	
-//						session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
-//						session.setAttribute("peopleName", dbPeople.getName());// 이름세션저장
-//						session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
-//						session.setAttribute("people",dbPeople);
-//						returnData.put("people",dbPeople);
-//						returnData.put("code", "1");
-//							String jwt = tokenProvider.generateToken(authentication);
-//							JwtAuthenticationResponse csj= new JwtAuthenticationResponse(jwt);
-//					        model.addAttribute("csj",csj);
-//					    	String savePage = (String)session.getAttribute("savePage");
-////					    	RoleName rolename = null;
-////					    	Role roles =new Role();
-////					    	roles.setName(rolename.ADMIN);
-////					    	
-////					    	Set<Role> set =new HashSet<Role>();
-////					    	set.add(roles);
-////					    	
-////					    	dbPeople.setRoles(set);
+	@PostMapping("/signin")
+	@ResponseBody
+	public Map<String, Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,HttpSession session
+												,Model model,ModelAndView mav
+												,Principal principal) {
+		Map<String, Object> returnData = new HashMap<String, Object>();
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+
+		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		 String token = jwtTokenProvider.generateToken(authentication);
+        try {
+			if (peopleRepository.existsByEmail(loginRequest.getEmail())) {
+				People dbPeople = peopleRepository.findByEmail(loginRequest.getEmail());
+					if (bcrypt.checkpw(loginRequest.getPassword(), dbPeople.getPassword())) {// 비밀번호가맞다면
+				        
+	
+						session.setAttribute("peopleId", dbPeople.getId());// NO세션저장
+						session.setAttribute("peopleName", dbPeople.getName());// 이름세션저장
+						session.setAttribute("peopleEmail", dbPeople.getEmail());// ID세션저장
+						session.setAttribute("people",dbPeople);
+						returnData.put("people",dbPeople);
+						returnData.put("code", "1");
+							String jwt = tokenProvider.generateToken(authentication);
+							JwtAuthenticationResponse csj= new JwtAuthenticationResponse(jwt);
+					        model.addAttribute("csj",csj);
+					    	String savePage = (String)session.getAttribute("savePage");
+//					    	RoleName rolename = null;
+//					    	Role roles =new Role();
+//					    	roles.setName(rolename.ADMIN);
 //					    	
-//					        if(savePage!=null) {
-//								mav.setViewName("redirect:/"+savePage);
-//								session.setAttribute("savePage", null);
-//								returnData.put("savePage",savePage);
-//								returnData.put("code", "2");								
-//							}
-//						returnData.put("message", "로그인 완료!");
-//						returnData.put("jwt",new JwtAuthenticationResponse(jwt));
-//					} 
-//			} 
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			returnData.put("code", "E4024");
-//			returnData.put("message", "잠시 후, 다시 시도해주세요:(");
-//		}
-//      
-//		
-//		return returnData;
-//	}
+//					    	Set<Role> set =new HashSet<Role>();
+//					    	set.add(roles);
+//					    	
+//					    	dbPeople.setRoles(set);
+					    	
+					        if(savePage!=null) {
+								mav.setViewName("redirect:/"+savePage);
+								session.setAttribute("savePage", null);
+								returnData.put("savePage",savePage);
+								returnData.put("code", "2");								
+							}
+						returnData.put("message", "로그인 완료!");
+						returnData.put("jwt",new JwtAuthenticationResponse(jwt));
+					} 
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+			returnData.put("code", "E4024");
+			returnData.put("message", "잠시 후, 다시 시도해주세요:(");
+		}
+      
+		
+		return returnData;
+	}
 	
 	@PostMapping("/signup")
 	@ResponseBody
