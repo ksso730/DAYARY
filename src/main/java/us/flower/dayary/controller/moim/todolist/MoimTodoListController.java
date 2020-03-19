@@ -156,27 +156,25 @@ public class MoimTodoListController {
      * @throws 
      * @author jy
      */
-    @ResponseBody
     @GetMapping("/moimDetail/moimTodoList/{no}/{status}")
-    public JSONObject  moimTodoListNew(@PathVariable("no") long no,@PathVariable("status") String status,@PageableDefault Pageable pageable ){
-    	JSONObject returnData = new JSONObject();
+    public String moimTodoListNew(Model model,@PathVariable("no") long no,@PathVariable("status") String status,@PageableDefault Pageable pageable ){
          try {
         	 if(status.indexOf(",")>0) {
         		 String[] x=status.split(",");
         		 if(x.length!=3) {
-        			 returnData.put("todolist",service.findByMoim_idAndPeople_nameAndStatus(no,x[1],""));
+        			 model.addAttribute("todolist",service.findByMoim_idAndPeople_nameAndStatus(no,x[1],""));
         		 } else
-        			 returnData.put("todolist",service.findByMoim_idAndPeople_nameAndStatus(no,x[1],x[2]));
+        			 model.addAttribute("todolist",service.findByMoim_idAndPeople_nameAndStatus(no,x[1],x[2]));
         	 }else {
-        		 returnData.put("todolist",service.findByMoim_idAndStatus(no,status));
+        		 model.addAttribute("todolist",service.findByMoim_idAndStatus(no,status));
         		 
         	 }
-        	 returnData.put("status",status);
-	         returnData.put("code", "1");
+        	 model.addAttribute("status",status);
+        	 model.addAttribute("code", "1");
          }catch(Exception e) {
-        		returnData.put("message", e.getCause()+e.getMessage());
+        	 model.addAttribute("message", e.getCause()+e.getMessage());
          }
-	  return returnData;
+	  return "moim/moimTodoListDetail";
     }
   
     /**
