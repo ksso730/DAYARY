@@ -25,6 +25,6 @@ public class BoardReplyRepositoryCustomImpl extends QuerydslRepositorySupport im
                                     .where(communityBoardReply.communityBoard.id.eq(boardId))
                                     .fetchJoin()
                                     .fetch();
-        return parents;
+        return parents; 
     }
 }
